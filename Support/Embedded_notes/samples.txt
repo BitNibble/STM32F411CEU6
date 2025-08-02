@@ -1,0 +1,523 @@
+int clamp(int value, int min, int max) {
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+}
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+double average(int arr[], int size) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return (double)sum / size;
+}
+unsigned long long factorial(int n) {
+    if (n < 0) return 0; // Handle negative input
+    unsigned long long result = 1;
+    for (int i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+char* string_concat(char *dest, const char *src) {
+    while (*dest) dest++; // Move to the end of dest
+    while ((*dest++ = *src++)); // Copy src to dest
+    return dest;
+}
+int is_prime(int num) {
+    if (num <= 1) return 0;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+int clamp(int value, int min, int max) {
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+}
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+double average(int arr[], int size) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return (double)sum / size;
+}
+unsigned long long factorial(int n) {
+    if (n < 0) return 0; // Handle negative input
+    unsigned long long result = 1;
+    for (int i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+char* string_concat(char *dest, const char *src) {
+    while (*dest) dest++; // Move to the end of dest
+    while ((*dest++ = *src++)); // Copy src to dest
+    return dest;
+}
+int is_prime(int num) {
+    if (num <= 1) return 0;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+void array_reverse(int *arr, int size) {
+    for (int i = 0; i < size / 2; i++) {
+        int temp = arr[i];
+        arr[i] = arr[size - i - 1];
+        arr[size - i - 1] = temp;
+    }
+}
+
+int array_max(int *arr, int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+int array_min(int *arr, int size) {
+    int min = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+    return min;
+}
+int string_compare(const char *str1, const char *str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+    return *(unsigned char *)str1 - *(unsigned char *)str2;
+}
+
+void string_concat(char *dest, const char *src, int max_size) {
+    int i = 0;
+    while (dest[i] != '\0' && i < max_size) i++;
+    for (int j = 0; src[j] != '\0' && i < max_size - 1; j++, i++) {
+        dest[i] = src[j];
+    }
+    dest[i] = '\0';
+}
+int is_prime(int num) {
+    if (num <= 1) return 0;
+    for (int i = 2; i <= num / 2; i++) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+uint8_t bit_set(uint8_t byte, int position) {
+    return byte | (1 << position);
+}
+
+uint8_t bit_clear(uint8_t byte, int position) {
+    return byte & ~(1 << position);
+}
+
+uint8_t bit_toggle(uint8_t byte, int position) {
+    return byte ^ (1 << position);
+}
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* create_node(int data) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+
+void append(Node** head, int data) {
+    Node* new_node = create_node(data);
+    if (*head == NULL) {
+        *head = new_node;
+        return;
+    }
+    Node* last = *head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = new_node;
+}
+
+void free_list(Node* head) {
+    Node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+unsigned long millis(void) {
+    // Replace with your platform's millis implementation
+    return (unsigned long) clock(); // Simple example; use appropriate timer for accuracy
+}
+
+void delay_ms(unsigned long ms) {
+    unsigned long start_time = millis();
+    while (millis() - start_time < ms);
+}
+void write_to_file(const char* filename, const char* content) {
+    FILE* file = fopen(filename, "w");
+    if (file) {
+        fputs(content, file);
+        fclose(file);
+    }
+}
+void read_from_file(const char* filename, char* buffer, size_t size) {
+    FILE* file = fopen(filename, "r");
+    if (file) {
+        fgets(buffer, size, file);
+        fclose(file);
+    }
+}
+void seed_random(unsigned int seed) {
+    srand(seed);
+}
+
+int random_int(int min, int max) {
+    return (rand() % (max - min + 1)) + min;
+}
+void seed_random(unsigned int seed) {
+    srand(seed);
+}
+
+int random_int(int min, int max) {
+    return (rand() % (max - min + 1)) + min;
+}
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void rotate_left(int* arr, int size) {
+    if (size > 0) {
+        int first = arr[0];
+        for (int i = 0; i < size - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        arr[size - 1] = first;
+    }
+}
+void rotate_right(int* arr, int size) {
+    if (size > 0) {
+        int last = arr[size - 1];
+        for (int i = size - 1; i > 0; i--) {
+            arr[i] = arr[i - 1];
+        }
+        arr[0] = last;
+    }
+}
+void* safe_malloc(size_t size) {
+    void* ptr = malloc(size);
+    if (!ptr) {
+        // Handle memory allocation failure
+        exit(EXIT_FAILURE);
+    }
+    return ptr;
+}
+
+void safe_free(void* ptr) {
+    if (ptr) {
+        free(ptr);
+        ptr = NULL;
+    }
+}
+/*************************************************/
+; Example: Delay in microseconds using assembly (for ARM Cortex-M)
+; Assumes a system clock of 72 MHz
+
+.global delayMicroseconds
+
+delayMicroseconds:
+    ; Input: R0 = delay time in microseconds
+    ; Count is adjusted according to the clock speed
+
+    push {r4}              ; Save registers that will be used
+    mov r4, r0             ; Move delay into r4
+
+delay_loop:
+    ; Adjust the loop count based on clock frequency
+    ; Assuming each loop iteration takes about 1 clock cycle
+    ; For 72 MHz, each instruction takes about 13.89 ns, adjust accordingly
+    ; A rough estimate for ~10 cycles per iteration
+
+    subs r4, r4, #1        ; Decrement the delay counter
+    bne delay_loop         ; Branch if not equal to zero
+
+    pop {r4}               ; Restore registers
+    bx lr                  ; Return from the function
+/*************************************************/
+void delayMicroseconds(unsigned int us) {
+    // Assuming a clock speed of 72 MHz, adjust the loop count accordingly
+    unsigned int count = us * 72; // Rough estimate for timing
+
+    __asm volatile (
+        "1: \n"                    // Label 1
+        "subs %[count], %[count], #1 \n" // Decrement count
+        "bne 1b \n"                // Branch to label 1 if count is not zero
+        : [count] "+r" (count)     // Input/output operand
+    );
+}
+/*************************************************/
+/*** INTERRUPT HEADER ***/
+void Reset_IRQHandler(void);
+void NMI_IRQHandler(void);
+void HardFault_IRQHandler(void);
+void MemManage_IRQHandler(void);
+void BusFault_IRQHandler(void);
+void UsageFault_IRQHandler(void);
+void SVCall_IRQHandler(void);
+void PendSV_IRQHandler(void);
+void Systick_IRQHandler(void);
+void FPU_IRQHandler(void);
+void SysTick_Handler(void);
+/*************************************************/
+void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate)
+{
+    uint8_t sampling = 16; // Default to 16
+    if (samplingmode == 8) {
+        sampling = 8;
+        usart->CR1 |= (1 << 15); // Set OVER8 for 8 times oversampling
+    } else {
+        usart->CR1 &= ~(1 << 15); // Clear OVER8 for 16 times oversampling
+    }
+
+    double value = (double) getsysclk() / (gethpre() * sampling * baudrate);
+    double fracpart, intpart;
+    fracpart = modf(value, &intpart);
+
+    usart->BRR = 0; // Reset BRR
+    uint32_t fraction = (sampling == 16) ? round(fracpart * 16) : round(fracpart * 8);
+    usart->BRR |= (uint32_t) fraction; // Set DIV_Fraction
+    usart->BRR |= ((uint32_t) intpart << 4); // Set DIV_Mantissa[11:0]
+}
+
+void STM32FXXXRccHEnable(uint8_t hclock)
+{
+    uint8_t set = 1;
+    uint8_t rdy = 1;
+
+    // Enable CSSON
+    set_reg_block(&RCC->CR, 1, 19, 1); // Clock security system enable
+
+    while(rdy)
+    {
+        switch(hclock)
+        {
+            case 0: // HSION: Internal high-speed clock enable
+                if(set) {
+                    RCC->CR |= (1 << 0); // Enable HSI
+                    set = 0;
+                }
+                else if(RCC->CR & (1 << 1)) // Wait for HSIRDY
+                    rdy = 0;
+                break;
+                
+            case 1: // HSEON: External high-speed clock enable
+                if(set) {
+                    RCC->CR |= (1 << 16); // Enable HSE
+                    set = 0;
+                }
+                else if(RCC->CR & (1 << 17)) // Wait for HSERDY
+                    rdy = 0;
+                break;
+
+            case 2: // HSEBYP: HSE clock bypass
+                if(set) {
+                    RCC->CR |= (1 << 18); // Enable HSE bypass
+                    set = 0;
+                }
+                hclock = 1; // Switch to enabling HSE
+                break;
+
+            default: // Invalid value, default to HSI
+                hclock = 0;
+                break;
+        }
+    }
+}
+
+void set_prescaler(uint32_t* reg, uint8_t ppre, uint32_t pos) {
+    uint8_t value;
+
+    switch (ppre) {
+        case 2:
+            value = 4;
+            break;
+        case 4:
+            value = 5;
+            break;
+        case 8:
+            value = 6;
+            break;
+        case 16:
+            value = 7;
+            break;
+        default:
+            value = 0;
+            break;
+    }
+
+    set_reg_block(reg, 3, pos, value);
+}
+
+void STM32FXXXPrescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre) {
+    set_reg_block(&RCC->CFGR, 5, 16, rtcpre);
+
+    set_prescaler(&RCC->CFGR, ppre2, 13); // Set APB2 prescaler
+    set_prescaler(&RCC->CFGR, ppre1, 10); // Set APB1 prescaler
+
+    uint8_t ahb_value;
+
+    switch (ahbpre) { // AHB prescaler
+        case 2:
+            ahb_value = 8;
+            break;
+        case 4:
+            ahb_value = 9;
+            break;
+        case 8:
+            ahb_value = 10;
+            break;
+        case 16:
+            ahb_value = 11;
+            break;
+        case 64:
+            ahb_value = 12;
+            break;
+        case 128:
+            ahb_value = 13;
+            break;
+        case 256:
+            ahb_value = 14;
+            break;
+        case 512:
+            ahb_value = 15;
+            break;
+        default:
+            ahb_value = 0;
+            break;
+    }
+
+    set_reg_block(&RCC->CFGR, 4, 4, ahb_value); // Set AHB prescaler
+}
+
+void set_prescaler(uint32_t* reg, uint8_t ppre, uint32_t pos) {
+    uint8_t value;
+
+    switch (ppre) {
+        case 2:
+            value = 4;
+            break;
+        case 4:
+            value = 5;
+            break;
+        case 8:
+            value = 6;
+            break;
+        case 16:
+            value = 7;
+            break;
+        default:
+            value = 0;
+            break;
+    }
+
+    set_reg_block(reg, 3, pos, value);
+}
+
+void STM32FXXXPrescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre) {
+    set_reg_block(&RCC->CFGR, 5, 16, rtcpre);
+
+    set_prescaler(&RCC->CFGR, ppre2, 13); // Set APB2 prescaler
+    set_prescaler(&RCC->CFGR, ppre1, 10); // Set APB1 prescaler
+
+    uint8_t ahb_value;
+
+    switch (ahbpre) { // AHB prescaler
+        case 2:
+            ahb_value = 8;
+            break;
+        case 4:
+            ahb_value = 9;
+            break;
+        case 8:
+            ahb_value = 10;
+            break;
+        case 16:
+            ahb_value = 11;
+            break;
+        case 64:
+            ahb_value = 12;
+            break;
+        case 128:
+            ahb_value = 13;
+            break;
+        case 256:
+            ahb_value = 14;
+            break;
+        case 512:
+            ahb_value = 15;
+            break;
+        default:
+            ahb_value = 0;
+            break;
+    }
+
+    set_reg_block(&RCC->CFGR, 4, 4, ahb_value); // Set AHB prescaler
+}
+uint32_t function_power(uint32_t base, uint32_t power)
+{
+	uint32_t i = 0;
+	for(i=power;i;base*=base,i--);
+	return base;
+}
+unsigned int function_power(unsigned int base, unsigned int power) {
+    unsigned int result = 1;
+    while (power > 0) {
+        if (power % 2 == 1) {
+            result *= base;
+        }
+        base *= base;
+        power /= 2;
+    }
+    return result;
+}

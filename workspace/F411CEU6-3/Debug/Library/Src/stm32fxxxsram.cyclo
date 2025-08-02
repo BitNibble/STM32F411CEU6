@@ -1,0 +1,3 @@
+../Library/Src/stm32fxxxsram.c:20:6:STM32FXXXSramAccess	3
+../Library/Src/stm32fxxxsram.c:43:18:sram_enable	1
+../Library/Src/stm32fxxxsram.c:50:19:sram	1

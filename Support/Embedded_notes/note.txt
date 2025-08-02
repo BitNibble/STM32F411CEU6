@@ -1,0 +1,28 @@
+NB:
+Just Comment out in "stm32f4xx_it.c", the "void SysTick_Handler(void)" function definition, everything else will work.
+
+After go to Project -> Properties -> C/C++ General -> Paths and Symbols
+then link -> Includes
+          -> Source Location
+
+To generate hex files:
+Project -> Properties -> C/C++ Build -> Settings -> MCU Post build outputs
+then tick the box corresponding "Convert to Intel Hex file"
+
+IDES, are just an abstraction to simplify coding in a logical and coherent manner, 
+making it perceivable for man.
+
+STM32F446RE (CMSIS dependencies tree)
+-stm32f4xx.h
+-stm32f446xx.h
+-core_cm4.h
+-system_stm32f4xx.h
+-stdint.h
+
+Settings:
+Project -> Properties -> C/C++ General -> Paths and Symbols ...
+Run -> Run Configurations …
+
+Try to reset the views by going to Window->Perspective->Reset Perspective. Then, Window-> Show view-> Console. This should be enough to resolve the issue.
+
+

@@ -1,0 +1,6 @@
+../Library/Src/74hc595.c:23:17:hc595_par_inic	1
+../Library/Src/74hc595.c:45:7:HC595_enable	1
+../Library/Src/74hc595.c:59:6:HC595_shift_bit	2
+../Library/Src/74hc595.c:69:6:HC595_shift_ibyte	2
+../Library/Src/74hc595.c:77:6:HC595_shift_byte	2
+../Library/Src/74hc595.c:85:6:HC595_shift_out	1

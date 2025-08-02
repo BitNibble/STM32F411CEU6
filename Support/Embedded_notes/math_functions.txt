@@ -1,0 +1,497 @@
+#include <stdio.h>
+
+void divideBySubtraction(int dividend, int divisor, int *quotient, int *remainder) {
+    if (divisor == 0) {
+        // Handle division by zero
+        *quotient = 0;
+        *remainder = dividend; // Undefined result, keeping the dividend as remainder
+        return;
+    }
+    
+    int count = 0;
+    int sign = 1;
+
+    // Handle negative numbers
+    if (dividend < 0) {
+        dividend = -dividend;
+        sign = -sign;
+    }
+    if (divisor < 0) {
+        divisor = -divisor;
+        sign = -sign;
+    }
+
+    // Subtract divisor from dividend until it's smaller than the divisor
+    while (dividend >= divisor) {
+        dividend -= divisor;
+        count++;
+    }
+
+    *quotient = count * sign;
+    *remainder = dividend;
+}
+
+int main() {
+    int dividend = 20, divisor = 3;
+    int quotient, remainder;
+
+    divideBySubtraction(dividend, divisor, &quotient, &remainder);
+
+    printf("Quotient: %d, Remainder: %d\n", quotient, remainder);
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+
+void multiplyByAddition(int multiplicand, int multiplier, int *result) {
+    int sign = 1;
+    *result = 0;
+
+    // Handle negative numbers
+    if (multiplicand < 0) {
+        multiplicand = -multiplicand;
+        sign = -sign;
+    }
+    if (multiplier < 0) {
+        multiplier = -multiplier;
+        sign = -sign;
+    }
+
+    // Repeatedly add the multiplicand for multiplier times
+    for (int i = 0; i < multiplier; i++) {
+        *result += multiplicand;
+    }
+
+    *result *= sign; // Adjust sign if necessary
+}
+
+int main() {
+    int multiplicand = 5, multiplier = 3;
+    int result;
+
+    multiplyByAddition(multiplicand, multiplier, &result);
+
+    printf("Result: %d\n", result);
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+
+typedef struct {
+    float kp;       // Proportional gain
+    float ki;       // Integral gain
+    float kd;       // Derivative gain
+    float setpoint; // Desired value
+    float integral; // Integral term accumulator
+    float prevError;// Previous error for derivative calculation
+} PIDController;
+
+void PID_init(PIDController *pid, float kp, float ki, float kd, float setpoint) {
+    pid->kp = kp;
+    pid->ki = ki;
+    pid->kd = kd;
+    pid->setpoint = setpoint;
+    pid->integral = 0.0f;
+    pid->prevError = 0.0f;
+}
+
+float PID_update(PIDController *pid, float measuredValue, float dt) {
+    float error = pid->setpoint - measuredValue;
+
+    // Proportional term
+    float P = pid->kp * error;
+
+    // Integral term
+    pid->integral += error * dt;
+    float I = pid->ki * pid->integral;
+
+    // Derivative term
+    float derivative = (error - pid->prevError) / dt;
+    float D = pid->kd * derivative;
+
+    // Store the current error as previous for the next cycle
+    pid->prevError = error;
+
+    // PID output
+    return P + I + D;
+}
+
+int main() {
+    PIDController pid;
+    PID_init(&pid, 2.0f, 0.5f, 1.0f, 100.0f); // Initialize PID with kp=2, ki=0.5, kd=1, setpoint=100
+
+    float measuredValue = 90.0f; // Example measured value
+    float dt = 0.1f;             // Example time step (seconds)
+
+    float output = PID_update(&pid, measuredValue, dt);
+    
+    printf("PID Output: %f\n", output);
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+
+typedef struct {
+    float kp;       // Proportional gain
+    float ki;       // Integral gain
+    float kd;       // Derivative gain
+    float setpoint; // Desired value
+    float integral; // Integral term accumulator
+    float prevError;// Previous error for derivative calculation
+    float prevOutput; // Previous output value
+    float outputMin;  // Minimum output limit
+    float outputMax;  // Maximum output limit
+} PIDController;
+
+void PID_init(PIDController *pid, float kp, float ki, float kd, float setpoint, float outputMin, float outputMax) {
+    pid->kp = kp;
+    pid->ki = ki;
+    pid->kd = kd;
+    pid->setpoint = setpoint;
+    pid->integral = 0.0f;
+    pid->prevError = 0.0f;
+    pid->prevOutput = 0.0f;
+    pid->outputMin = outputMin;
+    pid->outputMax = outputMax;
+}
+
+float PID_update(PIDController *pid, float measuredValue, float dt) {
+    float error = pid->setpoint - measuredValue;
+
+    // Proportional term
+    float P = pid->kp * error;
+
+    // Integral term
+    pid->integral += error * dt;
+    float I = pid->ki * pid->integral;
+
+    // Derivative term
+    float derivative = (error - pid->prevError) / dt;
+    float D = pid->kd * derivative;
+
+    // PID output before applying limits
+    float output = P + I + D;
+
+    // Check for output limits and oscillation condition
+    if (output > pid->outputMax || output < pid->outputMin) {
+        // Revert to the previous output if it exceeds bounds
+        output = pid->prevOutput;
+    } else {
+        // Update the previous output if within bounds
+        pid->prevOutput = output;
+    }
+
+    // Store the current error as previous for the next cycle
+    pid->prevError = error;
+
+    return output;
+}
+
+int main() {
+    PIDController pid;
+    PID_init(&pid, 2.0f, 0.5f, 1.0f, 100.0f, -10.0f, 10.0f); // Initialize PID with kp=2, ki=0.5, kd=1, setpoint=100, output limits [-10, 10]
+
+    float measuredValue = 90.0f; // Example measured value
+    float dt = 0.1f;             // Example time step (seconds)
+
+    for (int i = 0; i < 50; i++) { // Run the controller for 50 cycles
+        float output = PID_update(&pid, measuredValue, dt);
+        printf("Cycle %d - PID Output: %f\n", i, output);
+        // Simulate some change in the measured value (could be dynamic in a real system)
+        measuredValue += (pid.setpoint - measuredValue) * 0.1f; // Approaching the setpoint
+    }
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+
+typedef struct {
+    float kp;                 // Proportional gain
+    float ki;                 // Integral gain
+    float kd;                 // Derivative gain
+    float setpoint;           // Desired value
+    float integral;           // Integral term accumulator
+    float prevError;          // Previous error for derivative calculation
+    float outputMin;          // Minimum output limit
+    float outputMax;          // Maximum output limit
+    float oscillationThreshold; // Oscillation threshold from setpoint when limits are exceeded
+} PIDController;
+
+void PID_init(PIDController *pid, float kp, float ki, float kd, float setpoint, float outputMin, float outputMax, float oscillationThreshold) {
+    pid->kp = kp;
+    pid->ki = ki;
+    pid->kd = kd;
+    pid->setpoint = setpoint;
+    pid->integral = 0.0f;
+    pid->prevError = 0.0f;
+    pid->outputMin = outputMin;
+    pid->outputMax = outputMax;
+    pid->oscillationThreshold = oscillationThreshold;
+}
+
+float PID_update(PIDController *pid, float measuredValue, float dt) {
+    float error = pid->setpoint - measuredValue;
+
+    // Proportional term
+    float P = pid->kp * error;
+
+    // Integral term
+    pid->integral += error * dt;
+    float I = pid->ki * pid->integral;
+
+    // Derivative term
+    float derivative = (error - pid->prevError) / dt;
+    float D = pid->kd * derivative;
+
+    // PID output before applying limits
+    float output = P + I + D;
+
+    // Check for output limits and oscillation condition
+    if (output > pid->outputMax) {
+        // Set output to setpoint + oscillationThreshold if it exceeds the max limit
+        output = pid->setpoint + pid->oscillationThreshold;
+    } else if (output < pid->outputMin) {
+        // Set output to setpoint - oscillationThreshold if it exceeds the min limit
+        output = pid->setpoint - pid->oscillationThreshold;
+    }
+
+    // Store the current error as previous for the next cycle
+    pid->prevError = error;
+
+    return output;
+}
+
+int main() {
+    PIDController pid;
+    PID_init(&pid, 2.0f, 0.5f, 1.0f, 100.0f, -10.0f, 10.0f, 5.0f); // Initialize with oscillation threshold of ±5
+
+    float measuredValue = 90.0f; // Example measured value
+    float dt = 0.1f;             // Example time step (seconds)
+
+    for (int i = 0; i < 50; i++) { // Run the controller for 50 cycles
+        float output = PID_update(&pid, measuredValue, dt);
+        printf("Cycle %d - PID Output: %f\n", i, output);
+        // Simulate some change in the measured value (could be dynamic in a real system)
+        measuredValue += (pid.setpoint - measuredValue) * 0.1f; // Approaching the setpoint
+    }
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+
+typedef struct {
+    float kp;       // Proportional gain
+    float ki;       // Integral gain
+    float kd;       // Derivative gain
+    float setpoint; // Desired value
+    float integral; // Integral term accumulator
+    float prevError;// Previous error for derivative calculation
+    float outputMin; // Minimum output limit
+    float outputMax; // Maximum output limit
+    float prevOutput; // Previous output for handling saturation
+} PIDController;
+
+void PID_init(PIDController *pid, float kp, float ki, float kd, float setpoint, float outputMin, float outputMax) {
+    pid->kp = kp;
+    pid->ki = ki;
+    pid->kd = kd;
+    pid->setpoint = setpoint;
+    pid->integral = 0.0f;
+    pid->prevError = 0.0f;
+    pid->outputMin = outputMin;
+    pid->outputMax = outputMax;
+    pid->prevOutput = 0.0f;
+}
+
+float PID_update(PIDController *pid, float measuredValue, float dt) {
+    float error = pid->setpoint - measuredValue;
+
+    // Proportional term
+    float P = pid->kp * error;
+
+    // Integral term with anti-windup mechanism
+    if (pid->prevOutput < pid->outputMax && pid->prevOutput > pid->outputMin) {
+        pid->integral += error * dt;  // Accumulate the integral only if output is not saturated
+    }
+    float I = pid->ki * pid->integral;
+
+    // Derivative term
+    float derivative = (error - pid->prevError) / dt;
+    float D = pid->kd * derivative;
+
+    // PID output before clamping
+    float output = P + I + D;
+
+    // Clamp the output to within bounds
+    if (output > pid->outputMax) {
+        output = pid->outputMax;
+    } else if (output < pid->outputMin) {
+        output = pid->outputMin;
+    }
+
+    // Store the previous output and error
+    pid->prevOutput = output;
+    pid->prevError = error;
+
+    return output;
+}
+
+int main() {
+    PIDController pid;
+    PID_init(&pid, 2.0f, 0.5f, 1.0f, 100.0f, -10.0f, 10.0f); // Initialize PID with bounds [-10, 10]
+
+    float measuredValue = 90.0f; // Example measured value
+    float dt = 0.1f;             // Example time step (seconds)
+
+    for (int i = 0; i < 50; i++) { // Run the controller for 50 cycles
+        float output = PID_update(&pid, measuredValue, dt);
+        printf("Cycle %d - PID Output: %f\n", i, output);
+        // Simulate some change in the measured value (could be dynamic in a real system)
+        measuredValue += (pid.setpoint - measuredValue) * 0.1f; // Approaching the setpoint
+    }
+
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+#include <math.h>
+
+typedef struct {
+    float kp, ki, kd;     // PID gains
+    float setpoint;       // Desired value
+    float integral;       // Integral term accumulator
+    float prevError;      // Previous error for derivative calculation
+    float outputMin, outputMax; // Output limits
+} PIDController;
+
+void PID_init(PIDController *pid, float setpoint) {
+    pid->kp = 0.0f;   // Start with zero gain
+    pid->ki = 0.0f;   // Start with zero integral
+    pid->kd = 0.0f;   // Start with zero derivative
+    pid->setpoint = setpoint;
+    pid->integral = 0.0f;
+    pid->prevError = 0.0f;
+}
+
+float PID_update(PIDController *pid, float measuredValue, float dt) {
+    float error = pid->setpoint - measuredValue;
+
+    // Proportional term
+    float P = pid->kp * error;
+
+    // Integral term
+    pid->integral += error * dt;
+    float I = pid->ki * pid->integral;
+
+    // Derivative term
+    float D = pid->kd * (error - pid->prevError) / dt;
+
+    // Update the previous error
+    pid->prevError = error;
+
+    // Total output
+    float output = P + I + D;
+
+    // Clamp output
+    if (output > pid->outputMax) output = pid->outputMax;
+    else if (output < pid->outputMin) output = pid->outputMin;
+
+    return output;
+}
+
+// Auto-tune function (using Ziegler-Nichols method as an example)
+void PID_autoTune(PIDController *pid, float measuredValue, float dt) {
+    static float ku = 0.0f; // Ultimate gain (to be determined)
+    static float tu = 0.0f; // Oscillation period (to be determined)
+    static float maxError = 0.0f;
+    static float minError = 0.0f;
+    static int isOscillating = 0;
+
+    // Simulate auto-tuning by detecting oscillations
+    float error = pid->setpoint - measuredValue;
+    if (error > maxError) maxError = error;
+    if (error < minError) minError = error;
+
+    if (!isOscillating && (maxError - minError) > 0.01f) {
+        // Start oscillating (in reality, you'd induce oscillations with Ku)
+        isOscillating = 1;
+        ku = pid->kp; // Example Ku found when oscillations start
+        tu = dt;      // Example period (in reality, you'd measure oscillations)
+    }
+
+    // Once oscillations are detected, use Ku and Tu to auto-tune
+    if (isOscillating) {
+        pid->kp = 0.6f * ku;
+        pid->ki = 2.0f * pid->kp / tu;
+        pid->kd = pid->kp * tu / 8.0f;
+        isOscillating = 0; // Reset for next tune
+    }
+}
+
+int main() {
+    PIDController pid;
+    PID_init(&pid, 100.0f);  // Setpoint is 100
+
+    // Simulate running the PID controller with auto-tuning
+    float measuredValue = 90.0f;
+    float dt = 0.1f;
+
+    for (int i = 0; i < 50; i++) {
+        PID_autoTune(&pid, measuredValue, dt); // Auto-tune PID gains
+        float output = PID_update(&pid, measuredValue, dt);
+        printf("Cycle %d - PID Output: %f\n", i, output);
+
+        // Simulate system dynamics
+        measuredValue += (pid.setpoint - measuredValue) * 0.1f;
+    }
+
+    return 0;
+}
+/********************************************************************/
+#include <stdint.h>
+
+void enable_fpu() {
+    // Set the CP10 and CP11 bits to enable access to the FPU
+    uint32_t cpacr = *(volatile uint32_t *)0xE000ED88; // CPACR address
+    cpacr |= (0xF << 20); // Set bits 20-23 to enable FPU for all modes
+    *(volatile uint32_t *)0xE000ED88 = cpacr; // Write back to CPACR
+}
+
+int main() {
+    enable_fpu();
+    // Your code here
+    return 0;
+}
+/********************************************************************/
+#include <stdio.h>
+#include <math.h>
+#include "stm32f4xx.h" // Change according to your STM32 library
+
+void enable_fpu() {
+    uint32_t cpacr = SCB->CPACR;
+    cpacr |= (0xF << 20);
+    SCB->CPACR = cpacr;
+}
+
+int main() {
+    enable_fpu();
+
+    float angle = 30.0f; // Angle in degrees
+    float radians = angle * (3.14159f / 180.0f); // Convert to radians
+
+    float sine_value = sinf(radians);
+    float cosine_value = cosf(radians);
+
+    // Print results (for STM32, consider using USART for output)
+    
+    while (1) {
+        // Loop indefinitely
+    }
+}
+/********************************************************************/
+

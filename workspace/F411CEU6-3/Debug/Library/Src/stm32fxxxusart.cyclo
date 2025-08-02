@@ -1,0 +1,15 @@
+../Library/Src/stm32fxxxusart.c:26:6:STM32FXXXUsart1Clock	2
+../Library/Src/stm32fxxxusart.c:30:6:STM32FXXXUsart1Nvic	2
+../Library/Src/stm32fxxxusart.c:34:6:STM32FXXXUsart1Parameter	11
+../Library/Src/stm32fxxxusart.c:82:6:STM32FXXXUsart2Clock	2
+../Library/Src/stm32fxxxusart.c:86:6:STM32FXXXUsart2Nvic	2
+../Library/Src/stm32fxxxusart.c:90:6:STM32FXXXUsart2Parameter	11
+../Library/Src/stm32fxxxusart.c:299:6:STM32FXXXUsart6Clock	2
+../Library/Src/stm32fxxxusart.c:303:6:STM32FXXXUsart6Nvic	2
+../Library/Src/stm32fxxxusart.c:307:6:STM32FXXXUsart6Parameter	11
+../Library/Src/stm32fxxxusart.c:352:18:usart1_enable	1
+../Library/Src/stm32fxxxusart.c:371:20:usart1	1
+../Library/Src/stm32fxxxusart.c:374:18:usart2_enable	1
+../Library/Src/stm32fxxxusart.c:392:20:usart2	1
+../Library/Src/stm32fxxxusart.c:460:18:usart6_enable	1
+../Library/Src/stm32fxxxusart.c:478:20:usart6	1

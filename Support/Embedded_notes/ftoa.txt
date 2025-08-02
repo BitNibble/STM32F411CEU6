@@ -1,0 +1,253 @@
+unsigned int function_UintInvStr(RealNum_TypeDef num, unsigned int index)
+{
+	for( FUNCstr[index++] = (char)(num.Quotient % 10 + '0') ; (num.Quotient /= 10) > 0 ; FUNCstr[index++] = (char)(num.Quotient % 10 + '0') );
+	FUNCstr[index] = '\0'; return index;
+}
+unsigned int function_FloatInvStr(RealNum_TypeDef num, unsigned int index)
+{
+	for( ; (num.Precision /= 10) > 0 ; FUNCstr[index++] = (char)(num.Remainder % 10 + '0'), num.Remainder /= 10 );
+	FUNCstr[index] = '\0'; return index;
+}
+char* function_ftoa(double num, unsigned int decimal)
+{
+	RealNum_TypeDef number = function_realnumber(num, decimal);
+	unsigned int k = 0;
+	if(number.Precision > 1){
+		FUNCstr[k++] = '.';
+		k = function_UintInvStr(number, k); if (number.sign < 0) FUNCstr[k++] = '-'; FUNCstr[k] = '\0';
+		function_Reverse(FUNCstr);
+		function_FloatInvStr(number, k); function_Reverse(FUNCstr + k);
+	}else{
+		k = function_UintInvStr(number, 0); if (number.sign < 0) FUNCstr[k++] = '-'; FUNCstr[k] = '\0';
+		function_Reverse(FUNCstr);
+	}
+	return FUNCstr;
+}
+/****************************************************************************************/
+#include <stdio.h>
+
+#define MAX_FUNCSTR_LEN 50 // Define maximum length for FUNCstr
+
+char FUNCstr[MAX_FUNCSTR_LEN]; // Ensure FUNCstr has a defined size
+
+unsigned int function_UintInvStr(RealNum_TypeDef num, unsigned int index) {
+    if (index >= MAX_FUNCSTR_LEN - 1) return index; // Prevent overflow
+
+    // Ensure we start with the correct index
+    unsigned int start = index;
+    do {
+        FUNCstr[index++] = (char)(num.Quotient % 10 + '0');
+        num.Quotient /= 10;
+    } while (num.Quotient > 0 && index < MAX_FUNCSTR_LEN - 1);
+
+    // Null-terminate the string
+    FUNCstr[index] = '\0';
+
+    // Reverse the characters
+    function_Reverse(FUNCstr + start);
+
+    return index;
+}
+
+unsigned int function_FloatInvStr(RealNum_TypeDef num, unsigned int index) {
+    unsigned int start = index; // Start index for decimal part
+
+    // Loop through the precision without modifying num.Precision
+    unsigned int precision = num.Precision; // Preserve original precision
+    while (precision > 0) {
+        FUNCstr[index++] = (char)(num.Remainder % 10 + '0');
+        num.Remainder /= 10;
+        precision /= 10;
+
+        if (index >= MAX_FUNCSTR_LEN - 1) break; // Prevent overflow
+    }
+
+    // Null-terminate the string
+    FUNCstr[index] = '\0';
+
+    // Reverse the characters
+    function_Reverse(FUNCstr + start);
+    
+    return index;
+}
+
+char* function_ftoa(double num, unsigned int decimal) {
+    RealNum_TypeDef number = function_realnumber(num, decimal);
+    unsigned int k = 0;
+
+    if (number.sign < 0) {
+        FUNCstr[k++] = '-';
+    }
+
+    k = function_UintInvStr(number, k); // Handle integer part
+
+    if (number.Precision > 1) { // If there are decimal places
+        FUNCstr[k++] = '.'; // Add decimal point
+        k = function_FloatInvStr(number, k); // Handle fractional part
+    }
+
+    FUNCstr[k] = '\0'; // Null-terminate the final string
+    return FUNCstr; // Return the final string
+}
+/*****************************************************************************************/
+#include <stdio.h>
+
+#define MAX_FUNCSTR_LEN 50 // Define maximum length for FUNCstr
+
+char FUNCstr[MAX_FUNCSTR_LEN]; // Ensure FUNCstr has a defined size
+
+unsigned int function_UintInvStr(RealNum_TypeDef num, unsigned int index) {
+    if (index >= MAX_FUNCSTR_LEN - 1) return index; // Prevent overflow
+
+    unsigned int start = index;
+    do {
+        FUNCstr[index++] = (char)(num.Quotient % 10 + '0');
+        num.Quotient /= 10;
+    } while (num.Quotient > 0 && index < MAX_FUNCSTR_LEN - 1);
+
+    // Null-terminate the string
+    FUNCstr[index] = '\0';
+
+    // Reverse the characters
+    function_Reverse(FUNCstr + start);
+
+    return index;
+}
+
+unsigned int function_FloatInvStr(RealNum_TypeDef num, unsigned int index) {
+    unsigned int start = index; // Start index for decimal part
+
+    // Loop through the precision without modifying num.Precision
+    unsigned int precision = num.Precision; // Preserve original precision
+    unsigned int hasDecimals = 0; // Flag to track if we have added decimal digits
+
+    while (precision > 0) {
+        // If there are decimal digits to add, do it
+        if (num.Remainder > 0 || hasDecimals) { // Add digit if remainder is non-zero or we're in decimal part
+            FUNCstr[index++] = (char)(num.Remainder % 10 + '0');
+            num.Remainder /= 10;
+            hasDecimals = 1; // Set flag that we've started adding decimals
+        }
+        precision /= 10;
+
+        if (index >= MAX_FUNCSTR_LEN - 1) break; // Prevent overflow
+    }
+
+    // Null-terminate the string
+    FUNCstr[index] = '\0';
+
+    // Reverse the characters
+    function_Reverse(FUNCstr + start);
+    
+    return index;
+}
+
+char* function_ftoa(double num, unsigned int decimal) {
+    RealNum_TypeDef number = function_realnumber(num, decimal);
+    unsigned int k = 0;
+
+    // Handle sign
+    if (number.sign < 0) {
+        FUNCstr[k++] = '-';
+    }
+
+    k = function_UintInvStr(number, k); // Handle integer part
+
+    if (number.Precision > 1) { // If there are decimal places
+        FUNCstr[k++] = '.'; // Add decimal point
+        k = function_FloatInvStr(number, k); // Handle fractional part
+    }
+
+    FUNCstr[k] = '\0'; // Null-terminate the final string
+    return FUNCstr; // Return the final string
+}
+/************************************************************************************/
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+#define MAX_FUNCSTR_LEN 50 // Define maximum length for FUNCstr
+
+char FUNCstr[MAX_FUNCSTR_LEN]; // Global string for conversion
+
+// Function to reverse a string in place
+void function_Reverse(char str[]) {
+    int n = strlen(str);
+    for (int i = 0; i < n / 2; i++) {
+        char temp = str[i];
+        str[i] = str[n - i - 1];
+        str[n - i - 1] = temp;
+    }
+}
+
+unsigned int function_UintInvStr(RealNum_TypeDef num, unsigned int index) {
+    if (index >= MAX_FUNCSTR_LEN - 1) return index; // Prevent overflow
+    unsigned int start = index;
+
+    // Handle integer part
+    do {
+        FUNCstr[index++] = (char)(num.Quotient % 10 + '0');
+        num.Quotient /= 10;
+    } while (num.Quotient > 0 && index < MAX_FUNCSTR_LEN - 1);
+
+    // Null-terminate and reverse the integer part
+    FUNCstr[index] = '\0';
+    function_Reverse(FUNCstr + start);
+
+    return index;
+}
+
+unsigned int function_FloatInvStr(RealNum_TypeDef num, unsigned int index) {
+    if (num.Precision == 0) return index; // No decimal part if precision is 0
+
+    unsigned int start = index;
+    unsigned int count = 0; // To count how many digits are added
+
+    // Move to the next decimal place before entering the loop
+    unsigned int precision = num.Precision; // Preserve the original precision
+
+    while (precision > 0) {
+        // Only add significant digits
+        if (num.Remainder > 0 || count > 0) {
+            FUNCstr[index++] = (char)(num.Remainder % 10 + '0');
+            num.Remainder /= 10;
+            count++;
+        }
+        precision /= 10; // Move to the next decimal place
+
+        if (index >= MAX_FUNCSTR_LEN - 1) break; // Prevent overflow
+    }
+
+    // Null-terminate the decimal part
+    FUNCstr[index] = '\0';
+
+    // If we added any digits, reverse them
+    if (count > 0) {
+        function_Reverse(FUNCstr + start);
+    }
+
+    return index;
+}
+
+char* function_ftoa(double num, unsigned int decimal) {
+    RealNum_TypeDef number = function_realnumber(num, decimal);
+    unsigned int k = 0;
+
+    // Handle sign
+    if (number.sign < 0) {
+        FUNCstr[k++] = '-';
+    }
+
+    // Handle integer part
+    k = function_UintInvStr(number, k);
+
+    // Handle decimal part if precision is set
+    if (number.Precision > 0) {
+        FUNCstr[k++] = '.'; // Add decimal point
+        k = function_FloatInvStr(number, k); // Handle fractional part
+    }
+
+    FUNCstr[k] = '\0'; // Null-terminate the final string
+    return FUNCstr; // Return the final string
+}
+/***********************************************************************************/

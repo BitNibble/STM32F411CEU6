@@ -1,0 +1,15 @@
+../Library/Src/armlcd.c:42:9:ARMLCD0_enable	24	static
+../Library/Src/armlcd.c:67:10:lcd0	4	static
+../Library/Src/armlcd.c:69:6:ARMLCD0_inic	8	static
+../Library/Src/armlcd.c:131:6:ARMLCD0_write	16	static
+../Library/Src/armlcd.c:156:6:ARMLCD0_read	24	static
+../Library/Src/armlcd.c:186:6:ARMLCD0_BF	16	static
+../Library/Src/armlcd.c:199:6:ARMLCD0_getch	16	static
+../Library/Src/armlcd.c:207:6:ARMLCD0_putch	16	static
+../Library/Src/armlcd.c:213:6:ARMLCD0_string	24	static
+../Library/Src/armlcd.c:222:6:ARMLCD0_string_size	24	static
+../Library/Src/armlcd.c:239:6:ARMLCD0_hspace	16	static
+../Library/Src/armlcd.c:246:6:ARMLCD0_clear	8	static
+../Library/Src/armlcd.c:252:6:ARMLCD0_gotoxy	16	static
+../Library/Src/armlcd.c:276:6:ARMLCD0_strobe	8	static
+../Library/Src/armlcd.c:282:6:ARMLCD0_reboot	16	static

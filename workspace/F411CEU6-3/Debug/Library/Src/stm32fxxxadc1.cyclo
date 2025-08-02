@@ -1,0 +1,10 @@
+../Library/Src/stm32fxxxadc1.c:21:6:STM32FXXXAdc1IClock	2
+../Library/Src/stm32fxxxadc1.c:25:6:STM32FXXXAdc1Clock	2
+../Library/Src/stm32fxxxadc1.c:29:6:STM32FXXXAdc1Nvic	2
+../Library/Src/stm32fxxxadc1.c:33:6:STM32FXXXAdc1Inic	1
+../Library/Src/stm32fxxxadc1.c:57:6:STM32FXXXAdc1VBAT	1
+../Library/Src/stm32fxxxadc1.c:62:6:STM32FXXXAdc1TEMP	1
+../Library/Src/stm32fxxxadc1.c:68:6:STM32FXXXAdc1Start	3
+../Library/Src/stm32fxxxadc1.c:77:22:stm32fxxx_adc1_single_inic	1
+../Library/Src/stm32fxxxadc1.c:86:19:adc1_enable	1
+../Library/Src/stm32fxxxadc1.c:120:19:adc1	1
