@@ -195,7 +195,7 @@ void ARMLCD0_BF(void)
 	char inst = 0x80;
 	for(i=0; 0x80 & inst; i++){
 		inst = ARMLCD0_read(ARMLCD0_INST);
-		if(i > 10) // 1
+		if(i > 2) // 1
 			break;
 	}
 }

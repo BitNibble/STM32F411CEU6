@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Date:     24022024
-Comment:
-	
 *******************************************************************************/
 #ifndef _STM32FXXXUSART1_H_
 	#define _STM32FXXXUSART1_H_
@@ -15,14 +13,25 @@ Comment:
 /*** Define and Macros ***/
 #define USART1_RX_BUFFER_SIZE 2049
 #define USART1_TX_BUFFER_SIZE 2049
-/*** USART 1..6 Handler TypeDef ***/
-// USART -> USART1
-typedef struct
-{
+/*** USART 1 Callback TypeDef ***/
+typedef struct {
+	void (*cts)(void);
+	void (*lbd)(void);
+	void (*txe)(void);
+	void (*tc)(void);
+	void (*rxne)(void);
+	void (*idle)(void);
+	void (*ore)(void);
+	void (*ne)(void);
+	void (*fe)(void);
+	void (*pe)(void);
+}STM32FXXX_USART1_CallBack;
+/*** USART 1 Handler TypeDef ***/
+typedef struct {
 	char* rxbuff;
 	char* txbuff;
-	/*** Bit Mapping ***/
-	USART_TypeDef* instance;
+	/*** Callback ***/
+	STM32FXXX_USART1_CallBack callback;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);
@@ -45,17 +54,6 @@ typedef struct
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
-	// CALLBACK
-	void (*callback_cts)(void);
-	void (*callback_lbd)(void);
-	void (*callback_txe)(void);
-	void (*callback_tc)(void);
-	void (*callback_rxne)(void);
-	void (*callback_idle)(void);
-	void (*callback_ore)(void);
-	void (*callback_ne)(void);
-	void (*callback_fe)(void);
-	void (*callback_pe)(void);
 }STM32FXXX_USART1;
 
 STM32FXXX_USART1*  usart1(void);

@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Date:     24022024
-Comment:
-	
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxusart1.h"
@@ -265,7 +263,7 @@ void CallBack_RXNE(void){
 	if( rx ) {
 		if (usart1_rx_index < usart1_rx_buffer_size) {
 			usart1_rx_buffer[usart1_rx_index++] = rx;
-			usart1_rx_buffer[usart1_rx_index] = ZERO;
+			usart1_rx_buffer[usart1_rx_index] = 0;
 		}
 	}
 }
@@ -281,7 +279,6 @@ void CallBack_ORE(void){
 	(void)dummy;
 	// Handle overrun error (e.g., discard data)
 }
-
 
 /*** USART1 INIC Procedure & Function Definition ***/
 static STM32FXXX_USART1 stm32fxxx_usart1 = {
@@ -313,16 +310,16 @@ static STM32FXXX_USART1 stm32fxxx_usart1 = {
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback
-	.callback_cts = CallBack_CTS,
-	.callback_lbd = CallBack_LBD,
-	.callback_txe = CallBack_TXE,
-	.callback_tc = CallBack_TC,
-	.callback_rxne = CallBack_RXNE,
-	.callback_idle = CallBack_IDLE,
-	.callback_ore = CallBack_ORE,
-	.callback_ne = NULL,
-	.callback_fe = NULL,
-	.callback_pe = NULL
+	.callback.cts = CallBack_CTS,
+	.callback.lbd = CallBack_LBD,
+	.callback.txe = CallBack_TXE,
+	.callback.tc = CallBack_TC,
+	.callback.rxne = CallBack_RXNE,
+	.callback.idle = CallBack_IDLE,
+	.callback.ore = CallBack_ORE,
+	.callback.ne = NULL,
+	.callback.fe = NULL,
+	.callback.pe = NULL
 };
 
 STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1; }
@@ -331,51 +328,51 @@ STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1; }
 void USART1_IRQHandler(void) {
 	// Check for CTS flag (if hardware flow control is enabled)
 	if (is_SR_CTS()) {
-		if(usart1()->callback_cts){ usart1()->callback_cts(); }
+		if(usart1()->callback.cts){ usart1()->callback.cts(); }
 	}
 	// Check for LIN Break Detection (if LIN mode is enabled)
 	if (is_SR_LBD()) {
-		if(usart1()->callback_lbd){ usart1()->callback_lbd(); }
+		if(usart1()->callback.lbd){ usart1()->callback.lbd(); }
 	}
 
 	if(is_CR1_TXEIE()) {
 		if(is_SR_TXE()) {
-			if(usart1()->callback_txe){ usart1()->callback_txe(); }
+			if(usart1()->callback.txe){ usart1()->callback.txe(); }
 		}
 	}
 
 	if(is_CR1_TCIE()) {
 		// Check if the TC (Transmission Complete) flag is set
 		if (is_SR_TC()) {
-			if(usart1()->callback_tc){ usart1()->callback_tc(); }
+			if(usart1()->callback.tc){ usart1()->callback.tc(); }
 		}
 	}
 
 	if(is_SR_RXNE()) {
-		if(usart1()->callback_rxne){ usart1()->callback_rxne(); }
+		if(usart1()->callback.rxne){ usart1()->callback.rxne(); }
 	}
     // Check for IDLE line detection
     if (is_SR_IDLE()) {
-        if(usart1()->callback_idle){ usart1()->callback_idle(); }
+        if(usart1()->callback.idle){ usart1()->callback.idle(); }
     }
     // Error handling (Overrun, Noise, Framing, Parity)
     if (is_SR_ORE()) {
-    	if(usart1()->callback_ore){ usart1()->callback_ore(); }
+    	if(usart1()->callback.ore){ usart1()->callback.ore(); }
     }
     if (is_SR_NE()) {
     	// Noise error: Handle noise (e.g., log or recover from error)
     	USART1->SR &= ~USART_SR_NE;
-    	if (stm32fxxx_usart1.callback_ne) { stm32fxxx_usart1.callback_ne(); }
+    	if (usart1()->callback.ne) { usart1()->callback.ne(); }
     }
     if (is_SR_FE()) {
     	// Framing error: Handle framing issues (e.g., re-sync communication)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (stm32fxxx_usart1.callback_fe) { stm32fxxx_usart1.callback_fe(); }
+    	    if (usart1()->callback.fe) { usart1()->callback.fe(); }
     }
     if (is_SR_PE()) {
     	// Parity error: Handle parity mismatch (e.g., request retransmission)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (stm32fxxx_usart1.callback_pe) { stm32fxxx_usart1.callback_pe(); }
+    	    if (usart1()->callback.pe) { usart1()->callback.pe(); }
     }
     // Optionally reset USART or take corrective action based on error type
 	/***/

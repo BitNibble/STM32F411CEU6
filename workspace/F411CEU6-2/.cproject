@@ -43,12 +43,12 @@
 									<listOptionValue builtIn="false" value="STM32F411xE"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.118084196" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/Core/Inc"/>
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/Drivers/STM32F4xx_HAL_Driver/Inc"/>
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="D:/Embedded/STM32-F411CEU6/workspace/F411CEU6-2/lib/src"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/Core/Inc"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/Drivers/STM32F4xx_HAL_Driver/Inc"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="D:/Embedded/STM32F411CEU6/workspace/F411CEU6-2/lib/src"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.213447681" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

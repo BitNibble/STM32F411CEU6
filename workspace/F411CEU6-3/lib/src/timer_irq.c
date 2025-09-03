@@ -363,7 +363,7 @@ void TIM14_IRQHandler(void) {
         TIM14->SR &= ~TIM_SR_UIF;
     }
 }
-#endif
 
+#endif
 /*** EOF ***/
 

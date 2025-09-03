@@ -69,5 +69,6 @@ IO_var EXPLODEhl(explode_par* par)
 {
 	return ((par->XF ^ par->XI) & par->XI);
 }
+
 /***EOF***/
 
