@@ -115,6 +115,7 @@ void GPIOA_af(uint8_t pin, uint8_t af)
 
 /*** HANDLER ***/
 static STM32FXXX_GPIOA stm32fxxx_gpioa = {
+	.instance = GPIOA,
     // V-table
     .clock = GPIOA_clock,
     .moder = GPIOA_moder,
