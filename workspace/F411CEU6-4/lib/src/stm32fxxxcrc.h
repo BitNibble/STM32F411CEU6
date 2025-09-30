@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXCRC_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** CRC TypeDef ***/
 typedef struct
 {

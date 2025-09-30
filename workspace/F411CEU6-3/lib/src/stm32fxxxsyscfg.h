@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXSYSCFG_H_
 
 /*** File Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /***************************************/
 /***** SYSCFG Bit Mapping TypeDef ****/
 /***************************************/

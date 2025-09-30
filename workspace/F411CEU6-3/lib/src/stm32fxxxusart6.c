@@ -13,16 +13,16 @@ Comment:
 #include <math.h>
 
 /*** File Variable ***/
-static STM32FXXX_USART6 stm32fxxx_usart6 = {ZERO};
+static STM32FXXX_USART6 stm32fxxx_usart6 = {0};
 /******/
 // Buffer for received and transmit data
 uint8_t usart6_rx_buffer[USART6_RX_BUFFER_SIZE];
-volatile uint16_t usart6_rx_index = ZERO;
+volatile uint16_t usart6_rx_index = 0;
 uint8_t usart6_tx_buffer[USART6_TX_BUFFER_SIZE];
-volatile uint16_t usart6_tx_index = ZERO;
-const uint16_t usart6_rx_buffer_size = (USART6_RX_BUFFER_SIZE - ONE);
-const uint16_t usart6_tx_buffer_size = (USART6_TX_BUFFER_SIZE - ONE);
-static uint8_t usart6_flag = ZERO;
+volatile uint16_t usart6_tx_index = 0;
+const uint16_t usart6_rx_buffer_size = (USART6_RX_BUFFER_SIZE - 1);
+const uint16_t usart6_tx_buffer_size = (USART6_TX_BUFFER_SIZE - 1);
+static uint8_t usart6_flag = 0;
 /*** USART Procedure & Function Definition ***/
 /*** USART6 ***/
 void USART6_Clock( uint8_t state )
@@ -31,7 +31,7 @@ void USART6_Clock( uint8_t state )
 }
 void USART6_Nvic( uint8_t state )
 {
-	if(state){ set_bit_block(NVIC->ISER, ONE, USART6_IRQn, 1); }else{ set_bit_block(NVIC->ICER, ONE, USART6_IRQn, 1); }
+	if(state){ set_bit_block(NVIC->ISER, 1, USART6_IRQn, 1); }else{ set_bit_block(NVIC->ICER, 1, USART6_IRQn, 1); }
 }
 void USART6_WordLength(uint8_t wordlength) {
     // Clear the M bit to reset word length
@@ -90,34 +90,34 @@ char USART6_ReceiveChar(void) {
     return (char)USART6->DR;               // Return the received character
 }
 void USART6_RxFlush(void) {
-	usart6_rx_index = ZERO;
-	usart6_rx_buffer[ZERO] = ZERO;
+	usart6_rx_index = 0;
+	usart6_rx_buffer[0] = 0;
 }
 void USART6_TransmitString(const char *str) {
-	usart6_tx_index = ZERO;
+	usart6_tx_index = 0;
     // Copy the string into the transmit buffer
     strncpy((char *)usart6_tx_buffer, str, usart6_tx_buffer_size); // Ensure tx_buffer is big enough
-    usart6_tx_buffer[usart6_tx_buffer_size] = ZERO;
+    usart6_tx_buffer[usart6_tx_buffer_size] = 0;
     // Enable the TXE interrupt to start sending data
     USART6->CR1 |= USART_CR1_TXEIE;
 }
 void USART6_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl) {
-	const uint32_t buff_size = size - ONE;
-	oneshot[buff_size] = ZERO; rx[buff_size] = ZERO;
-	if(usart6_flag) { *oneshot = ZERO; usart6_flag = ZERO; }
+	const uint32_t buff_size = size - 1;
+	oneshot[buff_size] = 0; rx[buff_size] = 0;
+	if(usart6_flag) { *oneshot = 0; usart6_flag = 0; }
 	char *ptr = (char*)usart6_rx_buffer;
 	size_t ptr_length = strlen((char*)ptr);
 	if( ptr_length < usart6_rx_buffer_size ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
 		int32_t check;
-		if( diff_length >= ZERO ) {
+		if( diff_length >= 0 ) {
 			check = strcmp((char*)ptr + diff_length, endl);
 			if( !check ) {
 				strncpy(oneshot, (const char*)ptr, buff_size);
-				oneshot[diff_length] = ZERO;
+				oneshot[diff_length] = 0;
 				strncpy(rx, (const char*)ptr, buff_size);
-				rx[diff_length] = ZERO;
+				rx[diff_length] = 0;
 				usart6_flag = 0xFF;
 				USART6_RxFlush( );
 			}
@@ -130,7 +130,7 @@ void USART6_stop(void) { USART6->CR1 &= ~USART_CR1_UE; }
 /*** USART6 INIC Procedure & Function Definition ***/
 void usart6_enable(void)
 {
-	USART6_Clock( ON );
+	USART6_Clock(1);
 	/*** USART6 Bit Mapping Link ***/
 	stm32fxxx_usart6.instance = USART6;
 	// Other
@@ -151,8 +151,8 @@ void usart6_enable(void)
 	stm32fxxx_usart6.start = USART6_start;
 	stm32fxxx_usart6.stop = USART6_stop;
 	// Inic
-	usart6_tx_buffer[usart6_tx_buffer_size] = ZERO;
-	usart6_rx_buffer[usart6_rx_buffer_size] = ZERO;
+	usart6_tx_buffer[usart6_tx_buffer_size] = 0;
+	usart6_rx_buffer[usart6_rx_buffer_size] = 0;
 }
 
 STM32FXXX_USART6*  usart6(void){ return (STM32FXXX_USART6*) &stm32fxxx_usart6; }
@@ -168,7 +168,7 @@ void USART6_IRQHandler(void) {
 			uint8_t received_byte = USART6->DR;
 			if (usart6_rx_index < usart6_rx_buffer_size) {
 				usart6_rx_buffer[usart6_rx_index++] = received_byte;
-				usart6_rx_buffer[usart6_rx_index] = ZERO;
+				usart6_rx_buffer[usart6_rx_index] = 0;
 			}
 		}
 	}
@@ -189,7 +189,7 @@ void USART6_IRQHandler(void) {
 		if (sr & USART_SR_TC) {
 			// Transmission complete
 			(void)USART6->SR;  // Read SR to acknowledge
-			USART6->DR = ZERO;    // Write to DR to clear TC flag
+			USART6->DR = 0;    // Write to DR to clear TC flag
 			// Optionally disable TC interrupt if no further action is needed
 			USART6->CR1 &= ~USART_CR1_TCIE;
 		}

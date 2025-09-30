@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXTIM6AND7_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 #include "timer_irq.h"
 /*** TIMER TypeDef***/
 // ( 6 and 7 ) TIM 

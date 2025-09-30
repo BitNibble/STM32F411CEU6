@@ -48,7 +48,7 @@ void RCC_HEnable(uint8_t hclock)
     uint8_t rdy = 1;
 
     // Enable CSSON
-    set_reg_block(&RCC->CR, 1, RCC_CR_CSSON_Pos, ON); // Clock security system enable
+    set_reg_block(&RCC->CR, 1, RCC_CR_CSSON_Pos, 1); // Clock security system enable
 
     while(rdy)
     {
@@ -116,7 +116,7 @@ void RCC_HSelect(uint8_t hclock)
 }
 uint8_t RCC_PLLSelect(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled
-	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, OFF); set_reg_block(&RCC->CR, 1, RCC_CR_PLLI2SON_Pos, OFF);
+	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, 0); set_reg_block(&RCC->CR, 1, RCC_CR_PLLI2SON_Pos, 0);
 	switch(hclock){
 		case 0: // HSI
 			set_reg_block(&RCC->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 0);
@@ -277,7 +277,7 @@ void RCC_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre
 // PLL
 void RCC_PLLDivision(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
-	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, OFF);
+	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, 0);
 	set_reg_block(&RCC->PLLCFGR,4,RCC_PLLCFGR_PLLQ_Pos,pllq);
 	switch(pllp){
 		case 2:

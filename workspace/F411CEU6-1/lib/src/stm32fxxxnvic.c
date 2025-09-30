@@ -50,9 +50,9 @@ void NVIC_trigger(uint32_t IRQn)
 }
 void NVIC_SetClear(uint8_t irq_num, uint8_t state) {
     if (state) {
-        set_bit_block(NVIC->ISER, 1, irq_num, ON);
+        set_bit_block(NVIC->ISER, 1, irq_num, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, irq_num, OFF);
+        set_bit_block(NVIC->ICER, 1, irq_num, 0);
     }
 }
 /*** INIC Procedure & Function Definition ***/

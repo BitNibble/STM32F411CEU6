@@ -11,7 +11,7 @@ Comment:
 	#define _ARMLCD_H_
 
 /*** Global Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** Global Constant & Macro ***/
 // ASIGN PORT PINS TO LCD (can be setup in any way)
 #ifdef STM32F411xE

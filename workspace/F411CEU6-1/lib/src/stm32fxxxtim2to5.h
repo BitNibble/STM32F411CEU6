@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXTIM2TO5_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 #include "timer_irq.h"
 /*** TIMER 2 to 5 TypeDef ***/
 // ( 2 and 5 ) TIM

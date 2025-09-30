@@ -30,7 +30,7 @@ void USART1_Clock( uint8_t state )
 }
 void USART1_Nvic( uint8_t state )
 {
-	if(state){ set_bit_block(NVIC->ISER, ONE, USART1_IRQn, 1); }else{ set_bit_block(NVIC->ICER, ONE, USART1_IRQn, 1); }
+	if(state){ set_bit_block(NVIC->ISER, 1, USART1_IRQn, 1); }else{ set_bit_block(NVIC->ICER, 1, USART1_IRQn, 1); }
 }
 void USART1_WordLength(uint8_t wordlength) {
     // Clear the M bit to reset word length
@@ -187,24 +187,24 @@ void USART1_TransmitString(const char *str) {
     // Copy the string into the transmit buffer
     strncpy( (char *)usart1_tx_buffer, str, usart1_tx_buffer_size ); // Ensure tx_buffer is big enough
     // Enable the TXE interrupt to start sending data
-    USART1_Tx_EInterrupt( ON );
+    USART1_Tx_EInterrupt(1);
 }
 void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl) {
-	const uint32_t buff_size = size - ONE;
-	if(usart1_flag) { memset(oneshot, 0, size); usart1_flag = ZERO; }
+	const uint32_t buff_size = size - 1;
+	if(usart1_flag) { memset(oneshot, 0, size); usart1_flag = 0; }
 	char *ptr = usart1_rx_buffer;
 	size_t ptr_length = strlen((char*)ptr);
 	if( ptr_length < usart1_rx_buffer_size ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
 		int32_t check;
-		if( diff_length >= ZERO ) {
+		if( diff_length >= 0 ) {
 			check = strcmp((char*)ptr + diff_length, endl);
 			if( !check ) {
 				strncpy(oneshot, (const char*)ptr, buff_size);
-				oneshot[diff_length] = ZERO;
+				oneshot[diff_length] = 0;
 				strncpy(rx, (const char*)ptr, buff_size);
-				rx[diff_length] = ZERO;
+				rx[diff_length] = 0;
 				usart1_flag = 0xFF;
 				USART1_RxFlush( );
 			}
@@ -212,18 +212,18 @@ void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl
 	}else { USART1_RxFlush( ); }
 }
 void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
-	const uint32_t buff_size = size - ONE;
+	const uint32_t buff_size = size - 1;
 	char *ptr = usart1_rx_buffer;
 	size_t ptr_length = strlen((char*)ptr);
 	if( ptr_length < usart1_rx_buffer_size ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
 		int32_t check;
-		if( diff_length >= ZERO ) {
+		if( diff_length >= 0 ) {
 			check = strcmp((char*)ptr + diff_length, endl);
 			if( !check ) {
 				strncpy(rx, (const char*)ptr, buff_size);
-				rx[diff_length] = ZERO;
+				rx[diff_length] = 0;
 				USART1_RxFlush( );
 			}
 		}
@@ -253,7 +253,7 @@ void CallBack_TXE(void){
 }
 void CallBack_TC(void){
 	// Transmission complete
-	USART1->DR = ZERO; // Write to DR to clear TC flag
+	USART1->DR = 0; // Write to DR to clear TC flag
 	// Optionally disable TC interrupt if no further action is needed
 	USART1->CR1 &= ~USART_CR1_TCIE;
 }

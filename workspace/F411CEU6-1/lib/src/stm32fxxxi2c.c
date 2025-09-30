@@ -217,7 +217,7 @@ uint8_t I2C3_Status(void) {
 /*** I2C1 INIC Handler ***/
 void i2c1_enable(uint32_t sclclock)
 {
-	I2C1_Clock(ON);  // Enable I2C1 clock
+	I2C1_Clock(1);  // Enable I2C1 clock
 	/*** I2C1 Bit Mapping Link ***/
 	stm32fxxx_i2c1.instance = I2C1;
 	/*** I2C1 Init ***/
@@ -242,7 +242,7 @@ STM32FXXX_I2C1_Handler*  i2c1(void){ return (STM32FXXX_I2C1_Handler*) &stm32fxxx
 /*** I2C2 INIC Handler ***/
 void i2c2_enable(uint32_t sclclock)
 {
-	I2C2_Clock(ON);  // Enable I2C1 clock
+	I2C2_Clock(1);  // Enable I2C1 clock
 	/*** I2C2 Bit Mapping Link ***/
 	stm32fxxx_i2c2.instance = I2C2;
 	/*** I2C2 Init ***/
@@ -267,7 +267,7 @@ STM32FXXX_I2C2_Handler*  i2c2(void){ return (STM32FXXX_I2C2_Handler*) &stm32fxxx
 /*** I2C3 INIC Handler ***/
 void i2c3_enable(uint32_t sclclock)
 {
-	I2C3_Clock(ON);  // Enable I2C1 clock
+	I2C3_Clock(1);  // Enable I2C1 clock
 	/*** I2C3 Bit Mapping Link ***/
 	stm32fxxx_i2c3.instance = I2C3;
 	/*** I2C3 Init ***/

@@ -84,9 +84,9 @@ void RTC_Interrupt(uint8_t config) {
 
 void RTC_Inic(uint8_t clock)
 { // RM0390 pg657
-	RTC_PwrClock(ON);
-	RTC_BckSramClock(ON);
-	RTC_Clock(ON);
+	RTC_PwrClock(1);
+	RTC_BckSramClock(1);
+	RTC_Clock(1);
 
 	rtc_lenable(clock);
 	rtc_lselect(clock);
@@ -108,8 +108,8 @@ void RTC_BckWrite(uint8_t registerIndex, uint8_t data) {
         return;
     }
 
-    RTC_PwrClock(ON);
-    RTC_BckSramClock(ON);
+    RTC_PwrClock(1);
+    RTC_BckSramClock(1);
     RTC_WriteEnable();
 
     // Write data to the specified backup register
@@ -140,7 +140,7 @@ void RTC_Hour(uint8_t hour) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert hour to BCD format
     t = rtc_dec2bcd(hour / 10);
@@ -162,7 +162,7 @@ void RTC_Hour(uint8_t hour) {
     RTC_SetTr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_Minute(uint8_t minute) {
@@ -176,7 +176,7 @@ void RTC_Minute(uint8_t minute) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert minute to BCD format
     t = rtc_dec2bcd(minute / 10);
@@ -198,7 +198,7 @@ void RTC_Minute(uint8_t minute) {
     RTC_SetTr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_Second(uint8_t second) {
@@ -212,7 +212,7 @@ void RTC_Second(uint8_t second) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert second to BCD format
     t = rtc_dec2bcd(second / 10);
@@ -234,7 +234,7 @@ void RTC_Second(uint8_t second) {
     RTC_SetTr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_Year(uint8_t year) {
@@ -248,7 +248,7 @@ void RTC_Year(uint8_t year) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert year to BCD format
     t = rtc_dec2bcd(year / 10);
@@ -270,7 +270,7 @@ void RTC_Year(uint8_t year) {
     RTC_SetDr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_Month(uint8_t month) {
@@ -284,7 +284,7 @@ void RTC_Month(uint8_t month) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert month to BCD format
     t = rtc_dec2bcd(month / 10);
@@ -306,7 +306,7 @@ void RTC_Month(uint8_t month) {
     RTC_SetDr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_WeekDay(uint8_t weekday) {
@@ -320,7 +320,7 @@ void RTC_WeekDay(uint8_t weekday) {
     uint8_t u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert weekday to BCD format
     u = rtc_dec2bcd(weekday % 10); // Assuming weekday is represented as 1-7
@@ -341,7 +341,7 @@ void RTC_WeekDay(uint8_t weekday) {
     RTC_SetDr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_Day(uint8_t day) {
@@ -355,7 +355,7 @@ void RTC_Day(uint8_t day) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(ON);
+    RTC_PwrClock(1);
 
     // Convert day to BCD format
     t = rtc_dec2bcd(day / 10);
@@ -377,7 +377,7 @@ void RTC_Day(uint8_t day) {
     RTC_SetDr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(OFF);
+    RTC_PwrClock(0);
 }
 
 void RTC_dr2vec(char* rtc_vect)

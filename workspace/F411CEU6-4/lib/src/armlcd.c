@@ -139,20 +139,22 @@ void ARMLCD0_write(char c, unsigned short D_I)
 	
 	if(D_I) set_hpins(ireg, ARMLCD0_RS_Msk); else clear_hpins(ireg, ARMLCD0_RS_Msk);
 	
-	set_hpins(ireg, ARMLCD0_EN_Msk);
+
 	if(c & 0x80) set_hpins(ireg, ARMLCD0_DB7_Msk); else clear_hpins(ireg, ARMLCD0_DB7_Msk);
 	if(c & 0x40) set_hpins(ireg, ARMLCD0_DB6_Msk); else clear_hpins(ireg, ARMLCD0_DB6_Msk);
 	if(c & 0x20) set_hpins(ireg, ARMLCD0_DB5_Msk); else clear_hpins(ireg, ARMLCD0_DB5_Msk);
 	if(c & 0x10) set_hpins(ireg, ARMLCD0_DB4_Msk); else clear_hpins(ireg, ARMLCD0_DB4_Msk);
+	set_hpins(ireg, ARMLCD0_EN_Msk);
 	clear_hpins(ireg, ARMLCD0_EN_Msk);
 	
 	if(D_I) set_hpins(ireg, ARMLCD0_RS_Msk); else clear_hpins(ireg, ARMLCD0_RS_Msk);
 	
-	set_hpins(ireg, ARMLCD0_EN_Msk);
+
 	if(c & 0x08) set_hpins(ireg, ARMLCD0_DB7_Msk); else clear_hpins(ireg, ARMLCD0_DB7_Msk);
 	if(c & 0x04) set_hpins(ireg, ARMLCD0_DB6_Msk); else clear_hpins(ireg, ARMLCD0_DB6_Msk);
 	if(c & 0x02) set_hpins(ireg, ARMLCD0_DB5_Msk); else clear_hpins(ireg, ARMLCD0_DB5_Msk);
 	if(c & 0x01) set_hpins(ireg, ARMLCD0_DB4_Msk); else clear_hpins(ireg, ARMLCD0_DB4_Msk);
+	set_hpins(ireg, ARMLCD0_EN_Msk);
 	clear_hpins(ireg, ARMLCD0_EN_Msk);
 }
 

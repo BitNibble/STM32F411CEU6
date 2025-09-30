@@ -28,8 +28,8 @@ void TIM9_Nvic(uint8_t state)
 { // 24
 	if(state){set_bit_block(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM1_BRK_TIM9_IRQn, 1);}
 }
-void TIM9_start(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, ON); }
-void TIM9_stop(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, OFF); }
+void TIM9_start(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, 1); }
+void TIM9_stop(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, 0); }
 /*************/
 /*** TIM10 ***/
 /*************/
@@ -41,8 +41,8 @@ void TIM10_Nvic(uint8_t state)
 { // 25
 	if(state){set_bit_block(NVIC->ISER, 1, TIM1_UP_TIM10_IRQn, 1);} else{set_bit_block(NVIC->ICER, 1, TIM1_UP_TIM10_IRQn, 1);}
 }
-void TIM10_start(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, ON); }
-void TIM10_stop(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, OFF); }
+void TIM10_start(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, 1); }
+void TIM10_stop(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, 0); }
 /*************/
 /*** TIM11 ***/
 /*************/
@@ -54,8 +54,8 @@ void TIM11_Nvic(uint8_t state)
 { // 26
 	if(state){set_bit_block(NVIC->ISER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);} else{set_bit_block(NVIC->ICER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);}
 }
-void TIM11_start(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, ON); }
-void TIM11_stop(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, OFF); }
+void TIM11_start(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, 1); }
+void TIM11_stop(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, 0); }
 #ifdef STM32F446xx
 /*************/
 /*** TIM12 ***/
@@ -68,8 +68,8 @@ void TIM12_Nvic(uint8_t state)
 { // 43
 	if(state){set_bit_block(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);}
 }
-void TIM12_start(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
-void TIM12_stop(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+void TIM12_start(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM12_stop(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 /*************/
 /*** TIM13 ***/
 /*************/
@@ -104,7 +104,7 @@ void TIM14_stop(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos
 /*** TIM9 Procedure & Function Definition ***/
 void tim9_enable(void)
 {
-	TIM9_Clock(ON);
+	TIM9_Clock(1);
 	/*** TIM9 Bit Mapping Link ***/
 	stm32fxxx_tim9.instance = TIM9;
 	// CLOCK
@@ -123,7 +123,7 @@ STM32FXXX_TIM9* tim9(void){ return (STM32FXXX_TIM9*) &stm32fxxx_tim9; }
 /*** TIM10 Procedure & Function Definition***/
 void tim10_enable(void)
 {
-	TIM10_Clock(ON);
+	TIM10_Clock(1);
 	/*** TIM10 Bit Mapping Link ***/
 	stm32fxxx_tim10.instance = TIM10;
 	// CLOCK
@@ -142,7 +142,7 @@ STM32FXXX_TIM10* tim10(void){ return (STM32FXXX_TIM10*) &stm32fxxx_tim10; }
 /*** TIM11 Procedure & Function Definition***/
 void tim11_enable(void)
 {
-	TIM11_Clock(ON);
+	TIM11_Clock(1);
 	/*** TIM11 Bit Mapping Link ***/
 	stm32fxxx_tim11.instance = TIM11;
 	// CLOCK

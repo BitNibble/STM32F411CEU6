@@ -37,13 +37,13 @@ int main(void)
 	rtc_enable(); // Real Time Clock
 	gpiob_enable(); // LCD display 4x20
 	gpioc_enable(); // Gpioc13
-	tim1()->clock(ON); // Blink led at uie (4)
+	tim1()->clock(1); // Blink led at uie (4)
 
 	rtc()->inic(1);
 
 	char vecT[8]; // for calendar
 
-	ARMLCD0_enable(gpiob()->instance);
+	ARMLCD0_enable( stm32f411ceu6()->gpiob );
 	FUNC_enable();
 
 	GPIOC->MODER |= GPIO_MODER_MODER13_0;
@@ -69,7 +69,7 @@ int main(void)
 	}
 }
 
-void tim1_u_callback(void){ gpioc()->instance->ODR ^= GPIO_ODR_ODR_13; }
+void tim1_u_callback(void){ stm32f411ceu6()->gpioc->ODR ^= GPIO_ODR_ODR_13; }
 
 void Error_Handler(void)
 {

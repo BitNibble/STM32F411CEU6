@@ -12,7 +12,7 @@ Comment:
 	#define _STM32FXXXGPIO_H_
 
 /*** File Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** Define and Macro ***/
 #if !defined (MODE_INPUT) || !defined (MODE_OUTPUT) || !defined (MODE_AF) || !defined (MODE_ANALOG)
 	#define MODE_INPUT 0x0UL
@@ -23,8 +23,6 @@ Comment:
 /*** GPIO -> GPIO ***/
 typedef struct
 {
-	/*** BitField Mapping ***/
-	GPIO_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*moder)(uint8_t pin, uint8_t mode);
 	void (*otype)(uint8_t pin, uint8_t otype);

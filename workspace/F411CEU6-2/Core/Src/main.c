@@ -74,15 +74,15 @@ int main(void)
 	rtc_enable();
 	gpiob_enable();
 	gpioc_enable();
-	tim1()->clock(ON);
+	tim1()->clock(1);
 
 	rtc()->inic(1);
 
 	PA = EXPLODE_enable();
 
-	gpiob()->clock(ON); // lcd and i2c
-	gpioc()->clock(ON); // gpioc13
-	gpioa()->clock(ON); // timer 1 pwm af channel 1 and K0 button
+	gpiob()->clock(1); // lcd and i2c
+	gpioc()->clock(1); // gpioc13
+	gpioa()->clock(1); // timer 1 pwm af channel 1 and K0 button
 
 	i2c.Instance  = I2C1;
 
@@ -115,7 +115,7 @@ int main(void)
 		Error_Handler();
 	}
 
-	ARMLCD0_enable((GPIO_TypeDef*)gpiob()->instance);
+	ARMLCD0_enable( stm32f411ceu6()->gpiob );
 	FUNC_enable();
 
 	//gpioc()->instance->moder.par.pin_1 = 1;
@@ -123,7 +123,7 @@ int main(void)
 
 	tim1()->nvic(1);
 	//stm()->tim1->nvic(17);
-	tim1()->clock(ON);
+	tim1()->clock(1);
 
 	set_reg_Msk(&GPIOA->AFR[0], GPIO_AFRL_AFSEL7_Msk, 1); // pin 7 af tim1ch1n
 	set_reg_Msk(&GPIOA->AFR[1], GPIO_AFRH_AFSEL8_Msk, 1); // pin 8 af tim1ch1

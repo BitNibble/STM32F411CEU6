@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXUSART6_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** Define and Macros ***/
 #define USART6_RX_BUFFER_SIZE 128
 #define USART6_TX_BUFFER_SIZE 128

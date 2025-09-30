@@ -42,7 +42,7 @@ void CRC_clock(uint8_t state)
 /*** INIC Procedure & Function Definition ***/
 void crc_enable(void)
 {
-	CRC_clock(ON);
+	CRC_clock(1);
 	stm32fxxx_crc.instance = CRC;
 	/***CRC Bit Mapping Link***/
 	stm32fxxx_crc.dr = CRC_dr;

@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXADC3_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** ADC TypeDef ***/
 // ADC -> ADC3
 typedef struct

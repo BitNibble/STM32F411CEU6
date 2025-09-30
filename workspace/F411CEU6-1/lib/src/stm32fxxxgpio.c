@@ -86,7 +86,7 @@ void GPIOA_lck(uint16_t hpins){
 	GPIOA->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
 		if(GPIOA->LCKR & (1 << WORD_BITS)) {
-			status = ZERO;
+			status = 0;
 		}else {
 			GPIOA->LCKR |= 1 << WORD_BITS;
 			GPIOA->LCKR &= ~(1 << WORD_BITS);
@@ -190,7 +190,7 @@ void GPIOB_lck(uint16_t hpins){
 	GPIOB->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
 		if(GPIOB->LCKR & (1 << WORD_BITS)) {
-			status = ZERO;
+			status = 0;
 		}else {
 			GPIOB->LCKR |= 1 << WORD_BITS;
 			GPIOB->LCKR &= ~(1 << WORD_BITS);
@@ -277,7 +277,7 @@ void GPIOC_lck(uint16_t hpins){
 	GPIOC->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
 		if(GPIOC->LCKR & (1 << WORD_BITS)) {
-			status = ZERO;
+			status = 0;
 		}else {
 			GPIOC->LCKR |= 1 << WORD_BITS;
 			GPIOC->LCKR &= ~(1 << WORD_BITS);
@@ -365,7 +365,7 @@ void GPIOD_lck(uint16_t hpins){
 	GPIOD->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
 		if(GPIOD->LCKR & (1 << WORD_BITS)) {
-			status = ZERO;
+			status = 0;
 		}else {
 			GPIOD->LCKR |= 1 << WORD_BITS;
 			GPIOD->LCKR &= ~(1 << WORD_BITS);
@@ -452,7 +452,7 @@ void GPIOE_lck(uint16_t hpins){
 	GPIOE->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
 		if(GPIOE->LCKR & (1 << WORD_BITS)) {
-			status = ZERO;
+			status = 0;
 		}else {
 			GPIOE->LCKR |= 1 << WORD_BITS;
 			GPIOE->LCKR &= ~(1 << WORD_BITS);
@@ -748,9 +748,7 @@ void GPIOH_af(uint8_t pin, uint8_t af)
 void gpiob_enable(void)
 {
 	/*** Enable Clock ***/
-	GPIOB_clock(ON);
-    /*** GPIOA TypeDef ***/
-    stm32fxxx_gpiob.instance = GPIOB;
+	GPIOB_clock(1);
     /*** GPIOB RCC Clock Enable ***/
     stm32fxxx_gpiob.clock = GPIOB_clock;
 	/*** Procedures ***/
@@ -771,9 +769,7 @@ STM32FXXX_GPIOB* gpiob(void) { return &stm32fxxx_gpiob; }
 void gpioc_enable(void)
 {
 	/*** Enable Clock ***/
-	GPIOC_clock(ON);
-    /*** GPIOA TypeDef ***/
-    stm32fxxx_gpioc.instance = GPIOC;
+	GPIOC_clock(1);
     /*** GPIOC RCC Clock Enable ***/
     stm32fxxx_gpioc.clock = GPIOC_clock;
 	/*** Procedures ***/
@@ -794,9 +790,7 @@ STM32FXXX_GPIOC* gpioc(void) { return &stm32fxxx_gpioc; }
 void gpiod_enable(void)
 {
 	/*** Enable Clock ***/
-	GPIOD_clock(ON);
-    /*** GPIOA TypeDef ***/
-    stm32fxxx_gpiod.instance = GPIOD;
+	GPIOD_clock(1);
     /*** GPIOD RCC Clock Enable ***/
     stm32fxxx_gpiod.clock = GPIOD_clock;
 	/*** Procedures ***/
@@ -817,9 +811,7 @@ STM32FXXX_GPIOD* gpiod(void) { return &stm32fxxx_gpiod; }
 void gpioe_enable(void)
 {
 	/*** Enable Clock ***/
-	GPIOE_clock(ON);
-    /*** GPIOA TypeDef ***/
-    stm32fxxx_gpioe.instance = GPIOE;
+	GPIOE_clock(1);
     /*** GPIOE RCC Clock Enable ***/
     stm32fxxx_gpioe.clock = GPIOE_clock;
 	/*** Procedures ***/
@@ -841,7 +833,6 @@ STM32FXXX_GPIOE* gpioe(void) { return &stm32fxxx_gpioe; }
 void gpiof_enable(void)
 {
 	GPIOF_clock(ON);
-    stm32fxxx_gpiof.instance = GPIOF;
     /*** GPIOF RCC Clock Enable ***/
     stm32fxxx_gpiof.clock = GPIOF_clock;
 	/*** Procedures ***/
@@ -862,7 +853,6 @@ STM32FXXX_GPIOF* gpiof(void) { return &stm32fxxx_gpiof; }
 void gpiog_enable(void)
 {
 	GPIOG_clock(ON);
-    stm32fxxx_gpiog.instance = GPIOG;
     /*** GPIOG RCC Clock Enable ***/
     stm32fxxx_gpiog.clock = GPIOG_clock;
 	/*** Procedures ***/
@@ -883,7 +873,6 @@ STM32FXXX_GPIOG* gpiog(void) { return &stm32fxxx_gpiog; }
 void gpioh_enable(void)
 {
 	GPIOH_clock(ON);
-    stm32fxxx_gpioh.instance = GPIOH;
     /*** GPIOH RCC Clock Enable ***/
     stm32fxxx_gpioh.clock = GPIOH_clock;
 	/*** Procedures ***/

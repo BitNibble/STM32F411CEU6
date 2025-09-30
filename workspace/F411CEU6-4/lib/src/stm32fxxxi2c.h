@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXI2C_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /******/
 //#define I2C_SCL_CLOCK 100000UL
 #define I2C_ACK 1

@@ -10,7 +10,7 @@ Comment:
 #include "timer_irq.h"
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32fxxxtool.h"
 
 /*** Default Callback Implementations ***/
 void tim2_b_callback(void) {}

@@ -521,3 +521,80 @@ unsigned int function_power(unsigned int base, unsigned int power) {
     }
     return result;
 }
+
+static inline void reg_update(volatile uint32_t *reg, uint8_t pos, uint8_t size, uint32_t value)
+{
+    uint32_t mask = ((1UL << size) - 1UL) << pos;
+    *reg = (*reg & ~mask) | ((value << pos) & mask);
+}
+
+static inline uint32_t reg_get(volatile uint32_t *reg, uint8_t pos, uint8_t size)
+{
+    uint32_t mask = (1UL << size) - 1UL;
+    return (*reg >> pos) & mask;
+}
+
+// Write 'value' into a field [pos .. pos+size-1]
+static inline void reg_update(volatile uint32_t *reg,
+                              uint8_t pos,
+                              uint8_t size,
+                              uint32_t value)
+{
+    uint32_t mask = ((1UL << size) - 1UL) << pos;
+    *reg = (*reg & ~mask) | ((value << pos) & mask);
+}
+
+// Read field [pos .. pos+size-1], aligned to bit 0
+static inline uint32_t reg_get(volatile uint32_t *reg,
+                               uint8_t pos,
+                               uint8_t size)
+{
+    uint32_t mask = (1UL << size) - 1UL;
+    return (*reg >> pos) & mask;
+}
+
+// Extract bit position from mask
+#define REG_POS(MASK) (__builtin_ctz(MASK))
+
+// Get field (always aligned to bit 0)
+#define REG_GET(REG, FIELD_Msk) \
+    (((REG) & (FIELD_Msk)) >> REG_POS(FIELD_Msk))
+
+// Set field (VAL must be aligned to bit 0)
+#define REG_SET(REG, FIELD_Msk, VAL) \
+    ((REG) = ((REG) & ~(FIELD_Msk)) | (((VAL) << REG_POS(FIELD_Msk)) & (FIELD_Msk)))
+
+static inline unsigned ctz32(uint32_t x) {
+    unsigned pos = 0;
+    if (x == 0) return 32;  // or undefined behavior if you prefer
+    while ((x & 1) == 0) {
+        x >>= 1;
+        pos++;
+    }
+    return pos;
+}
+
+#define REG_POS(MASK) (__builtin_ctz(MASK))
+
+#define REG_SET(REG, FIELD_Msk, VAL) \
+    ((REG) = ((REG) & ~(FIELD_Msk)) | (((VAL) << REG_POS(FIELD_Msk)) & (FIELD_Msk)))
+
+#define REG_GET(REG, FIELD_Msk) \
+    (((REG) & (FIELD_Msk)) >> REG_POS(FIELD_Msk))
+
+#include <stdint.h>
+
+// --- Generic helpers ---
+static inline unsigned _mask_pos(uint32_t mask) {
+    unsigned pos = 0;
+    while ((mask & 1) == 0) { mask >>= 1; pos++; }
+    return pos;
+}
+
+static inline uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask) {
+    return (*reg & mask) >> _mask_pos(mask);
+}
+
+static inline void _reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t val) {
+    *reg = (*reg & ~mask) | ((val << _mask_pos(mask)) & mask);
+}

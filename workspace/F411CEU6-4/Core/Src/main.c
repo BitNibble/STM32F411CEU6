@@ -75,7 +75,7 @@ int main(void)
 
     rtc_enable();
     adc1_enable();
-    gpioa()->clock(ON);
+    gpioa()->clock(1);
     gpiob_enable(); // lcd0
     gpioc_enable(); // gpioc13
 
@@ -84,10 +84,10 @@ int main(void)
     rtc()->inic(1);
     PA = EXPLODE_enable();
 
-    _UN8var Menu;
-    Menu.un8 = 8;
-    _UN16var adc_value;
-    adc_value.un16 = 0;
+    _UN8_var Menu;
+    Menu.var = 8;
+    _UN16_var adc_value;
+    adc_value.var = 0;
     uint8_t count_1 = ADC_DELAY;
     uint8_t n_sample = ADC_SAMPLE;
     uint16_t incr_0 = 0;
@@ -105,7 +105,7 @@ int main(void)
     char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
     char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 
-    ARMLCD0_enable(gpiob()->instance);
+    ARMLCD0_enable(stm32f411ceu6()->gpiob);
 
     gpioc()->moder(13,1);
     gpioa()->moder(0,0);
@@ -116,19 +116,19 @@ int main(void)
 
     char vecD[8]; // for calendar date
     char vecT[8]; // for calendar time
-    PA.update(&PA.par, gpioa()->instance->IDR);
+    PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
 
-    gpioc()->instance->BSRR = GPIO_BSRR_BS13;
+    stm32f411ceu6()->gpioc->BSRR = GPIO_BSRR_BS13;
 
     Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
     tm_jumpstep( 0, 22 );
 /*****************************************************************************/
 /*****************************************************************************/
-    while (ONE)  // Infinite loop
+    while (1)  // Infinite loop
     {
     	Turingi22to24_Station_Mux1Server( );
 
-        PA.update(&PA.par, gpioa()->instance->IDR);
+        PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
 
         /*** Magic ***/
         if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
@@ -182,7 +182,7 @@ int main(void)
 
         Turingi25to28_Station_Mux1ServerSend_tcp( link_ID, (const char*)webpage_ptr , webpage_size ); // link_ID
 
-        switch (Menu.nibble.n0) {
+        switch (Menu.var) {
 
         case 0:
             lcd0()->gotoxy(0, 0);
@@ -198,7 +198,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 1; skip_0++;
+                    Menu.var = 1; skip_0++;
                 }
             }
             break;
@@ -219,7 +219,7 @@ int main(void)
 
             if (PA.par.LL & 1) { // Jump menu
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 2; skip_0 = 0;
+                    Menu.var = 2; skip_0 = 0;
                 }
             }
             break;
@@ -240,7 +240,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 3; skip_0 = 0;
+                    Menu.var = 3; skip_0 = 0;
                 }
             }
             break;
@@ -261,7 +261,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 4; skip_0 = 0;
+                    Menu.var = 4; skip_0 = 0;
                 }
             }
             break;
@@ -282,7 +282,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 5; skip_0 = 0;
+                    Menu.var = 5; skip_0 = 0;
                 }
             }
             break;
@@ -303,7 +303,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 6; skip_0 = 0;
+                    Menu.var = 6; skip_0 = 0;
                 }
             }
             break;
@@ -324,7 +324,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                	Menu.un8 = 7; skip_0 = 0;
+                	Menu.var = 7; skip_0 = 0;
                 }
             }
             break;
@@ -345,7 +345,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
             	if(ftdelayCycles(1, STEP_DELAY)){
-                    Menu.un8 = 8; skip_0 = 0;
+                    Menu.var = 8; skip_0 = 0;
                 }
             }
 
@@ -360,14 +360,14 @@ int main(void)
                 count_1 = ADC_DELAY;
                 if (n_sample) {
                     n_sample--;
-                    adc_value.un16 += adc1()->readtemperature();
+                    adc_value.var += adc1()->readtemperature();
                 } else {
                     n_sample = ADC_SAMPLE;
-                    adc_value.un16 /= ADC_SAMPLE;  // Ensure proper averaging
+                    adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
                     //temperature = CalculateTemperature(adc_value);
-                    snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.un16), unit);
+                    snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.var), unit);
                     lcd0()->string_size(str, 8);
-                    adc_value.un16 = 0;  // Reset adc_value after use
+                    adc_value.var = 0;  // Reset adc_value after use
                 }
             }
 
@@ -381,7 +381,7 @@ int main(void)
 
             if (PA.par.LL & 1) {
                 if(ftdelayCycles(1, MAIN_MENU_DELAY)){
-                    Menu.un8 = 0;  skip_0 = 0;
+                    Menu.var = 0;  skip_0 = 0;
                 }
             }
             break;
@@ -419,7 +419,7 @@ int main(void)
 }
 
 void setup_usart1(void){
-	usart1()->clock(ON);
+	usart1()->clock(1);
 
 	// Set PA9 and PA10 to alternate function mode
 	gpioa()->moder(9,MODE_AF); gpioa()->moder(10,MODE_AF);
@@ -436,12 +436,12 @@ void setup_usart1(void){
 	usart1()->samplingmode( 0, MAIN_BAUD );
 
 	// Interrupt handler setup
-	usart1()->tx_einterrupt(ON);
-	usart1()->rx_neinterrupt(ON);
-	usart1()->nvic(ON);
+	usart1()->tx_einterrupt(1);
+	usart1()->rx_neinterrupt(1);
+	usart1()->nvic(1);
 
 	// Enable USART1, TX, RX
-	usart1()->tx(ON); usart1()->rx(ON); // Enable transmitter and receiver
+	usart1()->tx(1); usart1()->rx(1); // Enable transmitter and receiver
 	usart1()->start(); // Enable USART1
 }
 

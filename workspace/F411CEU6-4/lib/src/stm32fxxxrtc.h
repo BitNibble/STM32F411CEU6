@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXRTC_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** Define & Macro ***/
 #ifndef RTC_KEY1
 	#define RTC_KEY1 0xCA

@@ -11,7 +11,7 @@ Comment:
 	#define _STM32FXXXFLASH_H_
 
 /*** Library ***/
-#include "stm32fxxxinstance.h"
+#include "stm32f411ceu6.h"
 /*** Macros ***/
 #ifndef FLASH_KEY1
 	#define FLASH_KEY1  0x45670123

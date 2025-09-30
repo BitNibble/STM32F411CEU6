@@ -1,0 +1,393 @@
+/**********************************************************************
+	STM32F411CEU6 INSTANCE
+Author:   <sergio.salazar.santos@gmail.com>
+License:  GNU General Public License
+Hardware: STM32F411CEU6
+Date:     30092025
+**********************************************************************/
+#include "stm32f411ceu6.h"
+#include <math.h>
+
+/*******************************************************************/
+/********************* MAIN HARDWARE LAYER *************************/
+/*******************************************************************/
+STM32F411CEU6_CORE stm32f411ceu6_core_setup = {
+	.nvic = ((NVIC_Type*) NVIC_BASE),
+	.scb = ((SCB_Type*) SCB_BASE),
+	.scnscb = ((SCnSCB_Type*) SCS_BASE),
+	.systick = ((SysTick_Type*) SysTick_BASE),
+	.itm = ((ITM_Type*) ITM_BASE),
+	.dwt = ((DWT_Type*) DWT_BASE),
+	.tpi = ((TPI_Type*) TPI_BASE),
+	.mpu = ((MPU_Type*) MPU_BASE),
+	.fpu = ((FPU_Type*) FPU_BASE),
+	.coredebug = ((CoreDebug_Type*) CoreDebug_BASE)
+};
+
+static STM32F411CEU6 stm32f411ceu6_setup = {
+	.core = &stm32f411ceu6_core_setup,
+	.adc1 = ((ADC_TypeDef *) ADC1_BASE),
+	.adc1_common = ((ADC_Common_TypeDef *) ADC1_COMMON_BASE),
+	.crc = ((CRC_TypeDef *) CRC_BASE),
+	.dbgmcu = ((DBGMCU_TypeDef *) DBGMCU_BASE),
+	.dma1_stream0 = ((DMA_Stream_TypeDef *) DMA1_Stream0_BASE),
+	.dma1_stream1 = ((DMA_Stream_TypeDef *) DMA1_Stream1_BASE),
+	.dma1_stream2 = ((DMA_Stream_TypeDef *) DMA1_Stream2_BASE),
+	.dma1_stream3 = ((DMA_Stream_TypeDef *) DMA1_Stream3_BASE),
+	.dma1_stream4 = ((DMA_Stream_TypeDef *) DMA1_Stream4_BASE),
+	.dma1_stream5 = ((DMA_Stream_TypeDef *) DMA1_Stream5_BASE),
+	.dma1_stream6 = ((DMA_Stream_TypeDef *) DMA1_Stream6_BASE),
+	.dma1_stream7 = ((DMA_Stream_TypeDef *) DMA1_Stream7_BASE),
+	.dma2_stream0 = ((DMA_Stream_TypeDef *) DMA2_Stream0_BASE),
+	.dma2_stream1 = ((DMA_Stream_TypeDef *) DMA2_Stream1_BASE),
+	.dma2_stream2 = ((DMA_Stream_TypeDef *) DMA2_Stream2_BASE),
+	.dma2_stream3 = ((DMA_Stream_TypeDef *) DMA2_Stream3_BASE),
+	.dma2_stream4 = ((DMA_Stream_TypeDef *) DMA2_Stream4_BASE),
+	.dma2_stream5 = ((DMA_Stream_TypeDef *) DMA2_Stream5_BASE),
+	.dma2_stream6 = ((DMA_Stream_TypeDef *) DMA2_Stream6_BASE),
+	.dma2_stream7 = ((DMA_Stream_TypeDef *) DMA2_Stream7_BASE),
+	.dma1 = ((DMA_TypeDef *) DMA1_BASE),
+	.dma2 = ((DMA_TypeDef *) DMA2_BASE),
+	.exti = ((EXTI_TypeDef *) EXTI_BASE),
+	.flash = ((FLASH_TypeDef *) FLASH_R_BASE),
+	.gpioa = ((GPIO_TypeDef *) GPIOA_BASE),
+	.gpiob = ((GPIO_TypeDef *) GPIOB_BASE),
+	.gpioc = ((GPIO_TypeDef *) GPIOC_BASE),
+	.gpiod = ((GPIO_TypeDef *) GPIOD_BASE),
+	.gpioe = ((GPIO_TypeDef *) GPIOE_BASE),
+	.gpioh = ((GPIO_TypeDef *) GPIOH_BASE),
+	.syscfg = ((SYSCFG_TypeDef *) SYSCFG_BASE),
+	.i2c1 = ((I2C_TypeDef *) I2C1_BASE),
+	.i2c2 = ((I2C_TypeDef *) I2C2_BASE),
+	.i2c3 = ((I2C_TypeDef *) I2C3_BASE),
+	.iwdg = ((IWDG_TypeDef *) IWDG_BASE),
+	.pwr = ((PWR_TypeDef *) PWR_BASE),
+	.rcc = ((RCC_TypeDef *) RCC_BASE),
+	.rtc = ((RTC_TypeDef *) RTC_BASE),
+	.sdio = ((SDIO_TypeDef *) SDIO_BASE),
+	.spi1 = ((SPI_TypeDef *) SPI1_BASE),
+	.spi2 = ((SPI_TypeDef *) SPI2_BASE),
+	.spi3 = ((SPI_TypeDef *) SPI3_BASE),
+	.spi4 = ((SPI_TypeDef *) SPI4_BASE),
+	.spi5 = ((SPI_TypeDef *) SPI5_BASE),
+	.i2s2sext = ((SPI_TypeDef *) I2S2ext_BASE),
+	.i2s3sext = ((SPI_TypeDef *) I2S3ext_BASE),
+	.tim1 = ((TIM_TypeDef *) TIM1_BASE),
+	.tim2 = ((TIM_TypeDef *) TIM2_BASE),
+	.tim3 = ((TIM_TypeDef *) TIM3_BASE),
+	.tim4 = ((TIM_TypeDef *) TIM4_BASE),
+	.tim5 = ((TIM_TypeDef *) TIM5_BASE),
+	.tim9 = ((TIM_TypeDef *) TIM9_BASE),
+	.tim10 = ((TIM_TypeDef *) TIM10_BASE),
+	.tim11 = ((TIM_TypeDef *) TIM11_BASE),
+	.usart1 = ((USART_TypeDef *) USART1_BASE),
+	.usart2 = ((USART_TypeDef *) USART2_BASE),
+	.usart6 = ((USART_TypeDef *) USART6_BASE),
+	.wwdg = ((WWDG_TypeDef *) WWDG_BASE),
+	.usb_otg_global = ((USB_OTG_GlobalTypeDef*) USB_OTG_GLOBAL_BASE),
+	.usb_otg_device = ((USB_OTG_DeviceTypeDef*) USB_OTG_DEVICE_BASE),
+	.usb_otg_inendpoint = ((USB_OTG_INEndpointTypeDef*) USB_OTG_IN_ENDPOINT_BASE),
+	.usb_otg_outendpoint = ((USB_OTG_OUTEndpointTypeDef*) USB_OTG_OUT_ENDPOINT_BASE),
+	.usb_otg_host = ((USB_OTG_HostTypeDef*) USB_OTG_HOST_BASE),
+	.usb_otg_hostchannel = ((USB_OTG_HostChannelTypeDef*) USB_OTG_HOST_CHANNEL_BASE)
+};
+STM32F411CEU6* stm32f411ceu6(void){ return (STM32F411CEU6*) &stm32f411ceu6_setup; }
+
+/*******************************************************************/
+/************************** MISCELLANEOUS **************************/
+/*******************************************************************/
+uint16_t gethpre(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_HPRE);
+	switch(value)
+	{
+		case 0b1000:
+			value = 2;
+		break;
+		case 0b1001:
+			value = 4;
+		break;
+		case 0b1010:
+			value = 8;
+		break;
+		case 0b1011:
+			value = 16;
+		break;
+		case 0b1100:
+			value = 64;
+		break;
+		case 0b1101:
+			value = 128;
+		break;
+		case 0b1110:
+			value = 256;
+		break;
+		case 0b1111:
+			value = 512;
+		break;
+		default:
+			value = 1;
+		break;
+	}
+	return value;
+}
+uint8_t gethppre1(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE1);
+	switch(value)
+	{
+		case 0b100:
+			value = 2;
+		break;
+		case 0b101:
+			value = 4;
+		break;
+		case 0b110:
+			value = 8;
+		break;
+		case 0b111:
+			value = 16;
+		break;
+		default:
+			value = 1;
+		break;
+	}
+	return value;
+}
+uint8_t gethppre2(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE2);
+	switch(value)
+	{
+		case 0b100:
+			value = 2;
+		break;
+		case 0b101:
+			value = 4;
+		break;
+		case 0b110:
+			value = 8;
+		break;
+		case 0b111:
+			value = 16;
+		break;
+		default:
+			value = 1;
+		break;
+	}
+	return value;
+}
+uint8_t getrtcpre(void)
+{
+	return get_reg_Msk(RCC->CFGR, RCC_CFGR_RTCPRE);
+}
+uint8_t gethmco1pre(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO1PRE);
+	switch(value)
+	{
+		case 0b100:
+			value = 2;
+		break;
+		case 0b101:
+			value = 3;
+		break;
+		case 0b110:
+			value = 4;
+		break;
+		case 0b111:
+			value = 5;
+		break;
+		default:
+			value = 1;
+		break;
+	}
+	return value;
+}
+uint8_t gethmco2pre(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO2PRE);
+	switch(value)
+	{
+		case 0b100:
+			value = 2;
+		break;
+		case 0b101:
+			value = 3;
+		break;
+		case 0b110:
+			value = 4;
+		break;
+		case 0b111:
+			value = 5;
+		break;
+		default:
+			value = 1;
+		break;
+		}
+	return value;
+}
+uint8_t getpllm(void)
+{
+	return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLM);
+}
+uint16_t getplln(void)
+{
+	return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLN);
+}
+uint8_t getpllp(void)
+{
+	uint32_t value = get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLP);
+	switch(value)
+	{
+		case 0b00:
+			value = 2;
+		break;
+		case 0b01:
+			value = 4;
+		break;
+		case 0b10:
+			value = 6;
+		break;
+		case 0b11:
+			value = 8;
+		break;
+		default:
+		break;
+	}
+	return value;
+}
+uint8_t getpllq(void)
+{
+	return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLQ);
+}
+#ifdef STM32F446xx
+	uint8_t getpllr(void)
+	{
+		return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLR);
+	}
+#endif
+uint32_t getpllsourceclk(void)
+{
+	uint32_t source;
+	if( get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLSRC) ) source = HSE_OSC; else source = HSI_RC;
+	return source;
+}
+uint32_t getpllclk(void)
+{
+	uint32_t pllclk;
+	pllclk = getpllsourceclk() / getpllm();
+	pllclk /= getpllp();
+	pllclk *= getplln();
+	return pllclk;
+}
+uint32_t getsysclk(void)
+{
+	uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_SWS);
+	switch(value) // SWS[2]: System clock switch status
+	{
+		case 0:
+			value = HSI_RC;
+		break;
+		case 1: // 01: HSE oscillator used as the system clock
+			value = HSE_OSC;
+		break;
+		case 2: // 10: PLL used as the system clock
+			value = getpllsourceclk() / getpllm();
+			value /= getpllp();
+			value *= getplln();
+		break;
+		case 3: // 11: PLL_R used as the system clock
+			#ifdef STM32F446xx
+				value = getpllsourceclk() / getpllm();
+				value /= getpllr();
+				value *= getplln();
+			#endif
+		break;
+		default: // 00: HSI oscillator used as the system clock
+		break;
+	}
+	return (uint32_t)value;
+}
+uint32_t gethclk(void){
+	return getsysclk()/gethpre();
+}
+uint32_t getpclk1(void){
+	uint32_t freq = getsysclk()/gethpre();
+	return freq/gethppre1();
+}
+uint32_t getpclk2(void){
+	uint32_t freq = getsysclk()/gethpre();
+	return freq/gethppre2();
+}
+
+/*******************************************************************/
+/************************** MISCELLANEOUS **************************/
+/*******************************************************************/
+inline void set_hpins( GPIO_TypeDef* reg, uint16_t hpins )
+{
+	reg->BSRR = (uint32_t)hpins;
+}
+inline void clear_hpins( GPIO_TypeDef* reg, uint16_t hpins )
+{
+	reg->BSRR = (uint32_t)(hpins << WORD_BITS);
+}
+inline void set_pin( GPIO_TypeDef* reg, uint8_t pin )
+{
+	reg->BSRR = (1 << pin);
+}
+inline void clear_pin( GPIO_TypeDef* reg, uint8_t pin )
+{
+	reg->BSRR = (uint32_t)((1 << pin) << WORD_BITS);
+}
+void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength) {
+    // Clear the M bit to reset word length
+    usart->CR1 &= ~(1 << 12);
+
+    if (wordlength == 9) {
+        usart->CR1 |= (1 << 12); // Set M bit for 9-bit word length
+    }
+    // If wordlength is 8 or any other value, do nothing (remains 8-bit)
+}
+void Usart_StopBits(USART_TypeDef* usart, double stopbits) {
+    // Reset stop bits configuration
+    usart->CR2 &= (uint32_t) ~((1 << 13) | (1 << 12));
+
+    if (fabs(stopbits - 0.5) < 0.00001) { // 0.5 Stop bits
+        usart->CR2 |= (1 << 12); // Set bit 12
+    } else if (fabs(stopbits - 1.0) < 0.00001) { // 1 Stop bit
+        // No additional bits set (already cleared)
+    } else if (fabs(stopbits - 1.5) < 0.00001) { // 1.5 Stop bits
+        usart->CR2 |= (1 << 13) | (1 << 12); // Set both bits
+    } else if (fabs(stopbits - 2.0) < 0.00001) { // 2 Stop bits
+        usart->CR2 |= (1 << 13); // Set bit 13
+    }
+}
+void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate)
+{
+    uint8_t sampling = 16; // Default to 16
+    if (samplingmode == 8) {
+        sampling = 8;
+        usart->CR1 |= (1 << 15); // Set OVER8 for 8 times oversampling
+    } else {
+        usart->CR1 &= ~(1 << 15); // Clear OVER8 for 16 times oversampling
+    }
+
+    double value = (double) getsysclk() / (gethpre() * sampling * baudrate);
+    double fracpart, intpart;
+    fracpart = modf(value, &intpart);
+
+    usart->BRR = 0; // Reset BRR
+    uint32_t fraction = (sampling == 16) ? round(fracpart * 16) : round(fracpart * 8);
+    usart->BRR |= (uint32_t) fraction; // Set DIV_Fraction
+    usart->BRR |= ((uint32_t) intpart << 4); // Set DIV_Mantissa[11:0]
+}
+void fpu_enable(void) {
+    // Set the CP10 and CP11 bits to enable access to the FPU
+    uint32_t cpacr = SCB->CPACR; // Accessing the CPACR register
+    cpacr |= (0xF << 20); // Set bits 20-23 to enable FPU for all modes
+    SCB->CPACR = cpacr; // Write back to CPACR
+}
+
+/*** EOF ***/
+
