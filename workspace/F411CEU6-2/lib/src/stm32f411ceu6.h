@@ -1,5 +1,5 @@
 /**********************************************************************
-	STM32F411CEU6 INSTANCE
+	STM32F411CEU6
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32F411CEU6

@@ -1,5 +1,5 @@
 /**********************************************************************
-	STM32F411CEU6 INSTANCE
+	STM32F411CEU6
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32F411CEU6
@@ -340,47 +340,69 @@ inline void clear_pin( GPIO_TypeDef* reg, uint8_t pin )
 {
 	reg->BSRR = (uint32_t)((1 << pin) << WORD_BITS);
 }
+
+/*******************************************************************/
+/************************** MISCELLANEOUS **************************/
+/*******************************************************************/
+/* Word length: 8 or 9 bits */
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength) {
-    // Clear the M bit to reset word length
-    usart->CR1 &= ~(1 << 12);
-
-    if (wordlength == 9) {
-        usart->CR1 |= (1 << 12); // Set M bit for 9-bit word length
-    }
-    // If wordlength is 8 or any other value, do nothing (remains 8-bit)
+    if(wordlength == 9)
+        usart->CR1 |= (1 << 12);  // Set M for 9-bit
+    else
+        usart->CR1 &= ~(1 << 12); // Clear M for 8-bit
 }
+
+/* Stop bits: 0.5, 1, 1.5, 2 */
 void Usart_StopBits(USART_TypeDef* usart, double stopbits) {
-    // Reset stop bits configuration
-    usart->CR2 &= (uint32_t) ~((1 << 13) | (1 << 12));
+    usart->CR2 &= ~((1 << 12) | (1 << 13)); // Clear STOP[1:0]
 
-    if (fabs(stopbits - 0.5) < 0.00001) { // 0.5 Stop bits
-        usart->CR2 |= (1 << 12); // Set bit 12
-    } else if (fabs(stopbits - 1.0) < 0.00001) { // 1 Stop bit
-        // No additional bits set (already cleared)
-    } else if (fabs(stopbits - 1.5) < 0.00001) { // 1.5 Stop bits
-        usart->CR2 |= (1 << 13) | (1 << 12); // Set both bits
-    } else if (fabs(stopbits - 2.0) < 0.00001) { // 2 Stop bits
-        usart->CR2 |= (1 << 13); // Set bit 13
-    }
+    if (fabs(stopbits - 0.5) < 1e-6)
+        usart->CR2 |= (1 << 12);           // 0.5 stop bits
+    else if (fabs(stopbits - 1.0) < 1e-6)
+        ; // 1 stop bit already cleared
+    else if (fabs(stopbits - 1.5) < 1e-6)
+        usart->CR2 |= (1 << 13) | (1 << 12); // 1.5 stop bits
+    else if (fabs(stopbits - 2.0) < 1e-6)
+        usart->CR2 |= (1 << 13);            // 2 stop bits
 }
+
+/* Oversampling and baudrate setup */
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate)
 {
-    uint8_t sampling = 16; // Default to 16
+    // 1) Configure OVER8 bit
     if (samplingmode == 8) {
-        sampling = 8;
-        usart->CR1 |= (1 << 15); // Set OVER8 for 8 times oversampling
+        usart->CR1 |= (1 << 15);   // OVER8 = 1
     } else {
-        usart->CR1 &= ~(1 << 15); // Clear OVER8 for 16 times oversampling
+        usart->CR1 &= ~(1 << 15);  // OVER8 = 0 (16x)
+        samplingmode = 16;         // normalize
     }
 
-    double value = (double) getsysclk() / (gethpre() * sampling * baudrate);
-    double fracpart, intpart;
-    fracpart = modf(value, &intpart);
+    // 2) Select proper peripheral clock
+    uint32_t pclk;
+    if (usart == USART1 || usart == USART6)
+        pclk = getpclk2();
+    else
+        pclk = getpclk1();
 
-    usart->BRR = 0; // Reset BRR
-    uint32_t fraction = (sampling == 16) ? round(fracpart * 16) : round(fracpart * 8);
-    usart->BRR |= (uint32_t) fraction; // Set DIV_Fraction
-    usart->BRR |= ((uint32_t) intpart << 4); // Set DIV_Mantissa[11:0]
+    // 3) Compute USARTDIV
+    double usartdiv = (double)pclk / (samplingmode * baudrate);
+    uint32_t mantissa = (uint32_t)usartdiv;
+    double fractionf = usartdiv - mantissa;
+
+    // 4) Build BRR according to oversampling
+    uint32_t brr = 0;
+    if (samplingmode == 16) {
+        uint32_t fraction = (uint32_t)round(fractionf * 16);
+        if (fraction == 16) { mantissa++; fraction = 0; }
+        brr = (mantissa << 4) | (fraction & 0xF);
+    } else { // samplingmode == 8
+        uint32_t fraction = (uint32_t)round(fractionf * 8);
+        if (fraction == 8) { mantissa++; fraction = 0; }
+        brr = (mantissa << 4) | ((fraction & 0x7) << 1);
+    }
+
+    // 5) Write BRR
+    usart->BRR = brr;
 }
 void fpu_enable(void) {
     // Set the CP10 and CP11 bits to enable access to the FPU

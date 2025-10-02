@@ -57,22 +57,41 @@ void USART1_StopBits(double stopbits) {
 }
 void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
 {
-    uint8_t sampling = 16; // Default to 16
+    // 1) Configure OVER8 bit
     if (samplingmode == 8) {
-        sampling = 8;
-        USART1->CR1 |= (1 << USART_CR1_OVER8_Pos); // Set OVER8 for 8 times oversampling
+    	USART1->CR1 |= (1 << 15);   // OVER8 = 1
     } else {
-    	USART1->CR1 &= ~(1 << USART_CR1_OVER8_Pos); // Clear OVER8 for 16 times oversampling
+    	USART1->CR1 &= ~(1 << 15);  // OVER8 = 0 (16x)
+        samplingmode = 16;         // normalize
     }
 
-    double value = (double) getsysclk() / (gethpre() * sampling * baudrate);
-    double fracpart, intpart;
-    fracpart = modf(value, &intpart);
+    // 2) Select proper peripheral clock
+    uint32_t pclk = getpclk2();
+    //if (usart == USART1 || usart == USART6)
+        //pclk = getpclk2();
+    //else
+        //pclk = getpclk1();
 
-    USART1->BRR = 0; // Reset BRR
-    uint32_t fraction = (sampling == 16) ? round(fracpart * 16) : round(fracpart * 8);
-    USART1->BRR |= (uint32_t) fraction; // Set DIV_Fraction
-    USART1->BRR |= ((uint32_t) intpart << USART_BRR_DIV_Mantissa_Pos); // Set DIV_Mantissa[11:0]
+    // 3) Compute USARTDIV
+    double usartdiv = (double)pclk / (samplingmode * baudrate);
+
+    uint32_t mantissa = (uint32_t)usartdiv;
+    double fractionf = usartdiv - mantissa;
+
+    // 4) Build BRR according to oversampling
+    uint32_t brr = 0;
+    if (samplingmode == 16) {
+        uint32_t fraction = (uint32_t)round(fractionf * 16);
+        if (fraction == 16) { mantissa++; fraction = 0; }
+        brr = (mantissa << 4) | (fraction & 0xF);
+    } else { // samplingmode == 8
+        uint32_t fraction = (uint32_t)round(fractionf * 8);
+        if (fraction == 8) { mantissa++; fraction = 0; }
+        brr = (mantissa << 4) | ((fraction & 0x7) << 1);
+    }
+
+    // 5) Write BRR
+    USART1->BRR = brr;
 }
 void USART1_Tx_Enable( uint8_t state ) {
 	if( state )
