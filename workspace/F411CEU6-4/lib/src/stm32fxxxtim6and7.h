@@ -17,8 +17,6 @@ Comment:
 // ( 6 and 7 ) TIM 
 typedef struct
 {
-	/*** Bit Mapping ***/
-	TIM_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);

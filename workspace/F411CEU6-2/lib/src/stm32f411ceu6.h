@@ -5,8 +5,8 @@ License:  GNU General Public License
 Hardware: STM32F411CEU6
 Date:     30092025
 **********************************************************************/
-#ifndef _STM32F411CEU6_INSTANCE_H_
-	#define _STM32F411CEU6_INSTANCE_H_
+#ifndef _STM32F411CEU6_H_
+	#define _STM32F411CEU6_H_
 
 /******************* CMSIS BASE ********************/
 // SELECTION OF CHIP (CMSIS Access to its libraries)
@@ -160,6 +160,7 @@ typedef struct {
 	USB_OTG_HostTypeDef* const usb_otg_host; // ((USB_OTG_HostTypeDef*) USB_OTG_HOST_BASE)
 	USB_OTG_HostChannelTypeDef* const usb_otg_hostchannel; // ((USB_OTG_HostChannelTypeDef*) USB_OTG_HOST_CHANNEL_BASE)
 } STM32F411CEU6;
+
 STM32F411CEU6* stm32f411ceu6(void);
 
 /*******************************************************************/

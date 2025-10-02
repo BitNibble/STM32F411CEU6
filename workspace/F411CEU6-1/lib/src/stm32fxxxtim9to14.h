@@ -17,8 +17,6 @@ Comment:
 // ( 9/12 ) TIM
 typedef struct
 {
-	/*** Bit Field ***/
-	TIM_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);
@@ -29,8 +27,6 @@ typedef struct
 // ( 10/11/13/14 ) TIM
 typedef struct
 {
-	/*** Bit Field ***/
-	TIM_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);

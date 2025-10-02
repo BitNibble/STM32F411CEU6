@@ -28,7 +28,6 @@ typedef struct{
 
 typedef struct
 {
-	TIM_TypeDef* reg;
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t value);
 	void (*start)(void);

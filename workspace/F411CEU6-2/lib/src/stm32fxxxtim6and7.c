@@ -46,7 +46,6 @@ void tim6_enable(void)
 {
 	#ifdef STM32F446xx
 			TIM6_Clock(ON);
-			stm32fxxx_tim6.instance = TIM6;
 	// CLOCK
 	stm32fxxx_tim6.clock = TIM6_Clock;
 	// NVIC
@@ -64,7 +63,6 @@ void tim7_enable(void)
 {
 	#ifdef STM32F446xx
 		TIM7_Clock(ON);
-		stm32fxxx_tim7.instance = TIM7;
 	// CLOCK
 	stm32fxxx_tim7.clock = TIM7_Clock;
 	// NVIC

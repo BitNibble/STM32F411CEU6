@@ -37,9 +37,6 @@ void adc2_enable(void)
 {
 	/*** ADC2 Clock ***/
 	ADC2_Clock(ON);
-	/*** ADC2 TypeDef ***/
-	stm32fxxx_adc2.instance = ADC2;
-	stm32fxxx_adc2.common_instance = ADC123_COMMON;
 	/*** Clock and Nvic ***/
 	stm32fxxx_adc2.clock = ADC2_Clock;
 	stm32fxxx_adc2.nvic = ADC2_Nvic;

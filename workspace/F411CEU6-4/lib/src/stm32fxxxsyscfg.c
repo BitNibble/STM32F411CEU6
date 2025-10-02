@@ -234,7 +234,6 @@ SYSCFG_cfgr* SYSCFG_cfgr_inic(void)
 void syscfg_enable(void)
 {
 	SYSCFG_Clock(1);
-	stm32fxxx_syscfg.instance = SYSCFG;
 	/*** LINK ***/
 	stm32fxxx_syscfg.memrmp = SYSCFG_memrmp_inic();
 	stm32fxxx_syscfg.pmc = SYSCFG_pmc_inic();

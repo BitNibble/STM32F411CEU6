@@ -19,8 +19,6 @@ Comment:
 // USART -> USART6
 typedef struct
 {
-	/*** Bit Mapping ***/
-	USART_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);

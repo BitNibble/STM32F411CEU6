@@ -66,9 +66,6 @@ void adc1_enable(void)
 {
 	/*** ADC1 Clock ***/
 	ADC1_Clock(1);
-	/*** ADC1 TypeDef ***/
-	stm32fxxx_adc1.instance = ADC1;
-	stm32fxxx_adc1.common_instance = ADC1_COMMON;
 	/*** Clock and Nvic ***/
 	stm32fxxx_adc1.clock = ADC1_Clock;
 	stm32fxxx_adc1.nvic = ADC1_Nvic;

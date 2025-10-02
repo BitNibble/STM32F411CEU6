@@ -1734,11 +1734,9 @@ STM32FXXX_DMA_func* stm32fxxx_dma1_func_inic(void)
 void dma1_enable(void)
 {
 	DMA1_Clock(1);
-	stm32fxxx_dma1.instance = DMA1;
 	/*** DMA1 Bit Mapping Link ***/
 	stm32fxxx_dma1.sr = stm32fxxx_dma1_sr_inic();
 
-	stm32fxxx_dma1.stream[0]->instance = DMA1_Stream0;
 	stm32fxxx_dma1.stream[0]->cr = stm32fxxx_dma1_stream0_cr_inic();
 	stm32fxxx_dma1.stream[0]->fcr = stm32fxxx_dma1_stream0_fcr_inic();
 	stm32fxxx_dma1.stream[0]->ndt = stm32fxxx_dma1_stream0_ndt;
@@ -1746,7 +1744,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[0]->m0a = stm32fxxx_dma1_stream0_m0a;
 	stm32fxxx_dma1.stream[0]->m1a = stm32fxxx_dma1_stream0_m1a;
 
-	stm32fxxx_dma1.stream[1]->instance = DMA1_Stream1;
 	stm32fxxx_dma1.stream[1]->cr = stm32fxxx_dma1_stream1_cr_inic();
 	stm32fxxx_dma1.stream[1]->fcr = stm32fxxx_dma1_stream1_fcr_inic();
 	stm32fxxx_dma1.stream[1]->ndt = stm32fxxx_dma1_stream1_ndt;
@@ -1754,7 +1751,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[1]->m0a = stm32fxxx_dma1_stream1_m0a;
 	stm32fxxx_dma1.stream[1]->m1a = stm32fxxx_dma1_stream1_m1a;
 
-	stm32fxxx_dma1.stream[2]->instance = DMA1_Stream2;
 	stm32fxxx_dma1.stream[2]->cr = stm32fxxx_dma1_stream2_cr_inic();
 	stm32fxxx_dma1.stream[2]->fcr = stm32fxxx_dma1_stream2_fcr_inic();
 	stm32fxxx_dma1.stream[2]->ndt = stm32fxxx_dma1_stream2_ndt;
@@ -1762,7 +1758,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[2]->m0a = stm32fxxx_dma1_stream2_m0a;
 	stm32fxxx_dma1.stream[2]->m1a = stm32fxxx_dma1_stream2_m1a;
 
-	stm32fxxx_dma1.stream[3]->instance = DMA1_Stream3;
 	stm32fxxx_dma1.stream[3]->cr = stm32fxxx_dma1_stream3_cr_inic();
 	stm32fxxx_dma1.stream[3]->fcr = stm32fxxx_dma1_stream3_fcr_inic();
 	stm32fxxx_dma1.stream[3]->ndt = stm32fxxx_dma1_stream3_ndt;
@@ -1770,7 +1765,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[3]->m0a = stm32fxxx_dma1_stream3_m0a;
 	stm32fxxx_dma1.stream[3]->m1a = stm32fxxx_dma1_stream3_m1a;
 
-	stm32fxxx_dma1.stream[4]->instance = DMA1_Stream4;
 	stm32fxxx_dma1.stream[4]->cr = stm32fxxx_dma1_stream4_cr_inic();
 	stm32fxxx_dma1.stream[4]->fcr = stm32fxxx_dma1_stream4_fcr_inic();
 	stm32fxxx_dma1.stream[4]->ndt = stm32fxxx_dma1_stream4_ndt;
@@ -1778,7 +1772,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[4]->m0a = stm32fxxx_dma1_stream4_m0a;
 	stm32fxxx_dma1.stream[4]->m1a = stm32fxxx_dma1_stream4_m1a;
 
-	stm32fxxx_dma1.stream[5]->instance = DMA1_Stream5;
 	stm32fxxx_dma1.stream[5]->cr = stm32fxxx_dma1_stream5_cr_inic();
 	stm32fxxx_dma1.stream[5]->fcr = stm32fxxx_dma1_stream5_fcr_inic();
 	stm32fxxx_dma1.stream[5]->ndt = stm32fxxx_dma1_stream5_ndt;
@@ -1786,7 +1779,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[5]->m0a = stm32fxxx_dma1_stream5_m0a;
 	stm32fxxx_dma1.stream[5]->m1a = stm32fxxx_dma1_stream5_m1a;
 
-	stm32fxxx_dma1.stream[6]->instance = DMA1_Stream6;
 	stm32fxxx_dma1.stream[6]->cr = stm32fxxx_dma1_stream6_cr_inic();
 	stm32fxxx_dma1.stream[6]->fcr = stm32fxxx_dma1_stream6_fcr_inic();
 	stm32fxxx_dma1.stream[6]->ndt = stm32fxxx_dma1_stream6_ndt;
@@ -1794,7 +1786,6 @@ void dma1_enable(void)
 	stm32fxxx_dma1.stream[6]->m0a = stm32fxxx_dma1_stream6_m0a;
 	stm32fxxx_dma1.stream[6]->m1a = stm32fxxx_dma1_stream6_m1a;
 
-	stm32fxxx_dma1.stream[7]->instance = DMA1_Stream7;
 	stm32fxxx_dma1.stream[7]->cr = stm32fxxx_dma1_stream7_cr_inic();
 	stm32fxxx_dma1.stream[7]->fcr = stm32fxxx_dma1_stream7_fcr_inic();
 	stm32fxxx_dma1.stream[7]->ndt = stm32fxxx_dma1_stream7_ndt;
@@ -3373,11 +3364,9 @@ STM32FXXX_DMA_func* stm32fxxx_dma2_func_inic(void)
 void dma2_enable(void)
 {
 	DMA2_Clock(1);
-	stm32fxxx_dma2.instance = DMA2;
 	/*** DMA2 Bit Mapping Link ***/
 	stm32fxxx_dma2.sr = stm32fxxx_dma2_sr_inic();
 
-	stm32fxxx_dma2.stream[0]->instance = DMA2_Stream0;
 	stm32fxxx_dma2.stream[0]->cr = stm32fxxx_dma2_stream0_cr_inic();
 	stm32fxxx_dma2.stream[0]->fcr = stm32fxxx_dma2_stream0_fcr_inic();
 	stm32fxxx_dma2.stream[0]->ndt = stm32fxxx_dma2_stream0_ndt;
@@ -3385,7 +3374,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[0]->m0a = stm32fxxx_dma2_stream0_m0a;
 	stm32fxxx_dma2.stream[0]->m1a = stm32fxxx_dma2_stream0_m1a;
 
-	stm32fxxx_dma2.stream[1]->instance = DMA2_Stream1;
 	stm32fxxx_dma2.stream[1]->cr = stm32fxxx_dma2_stream1_cr_inic();
 	stm32fxxx_dma2.stream[1]->fcr = stm32fxxx_dma2_stream1_fcr_inic();
 	stm32fxxx_dma2.stream[1]->ndt = stm32fxxx_dma2_stream1_ndt;
@@ -3393,7 +3381,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[1]->m0a = stm32fxxx_dma2_stream1_m0a;
 	stm32fxxx_dma2.stream[1]->m1a = stm32fxxx_dma2_stream1_m1a;
 
-	stm32fxxx_dma2.stream[2]->instance = DMA2_Stream2;
 	stm32fxxx_dma2.stream[2]->cr = stm32fxxx_dma2_stream2_cr_inic();
 	stm32fxxx_dma2.stream[2]->fcr = stm32fxxx_dma2_stream2_fcr_inic();
 	stm32fxxx_dma2.stream[2]->ndt = stm32fxxx_dma2_stream2_ndt;
@@ -3401,7 +3388,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[2]->m0a = stm32fxxx_dma2_stream2_m0a;
 	stm32fxxx_dma2.stream[2]->m1a = stm32fxxx_dma2_stream2_m1a;
 
-	stm32fxxx_dma2.stream[3]->instance = DMA2_Stream3;
 	stm32fxxx_dma2.stream[3]->cr = stm32fxxx_dma2_stream3_cr_inic();
 	stm32fxxx_dma2.stream[3]->fcr = stm32fxxx_dma2_stream3_fcr_inic();
 	stm32fxxx_dma2.stream[3]->ndt = stm32fxxx_dma2_stream3_ndt;
@@ -3409,7 +3395,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[3]->m0a = stm32fxxx_dma2_stream3_m0a;
 	stm32fxxx_dma2.stream[3]->m1a = stm32fxxx_dma2_stream3_m1a;
 
-	stm32fxxx_dma2.stream[4]->instance = DMA2_Stream4;
 	stm32fxxx_dma2.stream[4]->cr = stm32fxxx_dma2_stream4_cr_inic();
 	stm32fxxx_dma2.stream[4]->fcr = stm32fxxx_dma2_stream4_fcr_inic();
 	stm32fxxx_dma2.stream[4]->ndt = stm32fxxx_dma2_stream4_ndt;
@@ -3417,7 +3402,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[4]->m0a = stm32fxxx_dma2_stream4_m0a;
 	stm32fxxx_dma2.stream[4]->m1a = stm32fxxx_dma2_stream4_m1a;
 
-	stm32fxxx_dma2.stream[5]->instance = DMA2_Stream5;
 	stm32fxxx_dma2.stream[5]->cr = stm32fxxx_dma2_stream5_cr_inic();
 	stm32fxxx_dma2.stream[5]->fcr = stm32fxxx_dma2_stream5_fcr_inic();
 	stm32fxxx_dma2.stream[5]->ndt = stm32fxxx_dma2_stream5_ndt;
@@ -3425,7 +3409,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[5]->m0a = stm32fxxx_dma2_stream5_m0a;
 	stm32fxxx_dma2.stream[5]->m1a = stm32fxxx_dma2_stream5_m1a;
 
-	stm32fxxx_dma2.stream[6]->instance = DMA2_Stream6;
 	stm32fxxx_dma2.stream[6]->cr = stm32fxxx_dma2_stream6_cr_inic();
 	stm32fxxx_dma2.stream[6]->fcr = stm32fxxx_dma2_stream6_fcr_inic();
 	stm32fxxx_dma2.stream[6]->ndt = stm32fxxx_dma2_stream6_ndt;
@@ -3433,7 +3416,6 @@ void dma2_enable(void)
 	stm32fxxx_dma2.stream[6]->m0a = stm32fxxx_dma2_stream6_m0a;
 	stm32fxxx_dma2.stream[6]->m1a = stm32fxxx_dma2_stream6_m1a;
 
-	stm32fxxx_dma2.stream[7]->instance = DMA2_Stream7;
 	stm32fxxx_dma2.stream[7]->cr = stm32fxxx_dma2_stream7_cr_inic();
 	stm32fxxx_dma2.stream[7]->fcr = stm32fxxx_dma2_stream7_fcr_inic();
 	stm32fxxx_dma2.stream[7]->ndt = stm32fxxx_dma2_stream7_ndt;

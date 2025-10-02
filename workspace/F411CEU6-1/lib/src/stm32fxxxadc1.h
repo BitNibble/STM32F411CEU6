@@ -16,9 +16,6 @@ Comment:
 // ADC -> ADC1
 typedef struct
 {
-	/*** BitField Mapping ***/
-	ADC_TypeDef* instance;
-	ADC_Common_TypeDef* common_instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);

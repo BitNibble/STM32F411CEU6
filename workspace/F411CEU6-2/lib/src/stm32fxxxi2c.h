@@ -20,8 +20,6 @@ Comment:
 // I2C -> I2C1,2,3
 typedef struct
 {
-	/*** Bit Mapping ***/
-	I2C_TypeDef* instance;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*evnvic)(uint8_t state);

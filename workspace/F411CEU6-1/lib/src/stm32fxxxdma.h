@@ -68,7 +68,6 @@ typedef struct
 // DMA_Stream
 typedef struct
 {
-	DMA_Stream_TypeDef* instance;
 	/*** Bit Mapping ***/
 	STM32FXXX_DMA_STREAM_cr* cr;
 	void (*ndt)(uint16_t value);
@@ -81,7 +80,6 @@ typedef struct
 // DMA
 typedef struct
 {
-	DMA_TypeDef* instance;
 	STM32FXXX_DMA_Streamx* stream[8];
 	/*** Bit Mapping ***/
 	STM32FXXX_DMA_sr* sr;

@@ -55,7 +55,6 @@ typedef struct
 /*** PWR TypeDef ***/
 typedef struct
 {
-	PWR_TypeDef* instance;
 	/*** Bit Mapping ***/
 	STM32FXXX_PWR_cr* cr;
 	STM32FXXX_PWR_csr* csr;

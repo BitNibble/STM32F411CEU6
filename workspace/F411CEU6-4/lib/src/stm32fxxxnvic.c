@@ -58,7 +58,6 @@ void NVIC_SetClear(uint8_t irq_num, uint8_t state) {
 /*** INIC Procedure & Function Definition ***/
 void nvic_enable(void)
 {
-	stm32fxxx_nvic.instance = NVIC;
 	/*** NVIC Bit Mapping Link ***/
 	stm32fxxx_nvic.set_enable = NVIC_set_enable;
 	stm32fxxx_nvic.clear_enable = NVIC_clear_enable;

@@ -150,8 +150,6 @@ void USART6_stop(void) { USART6->CR1 &= ~USART_CR1_UE; }
 void usart6_enable(void)
 {
 	USART6_Clock(1);
-	/*** USART6 Bit Mapping Link ***/
-	stm32fxxx_usart6.instance = USART6;
 	// Other
 	stm32fxxx_usart6.clock = USART6_Clock;
 	stm32fxxx_usart6.nvic = USART6_Nvic;

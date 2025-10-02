@@ -105,8 +105,6 @@ void TIM14_stop(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos
 void tim9_enable(void)
 {
 	TIM9_Clock(1);
-	/*** TIM9 Bit Mapping Link ***/
-	stm32fxxx_tim9.instance = TIM9;
 	// CLOCK
 	stm32fxxx_tim9.clock = TIM9_Clock;
 	// NVIC
@@ -124,8 +122,6 @@ STM32FXXX_TIM9* tim9(void){ return (STM32FXXX_TIM9*) &stm32fxxx_tim9; }
 void tim10_enable(void)
 {
 	TIM10_Clock(1);
-	/*** TIM10 Bit Mapping Link ***/
-	stm32fxxx_tim10.instance = TIM10;
 	// CLOCK
 	stm32fxxx_tim10.clock = TIM10_Clock;
 	// NVIC
@@ -143,8 +139,6 @@ STM32FXXX_TIM10* tim10(void){ return (STM32FXXX_TIM10*) &stm32fxxx_tim10; }
 void tim11_enable(void)
 {
 	TIM11_Clock(1);
-	/*** TIM11 Bit Mapping Link ***/
-	stm32fxxx_tim11.instance = TIM11;
 	// CLOCK
 	stm32fxxx_tim11.clock = TIM11_Clock;
 	// NVIC
@@ -163,7 +157,6 @@ void tim12_enable(void)
 {
 	#ifdef STM32F446xx
 		TIM12_Clock(ON);
-		stm32fxxx_tim12.instance = TIM12;
 	// CLOCK
 	stm32fxxx_tim12.clock = TIM12_Clock;
 	// NVIC
@@ -183,7 +176,6 @@ void tim13_enable(void)
 {
 	#ifdef STM32F446xx
 		TIM13_Clock(ON);
-		stm32fxxx_tim13.instance = TIM13;
 	// CLOCK
 	stm32fxxx_tim13.clock = TIM13_Clock;
 	// NVIC
@@ -203,7 +195,6 @@ void tim14_enable(void)
 {
 	#ifdef STM32F446xx
 		TIM14_Clock(ON);
-		stm32fxxx_tim14.instance = TIM14;
 	// CLOCK
 	stm32fxxx_tim14.clock = TIM14_Clock;
 	// NVIC

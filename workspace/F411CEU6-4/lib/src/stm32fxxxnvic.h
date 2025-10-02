@@ -15,7 +15,6 @@ Comment:
 /*** NVIC TypeDef ***/
 typedef struct
 {
-	NVIC_Type* instance;
 	/*** Bit Mapping ***/
 	void (*set_enable)( uint8_t IRQn );
 	void (*clear_enable)( uint8_t IRQn );

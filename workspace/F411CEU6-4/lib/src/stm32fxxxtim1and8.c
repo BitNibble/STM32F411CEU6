@@ -142,7 +142,6 @@ void TIM8_stop(void) {
 
 /*** TIM1 INIC Procedure & Function Definition ***/
 static STM32FXXX_TIM1 stm32fxxx_tim1 = {
-	.reg = TIM1,
 	.clock = TIM1_Clock,
 	.nvic = TIM1_Nvic,
 	.start = TIM1_start,
@@ -158,7 +157,6 @@ void tim8_enable(void)
 	#ifdef STM32F446xx
 		TIM8_Clock(ON);
 		tim8_callback callback = {0};
-		stm32fxxx_tim8.reg = TIM8;
 		// CLOCK
 		stm32fxxx_tim8.clock = TIM8_Clock;
 		// NVIC

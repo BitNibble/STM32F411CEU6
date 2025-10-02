@@ -36,9 +36,6 @@ void adc3_enable(void)
 {
 	/*** ADC3 Clock ***/
 	ADC3_Clock(ON);
-	/*** ADC3 TypeDef ***/
-	stm32fxxx_adc3.instance = ADC3;
-	stm32fxxx_adc3.common_instance = ADC123_COMMON;
 	/*** Clock and Nvic ***/
 	stm32fxxx_adc3.clock = ADC3_Clock;
 	stm32fxxx_adc3.nvic = ADC3_Nvic;

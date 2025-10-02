@@ -150,8 +150,6 @@ void USART2_stop(void) { USART2->CR1 &= ~USART_CR1_UE; }
 void usart2_enable(void)
 {
 	USART2_Clock(1);
-	/*** USART2 Bit Mapping Link ***/
-	stm32fxxx_usart2.instance = USART2;
 	// Other
 	stm32fxxx_usart2.clock = USART2_Clock;
 	stm32fxxx_usart2.nvic = USART2_Nvic;

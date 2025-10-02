@@ -371,7 +371,6 @@ void rcc_enable(void)
 {
 	rcc_start();
 	/*** RCC Bit Mapping Link ***/
-	stm32fxxx_rcc.instance = RCC;
 	stm32fxxx_rcc.prescaler = RCC_Prescaler;
 	/*** PLL ***/
 	stm32fxxx_rcc.pll = stm32fxxx_rcc_pll_inic();
