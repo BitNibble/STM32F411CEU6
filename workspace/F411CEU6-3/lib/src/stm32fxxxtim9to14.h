@@ -12,7 +12,6 @@ Comment:
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
-#include "timer_irq.h"
 /*** TIMER 9 TO 14 TypeDef***/
 // ( 9/12 ) TIM
 typedef struct

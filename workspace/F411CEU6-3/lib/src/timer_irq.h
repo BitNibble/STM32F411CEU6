@@ -11,6 +11,9 @@ Comment:
 	#define TIMER_IRQ_H
 
 #include "stm32fxxxtim1and8.h"
+#include "stm32fxxxtim2to5.h"
+#include "stm32fxxxtim6and7.h"
+#include "stm32fxxxtim9to14.h"
 
 /*** Timer Callback Functions (weak definitions) ***/
 void tim2_b_callback(void) __attribute__((weak));

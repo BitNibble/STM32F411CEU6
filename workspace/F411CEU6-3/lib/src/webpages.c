@@ -85,8 +85,8 @@ const char* htmlContent_3 =
 "</head>"
 "<body>"
 "<h1>Press a Button</h1>"
-"<button class=\"button\" onclick=\"sendMessage('Button 1 Pressed', 'button1')\" id=\"button1\">Button 1</button>"
-"<button class=\"button\" onclick=\"sendMessage('Button 2 Pressed', 'button2')\" id=\"button2\">Button 2</button>"
+"<button class=\"button\" onclick=\"sendMessage('Button1', 'button1')\" id=\"button1\">Switch ON</button>"
+"<button class=\"button\" onclick=\"sendMessage('Button2', 'button2')\" id=\"button2\">Switch OFF</button>"
 "<script>"
 "let requestInProgress = false;"
 "function sendMessage(message, buttonId) {"
@@ -117,7 +117,52 @@ const char* htmlContent_3 =
 "</script>"
 "</body>"
 "</html>";
-const size_t htmlContent_3_size = 1528; // 1528
+const size_t htmlContent_3_size = 1514; // 1529
+
+const char* htmlContent_4 =
+"<!DOCTYPE html>"
+"<html lang=\"en\">"
+"<head>"
+"<meta charset=\"UTF-8\">"
+"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+"<title>ESP8266 Button Page</title>"
+"<style>"
+"body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background: #f0f0f0; }"
+"h1 { color: #333; }"
+".button { font-size: 22px; padding: 20px 40px; margin: 15px; cursor: pointer;"
+"background-color: #4CAF50; color: white; border: none; border-radius: 8px;"
+"transition: all 0.3s ease; }"
+".button:disabled { background-color: #ccc; cursor: not-allowed; }"
+".button:hover:not(:disabled) { background-color: #45a049; transform: scale(1.05); }"
+"</style>"
+"</head>"
+"<body>"
+"<h1>ESP8266 Control</h1>"
+"<button class=\"button\" onclick=\"sendMessage('Button1', 'button1')\" id=\"button1\">Switch ON</button>"
+"<button class=\"button\" onclick=\"sendMessage('Button2', 'button2')\" id=\"button2\">Switch OFF</button>"
+"<script>"
+"let inProgress=false;"
+"function sendMessage(msg,id){"
+"if(inProgress) return;"
+"inProgress=true;"
+"const b=document.getElementById(id);"
+"b.disabled=true;"
+"let xhr=new XMLHttpRequest();"
+"xhr.open('GET','/send?message='+encodeURIComponent(msg),true);"
+"xhr.onreadystatechange=function(){"
+"if(xhr.readyState===4){"
+"b.disabled=false;"
+"inProgress=false;"
+"if(xhr.status!==200) alert('Server error: '+xhr.status);"
+"}};"
+"xhr.send();"
+"}"
+"</script>"
+"</body>"
+"</html>";
+const size_t htmlContent_4_size = 1277; // 1277
+
+// Formula 4 x <number of line> - <number of \">
 
 // Send response back to client
 const char* htmlContent_200_v1 =
@@ -150,6 +195,14 @@ web_page webpage_3(void) // to remove
 	web_page page;
 	page.str = (char*)htmlContent_3;
 	page.size = htmlContent_3_size;
+	return page;
+}
+
+web_page webpage_4(void) // to remove
+{
+	web_page page;
+	page.str = (char*)htmlContent_4;
+	page.size = htmlContent_4_size;
 	return page;
 }
 

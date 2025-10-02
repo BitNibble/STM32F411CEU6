@@ -1,3 +1,8 @@
+/***
+	<Number of Webpage Characters> = 4 x <number of line> - <number of \">
+***/
+
+
 #ifndef _WEBPAGES_H_
 	#define _WEBPAGES_H_
 

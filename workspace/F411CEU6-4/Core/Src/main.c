@@ -157,27 +157,32 @@ int main(void)
             	   break;
                }
            }
+
            // Check for "GET / HTTP" in tokens[1]
            if ( strstr(tokens[0], "GET / HTTP") || strstr(tokens[1], "GET / HTTP") ) {
-               webpage_ptr = webpage_3().str;
-               webpage_size = webpage_3().size;
+               webpage_ptr = webpage_4().str;
+               webpage_size = webpage_4().size;
                tm_setstep(25);
            }
+
            // Check for "Button%201" or "Button%202" in tokens[1]
-           else if ( strstr(tokens[1], "Button%201") ) {
+           if ( strstr(tokens[0], "Button1") || strstr(tokens[1], "Button1")
+           	   ) {
                // Implement device ON functionality here
                webpage_ptr = webpage_200().str;
                webpage_size = webpage_200().size;
                gpioc()->clear_hpins(1 << 13);
                tm_setstep(25);
            }
-           else if ( strstr(tokens[1], "Button%202") ) {
+           else if ( strstr(tokens[0], "Button2") || strstr(tokens[1], "Button2")
+           ) {
                // Implement device OFF functionality here
                webpage_ptr = webpage_200().str;
                webpage_size = webpage_200().size;
                gpioc()->set_hpins(1 << 13);
                tm_setstep(25);
            }
+
        }
 
         Turingi25to28_Station_Mux1ServerSend_tcp( link_ID, (const char*)webpage_ptr , webpage_size ); // link_ID

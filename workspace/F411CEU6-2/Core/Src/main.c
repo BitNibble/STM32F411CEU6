@@ -57,6 +57,7 @@ void tim1_cc1_callback(void){
 	//count8=tim1()->cnt->par.w0;
 	GPIOC->BSRR = GPIO_BSRR_BR13;
 }
+
 void tim1_cc2_callback(void){
 	//count3++;
 	TIM1->CCR1 += (cdir * 295);
@@ -65,6 +66,7 @@ void tim1_cc2_callback(void){
 	//count8=tim1()->cnt->par.w0;
 	GPIOC->BSRR = GPIO_BSRR_BS13;
 }
+
 /**/
 
 int main(void)
@@ -84,11 +86,11 @@ int main(void)
 	gpioc()->clock(1); // gpioc13
 	gpioa()->clock(1); // timer 1 pwm af channel 1 and K0 button
 
-	i2c.Instance  = I2C1;
+	//i2c.Instance  = I2C1;
 
 	//setup i2c io
 	//rcc()->instance->apb1enr.par.i2c1en = 1;
-	set_reg_Msk(&RCC->APB1ENR, RCC_APB1ENR_I2C1EN_Msk, 1);
+	//set_reg_Msk(&RCC->APB1ENR, RCC_APB1ENR_I2C1EN_Msk, 1);
 	//PB5 I2C1_SMBA
 	//gpiob()->instance->afr.par.pin_6 = 4; // PB6 AF4 (I2C1..3) I2C1_SCL
 	//gpiob()->instance->afr.par.pin_7 = 4; // PB7 AF4 (I2C1..3) I2C1_SDA
@@ -100,35 +102,39 @@ int main(void)
 	//setup i2c parameters
 	//i2c1_instance()->cr2.par.freq = query()->pclk1 / 1000000;
 	//i2c1_instance()->trise.par.trise = (query()->pclk1 / 1000000) + 1;
-	i2c.Init.ClockSpeed = 100000;
-	i2c.Init.DutyCycle = I2C_DUTYCYCLE_2;
-	i2c.Init.OwnAddress1 = 'A';
-	i2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-	i2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-	i2c.Init.OwnAddress2 = 'A';
-	i2c.Init.GeneralCallMode = I2C_GENERALCALL_ENABLE;
-	i2c.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+	//i2c.Init.ClockSpeed = 100000;
+	//i2c.Init.DutyCycle = I2C_DUTYCYCLE_2;
+	//i2c.Init.OwnAddress1 = 'A';
+	//i2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+	//i2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+	//i2c.Init.OwnAddress2 = 'A';
+	//i2c.Init.GeneralCallMode = I2C_GENERALCALL_ENABLE;
+	//i2c.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
 
 	//Initialise parameters
-	if (HAL_I2C_Init(&i2c) != HAL_OK)
-	{
-		Error_Handler();
-	}
+	//if (HAL_I2C_Init(&i2c) != HAL_OK)
+	//{
+	//	Error_Handler();
+	//}
 
 	ARMLCD0_enable( stm32f411ceu6()->gpiob );
 	FUNC_enable();
 
 	//gpioc()->instance->moder.par.pin_1 = 1;
-	set_reg_Msk(&GPIOC->MODER, GPIO_MODER_MODE13_Msk, 1);
+	//set_reg_Msk(&GPIOC->MODER, GPIO_MODER_MODE13_Msk, 1);
+	gpioc()->moder(13,1);
 
 	tim1()->nvic(1);
 	//stm()->tim1->nvic(17);
-	tim1()->clock(1);
 
-	set_reg_Msk(&GPIOA->AFR[0], GPIO_AFRL_AFSEL7_Msk, 1); // pin 7 af tim1ch1n
-	set_reg_Msk(&GPIOA->AFR[1], GPIO_AFRH_AFSEL8_Msk, 1); // pin 8 af tim1ch1
-	set_reg_Msk(&GPIOA->MODER, GPIO_MODER_MODE7_Msk, 2); // AF enable
-	set_reg_Msk(&GPIOA->MODER, GPIO_MODER_MODE8_Msk, 2); // AF enable
+	//set_reg_Msk(&GPIOA->AFR[0], GPIO_AFRL_AFSEL7_Msk, 1); // pin 7 af tim1ch1n
+	gpioa()->af(7,1);
+	//set_reg_Msk(&GPIOA->AFR[1], GPIO_AFRH_AFSEL8_Msk, 1); // pin 8 af tim1ch1
+	gpioa()->af(8,1);
+	//set_reg_Msk(&GPIOA->MODER, GPIO_MODER_MODE7_Msk, 2); // AF enable
+	gpioa()->moder(7,2);
+	//set_reg_Msk(&GPIOA->MODER, GPIO_MODER_MODE8_Msk, 2); // AF enable
+	gpioa()->moder(8,2);
 
 	set_reg_Msk(&TIM1->CCMR1, TIM_CCMR1_OC1M_Msk, 6);
 	set_reg_Msk(&TIM1->CCER, TIM_CCER_CC1NE_Msk, 1);
@@ -139,7 +145,8 @@ int main(void)
 	TIM1->CCR1 = 1000;
 	TIM1->CCR2 = 60000;
 	// pre-scaler
-	TIM1->PSC = 1;
+	//TIM1->PSC = 1;
+	stm32f411ceu6()->tim1->PSC = 1;
 	// interrupt
 	set_reg_Msk(&TIM1->DIER, TIM_DIER_CC1IE_Msk, 1);
 	set_reg_Msk(&TIM1->DIER, TIM_DIER_CC2IE_Msk, 1);
@@ -153,7 +160,12 @@ int main(void)
 
 	// Enable (Start/Stop)
 	set_reg_Msk(&TIM1->CR1, TIM_CR1_ARPE_Msk, 1);
-	set_reg_Msk(&TIM1->CR1, TIM_CR1_CEN_Msk, 1);
+
+	/*** Link to Callback ***/
+	tim1()->callback.cc1 = tim1_cc1_callback;
+	tim1()->callback.cc2 = tim1_cc2_callback;
+
+	tim1()->start();
 
 	char vecT[8]; // for calendar
 	//char vecD[8]; // for calendar

@@ -48,8 +48,8 @@ int main(void)
 
 	GPIOC->MODER |= GPIO_MODER_MODER13_0;
 
-	tim1()->reg->ARR = 0xFFFF;
-	tim1()->reg->PSC = 100;
+	stm32f411ceu6()->tim1->ARR = 0xFFFF;
+	stm32f411ceu6()->tim1->PSC = 100;
 	tim1()->nvic(4);
 	tim1()->start();
 
