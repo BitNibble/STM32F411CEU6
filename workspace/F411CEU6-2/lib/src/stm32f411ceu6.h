@@ -9,6 +9,7 @@ Date:     30092025
 #define _STM32F411CEU6_H_
 
 #include <stdint.h>
+#include <inttypes.h>
 #include <stddef.h>
 #include "stm32f4xx.h"
 #include "stm32fxxxtool.h"

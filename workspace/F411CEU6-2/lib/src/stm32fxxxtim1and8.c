@@ -166,7 +166,6 @@ void tim8_enable(void)
 		stm32fxxx_tim8.start = TIM8_start;
 		stm32fxxx_tim8.stop = TIM8_stop;
 	#endif
-
 	//return &stm32fxxx_tim8;
 }
 

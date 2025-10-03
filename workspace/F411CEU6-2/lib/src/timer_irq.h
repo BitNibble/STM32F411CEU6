@@ -10,12 +10,15 @@ Comment:
 #ifndef TIMER_IRQ_H
 	#define TIMER_IRQ_H
 
-#include "stm32fxxxtim1and8.h"
-#include "stm32fxxxtim2to5.h"
-#include "stm32fxxxtim6and7.h"
-#include "stm32fxxxtim9to14.h"
-
 /*** Timer Callback Functions (weak definitions) ***/
+void tim1_b_callback(void) __attribute__((weak));
+void tim1_u_callback(void) __attribute__((weak));
+void tim1_t_callback(void) __attribute__((weak));
+void tim1_cc1_callback(void) __attribute__((weak));
+void tim1_cc2_callback(void) __attribute__((weak));
+void tim1_cc3_callback(void) __attribute__((weak));
+void tim1_cc4_callback(void) __attribute__((weak));
+
 void tim2_b_callback(void) __attribute__((weak));
 void tim2_u_callback(void) __attribute__((weak));
 void tim2_t_callback(void) __attribute__((weak));

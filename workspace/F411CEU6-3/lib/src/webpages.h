@@ -3,7 +3,6 @@
 	size = <n_chars> - 2 x <n_lines> - (<n_lines> - 1) - <escape_chars>
 ***/
 
-
 #ifndef _WEBPAGES_H_
 	#define _WEBPAGES_H_
 

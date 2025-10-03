@@ -13,6 +13,15 @@ Comment:
 /*** Library ***/
 #include "stm32f411ceu6.h"
 /*** TIMER TypeDef***/
+typedef struct{
+	void (*b)(void);
+	void (*u)(void);
+	void (*t)(void);
+	void (*cc1)(void);
+	void (*cc2)(void);
+	void (*cc3)(void);
+	void (*cc4)(void);
+} tim6and7_callback;
 // ( 6 and 7 ) TIM 
 typedef struct
 {
@@ -22,6 +31,7 @@ typedef struct
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
+	tim6and7_callback callback;
 }STM32FXXX_TIM6, STM32FXXX_TIM7;
 
 void tim6_enable(void); STM32FXXX_TIM6* tim6(void);
