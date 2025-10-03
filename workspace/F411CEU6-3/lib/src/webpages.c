@@ -1,16 +1,16 @@
 #include "webpages.h"
 
 const char* htmlContent_1 =
-		"<!DOCTYPE html>"
-		"<html lang='en'>"
-		"<head>"
-		"<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-		"<title>ESP8266 Example</title><style>body { font-family: Arial, sans-serif; } h1 { color: #333; }</style>"
-		"</head>"
-		"<body>"
-		"<h1>Sergio Welcome to ESP8266 PHP Page!</h1><p>This is a simple HTML page served by PHP.</p>"
-		"</body>"
-		"</html>";
+"<!DOCTYPE html>"
+"<html lang='en'>"
+"<head>"
+"<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+"<title>ESP8266 Example</title><style>body { font-family: Arial, sans-serif; } h1 { color: #333; }</style>"
+"</head>"
+"<body>"
+"<h1>Sergio Welcome to ESP8266 PHP Page!</h1><p>This is a simple HTML page served by PHP.</p>"
+"</body>"
+"</html>";
 const size_t htmlContent_1_size = 353; //353
 
 const char* htmlContent_2 =
@@ -117,7 +117,7 @@ const char* htmlContent_3 =
 "</script>"
 "</body>"
 "</html>";
-const size_t htmlContent_3_size = 1514; // 1529
+const size_t htmlContent_3_size = 1526; // 1526
 
 const char* htmlContent_4 =
 "<!DOCTYPE html>"
@@ -160,7 +160,7 @@ const char* htmlContent_4 =
 "</script>"
 "</body>"
 "</html>";
-const size_t htmlContent_4_size = 1277; // 1277
+const size_t htmlContent_4_size = 1278; // 1278
 
 // Formula 4 x <number of line> - <number of \">
 
@@ -173,6 +173,25 @@ const size_t htmlContent_200_v1_size = 15; // 15
 const char* htmlContent_200_v2 =
 "HTTP 200 OK";
 const size_t htmlContent_200_v2_size = 11; // 11
+
+const char* htmlContent_200_v3 =
+"HTTP/1.1 200 OK"
+"Content-Length: 0";
+
+const size_t htmlContent_200_v3_size = 33;
+
+const char* htmlContent_200_v4 =
+"HTTP/1.1 200 OK\r\n"
+"Content-Length: 0\r\n"
+"\r\n";
+
+const size_t htmlContent_200_v4_size = 38;
+
+const char* htmlContent_200_v5 =
+"HTTP/1.1 200 OK\r\n"
+"\r\n";
+
+const size_t htmlContent_200_v5_size = 19;
 
 web_page webpage_1(void)
 {
@@ -209,8 +228,8 @@ web_page webpage_4(void) // to remove
 web_page webpage_200(void)
 {
 	web_page page;
-	page.str = (char*)htmlContent_200_v2;
-	page.size = htmlContent_200_v2_size;
+	page.str = (char*)htmlContent_200_v5;
+	page.size = htmlContent_200_v5_size;
 	return page;
 }
 

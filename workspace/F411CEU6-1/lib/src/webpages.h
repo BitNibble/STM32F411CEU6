@@ -1,5 +1,6 @@
 /***
-	<Number of Webpage Characters> = 4 x <number of line> - <number of \">
+	Using a text editor:
+	size = <n_chars> - 2 x <n_lines> - (<n_lines> - 1) - <escape_chars>
 ***/
 
 
