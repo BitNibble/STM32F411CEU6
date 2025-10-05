@@ -162,14 +162,15 @@ int main(void)
            if (strstr(tokens[0], "status") || strstr(tokens[1], "status"))
            {
                char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
+               tm_setstep(25);
                Turingi25to28_Station_Mux1ServerSend_tcp(link_ID, status_text, strlen(status_text));
                continue; // skip the rest of the loop for this request
            }
 
            // Check for "GET / HTTP" in tokens[1]
            if ( strstr(tokens[0], "GET / HTTP") || strstr(tokens[1], "GET / HTTP") ) {
-               webpage_ptr = webpage_2().str;
-               webpage_size = webpage_2().size;
+               webpage_ptr = webpage_1().str;
+               webpage_size = webpage_1().size;
                tm_setstep(25);
            }
 

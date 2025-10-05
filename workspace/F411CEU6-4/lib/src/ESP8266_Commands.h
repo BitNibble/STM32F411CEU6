@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: ALL
-Date:     20102024
+Date:     05102025
 Comment:
 	
 *******************************************************************************/
@@ -25,6 +25,7 @@ const char* esp8266_cmd_echo(uint8_t enable);
 const char* esp8266_cmd_restore(void);
 const char* esp8266_cmd_setuart_cur(uint32_t baud, uint8_t databits, uint8_t stopbits, uint8_t parity, uint8_t control);
 const char* esp8266_cmd_setuart_def(uint32_t baud, uint8_t databits, uint8_t stopbits, uint8_t parity, uint8_t control);
+//const char* esp8266_cmd_setuart_def(uint32_t baud, uint32_t databits, uint32_t stopbits, uint32_t parity, uint32_t control);
 const char* esp8266_cmd_querysleep(void);
 const char* esp8266_cmd_setsleep(uint8_t mode);
 const char* esp8266_cmd_setrfpower(uint8_t TX_power);

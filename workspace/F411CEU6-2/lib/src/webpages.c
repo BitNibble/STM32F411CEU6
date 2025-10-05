@@ -1,6 +1,6 @@
 #include "webpages.h"
 
-// Store HTML as a character array, not a pointer
+
 const char htmlContent_1[] =
 "<!DOCTYPE html>"
 "<html lang=\"en\">"
@@ -43,7 +43,6 @@ const char htmlContent_1[] =
 "</body>"
 "</html>";
 
-// Compute the string size automatically
 const size_t htmlContent_1_size = sizeof(htmlContent_1) - 1; // 1278
 
 const char htmlContent_2[] =
@@ -123,7 +122,6 @@ const char htmlContent_3[] =
 "<button class=\"button\" onclick=\"sendMessage('Button2', 'button2')\" id=\"button2\">Switch OFF</button>"
 "<button class=\"button\" onclick=\"checkStatus()\" id=\"check_status\">Check Status</button>"
 "<script>"
-// Original ON/OFF button logic
 "let inProgress=false;"
 "function sendMessage(msg,id){"
 " if(inProgress) return;"
@@ -145,8 +143,6 @@ const char htmlContent_3[] =
 " };"
 " xhr.send();"
 "}"
-
-// New safe Check Status button logic
 "function checkStatus(){"
 " let xhr=new XMLHttpRequest();"
 " xhr.open('GET','/send?message=status',true);"
@@ -257,3 +253,4 @@ any internet explorer (chrome, firefox, etc).
 If use it has a string has it is done here one must then escape all the special
 characters, and add the parenthesis, for it used as a string.
 ****************/
+

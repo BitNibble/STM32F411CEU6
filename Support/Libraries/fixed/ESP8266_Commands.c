@@ -861,8 +861,7 @@ const char* esp8266_cmd_ifsr(void) {
 	// AT+CIFSR – Get local IP address
 	// Response:
 		//+ CIFSR:<IP address> OK ERROR
-	//return esp8266_cmd_execute("CIFSR"); // important to get IP
-	return cmd_build_va( "CIFSR", CMD_EXECUTE, NULL );
+	return esp8266_cmd_execute("CIFSR"); // important to get IP
 }
 const char* esp8266_cmd_queryipmux(void) {
 	// AT+ CIPMUX – Enable multiple connections or not

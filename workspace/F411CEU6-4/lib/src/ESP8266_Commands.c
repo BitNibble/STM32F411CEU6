@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: ALL
-Date:     20102024
+Date:     05102025
 Comment:
 
 *******************************************************************************/
@@ -28,188 +28,226 @@ Comment:
 #define PORT_NUMBER 80
 #define TM_BAUD 38400
 
-#define ESP8266AT_BUFF_SIZE 65
+#define CMD_BUFFER_SIZE 256
 
-// Static buffer for command strings
-static char ESP8266AT[ESP8266AT_BUFF_SIZE] = {0};
-const uint32_t esp8266at_buff_size = (ESP8266AT_BUFF_SIZE - 1);
+// Generic command types
+typedef enum {
+	CMD_CHECK,
+	CMD_ECHO,
+    CMD_EXECUTE,    // e.g., AT+RST
+    CMD_QUERY,		// e.g., AT+CWMODE?
+    CMD_QUERY_PARAM,	// e.g., AT+CWMODE=?
+    CMD_SET,			// e.g., AT+CWMODE=1
+} cmd_type_t;
+
+static char CMD_BUFFER[CMD_BUFFER_SIZE] = {0};
+
 // Turing parameters
 static uint32_t tm_par[3] = {TM_OPEN,1,0};
 
 static unsigned int tm_func_id = 0;
 volatile unsigned int test_counter = 0;
-/****** Local ***/
-const char* esp8266_cmd_execute(const char* cmd);
-const char* esp8266_cmd_query(const char* cmd);
-const char* esp8266_cmd_querypar(const char* cmd);
-const char* esp8266_cmd_set1spar(const char* cmd, const char* par1);
-const char* esp8266_cmd_set1ui8par(const char* cmd, uint8_t par1);
-const char* esp8266_cmd_set1ui16par(const char* cmd, uint16_t par1);
-const char* esp8266_cmd_set1ui81ui16par(const char* cmd, uint8_t par1, uint16_t par2);
-const char* esp8266_cmd_set2spar(const char* cmd, const char* par1, const char* par2);
-const char* esp8266_cmd_set2s1ui8par(const char* cmd, const char* par1, const char* par2, uint8_t par3);
-const char* esp8266_cmd_set2s2ui8par(const char* cmd, const char* par1, const char* par2, uint8_t par3, uint8_t par4);
-const char* esp8266_cmd_set2ui82spar(const char* cmd, uint8_t par1, uint8_t par2, const char* par3, const char* par4);
-const char* esp8266_cmd_set2ui8par(const char* cmd, uint8_t par1, uint8_t par2);
-const char* esp8266_cmd_set1s1ui16par(const char* cmd, const char* par1, uint16_t par2);
-const char* esp8266_cmd_set3spar(const char* cmd, const char* par1, const char* par2, const char* par3);
-const char* esp8266_cmd_set2s1ui16par(const char* cmd, const char* par1, const char* par2, uint16_t par3);
-const char* esp8266_cmd_set3ui8par(const char* cmd, uint8_t par1, uint8_t par2, uint8_t par3);
-const char* esp8266_cmd_set4spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4);
-const char* esp8266_cmd_set1ui81s1ui161spar(const char* cmd, uint8_t par1, const char* par2, uint16_t par3, const char* par4);
-const char* esp8266_cmd_set1ui81ui161s1ui16par(const char* cmd, uint8_t par1, uint16_t par2, const char* par3, uint16_t par4);
-const char* esp8266_cmd_set1ui82s1ui16par(const char* cmd, uint8_t par1, const char* par2, const char* par3, uint16_t par4);
-const char* esp8266_cmd_set5spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4, const char* par5);
-const char* esp8266_cmd_set1ui81s1ui161s1ui16par(const char* cmd, uint8_t par1, const char* par2, uint16_t par3, const char* par4, uint16_t par5);
-const char* esp8266_cmd_set2s2ui161ui8par(const char* cmd, const char* par1, const char* par2, uint16_t par3, uint16_t par4, uint8_t par5);
-const char* esp8266_cmd_set1ui324ui8par(const char* cmd, unsigned int par1, uint8_t par2, uint8_t par3, uint8_t par4, uint8_t par5);
-const char* esp8266_cmd_set6spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4, const char* par5, const char* par6);
-const char* esp8266_cmd_set1ui82s2ui161ui8par(const char* cmd, uint8_t par1, const char* par2, const char* par3, uint16_t par4, uint16_t par5, uint8_t par6);
-const char* esp8266_cmd_1ui16par(const char* cmd, uint16_t par1);
-const char* esp8266_cmd_1ui81ui16par(const char* cmd, uint8_t par1, uint16_t par2);
+
+/************************************************/
+/************************************************/
 void tm_atpurge( void );
 void tm_tx_complete( uint32_t tm_timeout );
 void tm_delaystep( uint32_t tm_delay );
 /************************************************/
 /******************** TOOLS *********************/
 /************************************************/
-// EXECUTE
-const char* esp8266_cmd_execute(const char* cmd) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s\r\n", cmd);
-	return ESP8266AT;
-}
-// QUERY
-const char* esp8266_cmd_query(const char* cmd) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s?\r\n", cmd);
-	return ESP8266AT;
-}
-// QUERY PAR
-const char* esp8266_cmd_querypar(const char* cmd) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=?\r\n", cmd);
-	return ESP8266AT;
-}
 // SET
 const char* esp8266_cmd_set1spar(const char* cmd, const char* par1) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\"\r\n", cmd, par1);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\"\r\n", cmd, par1);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui8par(const char* cmd, uint8_t par1) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d\r\n", cmd, par1);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d\r\n", cmd, par1);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui16par(const char* cmd, uint16_t par1) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d\r\n", cmd, par1);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d\r\n", cmd, par1);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui81ui16par(const char* cmd, uint8_t par1, uint16_t par2) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,%d\r\n", cmd, par1, par2);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,%d\r\n", cmd, par1, par2);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2spar(const char* cmd, const char* par1, const char* par2) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\"\r\n", cmd, par1, par2);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\"\r\n", cmd, par1, par2);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2s1ui8par(const char* cmd, const char* par1, const char* par2, uint8_t par3) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2s2ui8par(const char* cmd, const char* par1, const char* par2, uint8_t par3, uint8_t par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",%d,%d\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",%d,%d\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2ui82spar(const char* cmd, uint8_t par1, uint8_t par2, const char* par3, const char* par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,%d,\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,%d,\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2ui8par(const char* cmd, uint8_t par1, uint8_t par2) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,%d\r\n", cmd, par1, par2);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,%d\r\n", cmd, par1, par2);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1s1ui16par(const char* cmd, const char* par1, uint16_t par2) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",%d\r\n", cmd, par1, par2);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",%d\r\n", cmd, par1, par2);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set3spar(const char* cmd, const char* par1, const char* par2, const char* par3) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2s1ui16par(const char* cmd, const char* par1, const char* par2, uint16_t par3) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set3ui8par(const char* cmd, uint8_t par1, uint8_t par2, uint8_t par3) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,%d,%d\r\n", cmd, par1, par2, par3);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,%d,%d\r\n", cmd, par1, par2, par3);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set4spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui81s1ui161spar(const char* cmd, uint8_t par1, const char* par2, uint16_t par3, const char* par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,\"%s\",%d,\"%s\"\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,\"%s\",%d,\"%s\"\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui81ui161s1ui16par(const char* cmd, uint8_t par1, uint16_t par2, const char* par3, uint16_t par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,%d,\"%s\",%d\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,%d,\"%s\",%d\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui82s1ui16par(const char* cmd, uint8_t par1, const char* par2, const char* par3, uint16_t par4) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3, par4);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,\"%s\",\"%s\",%d\r\n", cmd, par1, par2, par3, par4);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set5spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4, const char* par5) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4, par5);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4, par5);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui81s1ui161s1ui16par(const char* cmd, uint8_t par1, const char* par2, uint16_t par3, const char* par4, uint16_t par5) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,\"%s\",%d,\"%s\",%d\r\n", cmd, par1, par2, par3, par4, par5);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,\"%s\",%d,\"%s\",%d\r\n", cmd, par1, par2, par3, par4, par5);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set2s2ui161ui8par(const char* cmd, const char* par1, const char* par2, uint16_t par3, uint16_t par4, uint8_t par5) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui324ui8par(const char* cmd, unsigned int par1, uint8_t par2, uint8_t par3, uint8_t par4, uint8_t par5) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%u,%d,%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%u,%d,%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set6spar(const char* cmd, const char* par1, const char* par2, const char* par3, const char* par4, const char* par5, const char* par6) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4, par5, par6);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\r\n", cmd, par1, par2, par3, par4, par5, par6);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_set1ui82s2ui161ui8par(const char* cmd, uint8_t par1, const char* par2, const char* par3, uint16_t par4, uint16_t par5, uint8_t par6) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "AT+%s=%d,\"%s\",\"%s\",%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5, par6);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=%d,\"%s\",\"%s\",%d,%d,%d\r\n", cmd, par1, par2, par3, par4, par5, par6);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_1ui16par(const char* cmd, uint16_t par1) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "%s,%d\r\n", cmd, par1);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "%s,%d\r\n", cmd, par1);
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_1ui81ui16par(const char* cmd, uint8_t par1, uint16_t par2) {
-	snprintf(ESP8266AT, esp8266at_buff_size, "%s,%d,%d\r\n", cmd, par1, par2);
-	return ESP8266AT;
+	snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "%s,%d,%d\r\n", cmd, par1, par2);
+	return CMD_BUFFER;
+}
+// Flexible builder with va_list
+char* cmd_build_va(const char* cmd_str, cmd_type_t type, const char* fmt, ...) {
+	char cmd_buf[CMD_BUFFER_SIZE] = {0};
+	char arg_buf[CMD_BUFFER_SIZE/2] = {0};
+    int n = 0; // number of chars written
+    (void)n;
+    switch(type) {
+    	case CMD_SET:
+    		va_list args;
+    		//strcpy(cmd_buf, "AT+"); strcat(cmd_buf, cmd_str); strcat(cmd_buf, "=");
+    		va_start(args, fmt);
+    		if (fmt) {
+    			n = vsnprintf(arg_buf, 64, fmt, args);
+    		}
+    		va_end(args);
+    		//strcat(cmd_buf, arg_buf); strcat(cmd_buf,"\r\n");
+    		n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT+%s=%s\r\n", cmd_str,arg_buf);
+    		cmd_buf[n] = '\0';
+            break;
+
+        case CMD_EXECUTE:
+        	n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT+%s\r\n", cmd_str);
+            break;
+
+        case CMD_QUERY:
+        	n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT+%s?\r\n", cmd_str);
+            break;
+
+        case CMD_QUERY_PARAM:
+        	n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT+%s=?\r\n", cmd_str);
+            break;
+
+        case CMD_CHECK:
+            n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT\r\n");
+            break;
+
+        case CMD_ECHO:
+        	n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "%s\r\n", cmd_str);
+            break;
+
+        default:
+            n = snprintf(cmd_buf, CMD_BUFFER_SIZE, "AT\r\n");
+            break;
+    }
+    strcpy(CMD_BUFFER, cmd_buf);
+    return CMD_BUFFER;
 }
 /************************************************/
 /************** Basic AT Commands ***************/
+/************************************************/
+// EXECUTE
+const char* esp8266_cmd_execute(const char* cmd) {
+	//snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s\r\n", cmd);
+	return cmd_build_va(cmd, CMD_EXECUTE, NULL);
+	return CMD_BUFFER;
+}
+// QUERY
+const char* esp8266_cmd_query(const char* cmd) {
+	//snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s?\r\n", cmd);
+	return cmd_build_va(cmd, CMD_QUERY, NULL);
+	return CMD_BUFFER;
+}
+// QUERY PAR
+const char* esp8266_cmd_querypar(const char* cmd) {
+	//snprintf(CMD_BUFFER, CMD_BUFFER_SIZE, "AT+%s=?\r\n", cmd);
+	return cmd_build_va(cmd, CMD_QUERY_PARAM, NULL);
+	return CMD_BUFFER;
+}
+/************************************************/
 /************************************************/
 const char* esp8266_cmd_check(void) {
 	// AT – Test AT startup
 	// Response:
 		//OK
-	strncpy(ESP8266AT, "AT\r\n", esp8266at_buff_size);
-	return ESP8266AT;
+	//strncpy(CMD_BUFFER, "AT\r\n", CMD_BUFFER_SIZE);
+	return cmd_build_va( NULL, CMD_CHECK, NULL );
+	return CMD_BUFFER;
 }
 const char* esp8266_cmd_reset(void) {
 	// AT+RST – Restart module
 	// Response:
 		//OK
-	return esp8266_cmd_execute("RST");
+	//return esp8266_cmd_execute("RST");
+	return cmd_build_va( "RST", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_version(void) {
 	// AT+GMR – View version info
 	// Response:
 		//<AT version info><SDK version info><compile time> OK
-	return esp8266_cmd_execute("GMR");
+	//return esp8266_cmd_execute("GMR");
+	return cmd_build_va( "GMR", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_setgslp(uint16_t time) {
 	// AT+GSLP=<time>
@@ -221,66 +259,80 @@ const char* esp8266_cmd_echo(uint8_t enable) {
 	// ATE – AT commands echo
 	// Response:
 		//OK
+	const char* str;
 	if(enable){
-		strncpy(ESP8266AT, "ATE1\r\n", esp8266at_buff_size);
+		//strncpy(CMD_BUFFER, "ATE0\r\n", CMD_BUFFER_SIZE);
+		str = cmd_build_va( "ATE0", CMD_ECHO, NULL );
 	}else{
-		strncpy(ESP8266AT, "ATE0\r\n", esp8266at_buff_size);
+		//strncpy(CMD_BUFFER, "ATE1\r\n", CMD_BUFFER_SIZE);
+		str = cmd_build_va( "ATE1", CMD_ECHO, NULL );
 	}
-	return ESP8266AT;
+	//return CMD_BUFFER;
+	return str;
 }
 const char* esp8266_cmd_restore(void) {
 	// AT+RESTORE – Factory reset
 	// Response:
 		//OK
-	return esp8266_cmd_execute("RESTORE");
+	//return esp8266_cmd_execute("RESTORE");
+	return cmd_build_va( "RESTORE", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_setuart_cur(uint32_t baud, uint8_t databits, uint8_t stopbits, uint8_t parity, uint8_t control) {
 	// AT+UART_DEF=<baudrate>, <databits>, <stopbits>, <parity>, <flow control>
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui324ui8par("UART_CUR", baud, databits, stopbits, parity, control);
+	//return esp8266_cmd_set1ui324ui8par("UART_CUR", baud, databits, stopbits, parity, control);
+	return cmd_build_va("UART_CUR", CMD_SET,  "%u,%d,%d,%d,%d", baud,databits,stopbits,parity,control);
 }
 const char* esp8266_cmd_setuart_def(uint32_t baud, uint8_t databits, uint8_t stopbits, uint8_t parity, uint8_t control) {
+//const char* esp8266_cmd_setuart_def(uint32_t baud, uint32_t databits, uint32_t stopbits, uint32_t parity, uint32_t control) {
 	// AT+UART_DEF=<baudrate>, <databits>, <stopbits>, <parity>, <flow control>
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui324ui8par("UART", baud, databits, stopbits, parity, control);
+	//return esp8266_cmd_set1ui324ui8par("UART_DEF", baud, databits, stopbits, parity, control);
+	return cmd_build_va("UART_DEF", CMD_SET,  "%u,%d,%d,%d,%d", baud,databits,stopbits,parity,control);
 }
 const char* esp8266_cmd_querysleep(void) {
 	// AT+SLEEP – sleep mode
 	// Response:
 		//+SLEEP : <sleep mode> OK
-	return esp8266_cmd_query("SLEEP");
+	//return esp8266_cmd_query("SLEEP");
+	return cmd_build_va( "SLEEP", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setsleep(uint8_t mode) {
 	// AT+SLEEP – sleep mode
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui8par("SLEEP", mode);
+	//return esp8266_cmd_set1ui8par("SLEEP", mode);
+	return cmd_build_va( "SLEEP", CMD_SET, "%d", mode );
 }
 const char* esp8266_cmd_setrfpower(uint8_t TX_power) {
 	// AT+RFPOWER – set RF TX Power
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui8par("RFPOWER", TX_power);
+	//return esp8266_cmd_set1ui8par("RFPOWER", TX_power);
+	return cmd_build_va( "RFPOWER", CMD_SET, "%d", TX_power );
 }
 const char* esp8266_cmd_queryrfvdd(void) {
 	// AT+RFVDD – set RF TX power according to VDD33
 	// Response:
 		//+RFVDD:<VDD33> OK
-	return esp8266_cmd_query("RFVDD");
+	//return esp8266_cmd_query("RFVDD");
+	return cmd_build_va( "RFVDD", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setrfvdd(uint16_t vdd33) {
 	// AT+RFVDD – set RF TX power according to VDD33
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui16par("RFVDD", vdd33);
+	//return esp8266_cmd_set1ui16par("RFVDD", vdd33);
+	return cmd_build_va( "RFVDD", CMD_SET, "%d", vdd33 );
 }
 const char* esp8266_cmd_rfvdd(void) {
 	// AT+RFVDD – set RF TX power according to VDD33
 	// Response:
 		//OK
-	return esp8266_cmd_execute("RFVDD");
+	//return esp8266_cmd_execute("RFVDD");
+	return cmd_build_va( "RFVDD", CMD_EXECUTE, NULL );
 }
 /************************************************/
 /********** Wi-Fi Related AT Commands ***********/
@@ -289,46 +341,50 @@ const char* esp8266_cmd_queryparwmode(void) {
 	// AT+CWMODE – WiFi mode
 	// Response:
 		//+CWMODE:( value scope of <mode>) OK
-	return esp8266_cmd_querypar("CWMODE_CUR");
+	//return esp8266_cmd_querypar("CWMODE_CUR");
+	return cmd_build_va( "CWMODE_CUR", CMD_QUERY_PARAM, NULL );
 }
 const char* esp8266_cmd_querywmode(void) {
 	// AT+CWMODE – WiFi mode
 	// Response:
 		//+CWMODE:<mode> OK
-	return esp8266_cmd_query("CWMODE_CUR");
+	//return esp8266_cmd_query("CWMODE_CUR");
+	return cmd_build_va( "CWMODE_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setwmode_cur(uint8_t mode) {
 	// AT+CWMODE – WiFi mode 1 2 or 3
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui8par("CWMODE_CUR", mode);
+	//return esp8266_cmd_set1ui8par("CWMODE_CUR", mode);
+	return cmd_build_va( "CWMODE_CUR", CMD_SET, "%d", mode );
 }
 const char* esp8266_cmd_setwmode_def(uint8_t mode) {
 	// AT+CWMODE – WiFi mode 1 2 or 3
 	// Response:
 		//OK
-	return esp8266_cmd_set1ui8par("CWMODE_DEF", mode);
+	//return esp8266_cmd_set1ui8par("CWMODE_DEF", mode);
+	return cmd_build_va( "CWMODE_DEF", CMD_SET, "%d", mode );
 }
 const char* esp8266_cmd_querywjap(void) {
 	// AT+CWJAP – Connect to AP
 	// Response:
 		//+CWJAP_DEF:<ssid>, <bssid>, <channel>, <rssi> OK
-	return esp8266_cmd_query("CWJAP_CUR");
-	//return esp8266_cmd_query("CWJAP");
+	//return esp8266_cmd_query("CWJAP_CUR");
+	return cmd_build_va( "CWJAP_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setwjap_cur(const char* ssid, const char* password) {
 	// AT+CWJAP – Connect to AP
 	// Response:
 		//OK or +CWJAP:<error code> FAIL
-	return esp8266_cmd_set2spar("CWJAP_CUR", ssid, password);
-	//return esp8266_cmd_set2spar("CWJAP", ssid, password);
+	//return esp8266_cmd_set2spar("CWJAP_CUR", ssid, password);
+	return cmd_build_va( "CWJAP_CUR", CMD_SET, "\"%s\",\"%s\"", ssid,password );
 }
 const char* esp8266_cmd_setwjap_def(const char* ssid, const char* password) {
 	// AT+CWJAP – Connect to AP
 	// Response:
 		//OK or +CWJAP:<error code> FAIL
-	return esp8266_cmd_set2spar("CWJAP_DEF", ssid, password);
-	//return esp8266_cmd_set2spar("CWJAP", ssid, password);
+	//return esp8266_cmd_set2spar("CWJAP_DEF", ssid, password);
+	return cmd_build_va( "CWJAP_CUR", CMD_SET, "\"%s\",\"%s\"", ssid,password );
 }
 const char* esp8266_cmd_setwlapopt(uint8_t sort_enable, uint8_t mask) {
 	// AT+CWLAPOPT - Set configuration for command AT+CWLAP
@@ -382,13 +438,15 @@ const char* esp8266_cmd_wlif(void) {
 	// AT+ CWLIF– IP of stations which are connected to ESP8266 softAP
 	// Response: <IP addr>, <mac>
 		//OK
-	return esp8266_cmd_execute("CWLIF");
+	//return esp8266_cmd_execute("CWLIF");
+	return cmd_build_va( "CWLIF", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_querywdhcp(void) {
 	// AT+ CWDHCP – Enable/Disable DHCP
 	// Response:
 		//DHCP disabled or enabled now?
-	return esp8266_cmd_query("CWDHCP_CUR");
+	//return esp8266_cmd_query("CWDHCP_CUR");
+	return cmd_build_va( "CWDHCP_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setwdhcp_cur(uint8_t mode, uint8_t enable) {
 	// AT+ CWDHCP – Enable/Disable DHCP
@@ -397,9 +455,11 @@ const char* esp8266_cmd_setwdhcp_cur(uint8_t mode, uint8_t enable) {
 		//OK
 	mode &= 0x03;
 	if(enable)
-		str = esp8266_cmd_set2ui8par("CWDHCP_CUR", mode, 1);
+		//str = esp8266_cmd_set2ui8par("CWDHCP_CUR", mode, 1);
+		str = cmd_build_va( "CWDHCP_CUR", CMD_SET, "%d,%d", mode,1 );
 	else
-		str = esp8266_cmd_set2ui8par("CWDHCP_CUR", mode, 0);
+		//str = esp8266_cmd_set2ui8par("CWDHCP_CUR", mode, 0);
+		str = cmd_build_va( "CWDHCP_CUR", CMD_SET, "%d,%d", mode,0 );
 	// mode 0, 1 or 2
 	return str;
 }
@@ -410,9 +470,11 @@ const char* esp8266_cmd_setwdhcp_def(uint8_t mode, uint8_t enable) {
 		//OK
 	mode &= 0x03;
 	if(enable)
-		str = esp8266_cmd_set2ui8par("CWDHCP_DEF", mode, 1);
+		//str = esp8266_cmd_set2ui8par("CWDHCP_DEF", mode, 1);
+		str = cmd_build_va( "CWDHCP_DEF", CMD_SET, "%d,%d", mode,1 );
 	else
-		str = esp8266_cmd_set2ui8par("CWDHCP_DEF", mode, 0);
+		//str = esp8266_cmd_set2ui8par("CWDHCP_DEF", mode, 0);
+		str = cmd_build_va( "CWDHCP_DEF", CMD_SET, "%d,%d", mode,0 );
 	// mode 0, 1 or 2
 	return str;
 }
@@ -420,7 +482,8 @@ const char* esp8266_cmd_querywdhcps(void) {
 	// AT+CWDHCPS_CUR – Set the IP address allocated by ESP8266 soft-AP DHCP, not be stored in flash
 	// Response:
 		//+CWDHCPS_DEF=<lease time>, <start IP>, <end IP>
-	return esp8266_cmd_query("CWDHCPS_CUR");
+	//return esp8266_cmd_query("CWDHCPS_CUR");
+	return cmd_build_va( "CWDHCPS_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setwdhcps_cur(uint8_t enable, uint8_t mode, const char* start_IP, const char* end_IP) {
 	// AT+CWDHCPS_CUR – Set the IP address allocated by ESP8266 soft-AP DHCP, not be stored in flash
@@ -485,25 +548,29 @@ const char* esp8266_cmd_queryipsta(void) {
 	// AT+ CIPSTA – Set IP address of ESP8266 station
 	// Response:
 		//+CIPSTA:<IP> OK
-	return esp8266_cmd_query("CIPSTA_CUR");
+	//return esp8266_cmd_query("CIPSTA_CUR");
+	return cmd_build_va( "CIPSTA_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setipsta_cur(const char* IP, const char* gateway, const char* netmask) {
 	// AT+ CIPSTA – Set IP address of ESP8266 station
 	// Response:
 		//OK
-	return esp8266_cmd_set3spar("CIPSTA_CUR", IP, gateway, netmask);
+	//return esp8266_cmd_set3spar("CIPSTA_CUR", IP, gateway, netmask);
+	return cmd_build_va( "CIPSTA_CUR", CMD_SET, "\"%s\",\"%s\",\"%s\"", IP,gateway,netmask );
 }
 const char* esp8266_cmd_setipsta_def(const char* IP, const char* gateway, const char* netmask) {
 	// AT+ CIPSTA – Set IP address of ESP8266 station
 	// Response:
 		//OK
-	return esp8266_cmd_set3spar("CIPSTA_DEF", IP, gateway, netmask);
+	//return esp8266_cmd_set3spar("CIPSTA_DEF", IP, gateway, netmask);
+	return cmd_build_va( "CIPSTA_DEF", CMD_SET, "\"%s\",\"%s\",\"%s\"", IP,gateway,netmask );
 }
 const char* esp8266_cmd_queryipap(void) {
 	// AT+ CIPAP – Set IP address of ESP8266 softAP
 	// Response:
 		//+CIPAP_DEF:<IP> OK
-	return esp8266_cmd_query("CIPAP_CUR");
+	//return esp8266_cmd_query("CIPAP_CUR");
+	return cmd_build_va( "CIPAP_CUR", CMD_QUERY, NULL );
 }
 const char* esp8266_cmd_setipap_cur(const char* IP, const char* gateway, const char* netmask) {
 	// AT+ CIPAP – Set IP address of ESP8266 softAP
@@ -580,7 +647,8 @@ const char* esp8266_cmd_ipstatus(void) {
 	// Response:
 		//STATUS:<stat>
 		//+CIPSTATUS:<link ID>, <type>, <remote_IP>, <remote_port>, <local_port>, <tetype>
-	return esp8266_cmd_execute("CIPSTATUS");
+	//return esp8266_cmd_execute("CIPSTATUS");
+	return cmd_build_va( "CIPSTATUS", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_setipdomain(const char* domain_name) {
 	// AT+CIPDOMAIN – DNS function
@@ -793,7 +861,8 @@ const char* esp8266_cmd_ifsr(void) {
 	// AT+CIFSR – Get local IP address
 	// Response:
 		//+ CIFSR:<IP address> OK ERROR
-	return esp8266_cmd_execute("CIFSR"); // important to get IP
+	//return esp8266_cmd_execute("CIFSR"); // important to get IP
+	return cmd_build_va( "CIFSR", CMD_EXECUTE, NULL );
 }
 const char* esp8266_cmd_queryipmux(void) {
 	// AT+ CIPMUX – Enable multiple connections or not
@@ -902,7 +971,7 @@ const char* esp8266_cmd_mux1ipd(uint8_t ID, uint16_t length) {
 /*************** Turing Machines ****************/
 /************************************************/
 void tm_atpurge( void ) {
-	memset( ESP8266AT, 0, ESP8266AT_BUFF_SIZE );
+	memset( CMD_BUFFER, 0, CMD_BUFFER_SIZE );
 }
 void tm_step( const char* tm_cmd, uint32_t tm_delay ) {
 	if( tm_par[FEEDBACK] != TM_LOCKED ) { // ONESHOT
@@ -913,7 +982,7 @@ void tm_step( const char* tm_cmd, uint32_t tm_delay ) {
 	}else if( !tm_par[DELAY] ) {
 		tm_par[FEEDBACK] = TM_OPEN; tm_par[STEP]++;
 	}else {
-		if( usart1()->is_tx_complete() ) tm_par[DELAY] = 1;
+		if( usart1()->is_tx_complete() ) tm_par[DELAY] = 1; // comment out for testing power on.
 		tm_par[DELAY]--;
 	}
 }
@@ -970,10 +1039,9 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 	//ssid; WIFI NAME (string)
 	//password: WIFI PASSWORD (Router) (string)
 	tm_par[STEP] = 1; tm_par[DELAY] = 0;
-	unsigned int fastboot = 1;
-	char str[ESP8266AT_BUFF_SIZE] = {0};
+	char str[CMD_BUFFER_SIZE] = {0};
 	uint8_t i_connect = 0;
-	if( mode == 1 || mode == 3 ) { // Filter par
+	if( mode & 3 ) { // Filter par
 		mode &= 0x03;
 	}else {
 		(void)i_connect;
@@ -982,8 +1050,8 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 	while( tm_par[STEP] < 12 ){
 		switch( tm_par[STEP] ) {
 			case 1:
-				tm_tx_complete( 100 );
-				tm_step( esp8266_cmd_setuart_def( TM_BAUD, 8, 1, 0, 0), 3000 );
+				//tm_step( esp8266_cmd_setuart_def( TM_BAUD, 8, 1, 0, 0), 3000 ); // 3000
+				tm_step( esp8266_cmd_setuart_cur( TM_BAUD, 8, 1, 0, 0), 3000 ); // 3000
 				//tm_step( esp8266_cmd_version(), 2400 );
 				i_connect = 3; // 3
 			break;
@@ -1027,19 +1095,23 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 			case 11:
 				//tm_step( esp8266_cmd_reset(), 4000 );
 				//tm_step( esp8266_cmd_restore(), 4000 );
-				tm_step( esp8266_cmd_echo(0), 3000 ); // 3000
+				tm_step( esp8266_cmd_echo(1), 3000 ); // 3000
 				i_connect = 0; // 0
 			break;
 		}
-		usart1()->receive_rxstring( str, esp8266at_buff_size, "\r\n" );
+		// Only shows in power on.
+		usart1()->receive_rxstring( str, CMD_BUFFER_SIZE, "\r\n" );
 		lcd0()->gotoxy( 0, 0 );
 		lcd0()->string_size( str + i_connect, 20 );
-		if( strstr( str, "OK" ) != NULL && fastboot){
-			memset(str,0,esp8266at_buff_size); tm_par[FEEDBACK] = TM_OPEN; tm_par[DELAY] = 0; tm_par[STEP]++;
-		}
+		lcd0()->gotoxy( 1, 0 );
+		lcd0()->string_size( str + i_connect + 20, 20 );
+		lcd0()->gotoxy( 2, 0 );
+		lcd0()->string_size( str + i_connect + 40, 20 );
+		lcd0()->gotoxy( 3, 0 );
+		lcd0()->string_size( str + i_connect + 60, 20 );
 	}
-	tm_atpurge();
-	usart1()->rx_purge();
+	//tm_atpurge();
+	//usart1()->rx_purge();
 	lcd0()->clear();
 	tm_setstep( TM_END );
 }
