@@ -29,6 +29,7 @@ LED Blinking
 #include "armfunction.h"
 
 char str[33];
+void tim1_u_callback(void);
 
 int main(void)
 {
@@ -51,6 +52,7 @@ int main(void)
 	stm32f411ceu6()->tim1->ARR = 0xFFFF;
 	stm32f411ceu6()->tim1->PSC = 100;
 	tim1()->nvic(4);
+	tim1()->callback.u = tim1_u_callback;
 	tim1()->start();
 
 	while (1){

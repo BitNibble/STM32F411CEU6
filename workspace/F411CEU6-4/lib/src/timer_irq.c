@@ -15,7 +15,7 @@ Comment:
 #include "stm32fxxxtim6and7.h"
 #include "stm32fxxxtim9to14.h"
 
-/*** Default Callback Implementations ***/
+/*** Default Callback Implementation ***/
 void tim1_b_callback(void) {}
 void tim1_u_callback(void) {}
 void tim1_t_callback(void) {}
