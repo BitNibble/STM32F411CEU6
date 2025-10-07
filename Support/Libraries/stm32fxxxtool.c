@@ -12,7 +12,7 @@ Comment:
 #include <math.h>
 
 /*** Define and Macro ***/
-#define FTDELAY_SIZE 256
+#define FTDELAY_SIZE 255
 unsigned int ft_Delay_Lock[FTDELAY_SIZE] = {0};
 unsigned int ftCounter[FTDELAY_SIZE] = {0};
 /*** Local ***/
@@ -23,12 +23,10 @@ uint32_t get_Pos(uint32_t size_block, uint32_t block_n);
 uint32_t Msk_Pos(uint32_t Msk);
 /*** SUB Tools ***/
 uint32_t size_to_block(uint32_t size_block){
-	return ((1U << size_block) - 1);
+	return (size_block > 31) ? 0xFFFFFFFFU : ((1U << size_block) - 1);
 }
 uint32_t block_to_size(uint32_t block) {
-    uint32_t size_block = 0;
-    for ( ; block; block >>= 1, size_block++);
-    return size_block;
+    return (block == 0) ? 0 : (32 - __builtin_clz(block));
 }
 uint32_t get_Msk(uint32_t size_block, uint32_t Pos){
 	return size_to_block(size_block) << Pos;
@@ -37,11 +35,7 @@ uint32_t get_Pos(uint32_t size_block, uint32_t block_n){
 	return size_block * block_n;
 }
 uint32_t Msk_Pos(uint32_t Msk){
-	uint32_t Pos = 0;
-	if( Msk ){
-		for( ; !(Msk & 1); Msk >>= 1, Pos++ );
-	}
-	return Pos;
+	return (Msk == 0) ? 0 : __builtin_ctz(Msk);
 }
 /*** Tools ***/
 inline void set_reg(volatile uint32_t* reg, uint32_t hbits){
@@ -52,8 +46,7 @@ inline void clear_reg(volatile uint32_t* reg, uint32_t hbits){
 }
 inline uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
-	reg = (reg & Msk) >> Msk_Pos(Msk);
-	return reg;
+	return (reg & Msk) >> Msk_Pos(Msk);
 }
 inline void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 {
@@ -96,9 +89,8 @@ void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, ui
 }
 uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n)
 {
-	uint32_t value;
 	uint32_t n = bit_n / DWORD_BITS; bit_n = bit_n % DWORD_BITS;
-	value = *(reg + n );
+	uint32_t value = *(reg + n );
 	if(size_block != 0 && bit_n + size_block <= DWORD_BITS){
 		uint32_t Msk = get_Msk(size_block, bit_n);
 		value = (value & Msk) >> bit_n;
@@ -118,9 +110,7 @@ void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, ui
 
 // --- Generic helpers ---
 static inline unsigned _mask_pos(uint32_t mask) {
-    unsigned pos = 0;
-    while ((mask & 1) == 0) { mask >>= 1; pos++; }
-    return pos;
+   return (mask == 0) ? 0 : __builtin_ctz(mask); 
 }
 
 uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask) {
@@ -185,25 +175,34 @@ float CalculateTemperature(uint16_t adc_value) {
     const float V_ref = 3.3f;  // Reference voltage, typically 3.0V or 3.3V
 
     float V_sense = ((float)adc_value / 4096) * V_ref;
-    float temperature = ((V_sense - V_25) / Avg_slope) + 25.0f;
-
-    return temperature;
+    return ((V_sense - V_25) / Avg_slope) + 25.0f;
 }
+
 /*** Fall Threw Delay ***/
-int ftdelayCycles( uint8_t lock_ID, unsigned int n_cycle ) {
-	int ret = 0;
-	if( ft_Delay_Lock[lock_ID] != lock_ID) {
-		ft_Delay_Lock[lock_ID] = lock_ID;
-		ftCounter[lock_ID] = n_cycle;
-	}else{
-		if( ftCounter[lock_ID]-- ){ ; }
-		else{ ft_Delay_Lock[lock_ID] = 0; ret = 1; }
-	}
+int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) {
+    int ret = 0;
+    if (lock_ID > FTDELAY_SIZE) return 0; // safety check
+
+    if (ft_Delay_Lock[lock_ID] != lock_ID) {
+        ft_Delay_Lock[lock_ID] = lock_ID;
+        ftCounter[lock_ID] = n_cycle;
+        if(execute){ execute (); }
+        ftCounter[lock_ID]--;
+    } else {
+        if (--ftCounter[lock_ID] > 0) {
+            // still counting down, do nothing
+        } else {
+            ft_Delay_Lock[lock_ID] = 0;
+            ret = 1; // delay expired
+        }
+    }
     return ret;
 }
+
 void ftdelayReset(uint8_t ID) {
-	ft_Delay_Lock[ID] = 0;
-	ftCounter[ID] = 0;
+    if (ID > FTDELAY_SIZE) return; // safety check
+    ft_Delay_Lock[ID] = 0;
+    ftCounter[ID] = 0;
 }
 /****************************************/
 /***
