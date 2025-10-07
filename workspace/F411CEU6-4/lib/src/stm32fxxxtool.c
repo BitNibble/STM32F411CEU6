@@ -12,7 +12,7 @@ Update:   07/01/2024
 /*** Define and Macro ***/
 #define FTDELAY_SIZE 255
 unsigned int ft_Delay_Lock[FTDELAY_SIZE] = {0};
-unsigned int ftCounter[FTDELAY_SIZE] = {0};
+volatile unsigned int ftCounter[FTDELAY_SIZE] = {0};
 /*** Local ***/
 uint32_t _size_to_block(uint32_t size_block);
 uint32_t _block_to_size(uint32_t block);
@@ -24,7 +24,7 @@ uint32_t _size_to_block(uint32_t size_block){
 	return (size_block > 31) ? 0xFFFFFFFFU : ((1U << size_block) - 1);
 }
 uint32_t _block_to_size(uint32_t block) {
-    return block ? (32 - __builtin_clz(block)) : 0;
+    return block ? (32 - __builtin_clz(block)) : 0U;
 }
 uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
 	return _size_to_block(size_block) << Pos;
@@ -33,7 +33,7 @@ uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
 	return size_block * block_n;
 }
 uint32_t _mask_pos(uint32_t Msk){
-	return Msk ? __builtin_ctz(Msk) : 0;
+	return Msk ? __builtin_ctz(Msk) : 0U;
 }
 // --- Generic helpers ---
 uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask) {
@@ -174,7 +174,7 @@ float CalculateTemperature(uint16_t adc_value) {
 /*** Fall Threw Delay ***/
 int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) {
     int ret = 0;
-    if (lock_ID > FTDELAY_SIZE) return 0; // safety check
+    if (lock_ID >= FTDELAY_SIZE) return 0; // safety check
 
     if (ft_Delay_Lock[lock_ID] != lock_ID) {
         ft_Delay_Lock[lock_ID] = lock_ID;
@@ -182,10 +182,10 @@ int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) 
         if(execute){ execute (); }
         ftCounter[lock_ID]--;
     } else {
-        if (--ftCounter[lock_ID] > 0) {
+        if (--ftCounter[lock_ID] > 0U) {
             // still counting down, do nothing
         } else {
-            ft_Delay_Lock[lock_ID] = 0;
+            ft_Delay_Lock[lock_ID] = 0U;
             ret = 1; // delay expired
         }
     }
@@ -193,9 +193,9 @@ int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) 
 }
 
 void ftdelayReset(uint8_t ID) {
-    if (ID > FTDELAY_SIZE) return; // safety check
-    ft_Delay_Lock[ID] = 0;
-    ftCounter[ID] = 0;
+    if (ID >= FTDELAY_SIZE) return; // safety check
+    ft_Delay_Lock[ID] = 0U;
+    ftCounter[ID] = 0U;
 }
 /****************************************/
 /***
