@@ -11,9 +11,6 @@ Comment:
 #include "stm32fxxxtim1and8.h"
 #include "stm32fxxxnvic.h"
 
-/*** File Variables ***/
-static STM32FXXX_TIM8 stm32fxxx_tim8 = {0};
-
 /************/
 /*** TIM1 ***/
 /************/
@@ -82,6 +79,18 @@ void TIM1_start(void) {
 void TIM1_stop(void) {
 	set_reg_Msk(&TIM1->CR1, TIM_CR1_CEN_Msk, 0);
 }
+
+/*** TIM1 INIC Procedure & Function Definition ***/
+static STM32FXXX_TIM1 stm32fxxx_tim1 = {
+	.clock = TIM1_Clock,
+	.nvic = TIM1_Nvic,
+	.start = TIM1_start,
+	.stop = TIM1_stop,
+	.callback = {0}
+};
+
+STM32FXXX_TIM1* tim1(void){ return (STM32FXXX_TIM1*) &stm32fxxx_tim1;}
+
 #ifdef STM32F446xx
 /************/
 /*** TIM8 ***/
@@ -138,38 +147,18 @@ void TIM8_stop(void) {
 	set_reg_Msk(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF);
 }
 
-#endif
-
 /*** TIM1 INIC Procedure & Function Definition ***/
-static STM32FXXX_TIM1 stm32fxxx_tim1 = {
-	.clock = TIM1_Clock,
-	.nvic = TIM1_Nvic,
-	.start = TIM1_start,
-	.stop = TIM1_stop,
+static STM32FXXX_TIM8 stm32fxxx_tim8 = {
+	.clock = TIM8_Clock,
+	.nvic = TIM8_Nvic,
+	.start = TIM8_start,
+	.stop = TIM8_stop,
 	.callback = {0}
 };
 
-STM32FXXX_TIM1* tim1(void){ return (STM32FXXX_TIM1*) &stm32fxxx_tim1;}
+STM32FXXX_TIM8* tim8(void){ return (STM32FXXX_TIM8*) &stm32fxxx_tim8;}
 
-/*** TIM8 INIC Procedure & Function Definition ***/
-void tim8_enable(void)
-{
-	#ifdef STM32F446xx
-		TIM8_Clock(ON);
-		tim8_callback callback = {0};
-		// CLOCK
-		stm32fxxx_tim8.clock = TIM8_Clock;
-		// NVIC
-		stm32fxxx_tim8.nvic = TIM8_Nvic;
-		/*** Procedures ***/
-		/*** Other ***/
-		stm32fxxx_tim8.start = TIM8_start;
-		stm32fxxx_tim8.stop = TIM8_stop;
-	#endif
-	//return &stm32fxxx_tim8;
-}
-
-STM32FXXX_TIM8* tim8(void){ return (STM32FXXX_TIM8*) &stm32fxxx_tim8; }
+#endif
 
 /*** EOF ***/
 

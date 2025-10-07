@@ -10,9 +10,6 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxtim6and7.h"
 
-/*** File Variable ***/
-static STM32FXXX_TIM6 stm32fxxx_tim6 = {0};
-static STM32FXXX_TIM7 stm32fxxx_tim7 = {0};
 #ifdef STM32F446xx
 /************/
 /*** TIM6 ***/
@@ -27,6 +24,18 @@ void TIM6_Nvic(uint8_t state)
 }
 void TIM6_start(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM6_stop(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+
+/*** TIM1 INIC Procedure & Function Definition ***/
+static STM32FXXX_TIM6 stm32fxxx_tim6 = {
+	.clock = TIM6_Clock,
+	.nvic = TIM6_Nvic,
+	.start = TIM6_start,
+	.stop = TIM6_stop,
+	.callback = {0}
+};
+
+STM32FXXX_TIM6* tim6(void){ return (STM32FXXX_TIM6*) &stm32fxxx_tim6;}
+
 /************/
 /*** TIM7 ***/
 /************/
@@ -40,41 +49,19 @@ void TIM7_Nvic(uint8_t state)
 }
 void TIM7_start(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM7_stop(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+
+/*** TIM1 INIC Procedure & Function Definition ***/
+static STM32FXXX_TIM7 stm32fxxx_tim7 = {
+	.clock = TIM7_Clock,
+	.nvic = TIM7_Nvic,
+	.start = TIM7_start,
+	.stop = TIM7_stop,
+	.callback = {0}
+};
+
+STM32FXXX_TIM7* tim7(void){ return (STM32FXXX_TIM7*) &stm32fxxx_tim7;}
+
 #endif
-/*** TIM6 INIC Procedure & Function Definition ***/
-void tim6_enable(void)
-{
-	#ifdef STM32F446xx
-			TIM6_Clock(ON);
-	// CLOCK
-	stm32fxxx_tim6.clock = TIM6_Clock;
-	// NVIC
-	stm32fxxx_tim6.nvic = TIM6_Nvic;
-	/*** Procedures ***/
-	/*** Other ***/
-	stm32fxxx_tim6.start = TIM6_start;
-	stm32fxxx_tim6.stop = TIM6_stop;
-	#endif
-	//return &stm32fxxx_tim6;
-}
-STM32FXXX_TIM6* tim6(void){ return (STM32FXXX_TIM6*) &stm32fxxx_tim6; }
-/*** TIM7 INIC Procedure & Function Definition ***/
-void tim7_enable(void)
-{
-	#ifdef STM32F446xx
-		TIM7_Clock(ON);
-	// CLOCK
-	stm32fxxx_tim7.clock = TIM7_Clock;
-	// NVIC
-	stm32fxxx_tim7.nvic = TIM7_Nvic;
-	/*** Procedures ***/
-	/*** Other ***/
-	stm32fxxx_tim7.start = TIM7_start;
-	stm32fxxx_tim7.stop = TIM7_stop;
-	#endif
-	//return &stm32fxxx_tim7;
-}
-STM32FXXX_TIM7* tim7(void) { return (STM32FXXX_TIM7*) &stm32fxxx_tim7; }
 
 /*** EOF ***/
 

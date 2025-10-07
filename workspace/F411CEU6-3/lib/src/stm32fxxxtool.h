@@ -1,10 +1,9 @@
 /***************************************************
-    STM32FXXX TOOLS – Optimized
+    STM32FXXX TOOLS
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
 Update:   2025-10-02
-Comment:  Safe, optimized, drop-in replacement
 ****************************************************/
 #pragma once
 
@@ -24,7 +23,7 @@ Comment:  Safe, optimized, drop-in replacement
 
 /****************************************/
 /*** Fall Through Delay Arrays ***/
-#define FTDELAY_SIZE 255
+#define FTDELAY_SIZE 256
 
 // Prototypes (no static state here)
 int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void));

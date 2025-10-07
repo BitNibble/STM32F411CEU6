@@ -1,10 +1,9 @@
 /***************************************************
-    STM32FXXX TOOLS – Optimized
+    STM32FXXX TOOLS
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
 Update:   2025-10-02
-Comment:  Safe, optimized, drop-in replacement
 ****************************************************/
 #include "stm32fxxxtool.h"
 
