@@ -18,6 +18,7 @@ Comment:
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include <limits.h>
 #include <stdarg.h>
@@ -82,6 +83,7 @@ long function_trimmer(long x, long in_min, long in_max, long out_min, long out_m
 int function_pmax(int a1, int a2);
 int function_gcd_v1 (uint32_t a, uint32_t b);
 long function_gcd_v2(long a, long b);
+void function_trim_whitespace(char* str);
 /*** 7 ***/
 int function_StrToInt (const char string[]);
 /*** 8 ***/
@@ -147,6 +149,7 @@ FUNC FUNC_enable( void )
 	setup_func.pmax = function_pmax;
 	setup_func.gcd_v1 = function_gcd_v1;
 	setup_func.gcd_v2 = function_gcd_v2;
+	setup_func.trim_whitespace = function_trim_whitespace;
 	// 8
 	setup_func.strToInt = function_StrToInt;
 	// 9
@@ -873,6 +876,38 @@ uint8_t function_leap_year_check(uint16_t year) {
     else if (!(year % 4)) i = 1;
     else i = 0;
     return i;  // Added return statement
+}
+
+/**
+ * @brief Trim leading and trailing whitespace from a string in-place
+ * @param str The string to trim
+ */
+void function_trim_whitespace(char* str) {
+    if (!str) return;
+
+    // Trim leading whitespace
+    char* start = str;
+    while (*start && isspace((unsigned char)*start)) {
+        start++;
+    }
+
+    // If all spaces, set empty string
+    if (*start == 0) {
+        *str = 0;
+        return;
+    }
+
+    // Trim trailing whitespace
+    char* end = start + strlen(start) - 1;
+    while (end > start && isspace((unsigned char)*end)) {
+        *end = 0;
+        end--;
+    }
+
+    // Shift the trimmed string to the beginning
+    if (start != str) {
+        memmove(str, start, strlen(start) + 1); // +1 to include null terminator
+    }
 }
 
 /***EOF***/

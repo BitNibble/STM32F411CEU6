@@ -78,6 +78,7 @@ typedef struct
 	int (*pmax)(int a1, int a2);
 	int (*gcd_v1)(uint32_t a, uint32_t b);
 	long (*gcd_v2)(long a, long b);
+	void (*trim_whitespace)(char* str);
 	/******/
 	int (*tokenize_string)(char *input, char *tokens[], int max_tokens, const char *delimiters);
 	void (*nullify_last_n_chars)(char *str, int n);

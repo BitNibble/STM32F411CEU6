@@ -675,3 +675,39 @@ case CMD_SET:
             }
         }
         break
+
+
+
+while (1) {
+    if (!isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle()) {
+        strncpy(parse, usart1()->rxbuff, parse_size);
+        func()->tokenize_string(parse, tokens, MAX_TOKENS, "\r\n");
+        usart1()->rx_purge();
+
+        switch(esp_state) {
+            case WAIT_FOR_IPD:
+                if (strstr(tokens[0], "+IPD,")) {
+                    esp_state = EXTRACT_LINK_ID;
+                }
+                break;
+
+            case EXTRACT_LINK_ID:
+                // "+IPD,<id>,<len>:<data>"
+                current_link_id = tokens[0][5] - '0'; // assuming single-digit IDs
+                esp_state = PROCESS_REQUEST;
+                break;
+
+            case PROCESS_REQUEST:
+                if (current_link_id >= 0) {
+                    // Example: status request
+                    if (strstr(tokens[0], "status")) {
+                        char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF\r\n" : "ON\r\n";
+                        Turingi25to28_Station_Mux1ServerSend_tcp(current_link_id, status_text, strlen(status_text));
+                    }
+                    // Handle button requests similarly...
+                }
+                esp_state = WAIT_FOR_IPD; // reset for next request
+                break;
+        }
+    }
+}

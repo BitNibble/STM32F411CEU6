@@ -76,8 +76,8 @@ int main(void)
     rtc_enable();
     adc1_enable();
     gpioa()->clock(1);
-    gpiob_enable(); // lcd0
-    gpioc_enable(); // gpioc13
+    gpiob()->clock(1); // lcd0
+    gpioc()->clock(1); // gpioc13
 
     setup_usart1();
 
@@ -158,8 +158,9 @@ int main(void)
                }
            }
 
-           // Handle Status Fetch
-           if (strstr(tokens[0], "status") || strstr(tokens[1], "status"))
+           // Handle Status Fetch safely
+           if ((tokens[0] && strstr(tokens[0], "status")) ||
+               (tokens[1] && strstr(tokens[1], "status")))
            {
                char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
                tm_setstep(25);
@@ -169,8 +170,8 @@ int main(void)
 
            // Check for "GET / HTTP" in tokens[1]
            if ( strstr(tokens[0], "GET / HTTP") || strstr(tokens[1], "GET / HTTP") ) {
-               webpage_ptr = webpage_1().str;
-               webpage_size = webpage_1().size;
+               webpage_ptr = webpage_2().str;
+               webpage_size = webpage_2().size;
                tm_setstep(25);
            }
 
@@ -211,7 +212,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 1; skip_0++;
                 }
             }
@@ -232,7 +233,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) { // Jump menu
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 2; skip_0 = 0;
                 }
             }
@@ -253,7 +254,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 3; skip_0 = 0;
                 }
             }
@@ -274,7 +275,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 4; skip_0 = 0;
                 }
             }
@@ -295,7 +296,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 5; skip_0 = 0;
                 }
             }
@@ -316,7 +317,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 6; skip_0 = 0;
                 }
             }
@@ -337,7 +338,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                 	Menu.var = 7; skip_0 = 0;
                 }
             }
@@ -358,7 +359,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY)){
+            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
                     Menu.var = 8; skip_0 = 0;
                 }
             }
@@ -394,7 +395,7 @@ int main(void)
             }
 
             if (PA.par.LL & 1) {
-                if(ftdelayCycles(1, MAIN_MENU_DELAY)){
+                if(ftdelayCycles(1, MAIN_MENU_DELAY, NULL)){
                     Menu.var = 0;  skip_0 = 0;
                 }
             }

@@ -24,10 +24,10 @@ Comment:  Safe, optimized, drop-in replacement
 
 /****************************************/
 /*** Fall Through Delay Arrays ***/
-#define FTDELAY_SIZE 256
+#define FTDELAY_SIZE 255
 
 // Prototypes (no static state here)
-int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle);
+int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void));
 void ftdelayReset(uint8_t ID);
 
 /*** Helper: bit mask / position ***/

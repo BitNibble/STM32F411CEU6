@@ -26,11 +26,15 @@ LCD
 char time[12];
 //rtc()->BckWrite(0,65);
 
+void blink(void);
+
 int main(void)
 {
 	rcc_start();
 	systick_start();
 	gpiob_enable();
+	gpioc_enable();
+	gpioc()->moder(13,1);
 
 	ARMLCD0_enable(GPIOB);
 	FUNC_enable();
@@ -38,6 +42,8 @@ int main(void)
 	while (1)
 	{
 		func()->arm->dispar4x20(lcd0());
+
+		ftdelayCycles(1, 3, blink);
 	}
 }
 /*******************************************************************************/
@@ -57,3 +63,6 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif
 
+void blink(void){
+	stm32f411ceu6()->gpioc->ODR ^= (1 << 13);
+}

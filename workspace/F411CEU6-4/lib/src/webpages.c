@@ -191,7 +191,6 @@ web_page webpage_4(void) // to remove
 	page.size = htmlContent_4_size;
 	return page;
 }
-
 web_page webpage_5(void) // to remove
 {
 	web_page page;

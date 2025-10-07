@@ -13,18 +13,6 @@ Comment:
 #include "stm32fxxxgpio.h"
 #include <math.h>
 
-/*** File Variables ***/
-//static STM32FXXX_GPIOA stm32fxxx_gpioa = {0};
-static STM32FXXX_GPIOB stm32fxxx_gpiob = {0};
-static STM32FXXX_GPIOC stm32fxxx_gpioc = {0};
-static STM32FXXX_GPIOD stm32fxxx_gpiod = {0};
-static STM32FXXX_GPIOE stm32fxxx_gpioe = {0};
-#ifdef STM32F446xx
-	static STM32FXXX_GPIOF stm32fxxx_gpiof = {0};
-	static STM32FXXX_GPIOG stm32fxxx_gpiog = {0};
-	static STM32FXXX_GPIOH stm32fxxx_gpioh = {0};
-#endif
-
 /*** GPIOA Procedure & Function Definition ***/
 void GPIOA_clock(uint8_t enable)
 {
@@ -216,6 +204,22 @@ void GPIOB_af(uint8_t pin, uint8_t af)
 	}
 }
 
+/*** HANDLER ***/
+static STM32FXXX_GPIOB stm32fxxx_gpiob = {
+    // V-table
+    .clock = GPIOB_clock,
+    .moder = GPIOB_moder,
+    .otype = GPIOB_otype,
+    .ospeed = GPIOB_ospeed,
+    .pupd = GPIOB_pupd,
+    .set_hpins = GPIOB_set_hpins,
+    .clear_hpins = GPIOB_clear_hpins,
+    .lck = GPIOB_lck,
+    .af = GPIOB_af
+};
+
+STM32FXXX_GPIOB* gpiob(void) { return &stm32fxxx_gpiob; }
+
 /*** GPIOC ***/
 void GPIOC_clock(uint8_t enable)
 {
@@ -304,6 +308,22 @@ void GPIOC_af(uint8_t pin, uint8_t af)
 	}
 }
 
+/*** HANDLER ***/
+static STM32FXXX_GPIOC stm32fxxx_gpioc = {
+    // V-table
+    .clock = GPIOC_clock,
+    .moder = GPIOC_moder,
+    .otype = GPIOC_otype,
+    .ospeed = GPIOC_ospeed,
+    .pupd = GPIOC_pupd,
+    .set_hpins = GPIOC_set_hpins,
+    .clear_hpins = GPIOC_clear_hpins,
+    .lck = GPIOC_lck,
+    .af = GPIOC_af
+};
+
+STM32FXXX_GPIOC* gpioc(void) { return &stm32fxxx_gpioc; }
+
 /*** GPIOD ***/
 void GPIOD_clock(uint8_t enable)
 {
@@ -390,6 +410,22 @@ void GPIOD_af(uint8_t pin, uint8_t af)
 		}
 	}
 }
+
+/*** HANDLER ***/
+static STM32FXXX_GPIOD stm32fxxx_gpiod = {
+    // V-table
+    .clock = GPIOD_clock,
+    .moder = GPIOD_moder,
+    .otype = GPIOD_otype,
+    .ospeed = GPIOD_ospeed,
+    .pupd = GPIOD_pupd,
+    .set_hpins = GPIOD_set_hpins,
+    .clear_hpins = GPIOD_clear_hpins,
+    .lck = GPIOD_lck,
+    .af = GPIOD_af
+};
+
+STM32FXXX_GPIOD* gpiod(void) { return &stm32fxxx_gpiod; }
 
 /*** GPIOE ***/
 void GPIOE_clock(uint8_t enable)
@@ -478,6 +514,22 @@ void GPIOE_af(uint8_t pin, uint8_t af)
 		}
 	}
 }
+
+/*** HANDLER ***/
+static STM32FXXX_GPIOE stm32fxxx_gpioe = {
+    // V-table
+    .clock = GPIOE_clock,
+    .moder = GPIOE_moder,
+    .otype = GPIOE_otype,
+    .ospeed = GPIOE_ospeed,
+    .pupd = GPIOE_pupd,
+    .set_hpins = GPIOE_set_hpins,
+    .clear_hpins = GPIOE_clear_hpins,
+    .lck = GPIOE_lck,
+    .af = GPIOE_af
+};
+
+STM32FXXX_GPIOE* gpioe(void) { return &stm32fxxx_gpioe; }
 
 #ifdef STM32F446xx
 /*** GPIOF ***/
@@ -568,6 +620,22 @@ void GPIOF_af(uint8_t pin, uint8_t af)
 	}
 }
 
+/*** HANDLER ***/
+static STM32FXXX_GPIOF stm32fxxx_gpiof = {
+    // V-table
+    .clock = GPIOF_clock,
+    .moder = GPIOF_moder,
+    .otype = GPIOF_otype,
+    .ospeed = GPIOF_ospeed,
+    .pupd = GPIOF_pupd,
+    .set_hpins = GPIOF_set_hpins,
+    .clear_hpins = GPIOF_clear_hpins,
+    .lck = GPIOF_lck,
+    .af = GPIOF_af
+};
+
+STM32FXXX_GPIOF* gpiof(void) { return &stm32fxxx_gpiof; }
+
 /*** GPIOG ***/
 void GPIOG_clock(uint8_t enable)
 {
@@ -656,6 +724,22 @@ void GPIOG_af(uint8_t pin, uint8_t af)
 	}
 }
 
+/*** HANDLER ***/
+static STM32FXXX_GPIOG stm32fxxx_gpiog = {
+    // V-table
+    .clock = GPIOG_clock,
+    .moder = GPIOG_moder,
+    .otype = GPIOG_otype,
+    .ospeed = GPIOG_ospeed,
+    .pupd = GPIOG_pupd,
+    .set_hpins = GPIOG_set_hpins,
+    .clear_hpins = GPIOG_clear_hpins,
+    .lck = GPIOG_lck,
+    .af = GPIOG_af
+};
+
+STM32FXXX_GPIOG* gpiog(void) { return &stm32fxxx_gpiog; }
+
 /*** GPIOH ***/
 void GPIOH_clock(uint8_t enable)
 {
@@ -743,150 +827,20 @@ void GPIOH_af(uint8_t pin, uint8_t af)
 		}
 	}
 }
-#endif
 
-void gpiob_enable(void)
-{
-	/*** Enable Clock ***/
-	GPIOB_clock(1);
-    /*** GPIOB RCC Clock Enable ***/
-    stm32fxxx_gpiob.clock = GPIOB_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpiob.moder = GPIOB_moder;
-    stm32fxxx_gpiob.otype = GPIOB_otype;
-    stm32fxxx_gpiob.ospeed = GPIOB_ospeed;
-    stm32fxxx_gpiob.pupd = GPIOB_pupd;
-    stm32fxxx_gpiob.set_hpins = GPIOB_set_hpins;
-    stm32fxxx_gpiob.clear_hpins = GPIOB_clear_hpins;
-    stm32fxxx_gpiob.lck = GPIOB_lck;
-    stm32fxxx_gpiob.af = GPIOB_af;
-    //return &stm32fxxx_gpiob;
-}
-
-STM32FXXX_GPIOB* gpiob(void) { return &stm32fxxx_gpiob; }
-
-void gpioc_enable(void)
-{
-	/*** Enable Clock ***/
-	GPIOC_clock(1);
-    /*** GPIOC RCC Clock Enable ***/
-    stm32fxxx_gpioc.clock = GPIOC_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpioc.moder = GPIOC_moder;
-    stm32fxxx_gpioc.otype = GPIOC_otype;
-    stm32fxxx_gpioc.ospeed = GPIOC_ospeed;
-    stm32fxxx_gpioc.pupd = GPIOC_pupd;
-    stm32fxxx_gpioc.set_hpins = GPIOC_set_hpins;
-    stm32fxxx_gpioc.clear_hpins = GPIOC_clear_hpins;
-    stm32fxxx_gpioc.lck = GPIOC_lck;
-    stm32fxxx_gpioc.af = GPIOC_af;
-    //return &stm32fxxx_gpioc;
-}
-
-STM32FXXX_GPIOC* gpioc(void) { return &stm32fxxx_gpioc; }
-
-void gpiod_enable(void)
-{
-	/*** Enable Clock ***/
-	GPIOD_clock(1);
-    /*** GPIOD RCC Clock Enable ***/
-    stm32fxxx_gpiod.clock = GPIOD_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpiod.moder = GPIOD_moder;
-    stm32fxxx_gpiod.otype = GPIOD_otype;
-    stm32fxxx_gpiod.ospeed = GPIOD_ospeed;
-    stm32fxxx_gpiod.pupd = GPIOD_pupd;
-    stm32fxxx_gpiod.set_hpins = GPIOD_set_hpins;
-    stm32fxxx_gpiod.clear_hpins = GPIOD_clear_hpins;
-    stm32fxxx_gpiod.lck = GPIOD_lck;
-    stm32fxxx_gpiod.af = GPIOD_af;
-    //return &stm32fxxx_gpiod;
-}
-
-STM32FXXX_GPIOD* gpiod(void) { return &stm32fxxx_gpiod; }
-
-void gpioe_enable(void)
-{
-	/*** Enable Clock ***/
-	GPIOE_clock(1);
-    /*** GPIOE RCC Clock Enable ***/
-    stm32fxxx_gpioe.clock = GPIOE_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpioe.moder = GPIOE_moder;
-    stm32fxxx_gpioe.otype = GPIOE_otype;
-    stm32fxxx_gpioe.ospeed = GPIOE_ospeed;
-    stm32fxxx_gpioe.pupd = GPIOE_pupd;
-    stm32fxxx_gpioe.set_hpins = GPIOE_set_hpins;
-    stm32fxxx_gpioe.clear_hpins = GPIOE_clear_hpins;
-    stm32fxxx_gpioe.lck = GPIOE_lck;
-    stm32fxxx_gpioe.af = GPIOE_af;
-    //return &stm32fxxx_gpioe;
-}
-
-STM32FXXX_GPIOE* gpioe(void) { return &stm32fxxx_gpioe; }
-
-#ifdef STM32F446xx
-void gpiof_enable(void)
-{
-	GPIOF_clock(ON);
-    /*** GPIOF RCC Clock Enable ***/
-    stm32fxxx_gpiof.clock = GPIOF_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpiof.moder = GPIOF_moder;
-    stm32fxxx_gpiof.otype = GPIOF_otype;
-    stm32fxxx_gpiof.ospeed = GPIOF_ospeed;
-    stm32fxxx_gpiof.pupd = GPIOF_pupd;
-    stm32fxxx_gpiof.set_hpins = GPIOF_set_hpins;
-    stm32fxxx_gpiof.clear_hpins = GPIOF_clear_hpins;
-    stm32fxxx_gpiof.lck = GPIOF_lck;
-    stm32fxxx_gpiof.af = GPIOF_af;
-    //return &stm32fxxx_gpiof;
-}
-
-STM32FXXX_GPIOF* gpiof(void) { return &stm32fxxx_gpiof; }
-
-void gpiog_enable(void)
-{
-	GPIOG_clock(ON);
-    /*** GPIOG RCC Clock Enable ***/
-    stm32fxxx_gpiog.clock = GPIOG_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpiog.moder = GPIOG_moder;
-    stm32fxxx_gpiog.otype = GPIOG_otype;
-    stm32fxxx_gpiog.ospeed = GPIOG_ospeed;
-    stm32fxxx_gpiog.pupd = GPIOG_pupd;
-    stm32fxxx_gpiog.set_hpins = GPIOG_set_hpins;
-    stm32fxxx_gpiog.clear_hpins = GPIOG_clear_hpins;
-    stm32fxxx_gpiog.lck = GPIOG_lck;
-    stm32fxxx_gpiog.af = GPIOG_af;
-    //return &stm32fxxx_gpiog;
-}
-
-STM32FXXX_GPIOG* gpiog(void) { return &stm32fxxx_gpiog; }
-
-void gpioh_enable(void)
-{
-	GPIOH_clock(ON);
-    /*** GPIOH RCC Clock Enable ***/
-    stm32fxxx_gpioh.clock = GPIOH_clock;
-	/*** Procedures ***/
-	/*** Other ***/
-    stm32fxxx_gpioh.moder = GPIOH_moder;
-    stm32fxxx_gpioh.otype = GPIOH_otype;
-    stm32fxxx_gpioh.ospeed = GPIOH_ospeed;
-    stm32fxxx_gpioh.pupd = GPIOH_pupd;
-    stm32fxxx_gpioh.set_hpins = GPIOH_set_hpins;
-    stm32fxxx_gpioh.clear_hpins = GPIOH_clear_hpins;
-    stm32fxxx_gpioh.lck = GPIOH_lck;
-    stm32fxxx_gpioh.af = GPIOH_af;
-    //return &stm32fxxx_gpioh;
-}
+/*** HANDLER ***/
+static STM32FXXX_GPIOH stm32fxxx_gpioh = {
+    // V-table
+    .clock = GPIOH_clock,
+    .moder = GPIOH_moder,
+    .otype = GPIOH_otype,
+    .ospeed = GPIOH_ospeed,
+    .pupd = GPIOH_pupd,
+    .set_hpins = GPIOH_set_hpins,
+    .clear_hpins = GPIOH_clear_hpins,
+    .lck = GPIOH_lck,
+    .af = GPIOH_af
+};
 
 STM32FXXX_GPIOH* gpioh(void) { return &stm32fxxx_gpioh; }
 
