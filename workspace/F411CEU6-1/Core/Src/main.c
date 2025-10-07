@@ -36,8 +36,8 @@ int main(void)
 	rcc_start(); // Clock Configuration
 	systick_start(); // Delays
 	rtc_enable(); // Real Time Clock
-	gpiob_enable(); // LCD display 4x20
-	gpioc_enable(); // Gpioc13
+	gpiob()->clock(1); // LCD display 4x20
+	gpioc()->clock(1); // Gpioc13
 	tim1()->clock(1); // Blink led at uie (4)
 
 	rtc()->inic(1);

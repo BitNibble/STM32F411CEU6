@@ -21,6 +21,7 @@ int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) 
         ft_Delay_Lock[lock_ID] = lock_ID;
         ftCounter[lock_ID] = n_cycle;
         if(execute){ execute (); }
+        ftCounter[lock_ID]--;
     } else {
         if (--ftCounter[lock_ID] > 0) {
             // still counting down, do nothing

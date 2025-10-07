@@ -32,8 +32,8 @@ int main(void)
 {
 	rcc_start();
 	systick_start();
-	gpiob_enable();
-	gpioc_enable();
+	gpiob()->clock(1);
+	gpioc()->clock(1);
 	gpioc()->moder(13,1);
 
 	ARMLCD0_enable(GPIOB);
