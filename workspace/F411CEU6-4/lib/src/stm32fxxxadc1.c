@@ -69,10 +69,65 @@ static STM32FXXX_ADC1 stm32fxxx_adc1 = {
 	.start = ADC1_Start,
 	.stop = ADC1_Stop,
 	.temperaturesetup = ADC1_TemperatureSetup,
-	.readtemperature = ADC1_ReadTemperature
+	.readtemperature = ADC1_ReadTemperature,
+	.callback = {0}
 };
 
 STM32FXXX_ADC1* adc1(void){ return (STM32FXXX_ADC1*) &stm32fxxx_adc1; }
+
+/*** INTERRUPT ***/
+void ADC_IRQHandler(void)
+{
+    uint32_t status = stm32f411ceu6()->adc1->SR;   // Read status register
+    uint32_t value  = 0;
+
+    /*** 1. End of Conversion (EOC) ***/
+    if (status & (1 << 1))  // EOC flag
+    {
+        value = stm32f411ceu6()->adc1->DR;  // Read result clears EOC
+        if (adc1()->callback.on_conversion_complete)
+            adc1()->callback.on_conversion_complete((uint16_t)value);
+    }
+
+    /*** 2. End of Injected Conversion (JEOC) ***/
+    if (status & (1 << 2))  // JEOC flag
+    {
+        // Read injected data register if used
+        // For now just trigger callback for injected channel done
+        if (adc1()->callback.on_conversion_complete)
+            adc1()->callback.on_conversion_complete((uint16_t)stm32f411ceu6()->adc1->DR);
+        stm32f411ceu6()->adc1->SR &= ~(1 << 2);  // Clear JEOC manually
+    }
+
+    /*** 3. Analog Watchdog (AWD) ***/
+    if (status & (1 << 0))  // AWD flag
+    {
+        if (adc1()->callback.on_error)
+            adc1()->callback.on_error(0xA0);  // Custom code for AWD
+        stm32f411ceu6()->adc1->SR &= ~(1 << 0);  // Clear AWD
+    }
+
+    /*** 4. Overrun Error (OVR) ***/
+    if (status & (1 << 5))  // OVR flag
+    {
+        if (adc1()->callback.on_error)
+            adc1()->callback.on_error(0xE0);  // Custom code for overrun
+        stm32f411ceu6()->adc1->SR &= ~(1 << 5);  // Clear OVR
+    }
+
+    /*** 5. Start/Stop notification (optional custom hooks) ***/
+    if (adc1()->callback.on_start)
+    {
+        // Could trigger when ADC_CR2.ADON set, handled elsewhere if desired
+        // adc1()->callback.on_start();
+    }
+
+    if (adc1()->callback.on_stop)
+    {
+        // Could trigger when ADC_CR2.ADON cleared, handled elsewhere if desired
+        // adc1()->callback.on_stop();
+    }
+}
 
 /******
 1º Sequence

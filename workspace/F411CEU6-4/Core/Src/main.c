@@ -134,8 +134,10 @@ int main(void)
         if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
         		strncpy( parse, usart1()->rxbuff, parse_size );
         		func()->tokenize_string( parse, tokens, MAX_TOKENS, "\r\n" );
-        		strncpy( sub_parse, tokens[0], subparse_size ); // 0
-        		func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
+        		if(tokens[0] && !isCharPtrFlush(tokens[0])) {
+        			strncpy( sub_parse, tokens[0], subparse_size ); // 0
+        			func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
+        		}
         		usart1()->rx_purge();
         }
 
@@ -145,7 +147,7 @@ int main(void)
        if (!tm_getstep()) { // avoid simultaneous calls
            /*** IPD || CONNECT ***/
     	   char connectStr[12];
-           for (int i = 0; i < 4; i++) {
+           for (int i = 0; i < 16; i++) {
                sprintf(connectStr, "%d,CONNECT", i);
                if (strstr(tokens[0], connectStr)) {
                    link_ID = i;
