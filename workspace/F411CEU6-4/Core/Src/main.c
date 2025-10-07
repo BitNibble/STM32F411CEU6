@@ -74,7 +74,7 @@ int main(void)
     HAL_Init();
 
     rtc_enable();
-    adc1_enable();
+    adc1()->clock(1);
     gpioa()->clock(1);
     gpiob()->clock(1); // lcd0
     gpioc()->clock(1); // gpioc13

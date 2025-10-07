@@ -10,11 +10,10 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxadc1.h"
 
+/*** Define and Macro ***/
 #define ADC_STAB_DELAY 15 // 15
 #define END_OF_CONVERSION_TIME_OUT 100
-/*** File Variables ***/
-// ADC1
-static STM32FXXX_ADC1 stm32fxxx_adc1 = {0};
+
 /*** File Procedure & Function Header ***/
 /*** ADC1 ***/
 void ADC1_Clock(uint8_t state)
@@ -61,29 +60,19 @@ uint16_t ADC1_ReadTemperature(void) {
     return adc_value;
 }
 
-/*** ADC1 INIC Procedure & Function Definition ***/
-void adc1_enable(void)
-{
-	/*** ADC1 Clock ***/
-	ADC1_Clock(1);
-	/*** Clock and Nvic ***/
-	stm32fxxx_adc1.clock = ADC1_Clock;
-	stm32fxxx_adc1.nvic = ADC1_Nvic;
-	/*** Procedures ***/
-	stm32fxxx_adc1.startconversion = ADC1_StartConversion;
-	stm32fxxx_adc1.waitendofconversion = ADC1_WaitEndOfConversion;
-	/*** Other ***/
-	stm32fxxx_adc1.start = ADC1_Start;
-	stm32fxxx_adc1.stop = ADC1_Stop;
-	stm32fxxx_adc1.temperaturesetup = ADC1_TemperatureSetup;
-	stm32fxxx_adc1.readtemperature = ADC1_ReadTemperature;
-
-	//return &stm32fxxx_adc1;
-}
+/*** ADC1 ***/
+static STM32FXXX_ADC1 stm32fxxx_adc1 = {
+	.clock = ADC1_Clock,
+	.nvic = ADC1_Nvic,
+	.startconversion = ADC1_StartConversion,
+	.waitendofconversion = ADC1_WaitEndOfConversion,
+	.start = ADC1_Start,
+	.stop = ADC1_Stop,
+	.temperaturesetup = ADC1_TemperatureSetup,
+	.readtemperature = ADC1_ReadTemperature
+};
 
 STM32FXXX_ADC1* adc1(void){ return (STM32FXXX_ADC1*) &stm32fxxx_adc1; }
-
-/****** MISCELLANEOUS ******/
 
 /******
 1º Sequence
