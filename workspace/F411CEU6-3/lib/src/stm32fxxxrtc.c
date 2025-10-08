@@ -27,31 +27,28 @@ Comment:
 #define RTCSEL_LSE    0x01 // LSE oscillator clock
 #define RTCSEL_HSE    0x03 // HSE oscillator clock
 
-static STM32FXXX_RTC stm32fxxx_rtc = {0};
-static uint32_t rtc_time_out;
-
 /*** File Procedure & Function Header ***/
 /***/
-void RTC_PwrClock(uint8_t state);
-void RTC_BckSramClock(uint8_t state);
-void RTC_WriteEnable(void);
-void RTC_WriteDisable(void);
-void RTC_RegUnlock(void);
-void RTC_RegWrite(volatile uint32_t* rtc_reg, uint32_t value);
-void RTC_StopRead(void);
-void RTC_WaitRead(void);
-void RTC_SetTr(uint32_t value);
-void RTC_SetDr(uint32_t value);
-uint16_t rtc_get_ss(void);
-char rtc_bcd2dec(char num);
-char rtc_dec2bcd(char num);
-void rtc_lenable(unsigned int lclock);
+void RTC_PWR_clock(uint8_t state);
+void RTC_BkpSram_clock(uint8_t state);
+void RTC_Write_enable(void);
+void RTC_Write_disable(void);
+void RTC_Reg_unlock(void);
+void RTC_Reg_write(volatile uint32_t* rtc_reg, uint32_t value);
+void RTC_Stop_read(void);
+void RTC_Wait_read(void);
+void RTC_Set_tr(uint32_t value);
+void RTC_Set_dr(uint32_t value);
+uint16_t RTC_Get_ss(void);
+char _rtc_bcd2dec(char num);
+char _rtc_dec2bcd(char num);
+void RTC_L_enable(unsigned int lclock);
 static void set_rtc_clock_source(uint8_t clock_source);
-void rtc_lselect(uint8_t lclock);
+void RTC_L_select(uint8_t lclock);
 
 /*** Procedure & Function Definition ***/
 void RTC_Clock(uint8_t isEnabled) {
-    RTC_WriteEnable();
+    RTC_Write_enable();
 
     if (isEnabled) {
         RCC->BDCR |= (1 << RCC_BDCR_RTCEN_Pos);  // Enable RTC clock
@@ -59,7 +56,7 @@ void RTC_Clock(uint8_t isEnabled) {
         RCC->BDCR &= ~(1 << RCC_BDCR_RTCEN_Pos); // Disable RTC clock
     }
 
-    RTC_WriteDisable();
+    RTC_Write_disable();
 }
 
 void RTC_Interrupt(uint8_t config) {
@@ -84,41 +81,46 @@ void RTC_Interrupt(uint8_t config) {
 
 void RTC_Inic(uint8_t clock)
 { // RM0390 pg657
-	RTC_PwrClock(1);
-	RTC_BckSramClock(1);
+	RTC_PWR_clock(1);
+	RTC_BkpSram_clock(1);
 	RTC_Clock(1);
 
-	rtc_lenable(clock);
-	rtc_lselect(clock);
+	RTC_L_enable(clock);
+	RTC_L_select(clock);
 
-	RTC_StopRead();
-
-	//RTC_WriteEnable();
-	//RTC_RegUnlock();
-	//RTC_RegWrite(&RTC->TR, 0x130000);
-	//RTC_RegWrite(&RTC->DR, 0x215124);
-	//RTC->CR &= (uint32_t) ~(1 << RTC_CR_BYPSHAD_Pos); // BYPSHAD: Disable Bypass the shadow registers
-	//RTC_WriteDisable();
+	RTC_Stop_read();
 }
 
-void RTC_BckWrite(uint8_t registerIndex, uint8_t data) {
+void RTC_Default(void)
+{ // RM0390 pg657
+	RTC_PWR_clock(1);
+	RTC_BkpSram_clock(1);
+	RTC_Clock(1);
+
+	RTC_L_enable(1);
+	RTC_L_select(1);
+
+	RTC_Stop_read();
+}
+
+void RTC_Bkp_write(uint8_t registerIndex, uint8_t data) {
     // Validate register index
     if (registerIndex >= MAX_BACKUP_REGISTERS) {
         // Handle error (e.g., return, assert, or log)
         return;
     }
 
-    RTC_PwrClock(1);
-    RTC_BckSramClock(1);
-    RTC_WriteEnable();
+    RTC_PWR_clock(1);
+    RTC_BkpSram_clock(1);
+    RTC_Write_enable();
 
     // Write data to the specified backup register
     set_bit_block(&RTC->BKP0R, BYTE_BITS, (registerIndex * BYTE_BITS), data);
 
-    RTC_WriteDisable();
+    RTC_Write_disable();
 }
 
-uint8_t RTC_BckRead(uint8_t registerIndex) {
+uint8_t RTC_Bkp_read(uint8_t registerIndex) {
     uint8_t value = 0;
 
     // Validate the register index
@@ -129,7 +131,7 @@ uint8_t RTC_BckRead(uint8_t registerIndex) {
     return value;  // Returns 0 if the index is out of bounds
 }
 
-void RTC_Hour(uint8_t hour) {
+void RTC_Set_hour(uint8_t hour) {
     // Validate the hour range (0-23)
     if (hour > MAX_HOUR) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -140,14 +142,14 @@ void RTC_Hour(uint8_t hour) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert hour to BCD format
-    t = rtc_dec2bcd(hour / 10);
-    u = rtc_dec2bcd(hour % 10);
+    t = _rtc_dec2bcd(hour / 10);
+    u = _rtc_dec2bcd(hour % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Time register
     Time = RTC->TR;
@@ -159,13 +161,13 @@ void RTC_Hour(uint8_t hour) {
     Time |= (uint32_t)((u << RTC_TSTR_HU_Pos) | (t << RTC_TSTR_HT_Pos));
 
     // Write back to the Time register
-    RTC_SetTr(Time);
+    RTC_Set_tr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
-void RTC_Minute(uint8_t minute) {
+void RTC_Set_minute(uint8_t minute) {
     // Validate the minute range (0-59)
     if (minute > MAX_MINUTE) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -176,14 +178,14 @@ void RTC_Minute(uint8_t minute) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert minute to BCD format
-    t = rtc_dec2bcd(minute / 10);
-    u = rtc_dec2bcd(minute % 10);
+    t = _rtc_dec2bcd(minute / 10);
+    u = _rtc_dec2bcd(minute % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Time register
     Time = RTC->TR;
@@ -195,13 +197,13 @@ void RTC_Minute(uint8_t minute) {
     Time |= (uint32_t)((u << RTC_TSTR_MNU_Pos) | (t << RTC_TSTR_MNT_Pos));
 
     // Write back to the Time register
-    RTC_SetTr(Time);
+    RTC_Set_tr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
-void RTC_Second(uint8_t second) {
+void RTC_Set_second(uint8_t second) {
     // Validate the second range (0-59)
     if (second > MAX_SECOND) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -212,14 +214,14 @@ void RTC_Second(uint8_t second) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert second to BCD format
-    t = rtc_dec2bcd(second / 10);
-    u = rtc_dec2bcd(second % 10);
+    t = _rtc_dec2bcd(second / 10);
+    u = _rtc_dec2bcd(second % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Time register
     Time = RTC->TR;
@@ -231,13 +233,13 @@ void RTC_Second(uint8_t second) {
     Time |= (uint32_t)((u << RTC_TSTR_SU_Pos) | (t << RTC_TSTR_ST_Pos));
 
     // Write back to the Time register
-    RTC_SetTr(Time);
+    RTC_Set_tr(Time);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
-void RTC_Year(uint8_t year) {
+void RTC_Set_year(uint8_t year) {
     // Validate the year range (0-99)
     if (year > MAX_YEAR) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -248,14 +250,14 @@ void RTC_Year(uint8_t year) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert year to BCD format
-    t = rtc_dec2bcd(year / 10);
-    u = rtc_dec2bcd(year % 10);
+    t = _rtc_dec2bcd(year / 10);
+    u = _rtc_dec2bcd(year % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Date register
     Date = RTC->DR;
@@ -267,13 +269,13 @@ void RTC_Year(uint8_t year) {
     Date |= (uint32_t)((u << RTC_DR_YU_Pos) | (t << RTC_DR_YT_Pos));
 
     // Write back to the Date register
-    RTC_SetDr(Date);
+    RTC_Set_dr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
-void RTC_Month(uint8_t month) {
+void RTC_Set_month(uint8_t month) {
     // Validate the month range (1-12)
     if (month < MIN_MONTH || month > MAX_MONTH) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -284,14 +286,14 @@ void RTC_Month(uint8_t month) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert month to BCD format
-    t = rtc_dec2bcd(month / 10);
-    u = rtc_dec2bcd(month % 10);
+    t = _rtc_dec2bcd(month / 10);
+    u = _rtc_dec2bcd(month % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Date register
     Date = RTC->DR;
@@ -303,10 +305,10 @@ void RTC_Month(uint8_t month) {
     Date |= (uint32_t)((u << RTC_TSDR_MU_Pos) | (t << RTC_TSDR_MT_Pos));
 
     // Write back to the Date register
-    RTC_SetDr(Date);
+    RTC_Set_dr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
 void RTC_WeekDay(uint8_t weekday) {
@@ -320,13 +322,13 @@ void RTC_WeekDay(uint8_t weekday) {
     uint8_t u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert weekday to BCD format
-    u = rtc_dec2bcd(weekday % 10); // Assuming weekday is represented as 1-7
+    u = _rtc_dec2bcd(weekday % 10); // Assuming weekday is represented as 1-7
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Date register
     Date = RTC->DR;
@@ -338,13 +340,13 @@ void RTC_WeekDay(uint8_t weekday) {
     Date |= (uint32_t)(u << RTC_TSDR_WDU_Pos);
 
     // Write back to the Date register
-    RTC_SetDr(Date);
+    RTC_Set_dr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
-void RTC_Day(uint8_t day) {
+void RTC_Set_day(uint8_t day) {
     // Validate the day range (1-31)
     if (day < MIN_DAY || day > MAX_DAY) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -355,14 +357,14 @@ void RTC_Day(uint8_t day) {
     uint8_t t, u;
 
     // Enable power clock for RTC
-    RTC_PwrClock(1);
+    RTC_PWR_clock(1);
 
     // Convert day to BCD format
-    t = rtc_dec2bcd(day / 10);
-    u = rtc_dec2bcd(day % 10);
+    t = _rtc_dec2bcd(day / 10);
+    u = _rtc_dec2bcd(day % 10);
 
     // Wait for RTC to be ready for reading
-    RTC_WaitRead();
+    RTC_Wait_read();
 
     // Read current Date register
     Date = RTC->DR;
@@ -374,10 +376,10 @@ void RTC_Day(uint8_t day) {
     Date |= (uint32_t)((u << RTC_TSDR_DU_Pos) | (t << RTC_TSDR_DT_Pos));
 
     // Write back to the Date register
-    RTC_SetDr(Date);
+    RTC_Set_dr(Date);
 
     // Disable power clock for RTC
-    RTC_PwrClock(0);
+    RTC_PWR_clock(0);
 }
 
 void RTC_dr2vec(char* rtc_vect)
@@ -386,25 +388,25 @@ void RTC_dr2vec(char* rtc_vect)
 		uint32_t dr = RTC->DR;
 		// YT
 		rtc_vect[0] = (uint8_t) (dr >> RTC_DR_YT_Pos) & 0x0F;
-		rtc_vect[0] = rtc_bcd2dec(rtc_vect[0]);
+		rtc_vect[0] = _rtc_bcd2dec(rtc_vect[0]);
 		// YU
 		rtc_vect[1] = (uint8_t) (dr >> RTC_DR_YU_Pos) & 0x0F;
-		rtc_vect[1] = rtc_bcd2dec(rtc_vect[1]);
+		rtc_vect[1] = _rtc_bcd2dec(rtc_vect[1]);
 		// WDU
 		rtc_vect[2] = (uint8_t) (dr >> RTC_DR_WDU_Pos) & 0x07;
-		rtc_vect[2] = rtc_bcd2dec(rtc_vect[2]);
+		rtc_vect[2] = _rtc_bcd2dec(rtc_vect[2]);
 		// MT
 		rtc_vect[3] = (uint8_t) (dr >> RTC_DR_MT_Pos) & 0x01;
-		rtc_vect[3] = rtc_bcd2dec(rtc_vect[3]);
+		rtc_vect[3] = _rtc_bcd2dec(rtc_vect[3]);
 		// MU
 		rtc_vect[4] = (uint8_t) (dr >> RTC_DR_MU_Pos) & 0x0F;
-		rtc_vect[4] = rtc_bcd2dec(rtc_vect[4]);
+		rtc_vect[4] = _rtc_bcd2dec(rtc_vect[4]);
 		// DT
 		rtc_vect[5] = (uint8_t) (dr >> RTC_DR_DT_Pos) & 0x03;
-		rtc_vect[5] = rtc_bcd2dec(rtc_vect[5]);
+		rtc_vect[5] = _rtc_bcd2dec(rtc_vect[5]);
 		// DU
 		rtc_vect[6] = (uint8_t) dr & RTC_DR_DU;
-		rtc_vect[6] = rtc_bcd2dec(rtc_vect[6]);
+		rtc_vect[6] = _rtc_bcd2dec(rtc_vect[6]);
 		// Store Value
 		// Clear Registers synchronisation flag
 		RTC->ISR &= (uint32_t) ~(1 << RTC_ISR_RSF_Pos);
@@ -417,97 +419,97 @@ void RTC_tr2vec(char* rtc_vect)
 		uint32_t tr = RTC->TR;
 		// ht
 		rtc_vect[0] = (uint8_t) (tr >> RTC_TR_HT_Pos) & 0x03;
-		rtc_vect[0] = rtc_bcd2dec(rtc_vect[0]);
+		rtc_vect[0] = _rtc_bcd2dec(rtc_vect[0]);
 		// hu
 		rtc_vect[1] = (uint8_t) (tr >> RTC_TR_HU_Pos) & 0x0F;
-		rtc_vect[1] = rtc_bcd2dec(rtc_vect[1]);
+		rtc_vect[1] = _rtc_bcd2dec(rtc_vect[1]);
 		// mnt
 		rtc_vect[2] = (uint8_t) (tr >> RTC_TR_MNT_Pos) & 0x07;
-		rtc_vect[2] = rtc_bcd2dec(rtc_vect[2]);
+		rtc_vect[2] = _rtc_bcd2dec(rtc_vect[2]);
 		// mnu
 		rtc_vect[3] = (uint8_t) (tr >> RTC_TR_MNU_Pos) & 0x0F;
-		rtc_vect[3] = rtc_bcd2dec(rtc_vect[3]);
+		rtc_vect[3] = _rtc_bcd2dec(rtc_vect[3]);
 		// st
 		rtc_vect[4] = (uint8_t) (tr >> RTC_TR_ST_Pos) & 0x07;
-		rtc_vect[4] = rtc_bcd2dec(rtc_vect[4]);
+		rtc_vect[4] = _rtc_bcd2dec(rtc_vect[4]);
 		// su
 		rtc_vect[5] = (uint8_t) tr & RTC_TR_SU;
-		rtc_vect[5] = rtc_bcd2dec(rtc_vect[5]);
+		rtc_vect[5] = _rtc_bcd2dec(rtc_vect[5]);
 		// Store value
 		// Clear Registers synchronisation flag
 		RTC->ISR &= (uint32_t) ~(1 << RTC_ISR_RSF_Pos);
 	}
 }
 
-uint8_t RTC__get_Year(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_year(void){
+	RTC_Wait_read();
 	uint32_t dr = RTC->DR;
-	return rtc_bcd2dec((dr >> 16) & 0x00FF);
+	return _rtc_bcd2dec((dr >> 16) & 0x00FF);
 }
-uint8_t RTC__get_Month(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_month(void){
+	RTC_Wait_read();
 	uint32_t dr = RTC->DR;
-	return rtc_bcd2dec((dr >> 8) & 0x001F);
+	return _rtc_bcd2dec((dr >> 8) & 0x001F);
 }
-uint8_t RTC__get_WeekDay(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_weekday(void){
+	RTC_Wait_read();
 	uint32_t dr = RTC->DR;
-	//return rtc_bcd2dec(get_reg_block(dr,3,13));
-	return rtc_bcd2dec((dr >> 13) & 0x0007);
+	//return _rtc_bcd2dec(get_reg_block(dr,3,13));
+	return _rtc_bcd2dec((dr >> 13) & 0x0007);
 }
-uint8_t RTC__get_Day(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_day(void){
+	RTC_Wait_read();
 	uint32_t dr = RTC->DR;
-	return rtc_bcd2dec(dr & 0x003F);
+	return _rtc_bcd2dec(dr & 0x003F);
 }
-uint16_t rtc_get_ss(void)
+uint16_t RTC_Get_ss(void)
 {
-	RTC_WaitRead();
+	RTC_Wait_read();
 	return RTC->SSR;
 }
 
-uint8_t RTC__get_Hour(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_hour(void){
+	RTC_Wait_read();
 	uint32_t tr = RTC->TR;
-	return rtc_bcd2dec((tr >> 16) & 0x003F);
+	return _rtc_bcd2dec((tr >> 16) & 0x003F);
 }
-uint8_t RTC__get_Minute(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_minute(void){
+	RTC_Wait_read();
 	uint32_t tr = RTC->TR;
-	return rtc_bcd2dec((tr >> 8) & 0x007F);
+	return _rtc_bcd2dec((tr >> 8) & 0x007F);
 }
-uint8_t RTC__get_Second(void){
-	RTC_WaitRead();
+uint8_t RTC_Get_second(void){
+	RTC_Wait_read();
 	uint32_t tr = RTC->TR;
-	return rtc_bcd2dec(tr & 0x007F);
+	return _rtc_bcd2dec(tr & 0x007F);
 }
 
 /*** AUX Procedure & Function Definition ***/
-void RTC_PwrClock(uint8_t state)
+void RTC_PWR_clock(uint8_t state)
 {
 	set_reg_block(&RCC->APB1ENR, 1, RCC_APB1ENR_PWREN_Pos, state); // Power interface clock enable
 }
-void RTC_BckSramClock(uint8_t state)
+void RTC_BkpSram_clock(uint8_t state)
 {
 	#ifdef STM32F446xx
 		set_reg_block(&RCC->AHB1ENR, 1, RCC_AHB1ENR_BKPSRAMEN_Pos, state); // Backup SRAM interface clock enable
 	#endif
 	set_reg_block(&RCC->AHB1LPENR, 1, RCC_AHB1LPENR_SRAM1LPEN_Pos, state); // Backup SRAM interface clock enable
 }
-void RTC_WriteEnable(void)
+void RTC_Write_enable(void)
 {
 	PWR->CR |= (1 << PWR_CR_DBP_Pos); // Disable protection
 }
-void RTC_WriteDisable(void)
+void RTC_Write_disable(void)
 {
 	PWR->CR &= (uint32_t) ~(1 << PWR_CR_DBP_Pos); // Enable protection
 }
-void RTC_RegUnlock(void)
+void RTC_Reg_unlock(void)
 {
 	RTC->WPR |= RTC_KEY1;
 	RTC->WPR |= RTC_KEY2;
 }
-void RTC_RegWrite(volatile uint32_t* rtc_reg, uint32_t value) {
+void RTC_Reg_write(volatile uint32_t* rtc_reg, uint32_t value) {
     // Check if the register pointer is valid
     if (rtc_reg == NULL) {
         // Optionally handle error (e.g., return, assert, or log)
@@ -518,7 +520,7 @@ void RTC_RegWrite(volatile uint32_t* rtc_reg, uint32_t value) {
     RTC->ISR |= (1 << RTC_ISR_INIT_Pos); // INIT
 
     // Wait for the INITF flag to be set, indicating that the RTC is ready
-    uint32_t rtc_time_out = RTC_INIT_TIMEOUT;
+    volatile uint32_t rtc_time_out = RTC_INIT_TIMEOUT;
     while (!(RTC->ISR & (1 << RTC_ISR_INITF_Pos)) && rtc_time_out) {
         rtc_time_out--;
     }
@@ -536,39 +538,40 @@ void RTC_RegWrite(volatile uint32_t* rtc_reg, uint32_t value) {
     // Clear the INIT bit to exit initialization mode
     RTC->ISR &= ~(1 << RTC_ISR_INIT_Pos);
 }
-void RTC_StopRead(void)
+void RTC_Stop_read(void)
 {
 	RTC->ISR &= ~(1 << RTC_ISR_RSF_Pos);
 }
-void RTC_WaitRead(void)
+void RTC_Wait_read(void)
 { // Wait Data Ready
+	volatile uint32_t rtc_time_out;
 	for(rtc_time_out = 300; !(RTC->ISR & (1 << RTC_ISR_RSF_Pos)) && rtc_time_out; rtc_time_out--);
 }
 //RTC
-void RTC_SetTr(uint32_t value)
+void RTC_Set_tr(uint32_t value)
 {
-	RTC_WriteEnable();
-	RTC_RegUnlock();
-	RTC_RegWrite(&RTC->TR, value);
-	RTC_WriteDisable();
+	RTC_Write_enable();
+	RTC_Reg_unlock();
+	RTC_Reg_write(&RTC->TR, value);
+	RTC_Write_disable();
 }
-void RTC_SetDr(uint32_t value)
+void RTC_Set_dr(uint32_t value)
 {
-	RTC_WriteEnable();
-	RTC_RegUnlock();
-	RTC_RegWrite(&RTC->DR, value);
-	RTC_WriteDisable();
+	RTC_Write_enable();
+	RTC_Reg_unlock();
+	RTC_Reg_write(&RTC->DR, value);
+	RTC_Write_disable();
 }
 /*** COMMON ***/
-char rtc_bcd2dec(char num)
+char _rtc_bcd2dec(char num)
 {
 	return ((num / 16 * 10) + (num % 16));
 }
-char rtc_dec2bcd(char num)
+char _rtc_dec2bcd(char num)
 {
 	return ((num / 10 * 16) + (num % 10));
 }
-void rtc_lenable(unsigned int lclock) {
+void RTC_L_enable(unsigned int lclock) {
     if (lclock > 2) {
         // Invalid clock selection; you might want to handle this error
         return;
@@ -580,27 +583,27 @@ void rtc_lenable(unsigned int lclock) {
     while (rdy) {
         if (lclock == 0) { // Enable Internal Low-Speed Oscillator
             if (set) {
-                RTC_WriteEnable();
+                RTC_Write_enable();
                 RCC->CSR |= RCC_CSR_LSION;
-                RTC_WriteDisable();
+                RTC_Write_disable();
                 set = 0;
             } else if (RCC->CSR & RCC_CSR_LSIRDY) {
                 rdy = 0; // Oscillator is ready
             }
         } else if (lclock == 1) { // Enable External Low-Speed Oscillator
             if (set) {
-                RTC_WriteEnable();
+                RTC_Write_enable();
                 RCC->BDCR |= RCC_BDCR_LSEON;
-                RTC_WriteDisable();
+                RTC_Write_disable();
                 set = 0;
             } else if (RCC->BDCR & RCC_BDCR_LSERDY) {
                 rdy = 0; // Oscillator is ready
             }
         } else if (lclock == 2) { // Bypass External Low-Speed Oscillator
             if (set) {
-                RTC_WriteEnable();
+                RTC_Write_enable();
                 RCC->BDCR |= RCC_BDCR_LSEBYP;
-                RTC_WriteDisable();
+                RTC_Write_disable();
             }
             lclock = 1; // Fall back to LSEON
         } else {
@@ -609,11 +612,11 @@ void rtc_lenable(unsigned int lclock) {
     }
 }
 static void set_rtc_clock_source(uint8_t clock_source) {
-    RTC_WriteEnable();
+    RTC_Write_enable();
     set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, clock_source);
-    RTC_WriteDisable();
+    RTC_Write_disable();
 }
-void rtc_lselect(uint8_t lclock) {
+void RTC_L_select(uint8_t lclock) {
     // Input validation
     if (lclock > 3) {
         // Invalid selection, default to LSI
@@ -621,9 +624,9 @@ void rtc_lselect(uint8_t lclock) {
     }
 
     // Clear previous RTC selection
-    RTC_WriteEnable();
+    RTC_Write_enable();
     set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, 0);
-    RTC_WriteDisable();
+    RTC_Write_disable();
 
     // Set the selected clock source
     switch (lclock) {
@@ -644,37 +647,34 @@ void rtc_lselect(uint8_t lclock) {
 }
 
 /*** RTC Procedure & Function Definition ***/
-void rtc_enable(void)
-{
+static STM32FXXX_RTC stm32fxxx_rtc = {
 	/***/
-	stm32fxxx_rtc.get_Year = RTC__get_Year;
-	stm32fxxx_rtc.get_Month = RTC__get_Month;
-	stm32fxxx_rtc.get_WeekDay = RTC__get_WeekDay;
-	stm32fxxx_rtc.get_Day = RTC__get_Day;
-	stm32fxxx_rtc.get_Hour = RTC__get_Hour;
-	stm32fxxx_rtc.get_Minute = RTC__get_Minute;
-	stm32fxxx_rtc.get_Second = RTC__get_Second;
-	stm32fxxx_rtc.Day = RTC_Day;
-	stm32fxxx_rtc.Month = RTC_Month;
-	stm32fxxx_rtc.WeekDay = RTC_WeekDay;
-	stm32fxxx_rtc.Year = RTC_Year;
-	stm32fxxx_rtc.Hour = RTC_Hour;
-	stm32fxxx_rtc.Minute = RTC_Minute;
-	stm32fxxx_rtc.Second = RTC_Second;
-	stm32fxxx_rtc.dr2vec = RTC_dr2vec;
-	stm32fxxx_rtc.tr2vec = RTC_tr2vec;
-	stm32fxxx_rtc.BckWrite = RTC_BckWrite;
-	stm32fxxx_rtc.BckRead = RTC_BckRead;
-	stm32fxxx_rtc.get_ss = rtc_get_ss;
+	.get_year = RTC_Get_year,
+	.get_month = RTC_Get_month,
+	.get_weekday = RTC_Get_weekday,
+	.get_day = RTC_Get_day,
+	.get_hour = RTC_Get_hour,
+	.get_minute = RTC_Get_minute,
+	.get_second = RTC_Get_second,
+	.set_day = RTC_Set_day,
+	.set_month = RTC_Set_month,
+	.set_weekday = RTC_WeekDay,
+	.set_year = RTC_Set_year,
+	.set_hour = RTC_Set_hour,
+	.set_minute = RTC_Set_minute,
+	.set_second = RTC_Set_second,
+	.dr2vec = RTC_dr2vec,
+	.tr2vec = RTC_tr2vec,
+	.bkp_write = RTC_Bkp_write,
+	.bkp_read = RTC_Bkp_read,
+	.get_ss = RTC_Get_ss,
 	/*** Clock and Nvic ***/
-	stm32fxxx_rtc.pwr_clock = RTC_PwrClock;
-	stm32fxxx_rtc.bck_sram_clock = RTC_BckSramClock;
-	stm32fxxx_rtc.clock = RTC_Clock;
-	stm32fxxx_rtc.nvic = RTC_Interrupt;
-	stm32fxxx_rtc.inic = RTC_Inic;
-
-	//return &stm32fxxx_rtc;
-}
+	.pwr_clock = RTC_PWR_clock,
+	.bkp_sram_clock = RTC_BkpSram_clock,
+	.clock = RTC_Clock,
+	.nvic = RTC_Interrupt,
+	.inic = RTC_Default
+};
 
 STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc; }
 

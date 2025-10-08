@@ -73,10 +73,9 @@ int main(void)
 {
 	rcc()->inic();
 	systick_start();
-	rtc_enable();
 	tim1()->clock(1);
 
-	rtc()->inic(1);
+	rtc()->inic();
 
 	PA = EXPLODE_enable();
 
@@ -177,7 +176,7 @@ int main(void)
 
 	//HAL_I2C_Master_Transmit( &i2c, devaddr, pdata, size, timeout );
 
-	//rtc()->BckWrite(2,23);
+	//rtc()->bkp_write(2,23);
 
 	while (1){
 		/*** preamble ***/
@@ -200,7 +199,7 @@ int main(void)
 		lcd0()->gotoxy(3,0);
 		//lcd0()->string_size(func()->ui32toa(count4),6); lcd0()->string_size(func()->ui32toa(count5),6); lcd0()->string_size(func()->ui32toa(count7),6);
 		//lcd0()->string_size(func()->print_v2("pclk1: %d", query()->pclk1()),14);
-		lcd0()->string(func()->i32toa(rtc()->BckRead(2)));
+		lcd0()->string(func()->i32toa(rtc()->bkp_read(2)));
 
 	}
 }

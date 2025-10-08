@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Update:   16012024
-Comment:
-	
 *******************************************************************************/
 #ifndef _ARMSYSTICK_H_
 	#define _ARMSYSTICK_H_

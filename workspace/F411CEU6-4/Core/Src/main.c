@@ -69,11 +69,11 @@ int main(void)
 	rcc()->inic();
 	systick_start();
 	fpu_enable();
+	rtc()->inic();
 
 	_delay_ms(1);
     HAL_Init();
 
-    rtc_enable();
     adc1()->clock(1);
     gpioa()->clock(1);
     gpiob()->clock(1); // lcd0
@@ -81,7 +81,6 @@ int main(void)
 
     setup_usart1();
 
-    rtc()->inic(1);
     PA = EXPLODE_enable();
 
     _UN8_var Menu;
@@ -146,7 +145,7 @@ int main(void)
 
        if (!tm_getstep()) { // avoid simultaneous calls
            /*** IPD || CONNECT ***/
-    	   char connectStr[12];
+    	   char connectStr[16];
            for (int i = 0; i < 16; i++) {
                sprintf(connectStr, "%d,CONNECT", i);
                if (strstr(tokens[0], connectStr)) {
@@ -227,9 +226,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Hour();
+                    incr_0 = rtc()->get_hour();
                     incr_0 = (incr_0 > 22) ? 0 : incr_0 + 1;
-                    rtc()->Hour(incr_0);
+                    rtc()->set_hour(incr_0);
                 }
                 skip_0++;
             }
@@ -248,9 +247,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Minute();
+                    incr_0 = rtc()->get_minute();
                     incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
-                    rtc()->Minute(incr_0);
+                    rtc()->set_minute(incr_0);
                 }
                 skip_0++;
             }
@@ -269,9 +268,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Second();
+                    incr_0 = rtc()->get_second();
                     incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
-                    rtc()->Second(incr_0);
+                    rtc()->set_second(incr_0);
                 }
                 skip_0++;
             }
@@ -290,9 +289,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Year();
+                    incr_0 = rtc()->get_year();
                     incr_0 = (incr_0 > 98) ? 0 : incr_0 + 1;
-                    rtc()->Year(incr_0);
+                    rtc()->set_year(incr_0);
                 }
                 skip_0++;
             }
@@ -311,9 +310,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Month();
+                    incr_0 = rtc()->get_month();
                     incr_0 = (incr_0 > 11) ? 1 : incr_0 + 1;
-                    rtc()->Month(incr_0);
+                    rtc()->set_month(incr_0);
                 }
                 skip_0++;
             }
@@ -332,9 +331,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
             	if (skip_0 > 0) { // Handle button hold logic if necessary
-            		incr_0 = rtc()->get_WeekDay();
+            		incr_0 = rtc()->get_weekday();
                     incr_0 = (incr_0 > 6) ? 1 : incr_0 + 1;
-                    rtc()->WeekDay(incr_0);
+                    rtc()->set_weekday(incr_0);
                 }
                 skip_0++;
             }
@@ -353,9 +352,9 @@ int main(void)
             if (PA.par.LH & 1) {
             	ftdelayReset(1);
                 if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_Day();
+                    incr_0 = rtc()->get_day();
                     incr_0 = (incr_0 > 30) ? 1 : incr_0 + 1;
-                    rtc()->Day(incr_0);
+                    rtc()->set_day(incr_0);
                 }
                 skip_0++;
             }

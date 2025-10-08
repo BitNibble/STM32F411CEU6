@@ -48,10 +48,10 @@ typedef struct
 	STM32FXXX_RCC_PLLI2S* plli2s;
 	STM32FXXX_RCC_PLLSAI* pllsai;
 	/*** Other ***/
-	void (*henable)(uint8_t hclock);
-	void (*hselect)(uint8_t sysclk);
-	void (*lenable)(uint8_t lclock);
-	void (*lselect)(uint8_t lclock);
+	void (*h_enable)(uint8_t hclock);
+	void (*h_select)(uint8_t sysclk);
+	void (*l_enable)(uint8_t lclock);
+	void (*l_select)(uint8_t lclock);
 	void (*nvic)(uint8_t state);
 	RCC_Callback callback;
 }STM32FXXX_RCC;

@@ -36,35 +36,35 @@ typedef enum {
 typedef struct
 {
 	/***/
-	uint8_t (*get_Year)(void);
-	uint8_t (*get_Month)(void);
-	uint8_t (*get_WeekDay)(void);
-	uint8_t (*get_Day)(void);
-	uint8_t (*get_Hour)(void);
-	uint8_t (*get_Minute)(void);
-	uint8_t (*get_Second)(void);
-	void (*Day)(uint8_t day);
-	void (*Month)(uint8_t month);
-	void (*WeekDay)(uint8_t weekday);
-	void (*Year)(uint8_t year);
-	void (*Hour)(uint8_t hour);
-	void (*Minute)(uint8_t minute);
-	void (*Second)(uint8_t second);
+	uint8_t (*get_year)(void);
+	uint8_t (*get_month)(void);
+	uint8_t (*get_weekday)(void);
+	uint8_t (*get_day)(void);
+	uint8_t (*get_hour)(void);
+	uint8_t (*get_minute)(void);
+	uint8_t (*get_second)(void);
+	void (*set_day)(uint8_t day);
+	void (*set_month)(uint8_t month);
+	void (*set_weekday)(uint8_t weekday);
+	void (*set_year)(uint8_t year);
+	void (*set_hour)(uint8_t hour);
+	void (*set_minute)(uint8_t minute);
+	void (*set_second)(uint8_t second);
 	void (*dr2vec)(char* rtc_vect);
 	void (*tr2vec)(char* rtc_vect);
-	void (*BckWrite)(uint8_t registerIndex, uint8_t data);
-	uint8_t (*BckRead)(uint8_t registerIndex);
+	void (*bkp_write)(uint8_t registerIndex, uint8_t data);
+	uint8_t (*bkp_read)(uint8_t registerIndex);
 	uint16_t (*get_ss)(void);
 	/*** Clock and Nvic ***/
 	void (*pwr_clock)(uint8_t state);
-	void (*bck_sram_clock)(uint8_t state);
+	void (*bkp_sram_clock)(uint8_t state);
 	void (*clock)(uint8_t isEnabled);
-	void (*inic)(uint8_t clock);
+	void (*inic)(void);
 	void (*nvic)(uint8_t config);
 }STM32FXXX_RTC;
 
 /*** Global ***/
-void rtc_enable(void); STM32FXXX_RTC* rtc(void);
+STM32FXXX_RTC* rtc(void);
 
 const char* WeekDay_String(uint8_t weekday_n);
 

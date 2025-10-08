@@ -277,19 +277,19 @@ void RCC_Set_PLLQ(uint8_t pllq) {
 }
 
 // Enable/Disable PLL
-void RCC_PLL_Enable(uint8_t enable) {
+void RCC_PLL_enable(uint8_t enable) {
     set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, enable ? 1 : 0);
 }
 
 // Main PLL configuration
 void RCC_PLL_division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq) {
-    RCC_PLL_Enable(0);      // Turn off PLL before configuring
+    RCC_PLL_enable(0);      // Turn off PLL before configuring
     RCC_Set_PLLQ(pllq);
     RCC_Set_PLLP(pllp);
     RCC_Set_PLLN(plln);
     RCC_Set_PLLM(pllm);
     // Optionally re-enable PLL here if needed:
-    // RCC_PLL_Enable(1);
+    // RCC_PLL_enable(1);
 }
 
 void RCC_PLLCLK_enable(void)
@@ -355,7 +355,7 @@ static STM32FXXX_RCC_PLLI2S stm32fxxx_rcc_plli2s = {
 #endif
 
 /*** System Clock Init ***/
-void rcc_default(void)
+void RCC_default(void)
 {	// Configure -> Enable -> Select
 	// AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
 	//STM32FXXXPrescaler(8, 1, 1, 1); // (8, 1, 1, 0)
@@ -376,7 +376,7 @@ void rcc_default(void)
 
 /*** INIC Procedure & Function Definition ***/
 static STM32FXXX_RCC stm32fxxx_rcc = {
-	.inic = rcc_default,
+	.inic = RCC_default,
 	/*** RCC Bit Mapping Link ***/
 	.prescaler = RCC_Prescaler,
 	/*** PLL ***/
@@ -388,10 +388,10 @@ static STM32FXXX_RCC stm32fxxx_rcc = {
 		.pllsai = NULL,
 	#endif
 	/*** Other ***/
-	.henable = RCC_H_enable,
-	.hselect = RCC_H_select,
-	.lenable = RCC_L_enable,
-	.lselect = RCC_L_select,
+	.h_enable = RCC_H_enable,
+	.h_select = RCC_H_select,
+	.l_enable = RCC_L_enable,
+	.l_select = RCC_L_select,
 	/*** Clock and Nvic ***/
 	.nvic = RCC_nvic,
 	.callback = {0}

@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Update:   16012024
-Comment:
-	
 *******************************************************************************/
 #include "armsystick.h"
 #include "stm32f411ceu6.h"
@@ -26,7 +24,7 @@ void delay_Configure(void)
 {
     uint32_t DelayCounter_top;
     // Calculate DelayCounter_top once for both STM32 families
-    DelayCounter_top = get_sysclk() / get_hpre(); // Assuming gethpre() returns a valid prescaler
+    DelayCounter_top = get_sysclk() / get_hpre(); // Assuming get_hpre() returns a valid pre-scaler
     // Calculate the SysTick values for different delay intervals
     systick_us 		= DelayCounter_top / 1000000 - 1 ; // 1 microsecond
     systick_10us 	= DelayCounter_top / 100000 - 1 ;  // 10 microseconds
@@ -107,7 +105,7 @@ void SysTick_Handler(void)
 
 /******
 Load does not accept values below 70
-Note us only work for high frequency clocks.
+Note 'us' only work for high frequency clocks.
 
 ******/
 

@@ -35,12 +35,11 @@ int main(void)
 {
 	rcc()->inic(); // Clock Configuration
 	systick_start(); // Delays
-	rtc_enable(); // Real Time Clock
 	gpiob()->clock(1); // LCD display 4x20
 	gpioc()->clock(1); // Gpioc13
 	tim1()->clock(1); // Blink led at uie (4)
 
-	rtc()->inic(1);
+	rtc()->inic();
 
 	char vecT[8]; // for calendar
 
