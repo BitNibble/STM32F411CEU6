@@ -4,14 +4,22 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-FXXX
 Date:     07032024
-Comment:
-	
 *******************************************************************************/
 #ifndef _STM32FXXXRCC_H_
 	#define _STM32FXXXRCC_H_
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
+
+typedef struct {
+    void (*lsi_ready)(void);
+    void (*lse_ready)(void);
+    void (*hsi_ready)(void);
+    void (*hse_ready)(void);
+    void (*pll_ready)(void);
+    void (*plli2s_ready)(void);
+    void (*css_fault)(void);
+} RCC_Callback;
 /*** RCC_Common TypeDef ***/
 // RCC -> PLL
 typedef struct
@@ -44,8 +52,8 @@ typedef struct
 	void (*hselect)(uint8_t sysclk);
 	void (*lenable)(uint8_t lclock);
 	void (*lselect)(uint8_t lclock);
-
 	void (*nvic)(uint8_t state);
+	RCC_Callback callback;
 }STM32FXXX_RCC;
 
 STM32FXXX_RCC* rcc(void);

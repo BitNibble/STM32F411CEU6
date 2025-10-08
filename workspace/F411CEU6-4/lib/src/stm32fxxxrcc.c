@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-FXXX
 Date:     07032024
-Comment:
-	
 *******************************************************************************/
 /*** File Library ***/
 #include <stm32fxxxrcc.h>
@@ -288,16 +286,16 @@ void RCC_PLL_division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 }
 void RCC_PLLCLK_enable(void)
 {
-	uint32_t rcc_time_out;
+	volatile uint32_t rcc_time_out;
 	//if(onoff){
 		for( rcc_time_out = 0xFFFFFF, RCC->CR |= (1 << RCC_CR_PLLON_Pos) ; !(RCC->CR & (1 << RCC_CR_PLLRDY_Pos)) && rcc_time_out; rcc_time_out-- ); // PLLON: Main PLL (PLL) enable
 	//}else{
 		//RCC->CR &= (unsigned int) ~(1 << 24);
 	//}
 }
-void RCC_PLLI2S_enble(void)
+void RCC_PLLI2S_enable(void)
 {
-	uint32_t rcc_time_out;
+	volatile uint32_t rcc_time_out;
 	//if(onoff)
 		for( rcc_time_out = 0xFFFFFF, RCC->CR |= (1 << RCC_CR_PLLI2SON_Pos) ; !(RCC->CR & (1 << RCC_CR_PLLI2SRDY_Pos)) && rcc_time_out; rcc_time_out-- ); // PLLI2SON: PLLI2S enable
 	//else
@@ -339,12 +337,12 @@ static STM32FXXX_RCC_PLL stm32fxxx_rcc_pll = {
 
 static STM32FXXX_RCC_PLLI2S stm32fxxx_rcc_plli2s = {
 
-	.enable = RCC_PLLI2S_enble
+	.enable = RCC_PLLI2S_enable
 };
 
 #ifdef STM32F446xx
 	static STM32FXXX_RCC_PLLSAI stm32fxxx_rcc_pllsai = {
-		.enable = RCC_PLLSAI_enable;
+		.enable = RCC_PLLSAI_enable,
 	}
 #endif
 
@@ -387,10 +385,61 @@ static STM32FXXX_RCC stm32fxxx_rcc = {
 	.lenable = RCC_L_enable,
 	.lselect = RCC_L_select,
 	/*** Clock and Nvic ***/
-	.nvic = RCC_nvic
+	.nvic = RCC_nvic,
+	.callback = {0}
 };
 
 STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc; };
+
+void RCC_IRQHandler(void)
+{
+    uint32_t status = RCC->CIR;
+    uint32_t mask   = status & 0xFF; // lower bits are flags
+
+    // LSI Ready
+    if (status & RCC_CIR_LSIRDYF) {
+        RCC->CIR = RCC_CIR_LSIRDYC; // clear
+        if (stm32fxxx_rcc.callback.lsi_ready) stm32fxxx_rcc.callback.lsi_ready();
+    }
+
+    // LSE Ready
+    if (status & RCC_CIR_LSERDYF) {
+        RCC->CIR = RCC_CIR_LSERDYC;
+        if (stm32fxxx_rcc.callback.lse_ready) stm32fxxx_rcc.callback.lse_ready();
+    }
+
+    // HSI Ready
+    if (status & RCC_CIR_HSIRDYF) {
+        RCC->CIR = RCC_CIR_HSIRDYC;
+        if (stm32fxxx_rcc.callback.hsi_ready) stm32fxxx_rcc.callback.hsi_ready();
+    }
+
+    // HSE Ready
+    if (status & RCC_CIR_HSERDYF) {
+        RCC->CIR = RCC_CIR_HSERDYC;
+        if (stm32fxxx_rcc.callback.hse_ready) stm32fxxx_rcc.callback.hse_ready();
+    }
+
+    // PLL Ready
+    if (status & RCC_CIR_PLLRDYF) {
+        RCC->CIR = RCC_CIR_PLLRDYC;
+        if (stm32fxxx_rcc.callback.pll_ready) stm32fxxx_rcc.callback.pll_ready();
+    }
+
+    // PLLI2S Ready
+    if (status & RCC_CIR_PLLI2SRDYF) {
+        RCC->CIR = RCC_CIR_PLLI2SRDYC;
+        if (stm32fxxx_rcc.callback.plli2s_ready) stm32fxxx_rcc.callback.plli2s_ready();
+    }
+
+    // Clock Security System Fault
+    if (status & RCC_CIR_CSSF) {
+        RCC->CIR = RCC_CIR_CSSC;
+        if (stm32fxxx_rcc.callback.css_fault) stm32fxxx_rcc.callback.css_fault();
+    }
+
+    (void)mask; // silence unused variable warning
+}
 
 /******
 1º Sequence
