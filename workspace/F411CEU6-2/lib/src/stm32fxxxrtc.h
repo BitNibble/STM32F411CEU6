@@ -31,7 +31,20 @@ typedef enum {
     RTC_ENABLE_ALARM = 0b10,
     RTC_DISABLE_WAKEUP = 0b101,
     RTC_DISABLE_ALARM = 0b110
-} RTC_Config;
+} RTC_NVIC_config;
+typedef enum {
+	RTC_IRQ_ALARM = 0,
+	RTC_IRQ_WAKEUP,
+	RTC_IRQ_TAMPER,
+	RTC_IRQ_TS,
+} RTC_IRQ_config;
+typedef struct {
+    void (*Alarm)(void);
+    void (*WakeUp)(void);
+    void (*TimeStamp)(void);
+    void (*Tamper)(void);
+    void (*Overrun)(void);
+} RTC_callback;
 /*** RTC TypeDef ***/
 typedef struct
 {
@@ -61,6 +74,9 @@ typedef struct
 	void (*clock)(uint8_t isEnabled);
 	void (*inic)(void);
 	void (*nvic)(uint8_t config);
+	void (*irq_enable)(uint8_t type);
+	void (*irq_disable)(uint8_t type);
+	RTC_callback callback;
 }STM32FXXX_RTC;
 
 /*** Global ***/

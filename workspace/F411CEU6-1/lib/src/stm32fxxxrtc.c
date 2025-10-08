@@ -59,8 +59,8 @@ void RTC_Clock(uint8_t isEnabled) {
     RTC_Write_disable();
 }
 
-void RTC_Interrupt(uint8_t config) {
-    switch(config) {
+void RTC_NVIC(RTC_NVIC_config type) {
+    switch(type) {
         case RTC_ENABLE_WAKEUP:
             set_bit_block(NVIC->ISER, 1, RTC_WKUP_IRQn, 1);
             break;
@@ -77,6 +77,52 @@ void RTC_Interrupt(uint8_t config) {
             // Optional: handle unexpected config value
             break;
     }
+}
+
+void RTC_IRQ_enable(RTC_IRQ_config type)
+{
+    RTC_Write_enable();
+    RTC_Reg_unlock();
+
+    switch (type) {
+        case RTC_IRQ_ALARM:
+            RTC->CR |= RTC_CR_ALRAIE;
+            break;
+        case RTC_IRQ_WAKEUP:
+            RTC->CR |= RTC_CR_WUTIE;
+            break;
+        case RTC_IRQ_TS:
+            RTC->CR |= RTC_CR_TSIE;
+            break;
+        case RTC_IRQ_TAMPER:
+            RTC->TAFCR |= RTC_TAFCR_TAMPIE;
+            break;
+    }
+
+    RTC_Write_disable();
+}
+
+void RTC_IRQ_disable(RTC_IRQ_config type)
+{
+    RTC_Write_enable();
+    RTC_Reg_unlock();
+
+    switch (type) {
+        case RTC_IRQ_ALARM:
+            RTC->CR &= ~RTC_CR_ALRAIE;
+            break;
+        case RTC_IRQ_WAKEUP:
+            RTC->CR &= ~RTC_CR_WUTIE;
+            break;
+        case RTC_IRQ_TS:
+            RTC->CR &= ~RTC_CR_TSIE;
+            break;
+        case RTC_IRQ_TAMPER:
+            RTC->TAFCR &= ~RTC_TAFCR_TAMPIE;
+            break;
+    }
+
+    RTC_Write_disable();
 }
 
 void RTC_Inic(uint8_t clock)
@@ -672,8 +718,11 @@ static STM32FXXX_RTC stm32fxxx_rtc = {
 	.pwr_clock = RTC_PWR_clock,
 	.bkp_sram_clock = RTC_BkpSram_clock,
 	.clock = RTC_Clock,
-	.nvic = RTC_Interrupt,
-	.inic = RTC_Default
+	.inic = RTC_Default,
+	.nvic = RTC_NVIC,
+	.irq_enable = RTC_IRQ_enable,
+	.irq_disable = RTC_IRQ_disable,
+	.callback = {0}
 };
 
 STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc; }
@@ -698,6 +747,43 @@ const char* WeekDay_String(uint8_t weekday_n) {
     } else {
         return weekdays[1]; // Default to "domingo"
     }
+}
+
+/*** INTERRUPT ***/
+void RTC_IRQHandler(void)
+{
+    // Alarm
+    if (RTC->ISR & RTC_ISR_ALRAF) {
+        RTC->ISR &= ~RTC_ISR_ALRAF; // Clear flag
+        if (stm32fxxx_rtc.callback.Alarm) stm32fxxx_rtc.callback.Alarm();
+    }
+
+    // WakeUp
+    if (RTC->ISR & RTC_ISR_WUTF) {
+        RTC->ISR &= ~RTC_ISR_WUTF;  // Clear flag
+        if (stm32fxxx_rtc.callback.WakeUp) stm32fxxx_rtc.callback.WakeUp();
+    }
+
+    // Timestamp
+    if (RTC->ISR & RTC_ISR_TSF) {
+        RTC->ISR &= ~RTC_ISR_TSF;
+        if (stm32fxxx_rtc.callback.TimeStamp) stm32fxxx_rtc.callback.TimeStamp();
+    }
+
+    // Tamper (depends on TAFCR)
+    if (RTC->ISR & RTC_ISR_TAMP1F) {
+        RTC->ISR &= ~RTC_ISR_TAMP1F;
+        if (stm32fxxx_rtc.callback.Tamper) stm32fxxx_rtc.callback.Tamper();
+    }
+
+    // Overrun (if applicable)
+    if (RTC->ISR & RTC_ISR_RECALPF) {
+        RTC->ISR &= ~RTC_ISR_RECALPF;
+        if (stm32fxxx_rtc.callback.Overrun) stm32fxxx_rtc.callback.Overrun();
+    }
+
+    // Clear EXTI line 17 flag if used
+    EXTI->PR |= (1 << 17);
 }
 
 /*** EOF ***/
