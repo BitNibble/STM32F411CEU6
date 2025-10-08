@@ -26,7 +26,7 @@ void delay_Configure(void)
 {
     uint32_t DelayCounter_top;
     // Calculate DelayCounter_top once for both STM32 families
-    DelayCounter_top = getsysclk() / gethpre(); // Assuming gethpre() returns a valid prescaler
+    DelayCounter_top = get_sysclk() / get_hpre(); // Assuming gethpre() returns a valid prescaler
     // Calculate the SysTick values for different delay intervals
     systick_us 		= DelayCounter_top / 1000000 - 1 ; // 1 microsecond
     systick_10us 	= DelayCounter_top / 100000 - 1 ;  // 10 microseconds

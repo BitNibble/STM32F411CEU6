@@ -185,24 +185,24 @@ void ARMFUNC_ArmParDisplay4x20(ARMLCD0* func_lcd)
 		static uint16_t toggle = 0;
 		func_lcd->gotoxy(0,0);
 		func_lcd->string_size("sysclk:",7);
-		func_lcd->string_size( function_ui32toa( getsysclk()), 10);
+		func_lcd->string_size( function_ui32toa( get_sysclk()), 10);
 		func_lcd->gotoxy(1,0);
 		func_lcd->string_size("pllclk:",7);
-		func_lcd->string_size( function_ui32toa( getpllclk()), 10);
+		func_lcd->string_size( function_ui32toa( get_pllclk()), 10);
 		if(toggle & 1){
 			func_lcd->gotoxy(2,0);
-			func_lcd->string_size("ahb:",4); func_lcd->string_size( function_ui32toa( gethpre() ), 4);
-			func_lcd->string_size("apb1:",5); func_lcd->string_size( function_ui32toa( gethppre1() ), 3);
+			func_lcd->string_size("ahb:",4); func_lcd->string_size( function_ui32toa( get_hpre() ), 4);
+			func_lcd->string_size("apb1:",5); func_lcd->string_size( function_ui32toa( get_hppre1() ), 3);
 			func_lcd->gotoxy(3,0);
-			func_lcd->string_size("apb2:",5); func_lcd->string_size( function_ui32toa( gethppre2() ), 3);
-			func_lcd->string_size("rtc:",4); func_lcd->string_size( function_ui32toa( getrtcpre() ), 3);
+			func_lcd->string_size("apb2:",5); func_lcd->string_size( function_ui32toa( get_hppre2() ), 3);
+			func_lcd->string_size("rtc:",4); func_lcd->string_size( function_ui32toa( get_rtcpre() ), 3);
 		}else{
 			func_lcd->gotoxy(2,0);
-			func_lcd->string_size("M:",2); func_lcd->string_size( function_ui32toa( getpllm() ), 6);
-			func_lcd->string_size("N:",2); func_lcd->string_size( function_ui32toa( getplln() ), 6);
+			func_lcd->string_size("M:",2); func_lcd->string_size( function_ui32toa( get_pllm() ), 6);
+			func_lcd->string_size("N:",2); func_lcd->string_size( function_ui32toa( get_plln() ), 6);
 			func_lcd->gotoxy(3,0);
-			func_lcd->string_size("P:",2); func_lcd->string_size( function_ui32toa( getpllp() ), 2);
-			func_lcd->string_size("Q:",2); func_lcd->string_size( function_ui32toa( getpllq() ), 7);
+			func_lcd->string_size("P:",2); func_lcd->string_size( function_ui32toa( get_pllp() ), 2);
+			func_lcd->string_size("Q:",2); func_lcd->string_size( function_ui32toa( get_pllq() ), 7);
 		}
 		func_lcd->gotoxy(3,15);
 		func_lcd->string_size(function_ui32toa(toggle),5);

@@ -119,6 +119,7 @@ void RCC_L_enable(uint8_t lclock)
 {
     uint8_t set = 1;
     uint8_t rdy = 1;
+    RCC_PWR_clock(1);
 
     while(rdy)
     {
@@ -169,6 +170,7 @@ void RCC_L_enable(uint8_t lclock)
 }
 void RCC_L_select(uint8_t lclock)
 {
+	RCC_PWR_clock(1);
 	RCC_Write_enable(); // Enable write access to the backup domain
 
 	switch(lclock)
@@ -192,98 +194,104 @@ void RCC_L_select(uint8_t lclock)
 
 	RCC_Write_disable(); // Disable write access to the backup domain
 }
-void RCC_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
-{
-	set_reg_block(&RCC->CFGR, 5, RCC_CFGR_RTCPRE_Pos, rtcpre);
-	switch(ppre2){ // 13
-		case 2:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, 4);
-		break;
-		case 4:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, 5);
-		break;
-		case 8:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, 6);
-		break;
-		case 16:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, 7);
-		break;
-		default:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, 0);
-		break;
-	}
-	switch(ppre1){ // 10
-		case 2:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, 4);
-		break;
-		case 4:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, 5);
-		break;
-		case 8:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, 6);
-		break;
-		case 16:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, 7);
-		break;
-		default:
-			set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, 0);
-		break;
-	}
-	switch(ahbpre){ // 4
-		case 2:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 8);
-		break;
-		case 4:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 9);
-		break;
-		case 8:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 10);
-		break;
-		case 16:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 11);
-		break;
-		case 64:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 12);
-		break;
-		case 128:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 13);
-		break;
-		case 256:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 14);
-			break;
-		case 512:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 15);
-			break;
-		default:
-			set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, 0);
-		break;
-	}
+
+// Helper to map prescaler to CFGR bits
+static uint8_t _ahb_prescaler_bits(uint16_t ahbpre) {
+    switch(ahbpre) {
+        case 2:   return 8;
+        case 4:   return 9;
+        case 8:   return 10;
+        case 16:  return 11;
+        case 64:  return 12;
+        case 128: return 13;
+        case 256: return 14;
+        case 512: return 15;
+        default:  return 0;
+    }
 }
-// PLL
-void RCC_PLL_division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
-{
-	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, 0);
-	set_reg_block(&RCC->PLLCFGR,4,RCC_PLLCFGR_PLLQ_Pos,pllq);
-	switch(pllp){
-		case 2:
-			set_reg_block(&RCC->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,0);
-		break;
-		case 4:
-			set_reg_block(&RCC->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,1);
-		break;
-		case 6:
-			set_reg_block(&RCC->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,2);
-		break;
-		case 8:
-			set_reg_block(&RCC->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,3);
-		break;
-		default: // 2
-			set_reg_block(&RCC->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,0);
-		break;
-	}
-	set_reg_block(&RCC->PLLCFGR,9,RCC_PLLCFGR_PLLN_Pos,plln);
-	set_reg_block(&RCC->PLLCFGR,6,RCC_PLLCFGR_PLLM_Pos,pllm);
+
+static uint8_t _apb_prescaler_bits(uint8_t ppre) {
+    switch(ppre) {
+        case 2:   return 4;
+        case 4:   return 5;
+        case 8:   return 6;
+        case 16:  return 7;
+        default:  return 0;
+    }
 }
+
+// Function to set AHB prescaler
+void RCC_Set_AHBPrescaler(uint16_t ahbpre) {
+    set_reg_block(&RCC->CFGR, 4, RCC_CFGR_HPRE_Pos, _ahb_prescaler_bits(ahbpre));
+}
+
+// Function to set APB1 prescaler
+void RCC_Set_APB1Prescaler(uint8_t ppre1) {
+    set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE1_Pos, _apb_prescaler_bits(ppre1));
+}
+
+// Function to set APB2 prescaler
+void RCC_Set_APB2Prescaler(uint8_t ppre2) {
+    set_reg_block(&RCC->CFGR, 3, RCC_CFGR_PPRE2_Pos, _apb_prescaler_bits(ppre2));
+}
+
+// Function to set RTC prescaler
+void RCC_Set_RTCPre(uint8_t rtcpre) {
+    set_reg_block(&RCC->CFGR, 5, RCC_CFGR_RTCPRE_Pos, rtcpre);
+}
+
+// Main prescaler setup function
+void RCC_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre) {
+    RCC_Set_AHBPrescaler(ahbpre);
+    RCC_Set_APB1Prescaler(ppre1);
+    RCC_Set_APB2Prescaler(ppre2);
+    RCC_Set_RTCPre(rtcpre);
+}
+
+// Set PLLM
+void RCC_Set_PLLM(uint8_t pllm) {
+    set_reg_block(&RCC->PLLCFGR, 6, RCC_PLLCFGR_PLLM_Pos, pllm);
+}
+
+// Set PLLN
+void RCC_Set_PLLN(uint16_t plln) {
+    set_reg_block(&RCC->PLLCFGR, 9, RCC_PLLCFGR_PLLN_Pos, plln);
+}
+
+// Set PLLP
+void RCC_Set_PLLP(uint8_t pllp) {
+    uint8_t bits;
+    switch(pllp){
+        case 2: bits = 0; break;
+        case 4: bits = 1; break;
+        case 6: bits = 2; break;
+        case 8: bits = 3; break;
+        default: bits = 0; break; // default 2
+    }
+    set_reg_block(&RCC->PLLCFGR, 2, RCC_PLLCFGR_PLLP_Pos, bits);
+}
+
+// Set PLLQ
+void RCC_Set_PLLQ(uint8_t pllq) {
+    set_reg_block(&RCC->PLLCFGR, 4, RCC_PLLCFGR_PLLQ_Pos, pllq);
+}
+
+// Enable/Disable PLL
+void RCC_PLL_Enable(uint8_t enable) {
+    set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, enable ? 1 : 0);
+}
+
+// Main PLL configuration
+void RCC_PLL_division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq) {
+    RCC_PLL_Enable(0);      // Turn off PLL before configuring
+    RCC_Set_PLLQ(pllq);
+    RCC_Set_PLLP(pllp);
+    RCC_Set_PLLN(plln);
+    RCC_Set_PLLM(pllm);
+    // Optionally re-enable PLL here if needed:
+    // RCC_PLL_Enable(1);
+}
+
 void RCC_PLLCLK_enable(void)
 {
 	volatile uint32_t rcc_time_out;
@@ -304,7 +312,7 @@ void RCC_PLLI2S_enable(void)
 #ifdef STM32F446xx
 	void RCC_PLLSAI_enable(void)
 	{
-		uint32_t rcc_time_out;
+		volatile uint32_t rcc_time_out;
 		//if(onoff)
 		for( rcc_time_out = 0xFFFFFF, RCC->CR |= (1 << RCC_CR_PLLSAION_Pos) ; !(RCC->CR & (1 << RCC_CR_PLLSAIRDY_Pos)) && rcc_time_out; rcc_time_out-- ); // PLLSAION: PLLSAI enable
 		//else
@@ -355,7 +363,7 @@ void rcc_default(void)
 	RCC_H_enable(H_Clock_Source); // 0 - HSI, 1 - HSE
 	RCC_PLL_select(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
 	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
-	RCC_PLL_division((uint32_t)getpllsourceclk()/1000000, 240, 2, 4);
+	RCC_PLL_division((uint32_t)get_pllsourceclk()/1000000, 240, 2, 4);
 	if(PLL_ON_OFF){
 		RCC_PLLCLK_enable();
 		// System Clock Switch
@@ -391,6 +399,7 @@ static STM32FXXX_RCC stm32fxxx_rcc = {
 
 STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc; };
 
+/*** Interrupt ***/
 void RCC_IRQHandler(void)
 {
     uint32_t status = RCC->CIR;

@@ -33,7 +33,7 @@ void tim1_u_callback(void);
 
 int main(void)
 {
-	rcc_start(); // Clock Configuration
+	rcc()->inic(); // Clock Configuration
 	systick_start(); // Delays
 	rtc_enable(); // Real Time Clock
 	gpiob()->clock(1); // LCD display 4x20

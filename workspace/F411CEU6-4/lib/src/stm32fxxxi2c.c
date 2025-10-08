@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Date:     04102024
-Comment:
-
 *******************************************************************************/
 #include "stm32fxxxi2c.h"
 
@@ -24,7 +22,7 @@ void I2C_SclClock(I2C_TypeDef* instance, uint32_t sclclock) {
     instance->CR1 |= I2C_CR1_SWRST;  // Set SWRST bit
     instance->CR1 &= ~I2C_CR1_SWRST; // Clear SWRST bit to release the reset
     // Set SCL frequency
-    uint32_t pclk1 = getpclk1(); // Get APB1 clock frequency in Hz
+    uint32_t pclk1 = get_pclk1(); // Get APB1 clock frequency in Hz
     uint32_t freq = pclk1 / 1000000; // Frequency in MHz
     instance->CR2 &= ~I2C_CR2_FREQ; // Clear the FREQ bits
     instance->CR2 |= (freq & I2C_CR2_FREQ); // Set the FREQ field in CR2
@@ -62,7 +60,7 @@ void I2C1_ErNvic( uint8_t state ) {
 }
 /*** I2C1 RUN ***/
 void I2C1_Start(void) {
-	uint32_t time_out = 0;
+	volatile uint32_t time_out = 0;
 	I2C1->CR1 |= I2C_CR1_START; // Generate start condition
 	for ( time_out = START_TIME_OUT; !(I2C1->SR1 & I2C_SR1_SB) && time_out; time_out-- ); // Wait for start condition
 }
@@ -90,7 +88,7 @@ uint8_t I2C1_Master_Read(uint8_t ack_nack) {
 	return I2C1->DR; // Return received data
 }
 void I2C1_Stop(void) {
-	uint32_t time_out = 0;
+	volatile uint32_t time_out = 0;
 	I2C1->CR1 |= I2C_CR1_STOP; // Generate stop condition
 	for ( time_out = 200; (I2C1->CR1 & I2C_CR1_STOP) && time_out; time_out-- ); // Wait for stop condition to be generated
 }
@@ -148,7 +146,7 @@ uint8_t I2C2_Master_Read(uint8_t ack_nack) {
 	return I2C2->DR; // Return received data
 }
 void I2C2_Stop(void) {
-	uint32_t time_out = 0;
+	volatile uint32_t time_out = 0;
 	I2C2->CR1 |= I2C_CR1_STOP; // Generate stop condition
 	for ( time_out = 200; (I2C2->CR1 & I2C_CR1_STOP) && time_out; time_out-- ); // Wait for stop condition to be generated
 }
@@ -206,7 +204,7 @@ uint8_t I2C3_Master_Read(uint8_t ack_nack) {
 	return I2C3->DR; // Return received data
 }
 void I2C3_Stop(void) {
-	uint32_t time_out = 0;
+	volatile uint32_t time_out = 0;
 	I2C3->CR1 |= I2C_CR1_STOP; // Generate stop condition
 	for ( time_out = 200; (I2C3->CR1 & I2C_CR1_STOP) && time_out; time_out-- ); // Wait for stop condition to be generated
 }

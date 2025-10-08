@@ -66,11 +66,11 @@ void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
     }
 
     // 2) Select proper peripheral clock
-    uint32_t pclk = getpclk2();
+    uint32_t pclk = get_pclk2();
     //if (usart == USART1 || usart == USART6)
-        //pclk = getpclk2();
+        //pclk = get_pclk2();
     //else
-        //pclk = getpclk1();
+        //pclk = get_pclk1();
 
     // 3) Compute USARTDIV
     double usartdiv = (double)pclk / (samplingmode * baudrate);

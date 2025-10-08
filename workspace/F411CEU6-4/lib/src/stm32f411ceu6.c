@@ -108,44 +108,44 @@ static const uint8_t mco_table[8] = {1,1,1,1,2,3,4,5};
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/
 /*******************************************************************/
-uint16_t gethpre(void) {
+uint16_t get_hpre(void) {
     uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_HPRE);
     return hpre_table[value];
 }
 
-uint8_t gethppre1(void) {
+uint8_t get_hppre1(void) {
     uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE1);
     return ppre_table[value];
 }
 
-uint8_t gethppre2(void) {
+uint8_t get_hppre2(void) {
     uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE2);
     return ppre_table[value];
 }
 
-uint8_t gethmco1pre(void) {
+uint8_t get_hmco1pre(void) {
     uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO1PRE);
     return mco_table[value];
 }
 
-uint8_t gethmco2pre(void) {
+uint8_t get_hmco2pre(void) {
     uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO2PRE);
     return mco_table[value];
 }
 
-uint8_t getrtcpre(void) {
+uint8_t get_rtcpre(void) {
     return get_reg_Msk(RCC->CFGR, RCC_CFGR_RTCPRE);
 }
 
-uint8_t getpllm(void) {
+uint8_t get_pllm(void) {
     return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLM);
 }
 
-uint16_t getplln(void) {
+uint16_t get_plln(void) {
     return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLN);
 }
 
-uint8_t getpllp(void) {
+uint8_t get_pllp(void) {
     uint32_t value = get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLP);
     switch(value){
         case 0b00: return 2;
@@ -156,47 +156,47 @@ uint8_t getpllp(void) {
     }
 }
 
-uint8_t getpllq(void) {
+uint8_t get_pllq(void) {
     return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLQ);
 }
 
 #ifdef STM32F446xx
-uint8_t getpllr(void) {
+uint8_t get_pllr(void) {
     return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLR);
 }
 #endif
 
-uint32_t getpllsourceclk(void) {
+uint32_t get_pllsourceclk(void) {
     return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
 }
 
-uint32_t getpllclk(void) {
-    uint32_t clk = getpllsourceclk() / getpllm();
-    clk /= getpllp();
-    clk *= getplln();
+uint32_t get_pllclk(void) {
+    uint32_t clk = get_pllsourceclk() / get_pllm();
+    clk /= get_pllp();
+    clk *= get_plln();
     return clk;
 }
 
-uint32_t getsysclk(void) {
+uint32_t get_sysclk(void) {
     uint32_t sws = get_reg_Msk(RCC->CFGR, RCC_CFGR_SWS);
     switch(sws) {
         case 0: return HSI_RC;
         case 1: return HSE_OSC;
-        case 2: return getpllclk();
+        case 2: return get_pllclk();
         default: return HSI_RC;
     }
 }
 
-uint32_t gethclk(void) {
-    return getsysclk() / gethpre();
+uint32_t get_hclk(void) {
+    return get_sysclk() / get_hpre();
 }
 
-uint32_t getpclk1(void) {
-    return gethclk() / gethppre1();
+uint32_t get_pclk1(void) {
+    return get_hclk() / get_hppre1();
 }
 
-uint32_t getpclk2(void) {
-    return gethclk() / gethppre2();
+uint32_t get_pclk2(void) {
+    return get_hclk() / get_hppre2();
 }
 
 /*******************************************************************/
@@ -237,7 +237,7 @@ void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t bau
     if(samplingmode==8) usart->CR1 |= (1 << 15);
     else { usart->CR1 &= ~(1<<15); samplingmode=16; }
 
-    uint32_t pclk = (usart==USART1 || usart==USART6)? getpclk2() : getpclk1();
+    uint32_t pclk = (usart==USART1 || usart==USART6)? get_pclk2() : get_pclk1();
     double usartdiv = (double)pclk / (samplingmode * baudrate);
     uint32_t mantissa = (uint32_t)usartdiv;
     double fractionf = usartdiv - mantissa;

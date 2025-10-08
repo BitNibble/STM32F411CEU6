@@ -30,7 +30,7 @@ void blink(void);
 
 int main(void)
 {
-	rcc_start();
+	rcc()->inic();
 	systick_start();
 	gpiob()->clock(1);
 	gpioc()->clock(1);

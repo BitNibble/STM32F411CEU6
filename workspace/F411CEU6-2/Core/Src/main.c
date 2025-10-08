@@ -71,7 +71,7 @@ void tim1_cc2_callback(void){
 
 int main(void)
 {
-	rcc_start();
+	rcc()->inic();
 	systick_start();
 	rtc_enable();
 	tim1()->clock(1);

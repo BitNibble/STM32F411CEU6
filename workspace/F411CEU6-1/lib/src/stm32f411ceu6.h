@@ -167,24 +167,24 @@ STM32F411CEU6* stm32f411ceu6(void);
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/
 /*******************************************************************/
-uint16_t gethpre(void);
-uint8_t gethppre1(void);
-uint8_t gethppre2(void);
-uint8_t getrtcpre(void);
-uint8_t gethmco1pre(void);
-uint8_t gethmco2pre(void);
-uint8_t getpllm(void);
-uint16_t getplln(void);
-uint8_t getpllp(void);
-uint8_t getpllq(void);
-uint8_t getpllr(void); // F446 only
+uint16_t get_hpre(void);
+uint8_t get_hppre1(void);
+uint8_t get_hppre2(void);
+uint8_t get_rtcpre(void);
+uint8_t get_hmco1pre(void);
+uint8_t get_hmco2pre(void);
+uint8_t get_pllm(void);
+uint16_t get_plln(void);
+uint8_t get_pllp(void);
+uint8_t get_pllq(void);
+uint8_t get_pllr(void); // F446 only
 
-uint32_t getpllsourceclk(void);
-uint32_t getpllclk(void);
-uint32_t getsysclk(void);
-uint32_t gethclk(void);
-uint32_t getpclk1(void);
-uint32_t getpclk2(void);
+uint32_t get_pllsourceclk(void);
+uint32_t get_pllclk(void);
+uint32_t get_sysclk(void);
+uint32_t get_hclk(void);
+uint32_t get_pclk1(void);
+uint32_t get_pclk2(void);
 
 /*******************************************************************/
 /************************** GPIO & USART ***************************/
