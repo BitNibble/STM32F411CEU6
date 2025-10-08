@@ -66,7 +66,7 @@ void setup_usart1(void);
 
 int main(void)
 {
-	rcc_enable();
+	rcc()->inic();
 	systick_start();
 	fpu_enable();
 

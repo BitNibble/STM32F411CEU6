@@ -33,6 +33,7 @@ typedef struct
 typedef struct
 {
 	/*** Bit Mapping ***/
+	void (*inic)(void);
 	void (*prescaler)(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre);
 	/*** Extended ***/
 	STM32FXXX_RCC_PLL* pll;
@@ -47,11 +48,9 @@ typedef struct
 	void (*nvic)(uint8_t state);
 }STM32FXXX_RCC;
 
-void rcc_enable(void); STM32FXXX_RCC* rcc(void);
+STM32FXXX_RCC* rcc(void);
 
-void rcc_start(void);
-
-/*** INTERRUPT HEADER ***/
+/*** INTERRUPT ***/
 void RCC_IRQHandler(void);
 
 #endif

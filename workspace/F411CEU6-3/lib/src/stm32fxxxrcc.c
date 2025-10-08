@@ -10,24 +10,11 @@ Comment:
 /*** File Library ***/
 #include <stm32fxxxrcc.h>
 
-/*** File Variables ***/
-static STM32FXXX_RCC_PLL stm32fxxx_rcc_pll = {0};
-static STM32FXXX_RCC_PLLI2S stm32fxxx_rcc_plli2s = {0};
-#ifdef STM32F446xx
-	static STM32FXXX_RCC_PLLSAI stm32fxxx_rcc_pllsai = {0};
-#endif
-static STM32FXXX_RCC stm32fxxx_rcc = {0};
-
 /*** File Procedure & Function Header ***/
-/*** Extended ***/
-STM32FXXX_RCC_PLL* stm32fxxx_rcc_pll_inic(void);
-STM32FXXX_RCC_PLLI2S* stm32fxxx_rcc_plli2s_inic(void);
-STM32FXXX_RCC_PLLSAI* stm32fxxx_rcc_pllsai_inic(void);
-/******/
-void RCC_PwrClock(uint8_t state);
-void RCC_WriteEnable(void);
-void RCC_WriteDisable(void);
-uint8_t RCC_PLLSelect(uint8_t hclock);
+void RCC_PWR_clock(uint8_t state);
+void RCC_Write_enable(void);
+void RCC_Write_disable(void);
+uint8_t RCC_PLL_select(uint8_t hclock);
 
 /*******   0 -> HSI    1->HSE   *********/
 #ifndef H_Clock_Source
@@ -42,7 +29,7 @@ uint8_t RCC_PLLSelect(uint8_t hclock);
 
 /*** RCC Procedure & Function Definition ***/
 // RCC
-void RCC_HEnable(uint8_t hclock)
+void RCC_H_enable(uint8_t hclock)
 {
     uint8_t set = 1;
     uint8_t rdy = 1;
@@ -86,7 +73,7 @@ void RCC_HEnable(uint8_t hclock)
         }
     }
 }
-void RCC_HSelect(uint8_t hclock)
+void RCC_H_select(uint8_t hclock)
 {
     switch(hclock){
         case 0: // HSI selected as system clock
@@ -114,7 +101,7 @@ void RCC_HSelect(uint8_t hclock)
             break;
     }
 }
-uint8_t RCC_PLLSelect(uint8_t hclock)
+uint8_t RCC_PLL_select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled
 	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, 0); set_reg_block(&RCC->CR, 1, RCC_CR_PLLI2SON_Pos, 0);
 	switch(hclock){
@@ -130,7 +117,7 @@ uint8_t RCC_PLLSelect(uint8_t hclock)
 	}
 	return get_reg_block(RCC->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos);
 }
-void RCC_LEnable(uint8_t lclock)
+void RCC_L_enable(uint8_t lclock)
 {
     uint8_t set = 1;
     uint8_t rdy = 1;
@@ -154,9 +141,9 @@ void RCC_LEnable(uint8_t lclock)
             case 1: // LSEON: External low-speed oscillator enable
                 if(set)
                 {
-                    RCC_WriteEnable();
+                    RCC_Write_enable();
                     RCC->BDCR |= (1 << RCC_BDCR_LSEON_Pos); // Enable LSE
-                    RCC_WriteDisable();
+                    RCC_Write_disable();
                     set = 0;
                 }
                 else if(RCC->BDCR & (1 << RCC_BDCR_LSERDY_Pos)) // Wait for LSERDY
@@ -168,9 +155,9 @@ void RCC_LEnable(uint8_t lclock)
             case 2: // LSEBYP: External low-speed oscillator bypass
                 if(set)
                 {
-                    RCC_WriteEnable();
+                    RCC_Write_enable();
                     RCC->BDCR |= (1 << RCC_BDCR_LSEBYP_Pos); // Enable LSE bypass
-                    RCC_WriteDisable();
+                    RCC_Write_disable();
                     set = 0;
                 }
                 lclock = 1; // Switch to enabling LSE
@@ -182,9 +169,9 @@ void RCC_LEnable(uint8_t lclock)
         }
     }
 }
-void RCC_LSelect(uint8_t lclock)
+void RCC_L_select(uint8_t lclock)
 {
-	RCC_WriteEnable(); // Enable write access to the backup domain
+	RCC_Write_enable(); // Enable write access to the backup domain
 
 	switch(lclock)
 	{
@@ -205,7 +192,7 @@ void RCC_LSelect(uint8_t lclock)
 			break;
 	}
 
-	RCC_WriteDisable(); // Disable write access to the backup domain
+	RCC_Write_disable(); // Disable write access to the backup domain
 }
 void RCC_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
 {
@@ -275,7 +262,7 @@ void RCC_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre
 	}
 }
 // PLL
-void RCC_PLLDivision(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
+void RCC_PLL_division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
 	set_reg_block(&RCC->CR, 1, RCC_CR_PLLON_Pos, 0);
 	set_reg_block(&RCC->PLLCFGR,4,RCC_PLLCFGR_PLLQ_Pos,pllq);
@@ -299,7 +286,7 @@ void RCC_PLLDivision(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 	set_reg_block(&RCC->PLLCFGR,9,RCC_PLLCFGR_PLLN_Pos,plln);
 	set_reg_block(&RCC->PLLCFGR,6,RCC_PLLCFGR_PLLM_Pos,pllm);
 }
-void RCC_PLLCLKEnable(void)
+void RCC_PLLCLK_enable(void)
 {
 	uint32_t rcc_time_out;
 	//if(onoff){
@@ -308,7 +295,7 @@ void RCC_PLLCLKEnable(void)
 		//RCC->CR &= (unsigned int) ~(1 << 24);
 	//}
 }
-void RCC_PLLI2SEnable(void)
+void RCC_PLLI2S_enble(void)
 {
 	uint32_t rcc_time_out;
 	//if(onoff)
@@ -317,7 +304,7 @@ void RCC_PLLI2SEnable(void)
 		//RCC->CR &= (unsigned int) ~(1 << 26);
 }
 #ifdef STM32F446xx
-	void RCC_PLLSAIEnable(void)
+	void RCC_PLLSAI_enable(void)
 	{
 		uint32_t rcc_time_out;
 		//if(onoff)
@@ -326,91 +313,84 @@ void RCC_PLLI2SEnable(void)
 		//RCC->CR &= (unsigned int) ~(1 << 28);
 	}
 #endif
-void RCC_PwrClock(uint8_t state)
+void RCC_PWR_clock(uint8_t state)
 {
 	set_reg_block(&RCC->APB1ENR, 1, RCC_APB1ENR_PWREN_Pos, state); // Power interface clock enable
 }
-void RCC_WriteEnable(void)
+void RCC_Write_enable(void)
 {
 	PWR->CR |= (1 << PWR_CR_DBP_Pos); // Disable protection
 }
-void RCC_WriteDisable(void)
+void RCC_Write_disable(void)
 {
 	PWR->CR &= (uint32_t) ~(1 << PWR_CR_DBP_Pos); // Enable protection
 }
-/*** RCC Bit Mapping Definition ***/
 /*** Other ***/
 void RCC_nvic(uint8_t state)
 {
 	if(state){ set_bit_block(NVIC->ISER, 1, RCC_IRQn, 1); } else{ set_bit_block(NVIC->ICER, 1, RCC_IRQn, 1); }
 }
 /*** Extended ***/
-STM32FXXX_RCC_PLL* stm32fxxx_rcc_pll_inic(void)
-{
+static STM32FXXX_RCC_PLL stm32fxxx_rcc_pll = {
 
-	stm32fxxx_rcc_pll.division = RCC_PLLDivision;
-	stm32fxxx_rcc_pll.enable = RCC_PLLCLKEnable;
-	return &stm32fxxx_rcc_pll;
-}
-STM32FXXX_RCC_PLLI2S* stm32fxxx_rcc_plli2s_inic(void)
-{
+	.division = RCC_PLL_division,
+	.enable = RCC_PLLCLK_enable
+};
 
-	stm32fxxx_rcc_plli2s.enable = RCC_PLLI2SEnable;
-	return &stm32fxxx_rcc_plli2s;
-}
+static STM32FXXX_RCC_PLLI2S stm32fxxx_rcc_plli2s = {
+
+	.enable = RCC_PLLI2S_enble
+};
+
 #ifdef STM32F446xx
-	STM32FXXX_RCC_PLLSAI* stm32fxxx_rcc_pllsai_inic(void)
-	{
-
-		stm32fxxx_rcc_pllsai.enable = RCC_PLLSAIEnable;
-		return &stm32fxxx_rcc_pllsai;
+	static STM32FXXX_RCC_PLLSAI stm32fxxx_rcc_pllsai = {
+		.enable = RCC_PLLSAI_enable;
 	}
 #endif
-/*** INIC Procedure & Function Definition ***/
-void rcc_enable(void)
-{
-	rcc_start();
-	/*** RCC Bit Mapping Link ***/
-	stm32fxxx_rcc.prescaler = RCC_Prescaler;
-	/*** PLL ***/
-	stm32fxxx_rcc.pll = stm32fxxx_rcc_pll_inic();
-	stm32fxxx_rcc.plli2s = stm32fxxx_rcc_plli2s_inic();
-	#ifdef STM32F446xx
-		stm32fxxx_rcc.pllsai = stm32fxxx_rcc_pllsai_inic();
-	#else
-		stm32fxxx_rcc.pllsai = (STM32FXXX_RCC_PLLSAI*) NULL;
-	#endif
-	/*** Other ***/
-	stm32fxxx_rcc.henable = RCC_HEnable;
-	stm32fxxx_rcc.hselect = RCC_HSelect;
-	stm32fxxx_rcc.lenable = RCC_LEnable;
-	stm32fxxx_rcc.lselect = RCC_LSelect;
-	/*** Clock and Nvic ***/
-	stm32fxxx_rcc.nvic = RCC_nvic;
-	//return &stm32fxxx_rcc;
-}
-
-STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc; };
 
 /*** System Clock Init ***/
-void rcc_start(void)
+void rcc_default(void)
 {	// Configure -> Enable -> Select
-    // AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
+	// AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
 	//STM32FXXXPrescaler(8, 1, 1, 1); // (8, 1, 1, 0)
 	RCC_Prescaler(1, 1, 1, 0); // (1, 1, 1, 0)
-	RCC_HEnable(H_Clock_Source); // 0 - HSI, 1 - HSE
-	RCC_PLLSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
+	RCC_H_enable(H_Clock_Source); // 0 - HSI, 1 - HSE
+	RCC_PLL_select(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
 	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
-	RCC_PLLDivision((uint32_t)getpllsourceclk()/1000000, 240, 2, 4);
+	RCC_PLL_division((uint32_t)getpllsourceclk()/1000000, 240, 2, 4);
 	if(PLL_ON_OFF){
-		RCC_PLLCLKEnable();
+		RCC_PLLCLK_enable();
 		// System Clock Switch
-		RCC_HSelect(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
+		RCC_H_select(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
 	}else{
 		// System Clock Switch
-		RCC_HSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
+		RCC_H_select(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
 	}
 }
+
+/*** INIC Procedure & Function Definition ***/
+static STM32FXXX_RCC stm32fxxx_rcc = {
+	.inic = rcc_default,
+	/*** RCC Bit Mapping Link ***/
+	.prescaler = RCC_Prescaler,
+	/*** PLL ***/
+	.pll = &stm32fxxx_rcc_pll,
+	.plli2s = &stm32fxxx_rcc_plli2s,
+	#ifdef STM32F446xx
+		.pllsai = &stm32fxxx_rcc_pllsai,
+	#else
+		.pllsai = NULL,
+	#endif
+	/*** Other ***/
+	.henable = RCC_H_enable,
+	.hselect = RCC_H_select,
+	.lenable = RCC_L_enable,
+	.lselect = RCC_L_select,
+	/*** Clock and Nvic ***/
+	.nvic = RCC_nvic
+};
+
+STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc; };
 
 /******
 1º Sequence
