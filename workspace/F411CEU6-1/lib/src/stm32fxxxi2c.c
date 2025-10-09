@@ -6,14 +6,15 @@ Hardware: STM32-XXX
 Date:     04102024
 *******************************************************************************/
 #include "stm32fxxxi2c.h"
+#include "stm32fxxxnvic.h"
 
 /*** Define and Macro ***/
 #define START_TIME_OUT 1000
 
 /*** File Variable ***/
-static STM32FXXX_I2C1_Handler stm32fxxx_i2c1 = {0};
-static STM32FXXX_I2C2_Handler stm32fxxx_i2c2 = {0};
-static STM32FXXX_I2C3_Handler stm32fxxx_i2c3 = {0};
+static STM32FXXX_I2C1_Handler stm32fxxx_i2c1_setup = {0};
+static STM32FXXX_I2C2_Handler stm32fxxx_i2c2_setup = {0};
+static STM32FXXX_I2C3_Handler stm32fxxx_i2c3_setup = {0};
 
 /*** I2C Procedure & Function Definition ***/
 // COMMON
@@ -221,20 +222,20 @@ void i2c1_enable(uint32_t sclclock)
 	I2C1_EvNvic(0);  // Disable I2C1 event interrupt
 	I2C1_ErNvic(0);  // Disable I2C1 error interrupt
 	/*** Clock and Nvic ***/
-	stm32fxxx_i2c1.clock = I2C1_Clock;
-	stm32fxxx_i2c1.evnvic = I2C1_EvNvic;
-	stm32fxxx_i2c1.ernvic = I2C1_ErNvic;
+	stm32fxxx_i2c1_setup.clock = I2C1_Clock;
+	stm32fxxx_i2c1_setup.evnvic = I2C1_EvNvic;
+	stm32fxxx_i2c1_setup.ernvic = I2C1_ErNvic;
 	/*** Procedures ***/
 	/*** Other ***/
-	stm32fxxx_i2c1.start = I2C1_Start;
-	stm32fxxx_i2c1.connect = I2C1_Connect;
-	stm32fxxx_i2c1.master_write = I2C1_Master_Write;
-	stm32fxxx_i2c1.master_read = I2C1_Master_Read;
-	stm32fxxx_i2c1.stop = I2C1_Stop;
-	stm32fxxx_i2c1.status = I2C1_Status;
+	stm32fxxx_i2c1_setup.start = I2C1_Start;
+	stm32fxxx_i2c1_setup.connect = I2C1_Connect;
+	stm32fxxx_i2c1_setup.master_write = I2C1_Master_Write;
+	stm32fxxx_i2c1_setup.master_read = I2C1_Master_Read;
+	stm32fxxx_i2c1_setup.stop = I2C1_Stop;
+	stm32fxxx_i2c1_setup.status = I2C1_Status;
 	//return &stm32fxxx_i2c1;
 }
-STM32FXXX_I2C1_Handler*  i2c1(void){ return (STM32FXXX_I2C1_Handler*) &stm32fxxx_i2c1; }
+STM32FXXX_I2C1_Handler*  i2c1(void){ return (STM32FXXX_I2C1_Handler*) &stm32fxxx_i2c1_setup; }
 /*** I2C2 INIC Handler ***/
 void i2c2_enable(uint32_t sclclock)
 {
@@ -244,20 +245,20 @@ void i2c2_enable(uint32_t sclclock)
 	I2C2_EvNvic(0);  // Disable I2C1 event interrupt
 	I2C2_ErNvic(0);  // Disable I2C1 error interrupt
 	/*** Clock and Nvic ***/
-	stm32fxxx_i2c2.clock = I2C2_Clock;
-	stm32fxxx_i2c2.evnvic = I2C2_EvNvic;
-	stm32fxxx_i2c2.ernvic = I2C2_ErNvic;
+	stm32fxxx_i2c2_setup.clock = I2C2_Clock;
+	stm32fxxx_i2c2_setup.evnvic = I2C2_EvNvic;
+	stm32fxxx_i2c2_setup.ernvic = I2C2_ErNvic;
 	/*** Procedures ***/
 	/*** Other ***/
-	stm32fxxx_i2c2.start = I2C2_Start;
-	stm32fxxx_i2c2.connect = I2C2_Connect;
-	stm32fxxx_i2c2.master_write = I2C2_Master_Write;
-	stm32fxxx_i2c2.master_read = I2C2_Master_Read;
-	stm32fxxx_i2c2.stop = I2C2_Stop;
-	stm32fxxx_i2c2.status = I2C2_Status;
+	stm32fxxx_i2c2_setup.start = I2C2_Start;
+	stm32fxxx_i2c2_setup.connect = I2C2_Connect;
+	stm32fxxx_i2c2_setup.master_write = I2C2_Master_Write;
+	stm32fxxx_i2c2_setup.master_read = I2C2_Master_Read;
+	stm32fxxx_i2c2_setup.stop = I2C2_Stop;
+	stm32fxxx_i2c2_setup.status = I2C2_Status;
 	//return &stm32fxxx_i2c2;
 }
-STM32FXXX_I2C2_Handler*  i2c2(void){ return (STM32FXXX_I2C2_Handler*) &stm32fxxx_i2c2; }
+STM32FXXX_I2C2_Handler*  i2c2(void){ return (STM32FXXX_I2C2_Handler*) &stm32fxxx_i2c2_setup; }
 /*** I2C3 INIC Handler ***/
 void i2c3_enable(uint32_t sclclock)
 {
@@ -267,20 +268,20 @@ void i2c3_enable(uint32_t sclclock)
 	I2C3_EvNvic(0);  // Disable I2C1 event interrupt
 	I2C3_ErNvic(0);  // Disable I2C1 error interrupt
 	/*** Clock and Nvic ***/
-	stm32fxxx_i2c3.clock = I2C3_Clock;
-	stm32fxxx_i2c3.evnvic = I2C3_EvNvic;
-	stm32fxxx_i2c3.ernvic = I2C3_ErNvic;
+	stm32fxxx_i2c3_setup.clock = I2C3_Clock;
+	stm32fxxx_i2c3_setup.evnvic = I2C3_EvNvic;
+	stm32fxxx_i2c3_setup.ernvic = I2C3_ErNvic;
 	/*** Procedures ***/
 	/*** Other ***/
-	stm32fxxx_i2c3.start = I2C3_Start;
-	stm32fxxx_i2c3.connect = I2C3_Connect;
-	stm32fxxx_i2c3.master_write = I2C3_Master_Write;
-	stm32fxxx_i2c3.master_read = I2C3_Master_Read;
-	stm32fxxx_i2c3.stop = I2C3_Stop;
-	stm32fxxx_i2c3.status = I2C3_Status;
+	stm32fxxx_i2c3_setup.start = I2C3_Start;
+	stm32fxxx_i2c3_setup.connect = I2C3_Connect;
+	stm32fxxx_i2c3_setup.master_write = I2C3_Master_Write;
+	stm32fxxx_i2c3_setup.master_read = I2C3_Master_Read;
+	stm32fxxx_i2c3_setup.stop = I2C3_Stop;
+	stm32fxxx_i2c3_setup.status = I2C3_Status;
 	//return &stm32fxxx_i2c3;
 }
-STM32FXXX_I2C3_Handler*  i2c3(void){ return (STM32FXXX_I2C3_Handler*) &stm32fxxx_i2c3; }
+STM32FXXX_I2C3_Handler*  i2c3(void){ return (STM32FXXX_I2C3_Handler*) &stm32fxxx_i2c3_setup; }
 
 /*** EOF ***/
 

@@ -9,6 +9,7 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxrtc.h"
+#include "stm32fxxxnvic.h"
 
 /*** Define and Macro ***/
 #define MAX_BACKUP_REGISTERS 80
@@ -693,7 +694,7 @@ void RTC_L_select(uint8_t lclock) {
 }
 
 /*** RTC Procedure & Function Definition ***/
-static STM32FXXX_RTC stm32fxxx_rtc = {
+static STM32FXXX_RTC stm32fxxx_rtc_setup = {
 	/***/
 	.get_year = RTC_Get_year,
 	.get_month = RTC_Get_month,
@@ -725,7 +726,7 @@ static STM32FXXX_RTC stm32fxxx_rtc = {
 	.callback = {0}
 };
 
-STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc; }
+STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc_setup; }
 
 /*** General RTC Function Definitions ***/
 const char* WeekDay_String(uint8_t weekday_n) {
@@ -755,31 +756,31 @@ void RTC_IRQHandler(void)
     // Alarm
     if (RTC->ISR & RTC_ISR_ALRAF) {
         RTC->ISR &= ~RTC_ISR_ALRAF; // Clear flag
-        if (stm32fxxx_rtc.callback.Alarm) stm32fxxx_rtc.callback.Alarm();
+        if (stm32fxxx_rtc_setup.callback.Alarm) stm32fxxx_rtc_setup.callback.Alarm();
     }
 
     // WakeUp
     if (RTC->ISR & RTC_ISR_WUTF) {
         RTC->ISR &= ~RTC_ISR_WUTF;  // Clear flag
-        if (stm32fxxx_rtc.callback.WakeUp) stm32fxxx_rtc.callback.WakeUp();
+        if (stm32fxxx_rtc_setup.callback.WakeUp) stm32fxxx_rtc_setup.callback.WakeUp();
     }
 
     // Timestamp
     if (RTC->ISR & RTC_ISR_TSF) {
         RTC->ISR &= ~RTC_ISR_TSF;
-        if (stm32fxxx_rtc.callback.TimeStamp) stm32fxxx_rtc.callback.TimeStamp();
+        if (stm32fxxx_rtc_setup.callback.TimeStamp) stm32fxxx_rtc_setup.callback.TimeStamp();
     }
 
     // Tamper (depends on TAFCR)
     if (RTC->ISR & RTC_ISR_TAMP1F) {
         RTC->ISR &= ~RTC_ISR_TAMP1F;
-        if (stm32fxxx_rtc.callback.Tamper) stm32fxxx_rtc.callback.Tamper();
+        if (stm32fxxx_rtc_setup.callback.Tamper) stm32fxxx_rtc_setup.callback.Tamper();
     }
 
     // Overrun (if applicable)
     if (RTC->ISR & RTC_ISR_RECALPF) {
         RTC->ISR &= ~RTC_ISR_RECALPF;
-        if (stm32fxxx_rtc.callback.Overrun) stm32fxxx_rtc.callback.Overrun();
+        if (stm32fxxx_rtc_setup.callback.Overrun) stm32fxxx_rtc_setup.callback.Overrun();
     }
 
     // Clear EXTI line 17 flag if used

@@ -10,9 +10,6 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxcrc.h"
 
-/***File Variable ***/
-static STM32FXXX_CRC stm32fxxx_crc = {0};
-
 /*** File Procedure & Function Header ***/
 /*** CRC Bit Mapping ***/
 void CRC_dr(uint32_t value)
@@ -40,19 +37,17 @@ void CRC_clock(uint8_t state)
 	if(state){ RCC->AHB1ENR |= (1 << RCC_AHB1ENR_CRCEN_Pos); } else{ RCC->AHB1ENR &= ~(1 << RCC_AHB1ENR_CRCEN_Pos); }
 }
 /*** INIC Procedure & Function Definition ***/
-void crc_enable(void)
-{
-	CRC_clock(1);
+static STM32FXXX_CRC stm32fxxx_crc_setup = {
 	/***CRC Bit Mapping Link***/
-	stm32fxxx_crc.dr = CRC_dr;
-	stm32fxxx_crc.get_dr = CRC_get_dr;
-	stm32fxxx_crc.idr = CRC_idr;
-	stm32fxxx_crc.get_idr = CRC_get_idr;
-	stm32fxxx_crc.reset = CRC_reset;
-	//return &stm32fxxx_crc;
-}
+	.dr = CRC_dr,
+	.get_dr = CRC_get_dr,
+	.idr = CRC_idr,
+	.get_idr = CRC_get_idr,
+	.reset = CRC_reset,
+	.clock = CRC_clock
+};
 
-STM32FXXX_CRC* crc(void){ return (STM32FXXX_CRC*) &stm32fxxx_crc; }
+STM32FXXX_CRC* crc(void){ return (STM32FXXX_CRC*) &stm32fxxx_crc_setup; }
 
 /******
 1º Sequence

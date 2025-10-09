@@ -18,6 +18,7 @@ typedef struct
 	/*** Bit Mapping ***/
 	void (*set_enable)( uint8_t IRQn );
 	void (*clear_enable)( uint8_t IRQn );
+	void (*set_clear)(uint8_t irq_num, uint8_t state);
 	void (*set_pending)( uint8_t IRQn );
 	void (*clear_pending)( uint8_t IRQn );
 	uint8_t (*active)( uint8_t IRQn );

@@ -10,14 +10,10 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxsram.h"
 
-/*** File Variable ***/
-static STM32FXXX_SRAM stm32fxxx_sram = {0};
-
-static uint32_t sram_time_out;
-
 /*** SRAM Procedure & Function Definition ***/
 void SRAM_Access(void)
 {
+	volatile uint32_t sram_time_out;
 	// RM0390 pg 94
 	// SRAM access
 	// 0 - Power Up SRAM
@@ -39,13 +35,11 @@ void SRAM_Access(void)
 /*** SRAM Bit Mapping Definition ***/
 
 /*** INIC Procedure & Function Definition ***/
-void sram_enable(void)
-{
-	stm32fxxx_sram.access = SRAM_Access;
-	//return &stm32fxxx_sram;
-}
+static STM32FXXX_SRAM stm32fxxx_sram_setup = {
+	.access = SRAM_Access
+};
 
-STM32FXXX_SRAM* sram(void){ return (STM32FXXX_SRAM*) &stm32fxxx_sram; }
+STM32FXXX_SRAM* sram(void){ return (STM32FXXX_SRAM*) &stm32fxxx_sram_setup; }
 
 /*** EOF ***/
 

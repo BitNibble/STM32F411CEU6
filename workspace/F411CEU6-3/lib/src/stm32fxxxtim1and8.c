@@ -25,7 +25,6 @@ void TIM1_Clock(uint8_t state)
 }
 void TIM1_Nvic(uint8_t value)
 { // 24, 25, 26, 27
-	nvic_enable();
 	switch(value){
 		case 0b1000:
 			//set_bit_block(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);
@@ -81,7 +80,7 @@ void TIM1_stop(void) {
 }
 
 /*** TIM1 INIC Procedure & Function Definition ***/
-static STM32FXXX_TIM1 stm32fxxx_tim1 = {
+static STM32FXXX_TIM1 stm32fxxx_tim1_setup = {
 	.clock = TIM1_Clock,
 	.nvic = TIM1_Nvic,
 	.start = TIM1_start,
@@ -89,7 +88,7 @@ static STM32FXXX_TIM1 stm32fxxx_tim1 = {
 	.callback = {0}
 };
 
-STM32FXXX_TIM1* tim1(void){ return (STM32FXXX_TIM1*) &stm32fxxx_tim1;}
+STM32FXXX_TIM1* tim1(void){ return (STM32FXXX_TIM1*) &stm32fxxx_tim1_setup;}
 
 #ifdef STM32F446xx
 /************/
@@ -148,7 +147,7 @@ void TIM8_stop(void) {
 }
 
 /*** TIM1 INIC Procedure & Function Definition ***/
-static STM32FXXX_TIM8 stm32fxxx_tim8 = {
+static STM32FXXX_TIM8 stm32fxxx_tim8_setup = {
 	.clock = TIM8_Clock,
 	.nvic = TIM8_Nvic,
 	.start = TIM8_start,
@@ -156,7 +155,7 @@ static STM32FXXX_TIM8 stm32fxxx_tim8 = {
 	.callback = {0}
 };
 
-STM32FXXX_TIM8* tim8(void){ return (STM32FXXX_TIM8*) &stm32fxxx_tim8;}
+STM32FXXX_TIM8* tim8(void){ return (STM32FXXX_TIM8*) &stm32fxxx_tim8_setup;}
 
 #endif
 

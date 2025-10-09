@@ -11,11 +11,11 @@ Comment:
 #include "stm32fxxxflash.h"
 
 /*** File Variable ***/
-static STM32FXXX_FLASH_acr stm32fxxx_flash_acr = {0};
-static STM32FXXX_FLASH_sr stm32fxxx_flash_sr = {0};
-static STM32FXXX_FLASH_cr stm32fxxx_flash_cr = {0};
-static STM32FXXX_FLASH_optcr stm32fxxx_flash_optcr = {0};
-static STM32FXXX_FLASH stm32fxxx_flash = {0};
+static STM32FXXX_FLASH_acr stm32fxxx_flash_acr_setup = {0};
+static STM32FXXX_FLASH_sr stm32fxxx_flash_sr_setup = {0};
+static STM32FXXX_FLASH_cr stm32fxxx_flash_cr_setup = {0};
+static STM32FXXX_FLASH_optcr stm32fxxx_flash_optcr_setup = {0};
+static STM32FXXX_FLASH stm32fxxx_flash_setup = {0};
 
 /*** File Procedure & Function Header ***/
 STM32FXXX_FLASH_acr* stm32fxxx_flash_acr_inic(void);
@@ -210,80 +210,80 @@ void FLASH_nvic(uint8_t state)
 STM32FXXX_FLASH_acr* stm32fxxx_flash_acr_inic(void)
 {
 	// ACR
-	stm32fxxx_flash_acr.dcrst = FLASH_acr_dcrst;
-	stm32fxxx_flash_acr.icrst = FLASH_acr_icrst;
-	stm32fxxx_flash_acr.dcen = FLASH_acr_dcen;
-	stm32fxxx_flash_acr.icen = FLASH_acr_icen;
-	stm32fxxx_flash_acr.prften = FLASH_acr_prften;
-	stm32fxxx_flash_acr.latency = FLASH_acr_latency;
-	return &stm32fxxx_flash_acr;
+	stm32fxxx_flash_acr_setup.dcrst = FLASH_acr_dcrst;
+	stm32fxxx_flash_acr_setup.icrst = FLASH_acr_icrst;
+	stm32fxxx_flash_acr_setup.dcen = FLASH_acr_dcen;
+	stm32fxxx_flash_acr_setup.icen = FLASH_acr_icen;
+	stm32fxxx_flash_acr_setup.prften = FLASH_acr_prften;
+	stm32fxxx_flash_acr_setup.latency = FLASH_acr_latency;
+	return &stm32fxxx_flash_acr_setup;
 }
 STM32FXXX_FLASH_sr* stm32fxxx_flash_sr_inic(void)
 {
 	// SR
-	stm32fxxx_flash_sr.bsy = FLASH_sr_bsy;
-	stm32fxxx_flash_sr.rderr = FLASH_sr_rderr;
-	stm32fxxx_flash_sr.clear_rderr = FLASH_sr_clear_rderr;
-	stm32fxxx_flash_sr.pgserr = FLASH_sr_pgserr;
-	stm32fxxx_flash_sr.clear_pgserr = FLASH_sr_clear_pgserr;
-	stm32fxxx_flash_sr.pgperr = FLASH_sr_pgperr;
-	stm32fxxx_flash_sr.clear_pgperr = FLASH_sr_clear_pgperr;
-	stm32fxxx_flash_sr.pgaerr = FLASH_sr_pgaerr;
-	stm32fxxx_flash_sr.clear_pgaerr = FLASH_sr_clear_pgaerr;
-	stm32fxxx_flash_sr.wrperr = FLASH_sr_wrperr;
-	stm32fxxx_flash_sr.clear_wrperr = FLASH_sr_clear_wrperr;
-	stm32fxxx_flash_sr.operr = FLASH_sr_operr;
-	stm32fxxx_flash_sr.clear_operr = FLASH_sr_clear_operr;
-	stm32fxxx_flash_sr.eop = FLASH_sr_eop;
-	stm32fxxx_flash_sr.clear_eop = FLASH_sr_clear_eop;
-	return &stm32fxxx_flash_sr;
+	stm32fxxx_flash_sr_setup.bsy = FLASH_sr_bsy;
+	stm32fxxx_flash_sr_setup.rderr = FLASH_sr_rderr;
+	stm32fxxx_flash_sr_setup.clear_rderr = FLASH_sr_clear_rderr;
+	stm32fxxx_flash_sr_setup.pgserr = FLASH_sr_pgserr;
+	stm32fxxx_flash_sr_setup.clear_pgserr = FLASH_sr_clear_pgserr;
+	stm32fxxx_flash_sr_setup.pgperr = FLASH_sr_pgperr;
+	stm32fxxx_flash_sr_setup.clear_pgperr = FLASH_sr_clear_pgperr;
+	stm32fxxx_flash_sr_setup.pgaerr = FLASH_sr_pgaerr;
+	stm32fxxx_flash_sr_setup.clear_pgaerr = FLASH_sr_clear_pgaerr;
+	stm32fxxx_flash_sr_setup.wrperr = FLASH_sr_wrperr;
+	stm32fxxx_flash_sr_setup.clear_wrperr = FLASH_sr_clear_wrperr;
+	stm32fxxx_flash_sr_setup.operr = FLASH_sr_operr;
+	stm32fxxx_flash_sr_setup.clear_operr = FLASH_sr_clear_operr;
+	stm32fxxx_flash_sr_setup.eop = FLASH_sr_eop;
+	stm32fxxx_flash_sr_setup.clear_eop = FLASH_sr_clear_eop;
+	return &stm32fxxx_flash_sr_setup;
 }
 STM32FXXX_FLASH_cr* stm32fxxx_flash_cr_inic(void)
 {
 	// CR
-	stm32fxxx_flash_cr.lock = FLASH_cr_lock;
-	stm32fxxx_flash_cr.errie = FLASH_cr_errie;
-	stm32fxxx_flash_cr.eopie = FLASH_cr_eopie;
-	stm32fxxx_flash_cr.strt = FLASH_cr_strt;
-	stm32fxxx_flash_cr.psize = FLASH_cr_psize;
-	stm32fxxx_flash_cr.snb = FLASH_cr_snb;
-	stm32fxxx_flash_cr.mer = FLASH_cr_mer;
-	stm32fxxx_flash_cr.ser = FLASH_cr_ser;
-	stm32fxxx_flash_cr.pg = FLASH_cr_pg;
-	return &stm32fxxx_flash_cr;
+	stm32fxxx_flash_cr_setup.lock = FLASH_cr_lock;
+	stm32fxxx_flash_cr_setup.errie = FLASH_cr_errie;
+	stm32fxxx_flash_cr_setup.eopie = FLASH_cr_eopie;
+	stm32fxxx_flash_cr_setup.strt = FLASH_cr_strt;
+	stm32fxxx_flash_cr_setup.psize = FLASH_cr_psize;
+	stm32fxxx_flash_cr_setup.snb = FLASH_cr_snb;
+	stm32fxxx_flash_cr_setup.mer = FLASH_cr_mer;
+	stm32fxxx_flash_cr_setup.ser = FLASH_cr_ser;
+	stm32fxxx_flash_cr_setup.pg = FLASH_cr_pg;
+	return &stm32fxxx_flash_cr_setup;
 }
 STM32FXXX_FLASH_optcr* stm32fxxx_flash_optcr_inic(void)
 {
 	// OPTCR
-	stm32fxxx_flash_optcr.sprmod = FLASH_optcr_sprmod;
-	stm32fxxx_flash_optcr.n_wrp = FLASH_optcr_n_wrp;
-	stm32fxxx_flash_optcr.get_n_wrp = FLASH_optcr_get_n_wrp;
-	stm32fxxx_flash_optcr.rdp = FLASH_optcr_rdp;
-	stm32fxxx_flash_optcr.get_rdp = FLASH_optcr_get_rdp;
-	stm32fxxx_flash_optcr.nrst_stdby = FLASH_optcr_nrst_stdby;
-	stm32fxxx_flash_optcr.nrst_stop = FLASH_optcr_nrst_stop;
-	stm32fxxx_flash_optcr.wdg_sw = FLASH_optcr_wdg_sw;
-	stm32fxxx_flash_optcr.bor_lev = FLASH_optcr_bor_lev;
-	stm32fxxx_flash_optcr.optstrt = FLASH_optcr_optstrt;
-	stm32fxxx_flash_optcr.optlock = FLASH_optcr_optlock;
-	return &stm32fxxx_flash_optcr;
+	stm32fxxx_flash_optcr_setup.sprmod = FLASH_optcr_sprmod;
+	stm32fxxx_flash_optcr_setup.n_wrp = FLASH_optcr_n_wrp;
+	stm32fxxx_flash_optcr_setup.get_n_wrp = FLASH_optcr_get_n_wrp;
+	stm32fxxx_flash_optcr_setup.rdp = FLASH_optcr_rdp;
+	stm32fxxx_flash_optcr_setup.get_rdp = FLASH_optcr_get_rdp;
+	stm32fxxx_flash_optcr_setup.nrst_stdby = FLASH_optcr_nrst_stdby;
+	stm32fxxx_flash_optcr_setup.nrst_stop = FLASH_optcr_nrst_stop;
+	stm32fxxx_flash_optcr_setup.wdg_sw = FLASH_optcr_wdg_sw;
+	stm32fxxx_flash_optcr_setup.bor_lev = FLASH_optcr_bor_lev;
+	stm32fxxx_flash_optcr_setup.optstrt = FLASH_optcr_optstrt;
+	stm32fxxx_flash_optcr_setup.optlock = FLASH_optcr_optlock;
+	return &stm32fxxx_flash_optcr_setup;
 }
 /*** INIC Procedure & Function Definition ***/
 void flash_enable(void)
 {
 	/*** FLASH Bit Mapping Link ***/
-	stm32fxxx_flash.acr = stm32fxxx_flash_acr_inic();
-	stm32fxxx_flash.sr = stm32fxxx_flash_sr_inic();
-	stm32fxxx_flash.cr = stm32fxxx_flash_cr_inic();
-	stm32fxxx_flash.optcr = stm32fxxx_flash_optcr_inic();
-	stm32fxxx_flash.keyr = FLASH_keyr_key;
-	stm32fxxx_flash.optkeyr = FLASH_optkeyr_optkey;
-	stm32fxxx_flash.nvic = FLASH_nvic;
+	stm32fxxx_flash_setup.acr = stm32fxxx_flash_acr_inic();
+	stm32fxxx_flash_setup.sr = stm32fxxx_flash_sr_inic();
+	stm32fxxx_flash_setup.cr = stm32fxxx_flash_cr_inic();
+	stm32fxxx_flash_setup.optcr = stm32fxxx_flash_optcr_inic();
+	stm32fxxx_flash_setup.keyr = FLASH_keyr_key;
+	stm32fxxx_flash_setup.optkeyr = FLASH_optkeyr_optkey;
+	stm32fxxx_flash_setup.nvic = FLASH_nvic;
 
 	//return &stm32fxxx_flash;
 }
 
-STM32FXXX_FLASH* flash(void){ return (STM32FXXX_FLASH*) &stm32fxxx_flash; }
+STM32FXXX_FLASH* flash(void){ return (STM32FXXX_FLASH*) &stm32fxxx_flash_setup; }
 
 /*** EOF ***/
 

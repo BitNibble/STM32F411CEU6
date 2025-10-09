@@ -10,14 +10,6 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxpwr.h"
 
-/*** File Variable ***/
-static STM32FXXX_PWR_cr stm32fxxx_pwr_cr = {0};
-static STM32FXXX_PWR_csr stm32fxxx_pwr_csr = {0};
-static STM32FXXX_PWR stm32fxxx_pwr = {0};
-
-/*** File Procedure & Function Header ***/
-STM32FXXX_PWR_cr* stm32fxxx_pwr_cr_inic(void);
-STM32FXXX_PWR_csr* stm32fxxx_pwr_csr_inic(void);
 /*** PWR Bit Mapping ***/
 // CR
 void PWR_cr_fissr(uint8_t state)
@@ -148,59 +140,52 @@ void PWR_clock(uint8_t state)
 	else{ RCC->APB1ENR &= ~(1 << RCC_APB1ENR_PWREN_Pos); }
 }
 /*** Auxiliar ***/
-STM32FXXX_PWR_cr* stm32fxxx_pwr_cr_inic(void)
-{
+static STM32FXXX_PWR_cr stm32fxxx_pwr_cr_setup = {
 	// CR
-	stm32fxxx_pwr_cr.fissr = PWR_cr_fissr;
-	stm32fxxx_pwr_cr.fmssr = PWR_cr_fmssr;
-	stm32fxxx_pwr_cr.uden = PWR_cr_uden;
-	stm32fxxx_pwr_cr.odswen = PWR_cr_odswen;
-	stm32fxxx_pwr_cr.oden = PWR_cr_oden;
-	stm32fxxx_pwr_cr.vos = PWR_cr_vos;
-	stm32fxxx_pwr_cr.adcdc1 = PWR_cr_adcdc1;
-	stm32fxxx_pwr_cr.mruds = PWR_cr_mruds;
-	stm32fxxx_pwr_cr.lpuds = PWR_cr_lpuds;
-	stm32fxxx_pwr_cr.fpds = PWR_cr_fpds;
-	stm32fxxx_pwr_cr.dbp = PWR_cr_dbp;
-	stm32fxxx_pwr_cr.pls = PWR_cr_pls;
-	stm32fxxx_pwr_cr.get_pls = PWR_cr_get_pls;
-	stm32fxxx_pwr_cr.pvde = PWR_cr_pvde;
-	stm32fxxx_pwr_cr.clear_csbf = PWR_cr_clear_csbf;
-	stm32fxxx_pwr_cr.clear_cwuf = PWR_cr_clear_cwuf;
-	stm32fxxx_pwr_cr.pdds =PWR_cr_pdds;
-	stm32fxxx_pwr_cr.lpds = PWR_cr_lpds;
-	return &stm32fxxx_pwr_cr;
-}
-STM32FXXX_PWR_csr* stm32fxxx_pwr_csr_inic(void)
-{
+	.fissr = PWR_cr_fissr,
+	.fmssr = PWR_cr_fmssr,
+	.uden = PWR_cr_uden,
+	.odswen = PWR_cr_odswen,
+	.oden = PWR_cr_oden,
+	.vos = PWR_cr_vos,
+	.adcdc1 = PWR_cr_adcdc1,
+	.mruds = PWR_cr_mruds,
+	.lpuds = PWR_cr_lpuds,
+	.fpds = PWR_cr_fpds,
+	.dbp = PWR_cr_dbp,
+	.pls = PWR_cr_pls,
+	.get_pls = PWR_cr_get_pls,
+	.pvde = PWR_cr_pvde,
+	.clear_csbf = PWR_cr_clear_csbf,
+	.clear_cwuf = PWR_cr_clear_cwuf,
+	.pdds =PWR_cr_pdds,
+	.lpds = PWR_cr_lpds
+};
+static STM32FXXX_PWR_csr stm32fxxx_pwr_csr_setup = {
 	// CSR
-	stm32fxxx_pwr_csr.udrdy = PWR_udrdy;
-	stm32fxxx_pwr_csr.clear_udrdy = PWR_csr_clear_udrdy;
-	stm32fxxx_pwr_csr.odswrdy = PWR_csr_odswrdy;
-	stm32fxxx_pwr_csr.odrdy = PWR_csr_odrdy;
-	stm32fxxx_pwr_csr.vosrdy = PWR_csr_vosrdy;
-	stm32fxxx_pwr_csr.bre = PWR_csr_bre;
-	stm32fxxx_pwr_csr.ewup1 = PWR_csr_ewup1;
-	stm32fxxx_pwr_csr.ewup2 = PWR_csr_ewup2;
-	stm32fxxx_pwr_csr.brr = PWR_csr_brr;
-	stm32fxxx_pwr_csr.pvdo = PWR_csr_pvdo;
-	stm32fxxx_pwr_csr.sbf = PWR_csr_sbf;
-	stm32fxxx_pwr_csr.wuf = PWR_csr_wuf;
-	return &stm32fxxx_pwr_csr;
-}
+	.udrdy = PWR_udrdy,
+	.clear_udrdy = PWR_csr_clear_udrdy,
+	.odswrdy = PWR_csr_odswrdy,
+	.odrdy = PWR_csr_odrdy,
+	.vosrdy = PWR_csr_vosrdy,
+	.bre = PWR_csr_bre,
+	.ewup1 = PWR_csr_ewup1,
+	.ewup2 = PWR_csr_ewup2,
+	.brr = PWR_csr_brr,
+	.pvdo = PWR_csr_pvdo,
+	.sbf = PWR_csr_sbf,
+	.wuf = PWR_csr_wuf
+};
 /*** INIC Procedure & Function Definition ***/
-void pwr_enable(void)
-{
-	PWR_clock(1);
+static STM32FXXX_PWR stm32fxxx_pwr_setup = {
 	/*** PWR Bit Mapping Link ***/
-	stm32fxxx_pwr.cr = stm32fxxx_pwr_cr_inic();
-	stm32fxxx_pwr.csr = stm32fxxx_pwr_csr_inic();
+	.cr = &stm32fxxx_pwr_cr_setup,
+	.csr = &stm32fxxx_pwr_csr_setup,
 	/*** Clock and Nvic ***/
-	stm32fxxx_pwr.clock = PWR_clock;
-	//return &stm32fxxx_pwr;
-}
+	.clock = PWR_clock
+};
 
-STM32FXXX_PWR* pwr(void){ return (STM32FXXX_PWR*) &stm32fxxx_pwr; }
+STM32FXXX_PWR* pwr(void){ return (STM32FXXX_PWR*) &stm32fxxx_pwr_setup; }
 
 /*** EOF ***/
 

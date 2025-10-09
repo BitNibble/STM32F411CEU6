@@ -9,6 +9,7 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxadc1.h"
+#include "stm32fxxxnvic.h"
 
 /*** Define and Macro ***/
 #define ADC_STAB_DELAY 15 // 15
@@ -61,7 +62,7 @@ uint16_t ADC1_ReadTemperature(void) {
 }
 
 /*** ADC1 ***/
-static STM32FXXX_ADC1 stm32fxxx_adc1 = {
+static STM32FXXX_ADC1 stm32fxxx_adc1_setup = {
 	.clock = ADC1_Clock,
 	.nvic = ADC1_Nvic,
 	.startconversion = ADC1_StartConversion,
@@ -73,7 +74,7 @@ static STM32FXXX_ADC1 stm32fxxx_adc1 = {
 	.callback = {0}
 };
 
-STM32FXXX_ADC1* adc1(void){ return (STM32FXXX_ADC1*) &stm32fxxx_adc1; }
+STM32FXXX_ADC1* adc1(void){ return (STM32FXXX_ADC1*) &stm32fxxx_adc1_setup; }
 
 /*** INTERRUPT ***/
 void ADC_IRQHandler(void)

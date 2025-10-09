@@ -102,7 +102,7 @@ void GPIOA_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOA stm32fxxx_gpioa = {
+static STM32FXXX_GPIOA stm32fxxx_gpioa_setup = {
     // V-table
     .clock = GPIOA_clock,
     .moder = GPIOA_moder,
@@ -115,7 +115,7 @@ static STM32FXXX_GPIOA stm32fxxx_gpioa = {
     .af = GPIOA_af
 };
 
-STM32FXXX_GPIOA* gpioa(void) { return &stm32fxxx_gpioa; }
+STM32FXXX_GPIOA* gpioa(void) { return &stm32fxxx_gpioa_setup; }
 
 /*** GPIOB ***/
 void GPIOB_clock(uint8_t enable)
@@ -205,7 +205,7 @@ void GPIOB_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOB stm32fxxx_gpiob = {
+static STM32FXXX_GPIOB stm32fxxx_gpiob_setup = {
     // V-table
     .clock = GPIOB_clock,
     .moder = GPIOB_moder,
@@ -218,7 +218,7 @@ static STM32FXXX_GPIOB stm32fxxx_gpiob = {
     .af = GPIOB_af
 };
 
-STM32FXXX_GPIOB* gpiob(void) { return &stm32fxxx_gpiob; }
+STM32FXXX_GPIOB* gpiob(void) { return &stm32fxxx_gpiob_setup; }
 
 /*** GPIOC ***/
 void GPIOC_clock(uint8_t enable)
@@ -309,7 +309,7 @@ void GPIOC_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOC stm32fxxx_gpioc = {
+static STM32FXXX_GPIOC stm32fxxx_gpioc_setup = {
     // V-table
     .clock = GPIOC_clock,
     .moder = GPIOC_moder,
@@ -322,7 +322,7 @@ static STM32FXXX_GPIOC stm32fxxx_gpioc = {
     .af = GPIOC_af
 };
 
-STM32FXXX_GPIOC* gpioc(void) { return &stm32fxxx_gpioc; }
+STM32FXXX_GPIOC* gpioc(void) { return &stm32fxxx_gpioc_setup; }
 
 /*** GPIOD ***/
 void GPIOD_clock(uint8_t enable)
@@ -412,7 +412,7 @@ void GPIOD_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOD stm32fxxx_gpiod = {
+static STM32FXXX_GPIOD stm32fxxx_gpiod_setup = {
     // V-table
     .clock = GPIOD_clock,
     .moder = GPIOD_moder,
@@ -425,7 +425,7 @@ static STM32FXXX_GPIOD stm32fxxx_gpiod = {
     .af = GPIOD_af
 };
 
-STM32FXXX_GPIOD* gpiod(void) { return &stm32fxxx_gpiod; }
+STM32FXXX_GPIOD* gpiod(void) { return &stm32fxxx_gpiod_setup; }
 
 /*** GPIOE ***/
 void GPIOE_clock(uint8_t enable)
@@ -516,7 +516,7 @@ void GPIOE_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOE stm32fxxx_gpioe = {
+static STM32FXXX_GPIOE stm32fxxx_gpioe_setup = {
     // V-table
     .clock = GPIOE_clock,
     .moder = GPIOE_moder,
@@ -529,7 +529,7 @@ static STM32FXXX_GPIOE stm32fxxx_gpioe = {
     .af = GPIOE_af
 };
 
-STM32FXXX_GPIOE* gpioe(void) { return &stm32fxxx_gpioe; }
+STM32FXXX_GPIOE* gpioe(void) { return &stm32fxxx_gpioe_setup; }
 
 #ifdef STM32F446xx
 /*** GPIOF ***/
@@ -621,7 +621,7 @@ void GPIOF_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOF stm32fxxx_gpiof = {
+static STM32FXXX_GPIOF stm32fxxx_gpiof_setup = {
     // V-table
     .clock = GPIOF_clock,
     .moder = GPIOF_moder,
@@ -634,7 +634,7 @@ static STM32FXXX_GPIOF stm32fxxx_gpiof = {
     .af = GPIOF_af
 };
 
-STM32FXXX_GPIOF* gpiof(void) { return &stm32fxxx_gpiof; }
+STM32FXXX_GPIOF* gpiof(void) { return &stm32fxxx_gpiof_setup; }
 
 /*** GPIOG ***/
 void GPIOG_clock(uint8_t enable)
@@ -725,7 +725,7 @@ void GPIOG_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOG stm32fxxx_gpiog = {
+static STM32FXXX_GPIOG stm32fxxx_gpiog_setup = {
     // V-table
     .clock = GPIOG_clock,
     .moder = GPIOG_moder,
@@ -738,7 +738,7 @@ static STM32FXXX_GPIOG stm32fxxx_gpiog = {
     .af = GPIOG_af
 };
 
-STM32FXXX_GPIOG* gpiog(void) { return &stm32fxxx_gpiog; }
+STM32FXXX_GPIOG* gpiog(void) { return &stm32fxxx_gpiog_setup; }
 
 /*** GPIOH ***/
 void GPIOH_clock(uint8_t enable)
@@ -829,7 +829,7 @@ void GPIOH_af(uint8_t pin, uint8_t af)
 }
 
 /*** HANDLER ***/
-static STM32FXXX_GPIOH stm32fxxx_gpioh = {
+static STM32FXXX_GPIOH stm32fxxx_gpioh_setup = {
     // V-table
     .clock = GPIOH_clock,
     .moder = GPIOH_moder,
@@ -842,7 +842,7 @@ static STM32FXXX_GPIOH stm32fxxx_gpioh = {
     .af = GPIOH_af
 };
 
-STM32FXXX_GPIOH* gpioh(void) { return &stm32fxxx_gpioh; }
+STM32FXXX_GPIOH* gpioh(void) { return &stm32fxxx_gpioh_setup; }
 
 #endif
 

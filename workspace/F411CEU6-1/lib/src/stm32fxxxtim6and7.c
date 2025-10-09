@@ -9,6 +9,7 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxtim6and7.h"
+#include "stm32fxxxnvic.h"
 
 #ifdef STM32F446xx
 /************/
@@ -26,7 +27,7 @@ void TIM6_start(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,
 void TIM6_stop(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
 /*** TIM1 INIC Procedure & Function Definition ***/
-static STM32FXXX_TIM6 stm32fxxx_tim6 = {
+static STM32FXXX_TIM6 stm32fxxx_tim6_setup = {
 	.clock = TIM6_Clock,
 	.nvic = TIM6_Nvic,
 	.start = TIM6_start,
@@ -34,7 +35,7 @@ static STM32FXXX_TIM6 stm32fxxx_tim6 = {
 	.callback = {0}
 };
 
-STM32FXXX_TIM6* tim6(void){ return (STM32FXXX_TIM6*) &stm32fxxx_tim6;}
+STM32FXXX_TIM6* tim6(void){ return (STM32FXXX_TIM6*) &stm32fxxx_tim6_setup;}
 
 /************/
 /*** TIM7 ***/
@@ -51,7 +52,7 @@ void TIM7_start(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,
 void TIM7_stop(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
 /*** TIM1 INIC Procedure & Function Definition ***/
-static STM32FXXX_TIM7 stm32fxxx_tim7 = {
+static STM32FXXX_TIM7 stm32fxxx_tim7_setup = {
 	.clock = TIM7_Clock,
 	.nvic = TIM7_Nvic,
 	.start = TIM7_start,
@@ -59,7 +60,7 @@ static STM32FXXX_TIM7 stm32fxxx_tim7 = {
 	.callback = {0}
 };
 
-STM32FXXX_TIM7* tim7(void){ return (STM32FXXX_TIM7*) &stm32fxxx_tim7;}
+STM32FXXX_TIM7* tim7(void){ return (STM32FXXX_TIM7*) &stm32fxxx_tim7_setup;}
 
 #endif
 

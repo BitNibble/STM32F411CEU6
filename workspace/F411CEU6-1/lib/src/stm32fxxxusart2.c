@@ -9,11 +9,12 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxusart2.h"
+#include "stm32fxxxnvic.h"
 #include <string.h>
 #include <math.h>
 
 /*** File Variable ***/
-static STM32FXXX_USART2 stm32fxxx_usart2 = {0};
+static STM32FXXX_USART2 stm32fxxx_usart2_setup = {0};
 /******/
 // Buffer for received and transmit data
 uint8_t usart2_rx_buffer[USART2_RX_BUFFER_SIZE];
@@ -151,28 +152,28 @@ void usart2_enable(void)
 {
 	USART2_Clock(1);
 	// Other
-	stm32fxxx_usart2.clock = USART2_Clock;
-	stm32fxxx_usart2.nvic = USART2_Nvic;
-	stm32fxxx_usart2.wordlength = USART2_WordLength;
-	stm32fxxx_usart2.stopbits = USART2_StopBits;
-	stm32fxxx_usart2.samplingmode = USART2_SamplingMode;
-	stm32fxxx_usart2.tx_enable = USART2_TxEnable;
-	stm32fxxx_usart2.tx_disable = USART2_TxDisable;
-	stm32fxxx_usart2.rx_enable = USART2_RxEnable;
-	stm32fxxx_usart2.rx_disable = USART2_RxDisable;
-	stm32fxxx_usart2.transmit_char = USART2_TransmitChar;
-	stm32fxxx_usart2.receive_char = USART2_ReceiveChar;
-	stm32fxxx_usart2.rx_flush = USART2_RxFlush;
-	stm32fxxx_usart2.transmit_string = USART2_TransmitString;
-	stm32fxxx_usart2.receive_string = USART2_ReceiveString;
-	stm32fxxx_usart2.start = USART2_start;
-	stm32fxxx_usart2.stop = USART2_stop;
+	stm32fxxx_usart2_setup.clock = USART2_Clock;
+	stm32fxxx_usart2_setup.nvic = USART2_Nvic;
+	stm32fxxx_usart2_setup.wordlength = USART2_WordLength;
+	stm32fxxx_usart2_setup.stopbits = USART2_StopBits;
+	stm32fxxx_usart2_setup.samplingmode = USART2_SamplingMode;
+	stm32fxxx_usart2_setup.tx_enable = USART2_TxEnable;
+	stm32fxxx_usart2_setup.tx_disable = USART2_TxDisable;
+	stm32fxxx_usart2_setup.rx_enable = USART2_RxEnable;
+	stm32fxxx_usart2_setup.rx_disable = USART2_RxDisable;
+	stm32fxxx_usart2_setup.transmit_char = USART2_TransmitChar;
+	stm32fxxx_usart2_setup.receive_char = USART2_ReceiveChar;
+	stm32fxxx_usart2_setup.rx_flush = USART2_RxFlush;
+	stm32fxxx_usart2_setup.transmit_string = USART2_TransmitString;
+	stm32fxxx_usart2_setup.receive_string = USART2_ReceiveString;
+	stm32fxxx_usart2_setup.start = USART2_start;
+	stm32fxxx_usart2_setup.stop = USART2_stop;
 	// Inic
 	usart2_tx_buffer[usart2_tx_buffer_size] = 0;
 	usart2_rx_buffer[usart2_rx_buffer_size] = 0;
 }
 
-STM32FXXX_USART2*  usart2(void){ return (STM32FXXX_USART2*) &stm32fxxx_usart2; }
+STM32FXXX_USART2*  usart2(void){ return (STM32FXXX_USART2*) &stm32fxxx_usart2_setup; }
 
 /*** Interrupt handler for USART2 ***/
 void USART2_IRQHandler(void) {

@@ -62,7 +62,7 @@ typedef struct
 	void (*clock)(uint8_t state);
 }STM32FXXX_PWR;
 
-void pwr_enable(void); STM32FXXX_PWR* pwr(void);
+STM32FXXX_PWR* pwr(void);
 
 #endif
 

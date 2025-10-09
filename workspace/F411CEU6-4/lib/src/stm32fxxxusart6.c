@@ -9,11 +9,12 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxusart6.h"
+#include "stm32fxxxnvic.h"
 #include <string.h>
 #include <math.h>
 
 /*** File Variable ***/
-static STM32FXXX_USART6 stm32fxxx_usart6 = {0};
+static STM32FXXX_USART6 stm32fxxx_usart6_setup = {0};
 /******/
 // Buffer for received and transmit data
 uint8_t usart6_rx_buffer[USART6_RX_BUFFER_SIZE];
@@ -151,28 +152,28 @@ void usart6_enable(void)
 {
 	USART6_Clock(1);
 	// Other
-	stm32fxxx_usart6.clock = USART6_Clock;
-	stm32fxxx_usart6.nvic = USART6_Nvic;
-	stm32fxxx_usart6.wordlength = USART6_WordLength;
-	stm32fxxx_usart6.stopbits = USART6_StopBits;
-	stm32fxxx_usart6.samplingmode = USART6_SamplingMode;
-	stm32fxxx_usart6.tx_enable = USART6_TxEnable;
-	stm32fxxx_usart6.tx_disable = USART6_TxDisable;
-	stm32fxxx_usart6.rx_enable = USART6_RxEnable;
-	stm32fxxx_usart6.rx_disable = USART6_RxDisable;
-	stm32fxxx_usart6.transmit_char = USART6_TransmitChar;
-	stm32fxxx_usart6.receive_char = USART6_ReceiveChar;
-	stm32fxxx_usart6.rx_flush = USART6_RxFlush;
-	stm32fxxx_usart6.transmit_string = USART6_TransmitString;
-	stm32fxxx_usart6.receive_string = USART6_ReceiveString;
-	stm32fxxx_usart6.start = USART6_start;
-	stm32fxxx_usart6.stop = USART6_stop;
+	stm32fxxx_usart6_setup.clock = USART6_Clock;
+	stm32fxxx_usart6_setup.nvic = USART6_Nvic;
+	stm32fxxx_usart6_setup.wordlength = USART6_WordLength;
+	stm32fxxx_usart6_setup.stopbits = USART6_StopBits;
+	stm32fxxx_usart6_setup.samplingmode = USART6_SamplingMode;
+	stm32fxxx_usart6_setup.tx_enable = USART6_TxEnable;
+	stm32fxxx_usart6_setup.tx_disable = USART6_TxDisable;
+	stm32fxxx_usart6_setup.rx_enable = USART6_RxEnable;
+	stm32fxxx_usart6_setup.rx_disable = USART6_RxDisable;
+	stm32fxxx_usart6_setup.transmit_char = USART6_TransmitChar;
+	stm32fxxx_usart6_setup.receive_char = USART6_ReceiveChar;
+	stm32fxxx_usart6_setup.rx_flush = USART6_RxFlush;
+	stm32fxxx_usart6_setup.transmit_string = USART6_TransmitString;
+	stm32fxxx_usart6_setup.receive_string = USART6_ReceiveString;
+	stm32fxxx_usart6_setup.start = USART6_start;
+	stm32fxxx_usart6_setup.stop = USART6_stop;
 	// Inic
 	usart6_tx_buffer[usart6_tx_buffer_size] = 0;
 	usart6_rx_buffer[usart6_rx_buffer_size] = 0;
 }
 
-STM32FXXX_USART6*  usart6(void){ return (STM32FXXX_USART6*) &stm32fxxx_usart6; }
+STM32FXXX_USART6*  usart6(void){ return (STM32FXXX_USART6*) &stm32fxxx_usart6_setup; }
 
 /*** Interrupt handler for USART6 ***/
 void USART6_IRQHandler(void) {

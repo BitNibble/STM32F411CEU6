@@ -7,6 +7,7 @@ Date:     24022024
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxusart1.h"
+#include "stm32fxxxnvic.h"
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -62,7 +63,7 @@ void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
     	USART1->CR1 |= (1 << 15);   // OVER8 = 1
     } else {
     	USART1->CR1 &= ~(1 << 15);  // OVER8 = 0 (16x)
-        samplingmode = 16;         // normalize
+        samplingmode = 16;          // normalize
     }
 
     // 2) Select proper peripheral clock
@@ -300,7 +301,7 @@ void CallBack_ORE(void){
 }
 
 /*** USART1 INIC Procedure & Function Definition ***/
-static STM32FXXX_USART1 stm32fxxx_usart1 = {
+static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
 	// V-table
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
@@ -341,7 +342,7 @@ static STM32FXXX_USART1 stm32fxxx_usart1 = {
 	.callback.pe = NULL
 };
 
-STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1; }
+STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1_setup; }
 
 /*** Interrupt handler for USART1 ***/
 void USART1_IRQHandler(void) {
