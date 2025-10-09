@@ -30,11 +30,11 @@ void ADC1_StartConversion(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_SWSTART, 1);
 }
 void ADC1_WaitEndOfConversion(void) {
-	for (uint32_t time_out = END_OF_CONVERSION_TIME_OUT; !get_reg_Msk(ADC1->SR, ADC_SR_EOC) && time_out; time_out-- );
+	for (volatile uint32_t time_out = END_OF_CONVERSION_TIME_OUT; !get_reg_Msk(ADC1->SR, ADC_SR_EOC) && time_out; time_out-- );
 }
 void ADC1_Start(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_ADON, 1);
-	for(uint8_t countdown = ADC_STAB_DELAY; countdown; countdown--); // Stabilization delay
+	for(volatile uint8_t countdown = ADC_STAB_DELAY; countdown; countdown--); // Stabilization delay
 }
 void ADC1_Stop(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_ADON, 0);

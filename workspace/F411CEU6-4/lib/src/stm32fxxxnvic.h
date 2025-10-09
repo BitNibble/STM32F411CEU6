@@ -7,8 +7,8 @@ Date:     19062023
 Comment:
 	Interrupt Vector
 *******************************************************************************/
-#ifndef _STM32FXXXNVIC_H_
-	#define _STM32FXXXNVIC_H_
+#ifndef STM32FXXXNVIC_H
+	#define STM32FXXXNVIC_H
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
@@ -27,7 +27,7 @@ typedef struct
 	/*** Other ***/
 }STM32FXXX_NVIC;
 
-void nvic_enable(void); STM32FXXX_NVIC* nvic(void);
+STM32FXXX_NVIC* nvic(void);
 
 #endif
 

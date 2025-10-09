@@ -7,8 +7,8 @@ Date:     27062023
 Comment:
 
 *******************************************************************************/
-#ifndef _STM32FXXXDMA_H_
-	#define _STM32FXXXDMA_H_
+#ifndef STM32FXXXDMA_H
+	#define STM32FXXXDMA_H
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
@@ -35,7 +35,7 @@ typedef struct
 	void (*pburst)(uint8_t value);
 	void (*ct)(uint8_t state);
 	void (*dbm)(uint8_t state);
-	void (*pl)(uint8_t vlue);
+	void (*pl)(uint8_t value);
 	void (*pincos)(uint8_t state);
 	void (*msize)(uint8_t value);
 	void (*psize)(uint8_t value);
@@ -61,7 +61,7 @@ typedef struct
 // FUNC
 typedef struct
 {
-	void (*circ_cfg)(volatile long unsigned int* p_addr, volatile long unsigned int* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir);
+	void (*circ_cfg)(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir);
 }STM32FXXX_DMA_func;
 /*************************************/
 /*************************************/
@@ -71,9 +71,9 @@ typedef struct
 	/*** Bit Mapping ***/
 	STM32FXXX_DMA_STREAM_cr* cr;
 	void (*ndt)(uint16_t value);
-	void (*par)(volatile long unsigned int periferal_addr);
-	void (*m0a)(volatile long unsigned int mem0_addr);
-	void (*m1a)(volatile long unsigned int mem1_addr);
+	void (*par)(volatile uint32_t periferal_addr);
+	void (*m0a)(volatile uint32_t mem0_addr);
+	void (*m1a)(volatile uint32_t mem1_addr);
 	STM32FXXX_DMA_STREAM_fcr* fcr;
 	void (*nvic)(uint8_t state);
 }STM32FXXX_DMA_Streamx;

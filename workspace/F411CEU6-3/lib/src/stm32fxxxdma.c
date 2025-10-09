@@ -60,102 +60,102 @@ static uint32_t time_out;
 STM32FXXX_DMA_sr* stm32fxxx_dma1_sr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream0_cr_inic(void);
 void stm32fxxx_dma1_stream0_ndt(uint16_t value);
-void stm32fxxx_dma1_stream0_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream0_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream0_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream0_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream0_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream0_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream0_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream1_cr_inic(void);
 void stm32fxxx_dma1_stream1_ndt(uint16_t value);
-void stm32fxxx_dma1_stream1_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream1_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream1_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream1_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream1_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream1_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream1_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream2_cr_inic(void);
 void stm32fxxx_dma1_stream2_ndt(uint16_t value);
-void stm32fxxx_dma1_stream2_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream2_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream2_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream2_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream2_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream2_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream2_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream3_cr_inic(void);
 void stm32fxxx_dma1_stream3_ndt(uint16_t value);
-void stm32fxxx_dma1_stream3_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream3_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream3_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream3_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream3_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream3_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream3_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream4_cr_inic(void);
 void stm32fxxx_dma1_stream4_ndt(uint16_t value);
-void stm32fxxx_dma1_stream4_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream4_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream4_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream4_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream4_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream4_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream4_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream5_cr_inic(void);
 void stm32fxxx_dma1_stream5_ndt(uint16_t value);
-void stm32fxxx_dma1_stream5_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream5_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream5_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream5_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream5_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream5_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream5_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream6_cr_inic(void);
 void stm32fxxx_dma1_stream6_ndt(uint16_t value);
-void stm32fxxx_dma1_stream6_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream6_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream6_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream6_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream6_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream6_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream6_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream7_cr_inic(void);
 void stm32fxxx_dma1_stream7_ndt(uint16_t value);
-void stm32fxxx_dma1_stream7_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma1_stream7_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma1_stream7_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma1_stream7_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma1_stream7_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma1_stream7_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream7_fcr_inic(void);
 STM32FXXX_DMA_func* stm32fxxx_dma1_func_inic(void);
 // DMA2
 STM32FXXX_DMA_sr* stm32fxxx_dma2_sr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream0_cr_inic(void);
 void stm32fxxx_dma2_stream0_ndt(uint16_t value);
-void stm32fxxx_dma2_stream0_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream0_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream0_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream0_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream0_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream0_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream0_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream1_cr_inic(void);
 void stm32fxxx_dma2_stream1_ndt(uint16_t value);
-void stm32fxxx_dma2_stream1_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream1_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream1_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream1_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream1_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream1_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream1_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream2_cr_inic(void);
 void stm32fxxx_dma2_stream2_ndt(uint16_t value);
-void stm32fxxx_dma2_stream2_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream2_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream2_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream2_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream2_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream2_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream2_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream3_cr_inic(void);
 void stm32fxxx_dma2_stream3_ndt(uint16_t value);
-void stm32fxxx_dma2_stream3_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream3_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream3_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream3_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream3_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream3_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream3_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream4_cr_inic(void);
 void stm32fxxx_dma2_stream4_ndt(uint16_t value);
-void stm32fxxx_dma2_stream4_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream4_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream4_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream4_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream4_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream4_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream4_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream5_cr_inic(void);
 void stm32fxxx_dma2_stream5_ndt(uint16_t value);
-void stm32fxxx_dma2_stream5_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream5_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream5_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream5_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream5_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream5_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream5_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream6_cr_inic(void);
 void stm32fxxx_dma2_stream6_ndt(uint16_t value);
-void stm32fxxx_dma2_stream6_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream6_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream6_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream6_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream6_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream6_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream6_fcr_inic(void);
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream7_cr_inic(void);
 void stm32fxxx_dma2_stream7_ndt(uint16_t value);
-void stm32fxxx_dma2_stream7_par(volatile long unsigned int periferal_addr);
-void stm32fxxx_dma2_stream7_m0a(volatile long unsigned int mem0_addr);
-void stm32fxxx_dma2_stream7_m1a(volatile long unsigned int mem1_addr);
+void stm32fxxx_dma2_stream7_par(volatile uint32_t periferal_addr);
+void stm32fxxx_dma2_stream7_m0a(volatile uint32_t mem0_addr);
+void stm32fxxx_dma2_stream7_m1a(volatile uint32_t mem1_addr);
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream7_fcr_inic(void);
 STM32FXXX_DMA_func* stm32fxxx_dma2_func_inic(void);
 /*******************************************/
@@ -608,15 +608,15 @@ void stm32fxxx_dma1_stream0_ndt(uint16_t value)
 {
 	DMA1_Stream0->NDTR = value;
 }
-void stm32fxxx_dma1_stream0_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream0_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream0->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream0_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream0_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream0->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream0_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream0_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream0->M1AR = mem1_addr;
 }
@@ -728,15 +728,15 @@ void stm32fxxx_dma1_stream1_ndt(uint16_t value)
 {
 	DMA1_Stream1->NDTR = value;
 }
-void stm32fxxx_dma1_stream1_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream1_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream1->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream1_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream1_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream1->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream1_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream1_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream1->M1AR = mem1_addr;
 }
@@ -848,15 +848,15 @@ void stm32fxxx_dma1_stream2_ndt(uint16_t value)
 {
 	DMA1_Stream2->NDTR = value;
 }
-void stm32fxxx_dma1_stream2_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream2_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream2->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream2_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream2_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream2->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream2_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream2_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream2->M1AR = mem1_addr;
 }
@@ -968,15 +968,15 @@ void stm32fxxx_dma1_stream3_ndt(uint16_t value)
 {
 	DMA1_Stream3->NDTR = value;
 }
-void stm32fxxx_dma1_stream3_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream3_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream3->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream3_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream3_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream3->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream3_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream3_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream3->M1AR = mem1_addr;
 }
@@ -1088,15 +1088,15 @@ void stm32fxxx_dma1_stream4_ndt(uint16_t value)
 {
 	DMA1_Stream4->NDTR = value;
 }
-void stm32fxxx_dma1_stream4_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream4_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream4->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream4_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream4_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream4->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream4_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream4_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream4->M1AR = mem1_addr;
 }
@@ -1208,15 +1208,15 @@ void stm32fxxx_dma1_stream5_ndt(uint16_t value)
 {
 	DMA1_Stream5->NDTR = value;
 }
-void stm32fxxx_dma1_stream5_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream5_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream5->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream5_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream5_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream5->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream5_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream5_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream5->M1AR = mem1_addr;
 }
@@ -1328,15 +1328,15 @@ void stm32fxxx_dma1_stream6_ndt(uint16_t value)
 {
 	DMA1_Stream6->NDTR = value;
 }
-void stm32fxxx_dma1_stream6_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream6_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream6->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream6_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream6_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream6->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream6_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream6_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream6->M1AR = mem1_addr;
 }
@@ -1448,15 +1448,15 @@ void stm32fxxx_dma1_stream7_ndt(uint16_t value)
 {
 	DMA1_Stream7->NDTR = value;
 }
-void stm32fxxx_dma1_stream7_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma1_stream7_par(volatile uint32_t periferal_addr)
 {
 	DMA1_Stream7->PAR = periferal_addr;
 }
-void stm32fxxx_dma1_stream7_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma1_stream7_m0a(volatile uint32_t mem0_addr)
 {
 	DMA1_Stream7->M0AR = mem0_addr;
 }
-void stm32fxxx_dma1_stream7_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma1_stream7_m1a(volatile uint32_t mem1_addr)
 {
 	DMA1_Stream7->M1AR = mem1_addr;
 }
@@ -1685,7 +1685,7 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream7_fcr_inic(void)
 	return &stm32fxxx_dma1_stream7_fcr;
 }
 /*** FUNC ***/
-void dma1_circ_cfg(volatile long unsigned int* p_addr, volatile long unsigned int* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir)
+void dma1_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir)
 {
 	set_reg_block(&RCC->AHB1ENR, 1, 22, 1);
 	// Filter to Default
@@ -1700,8 +1700,8 @@ void dma1_circ_cfg(volatile long unsigned int* p_addr, volatile long unsigned in
 		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 0, 0);
 		for(time_out = 200; get_reg_block((DMA1_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
 		/*** Parameter Configure ***/
-		(DMA1_Stream0 + stream_n)->PAR = (volatile long unsigned int) p_addr;
-		(DMA1_Stream0 + stream_n)->M0AR = (volatile long unsigned int) m_addr;
+		(DMA1_Stream0 + stream_n)->PAR = (volatile uint32_t) p_addr;
+		(DMA1_Stream0 + stream_n)->M0AR = (volatile uint32_t) m_addr;
 		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
 		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
 		(DMA1_Stream0 + stream_n)->NDTR = quant_d; //
@@ -2239,15 +2239,15 @@ void stm32fxxx_dma2_stream0_ndt(uint16_t value)
 {
 	DMA2_Stream0->NDTR = value;
 }
-void stm32fxxx_dma2_stream0_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream0_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream0->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream0_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream0_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream0->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream0_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream0_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream0->M1AR = mem1_addr;
 }
@@ -2359,15 +2359,15 @@ void stm32fxxx_dma2_stream1_ndt(uint16_t value)
 {
 	DMA2_Stream1->NDTR = value;
 }
-void stm32fxxx_dma2_stream1_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream1_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream1->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream1_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream1_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream1->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream1_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream1_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream1->M1AR = mem1_addr;
 }
@@ -2479,15 +2479,15 @@ void stm32fxxx_dma2_stream2_ndt(uint16_t value)
 {
 	DMA2_Stream2->NDTR = value;
 }
-void stm32fxxx_dma2_stream2_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream2_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream2->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream2_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream2_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream2->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream2_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream2_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream2->M1AR = mem1_addr;
 }
@@ -2599,15 +2599,15 @@ void stm32fxxx_dma2_stream3_ndt(uint16_t value)
 {
 	DMA2_Stream3->NDTR = value;
 }
-void stm32fxxx_dma2_stream3_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream3_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream3->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream3_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream3_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream3->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream3_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream3_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream3->M1AR = mem1_addr;
 }
@@ -2719,15 +2719,15 @@ void stm32fxxx_dma2_stream4_ndt(uint16_t value)
 {
 	DMA2_Stream4->NDTR = value;
 }
-void stm32fxxx_dma2_stream4_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream4_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream4->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream4_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream4_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream4->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream4_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream4_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream4->M1AR = mem1_addr;
 }
@@ -2839,15 +2839,15 @@ void stm32fxxx_dma2_stream5_ndt(uint16_t value)
 {
 	DMA2_Stream5->NDTR = value;
 }
-void stm32fxxx_dma2_stream5_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream5_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream5->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream5_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream5_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream5->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream5_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream5_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream5->M1AR = mem1_addr;
 }
@@ -2959,15 +2959,15 @@ void stm32fxxx_dma2_stream6_ndt(uint16_t value)
 {
 	DMA2_Stream6->NDTR = value;
 }
-void stm32fxxx_dma2_stream6_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream6_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream6->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream6_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream6_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream6->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream6_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream6_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream6->M1AR = mem1_addr;
 }
@@ -3079,15 +3079,15 @@ void stm32fxxx_dma2_stream7_ndt(uint16_t value)
 {
 	DMA2_Stream7->NDTR = value;
 }
-void stm32fxxx_dma2_stream7_par(volatile long unsigned int periferal_addr)
+void stm32fxxx_dma2_stream7_par(volatile uint32_t periferal_addr)
 {
 	DMA2_Stream7->PAR = periferal_addr;
 }
-void stm32fxxx_dma2_stream7_m0a(volatile long unsigned int mem0_addr)
+void stm32fxxx_dma2_stream7_m0a(volatile uint32_t mem0_addr)
 {
 	DMA2_Stream7->M0AR = mem0_addr;
 }
-void stm32fxxx_dma2_stream7_m1a(volatile long unsigned int mem1_addr)
+void stm32fxxx_dma2_stream7_m1a(volatile uint32_t mem1_addr)
 {
 	DMA2_Stream7->M1AR = mem1_addr;
 }
@@ -3316,7 +3316,7 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream7_fcr_inic(void)
 	return &stm32fxxx_dma2_stream7_fcr;
 }
 /*** FUNC ***/
-void dma2_circ_cfg(volatile long unsigned int* p_addr, volatile long unsigned int* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir)
+void dma2_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir)
 {
 	// Filter to Default
 	if(stream_n > 7){ stream_n = 0;}
@@ -3330,8 +3330,8 @@ void dma2_circ_cfg(volatile long unsigned int* p_addr, volatile long unsigned in
 		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 0, 0);
 		for(time_out = 200; get_reg_block((DMA2_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
 		/*** Parameter Configure ***/
-		(DMA2_Stream0 + stream_n)->PAR = (volatile long unsigned int) p_addr;
-		(DMA2_Stream0 + stream_n)->M0AR = (volatile long unsigned int) m_addr;
+		(DMA2_Stream0 + stream_n)->PAR = (volatile uint32_t) p_addr;
+		(DMA2_Stream0 + stream_n)->M0AR = (volatile uint32_t) m_addr;
 		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
 		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
 		(DMA2_Stream0 + stream_n)->NDTR = quant_d; //
