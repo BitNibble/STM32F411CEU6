@@ -90,10 +90,10 @@ typedef struct {
     MPU_Type* const mpu;
     FPU_Type* const fpu;
     CoreDebug_Type* const coredebug;
-} STM32F411CEU6_CORE;
+} STM32F411CEU6_CORE_Handler;
 
 typedef struct {
-    STM32F411CEU6_CORE* core;
+    STM32F411CEU6_CORE_Handler* core;
 
     ADC_TypeDef* const adc1;
     ADC_Common_TypeDef* const adc1_common;
@@ -160,9 +160,9 @@ typedef struct {
     USB_OTG_HostTypeDef* const usb_otg_host;
     USB_OTG_HostChannelTypeDef* const usb_otg_hostchannel;
 
-} STM32F411CEU6;
+} STM32F411CEU6_Handler;
 
-STM32F411CEU6* stm32f411ceu6(void);
+STM32F411CEU6_Handler* stm32f411ceu6(void);
 
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/
