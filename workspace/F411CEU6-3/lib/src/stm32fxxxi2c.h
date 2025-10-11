@@ -35,9 +35,9 @@ typedef struct
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 
 /*** I2C Procedure and Function Declarations ***/
-void i2c1_enable(uint32_t sclclock); STM32FXXX_I2C1_Handler* i2c1(void);
-void i2c2_enable(uint32_t sclclock); STM32FXXX_I2C2_Handler* i2c2(void);
-void i2c3_enable(uint32_t sclclock); STM32FXXX_I2C3_Handler* i2c3(void);
+STM32FXXX_I2C1_Handler* i2c1(void);
+STM32FXXX_I2C2_Handler* i2c2(void);
+STM32FXXX_I2C3_Handler* i2c3(void);
 
 #endif
 
