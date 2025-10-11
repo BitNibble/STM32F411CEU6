@@ -13,8 +13,6 @@ Date:     24022024
 #include <math.h>
 
 /*** File Variable ***/
-//static STM32FXXX_USART1 stm32fxxx_usart1 = {0};
-/******/
 // Buffer for received and transmit data
 static char usart1_rx_buffer[USART1_RX_BUFFER_SIZE] = {0};
 volatile uint16_t usart1_rx_index = 0;

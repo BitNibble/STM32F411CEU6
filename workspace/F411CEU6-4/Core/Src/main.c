@@ -66,373 +66,371 @@ void setup_usart1(void);
 
 int main(void)
 {
-	rcc()->inic();
-	systick_start();
-	fpu_enable();
-	rtc()->inic();
+rcc()->inic();
+systick_start();
+fpu_enable();
+rtc()->inic();
 
-	_delay_ms(1);
-    HAL_Init();
+_delay_ms(1);
+HAL_Init();
 
-    adc1()->clock(1);
-    gpioa()->clock(1);
-    gpiob()->clock(1); // lcd0
-    gpioc()->clock(1); // gpioc13
+adc1()->clock(1);
+gpioa()->clock(1);
+gpiob()->clock(1); // lcd0
+gpioc()->clock(1); // gpioc13
 
-    setup_usart1();
+setup_usart1();
 
-    PA = EXPLODE_enable();
+PA = EXPLODE_enable();
 
-    _UN8_var Menu;
-    Menu.var = 8;
-    _UN16_var adc_value;
-    adc_value.var = 0;
-    uint8_t count_1 = ADC_DELAY;
-    uint8_t n_sample = ADC_SAMPLE;
-    uint16_t incr_0 = 0;
-    uint8_t skip_0 = 0;
-    char* webpage_ptr = NULL;
-    size_t webpage_size = 0;
-    uint8_t link_ID = 0;
+_UN8_var Menu;
+Menu.var = 8;
+_UN16_var adc_value;
+adc_value.var = 0;
+uint8_t count_1 = ADC_DELAY;
+uint8_t n_sample = ADC_SAMPLE;
+uint16_t incr_0 = 0;
+uint8_t skip_0 = 0;
+char* webpage_ptr = NULL;
+size_t webpage_size = 0;
+uint8_t link_ID = 0;
 
-    char parse[PARSE_SIZE] = {0};
-    const uint32_t parse_size = PARSE_SIZE - 1;
-    char sub_parse[SUBPARSE_SIZE] = {0};
-    const uint32_t subparse_size = SUBPARSE_SIZE - 1;
+char parse[PARSE_SIZE] = {0};
+const uint32_t parse_size = PARSE_SIZE - 1;
+char sub_parse[SUBPARSE_SIZE] = {0};
+const uint32_t subparse_size = SUBPARSE_SIZE - 1;
 
-    const char unit = (char)0xDF;
-    char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
-    char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
+const char unit = (char)0xDF;
+char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
+char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 
-    ARMLCD0_enable(stm32f411ceu6()->gpiob);
+ARMLCD0_enable(stm32f411ceu6()->gpiob);
 
-    gpioc()->moder(13,1);
-    gpioa()->moder(0,0);
-    gpioa()->pupd(0,1);
+gpioc()->moder(13,1);
+gpioa()->moder(0,0);
+gpioa()->pupd(0,1);
 
-    FUNC_enable();
-    adc1()->temperaturesetup();
+FUNC_enable();
+adc1()->temperaturesetup();
 
-    char vecD[8]; // for calendar date
-    char vecT[8]; // for calendar time
-    PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
+char vecD[8]; // for calendar date
+char vecT[8]; // for calendar time
+PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
 
-    stm32f411ceu6()->gpioc->BSRR = GPIO_BSRR_BS13;
+stm32f411ceu6()->gpioc->BSRR = GPIO_BSRR_BS13;
 
-    Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
-    tm_jumpstep( 0, 22 );
+Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
+tm_jumpstep( 0, 22 );
 /*****************************************************************************/
 /*****************************************************************************/
-    while (1)  // Infinite loop
-    {
-    	Turingi22to24_Station_Mux1Server( );
+while (1) {
+	Turingi22to24_Station_Mux1Server( );
 
-        PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
+	PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
 
-        /*** Magic ***/
-        if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
-        		strncpy( parse, usart1()->rxbuff, parse_size );
-        		func()->tokenize_string( parse, tokens, MAX_TOKENS, "\r\n" );
-        		if(tokens[0] && !isCharPtrFlush(tokens[0])) {
-        			strncpy( sub_parse, tokens[0], subparse_size ); // 0
-        			func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
-        		}
-        		usart1()->rx_purge();
-        }
+	/*** Magic ***/
+	if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
+			strncpy( parse, usart1()->rxbuff, parse_size );
+			func()->tokenize_string( parse, tokens, MAX_TOKENS, "\r\n" );
+			if(tokens[0] && !isCharPtrFlush(tokens[0])) {
+				strncpy( sub_parse, tokens[0], subparse_size ); // 0
+				func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
+			}
+			usart1()->rx_purge();
+	}
 
-       lcd0()->gotoxy(1, 0); lcd0()->string_size( tokens[0], 20 ); //3
-       //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
+   lcd0()->gotoxy(1, 0); lcd0()->string_size( tokens[0], 20 ); //3
+   //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
 
-       if (!tm_getstep()) { // avoid simultaneous calls
-           /*** IPD || CONNECT ***/
-    	   char connectStr[16];
-           for (int i = 0; i < 16; i++) {
-               sprintf(connectStr, "%d,CONNECT", i);
-               if (strstr(tokens[0], connectStr)) {
-                   link_ID = i;
-                   break;
-               }
-               sprintf(connectStr, "+IPD,%d", i);
-               if (strstr(tokens[0], connectStr)) {
-            	   link_ID = i;
-            	   break;
-               }
-           }
+   if (!tm_getstep()) { // avoid simultaneous calls
+	   /*** IPD || CONNECT ***/
+	   char connectStr[16];
+	   for (int i = 0; i < 16; i++) {
+		   sprintf(connectStr, "%d,CONNECT", i);
+		   if (strstr(tokens[0], connectStr)) {
+			   link_ID = i;
+			   break;
+		   }
+		   sprintf(connectStr, "+IPD,%d", i);
+		   if (strstr(tokens[0], connectStr)) {
+			   link_ID = i;
+			   break;
+		   }
+	   }
 
-           // Handle Status Fetch safely
-           if ((tokens[0] && strstr(tokens[0], "status")) ||
-               (tokens[1] && strstr(tokens[1], "status")))
-           {
-               char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
-               tm_setstep(25);
-               Turingi25to28_Station_Mux1ServerSend_tcp(link_ID, status_text, strlen(status_text));
-               continue; // skip the rest of the loop for this request
-           }
+	   // Handle Status Fetch safely
+	   if ((tokens[0] && strstr(tokens[0], "status")) ||
+		   (tokens[1] && strstr(tokens[1], "status")))
+	   {
+		   char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
+		   tm_setstep(25);
+		   Turingi25to28_Station_Mux1ServerSend_tcp(link_ID, status_text, strlen(status_text));
+		   continue; // skip the rest of the loop for this request
+	   }
 
-           // Check for "GET / HTTP" in tokens[1]
-           if ( strstr(tokens[0], "GET / HTTP") || strstr(tokens[1], "GET / HTTP") ) {
-               webpage_ptr = webpage_2().str;
-               webpage_size = webpage_2().size;
-               tm_setstep(25);
-           }
+	   // Check for "GET / HTTP" in tokens[1]
+	   if ( strstr(tokens[0], "GET / HTTP") || strstr(tokens[1], "GET / HTTP") ) {
+		   webpage_ptr = webpage_2().str;
+		   webpage_size = webpage_2().size;
+		   tm_setstep(25);
+	   }
 
-           // Check for "Button%201" or "Button%202" in tokens[1]
-           if ( strstr(tokens[0], "Button1") || strstr(tokens[1], "Button1")
-           	   ) {
-               // Implement device ON functionality here
-               webpage_ptr = webpage_200().str;
-               webpage_size = webpage_200().size;
-               gpioc()->clear_hpins(1 << 13);
-               tm_setstep(25);
-           }
-           else if ( strstr(tokens[0], "Button2") || strstr(tokens[1], "Button2")
-           ) {
-               // Implement device OFF functionality here
-               webpage_ptr = webpage_200().str;
-               webpage_size = webpage_200().size;
-               gpioc()->set_hpins(1 << 13);
-               tm_setstep(25);
-           }
+	   // Check for "Button%201" or "Button%202" in tokens[1]
+	   if ( strstr(tokens[0], "Button1") || strstr(tokens[1], "Button1")
+		   ) {
+		   // Implement device ON functionality here
+		   webpage_ptr = webpage_200().str;
+		   webpage_size = webpage_200().size;
+		   gpioc()->clear_hpins(1 << 13);
+		   tm_setstep(25);
+	   }
+	   else if ( strstr(tokens[0], "Button2") || strstr(tokens[1], "Button2")
+	   ) {
+		   // Implement device OFF functionality here
+		   webpage_ptr = webpage_200().str;
+		   webpage_size = webpage_200().size;
+		   gpioc()->set_hpins(1 << 13);
+		   tm_setstep(25);
+	   }
 
-       }
+   }
 
-        Turingi25to28_Station_Mux1ServerSend_tcp( link_ID, (const char*)webpage_ptr , webpage_size ); // link_ID
+	Turingi25to28_Station_Mux1ServerSend_tcp( link_ID, (const char*)webpage_ptr , webpage_size ); // link_ID
 
-        switch (Menu.var) {
+	switch (Menu.var) {
 
-        case 0:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("BLE", 12);
+	case 0:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("BLE", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
 
-                }
-                skip_0++;
-            }
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 1; skip_0++;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 1; skip_0++;
+			}
+		}
+		break;
 
-        case 1:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Hour", 12);
+	case 1:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Hour", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_hour();
-                    incr_0 = (incr_0 > 22) ? 0 : incr_0 + 1;
-                    rtc()->set_hour(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_hour();
+				incr_0 = (incr_0 > 22) ? 0 : incr_0 + 1;
+				rtc()->set_hour(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) { // Jump menu
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 2; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) { // Jump menu
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 2; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 2:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Minute", 12);
+	case 2:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Minute", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_minute();
-                    incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
-                    rtc()->set_minute(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_minute();
+				incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
+				rtc()->set_minute(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 3; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 3; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 3:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Second", 12);
+	case 3:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Second", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_second();
-                    incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
-                    rtc()->set_second(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_second();
+				incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
+				rtc()->set_second(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 4; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 4; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 4:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Year", 12);
+	case 4:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Year", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_year();
-                    incr_0 = (incr_0 > 98) ? 0 : incr_0 + 1;
-                    rtc()->set_year(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_year();
+				incr_0 = (incr_0 > 98) ? 0 : incr_0 + 1;
+				rtc()->set_year(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 5; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 5; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 5:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Month", 12);
+	case 5:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Month", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_month();
-                    incr_0 = (incr_0 > 11) ? 1 : incr_0 + 1;
-                    rtc()->set_month(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_month();
+				incr_0 = (incr_0 > 11) ? 1 : incr_0 + 1;
+				rtc()->set_month(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 6; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 6; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 6:
-        	lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set WeekDay", 12);
+	case 6:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set WeekDay", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-            	if (skip_0 > 0) { // Handle button hold logic if necessary
-            		incr_0 = rtc()->get_weekday();
-                    incr_0 = (incr_0 > 6) ? 1 : incr_0 + 1;
-                    rtc()->set_weekday(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_weekday();
+				incr_0 = (incr_0 > 6) ? 1 : incr_0 + 1;
+				rtc()->set_weekday(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                	Menu.var = 7; skip_0 = 0;
-                }
-            }
-            break;
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 7; skip_0 = 0;
+			}
+		}
+		break;
 
-        case 7:
-            lcd0()->gotoxy(0, 0);
-            lcd0()->string_size("Set Day", 12);
+	case 7:
+		lcd0()->gotoxy(0, 0);
+		lcd0()->string_size("Set Day", 12);
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 > 0) { // Handle button hold logic if necessary
-                    incr_0 = rtc()->get_day();
-                    incr_0 = (incr_0 > 30) ? 1 : incr_0 + 1;
-                    rtc()->set_day(incr_0);
-                }
-                skip_0++;
-            }
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 > 0) { // Handle button hold logic if necessary
+				incr_0 = rtc()->get_day();
+				incr_0 = (incr_0 > 30) ? 1 : incr_0 + 1;
+				rtc()->set_day(incr_0);
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-            	if(ftdelayCycles(1, STEP_DELAY, NULL)){
-                    Menu.var = 8; skip_0 = 0;
-                }
-            }
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+				Menu.var = 8; skip_0 = 0;
+			}
+		}
 
-            break;
+		break;
 
-        case 8:
-        	lcd0()->gotoxy(0, 0);
-            //lcd0()->gotoxy(0, 12);
-            lcd0()->string_size("Clock", 12);
-            count_1--;
-            if (!count_1) {
-                count_1 = ADC_DELAY;
-                if (n_sample) {
-                    n_sample--;
-                    adc_value.var += adc1()->readtemperature();
-                } else {
-                    n_sample = ADC_SAMPLE;
-                    adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
-                    //temperature = CalculateTemperature(adc_value);
-                    snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.var), unit);
-                    lcd0()->string_size(str, 8);
-                    adc_value.var = 0;  // Reset adc_value after use
-                }
-            }
+	case 8:
+		lcd0()->gotoxy(0, 0);
+		//lcd0()->gotoxy(0, 12);
+		lcd0()->string_size("Clock", 12);
+		count_1--;
+		if (!count_1) {
+			count_1 = ADC_DELAY;
+			if (n_sample) {
+				n_sample--;
+				adc_value.var += adc1()->readtemperature();
+			} else {
+				n_sample = ADC_SAMPLE;
+				adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
+				//temperature = CalculateTemperature(adc_value);
+				snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.var), unit);
+				lcd0()->string_size(str, 8);
+				adc_value.var = 0;  // Reset adc_value after use
+			}
+		}
 
-            if (PA.par.LH & 1) {
-            	ftdelayReset(1);
-                if (skip_0 < 1) { // Handle button hold logic if necessary
+		if (PA.par.LH & 1) {
+			ftdelayReset(1);
+			if (skip_0 < 1) { // Handle button hold logic if necessary
 
-                }
-                skip_0++;
-            }
+			}
+			skip_0++;
+		}
 
-            if (PA.par.LL & 1) {
-                if(ftdelayCycles(1, MAIN_MENU_DELAY, NULL)){
-                    Menu.var = 0;  skip_0 = 0;
-                }
-            }
-            break;
-        }
+		if (PA.par.LL & 1) {
+			if(ftdelayCycles(1, MAIN_MENU_DELAY, NULL)){
+				Menu.var = 0;  skip_0 = 0;
+			}
+		}
+		break;
+	}
 
-        rtc()->dr2vec(vecD);
-        rtc()->tr2vec(vecT);
+	rtc()->dr2vec(vecD);
+	rtc()->tr2vec(vecT);
 
-        lcd0()->gotoxy(2, 0);
-        func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
-        lcd0()->string_size(str, 10);
+	lcd0()->gotoxy(2, 0);
+	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
+	lcd0()->string_size(str, 10);
 
-        lcd0()->gotoxy(2, 11);
-        lcd0()->string_size((char*)WeekDay_String(vecD[2]), 7);
+	lcd0()->gotoxy(2, 11);
+	lcd0()->string_size((char*)WeekDay_String(vecD[2]), 7);
 
-        lcd0()->gotoxy(3, 11);
-        func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
-        lcd0()->string_size(str, 8);
+	lcd0()->gotoxy(3, 11);
+	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
+	lcd0()->string_size(str, 8);
 
-        /***/
-        if(!strcmp(sub_tokens[3],"s01.")){
-        	gpioc()->set_hpins(1 << 13);
-        }
-        if(!strcmp(sub_tokens[3],"s00.")){
-        	gpioc()->clear_hpins(1 << 13);
-        }
-        if(!strcmp(sub_tokens[0],"s01.")){
-        	gpioc()->set_hpins(1 << 13);
-       }
-        if(!strcmp(sub_tokens[0],"s00.")){
-        	gpioc()->clear_hpins(1 << 13);
-       }
-        /***/
-    }
-}
+	/***/
+	if(!strcmp(sub_tokens[3],"s01.")){
+		gpioc()->set_hpins(1 << 13);
+	}
+	if(!strcmp(sub_tokens[3],"s00.")){
+		gpioc()->clear_hpins(1 << 13);
+	}
+	if(!strcmp(sub_tokens[0],"s01.")){
+		gpioc()->set_hpins(1 << 13);
+   }
+	if(!strcmp(sub_tokens[0],"s00.")){
+		gpioc()->clear_hpins(1 << 13);
+   }
+	/***/
+}}
 
 void setup_usart1(void){
 	usart1()->clock(1);

@@ -24,6 +24,7 @@ typedef struct
 	void (*clock)(uint8_t state);
 	void (*evnvic)(uint8_t state);
 	void (*ernvic)(uint8_t state);
+	void (*scl_clock)(uint32_t sclclock);
 	/*** Other ***/
 	void (*start)(void);
 	void (*connect)(uint16_t address, uint8_t rw);

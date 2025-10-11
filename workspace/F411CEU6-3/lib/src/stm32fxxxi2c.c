@@ -35,6 +35,11 @@ void I2C_SclClock(I2C_TypeDef* instance, uint32_t sclclock) {
     // Enable I2C peripheral
     instance->CR1 |= I2C_CR1_PE; // Set PE bit to enable I2C
 }
+static inline uint8_t _wait_flag(volatile uint32_t *reg, uint32_t mask, volatile uint32_t timeout) {
+    while(!(*reg & mask) && timeout--);
+    return timeout > 0;
+}
+
 /*** I2C1 ***/
 void I2C1_Clock( uint8_t state ) {
     if(state){
@@ -59,6 +64,7 @@ void I2C1_ErNvic( uint8_t state ) {
         set_bit_block(NVIC->ICER, 1, I2C1_ER_IRQn, 0);
     }
 }
+void I2C1_SclClock(uint32_t sclclock){I2C_SclClock(I2C1, sclclock);}
 /*** I2C1 RUN ***/
 void I2C1_Start(void) {
 	volatile uint32_t time_out = 0;
@@ -118,6 +124,7 @@ void I2C2_ErNvic( uint8_t state ){
         set_bit_block(NVIC->ICER, 1, I2C2_ER_IRQn, 0);
     }
 }
+void I2C2_SclClock(uint32_t sclclock){I2C_SclClock(I2C2, sclclock);}
 /*** I2C2 RUN ***/
 void I2C2_Start(void) {
 	I2C2->CR1 |= I2C_CR1_START; // Generate start condition
@@ -176,6 +183,7 @@ void I2C3_ErNvic( uint8_t state ){
         set_bit_block(NVIC->ICER, 1, I2C3_ER_IRQn, 0);
     }
 }
+void I2C3_SclClock(uint32_t sclclock){I2C_SclClock(I2C3, sclclock);}
 /*** I2C3 RUN ***/
 void I2C3_Start(void) {
 	I2C3->CR1 |= I2C_CR1_START; // Generate start condition
@@ -225,6 +233,7 @@ void i2c1_enable(uint32_t sclclock)
 	stm32fxxx_i2c1_setup.clock = I2C1_Clock;
 	stm32fxxx_i2c1_setup.evnvic = I2C1_EvNvic;
 	stm32fxxx_i2c1_setup.ernvic = I2C1_ErNvic;
+	stm32fxxx_i2c1_setup.scl_clock = I2C1_SclClock;
 	/*** Procedures ***/
 	/*** Other ***/
 	stm32fxxx_i2c1_setup.start = I2C1_Start;
@@ -248,6 +257,7 @@ void i2c2_enable(uint32_t sclclock)
 	stm32fxxx_i2c2_setup.clock = I2C2_Clock;
 	stm32fxxx_i2c2_setup.evnvic = I2C2_EvNvic;
 	stm32fxxx_i2c2_setup.ernvic = I2C2_ErNvic;
+	stm32fxxx_i2c2_setup.scl_clock = I2C2_SclClock;
 	/*** Procedures ***/
 	/*** Other ***/
 	stm32fxxx_i2c2_setup.start = I2C2_Start;
@@ -271,6 +281,7 @@ void i2c3_enable(uint32_t sclclock)
 	stm32fxxx_i2c3_setup.clock = I2C3_Clock;
 	stm32fxxx_i2c3_setup.evnvic = I2C3_EvNvic;
 	stm32fxxx_i2c3_setup.ernvic = I2C3_ErNvic;
+	stm32fxxx_i2c3_setup.scl_clock = I2C3_SclClock;
 	/*** Procedures ***/
 	/*** Other ***/
 	stm32fxxx_i2c3_setup.start = I2C3_Start;

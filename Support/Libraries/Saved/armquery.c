@@ -1,5 +1,5 @@
 /*************************************************************************
-	STM32QUERY
+	STM32 QUERY
 Author: Sergio Santos
 	<sergio.salazar.santos@gmail.com>
 License: GNU General Public License     
