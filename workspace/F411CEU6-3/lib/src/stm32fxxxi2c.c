@@ -30,6 +30,17 @@ void I2C_SclClock(I2C_TypeDef* instance, uint32_t sclclock) {
     // Enable I2C peripheral
     instance->CR1 |= I2C_CR1_PE; // Set PE bit to enable I2C
 }
+static inline void I2C_EnableEventInterrupt(I2C_TypeDef *I2Cx)
+{
+    /* Enable the event interrupt (SB, ADDR, TXE, RXNE, STOPF) */
+    I2Cx->CR2 |= I2C_CR2_ITEVTEN;
+}
+
+static inline void I2C_EnableErrorInterrupt(I2C_TypeDef *I2Cx)
+{
+    /* Enable error interrupts (BERR, ARLO, OVR) */
+    I2Cx->CR2 |= I2C_CR2_ITERREN;
+}
 static inline uint8_t _wait_flag(volatile uint32_t *reg, uint32_t mask, volatile uint32_t timeout) {
     while(!(*reg & mask) && timeout--);
     return timeout > 0;
