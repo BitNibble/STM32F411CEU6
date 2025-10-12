@@ -217,6 +217,8 @@ uint8_t I2C3_Status(void) {
 }
 /**************************************************************************************************/
 /*** I2C1 INIC Handler ***/
+static STM32FXXX_I2C_Callback I2C1_callback_setup = {0};
+
 static STM32FXXX_I2C1_Handler stm32fxxx_i2c1_setup = {
 	/*** Clock and Nvic ***/
 	.clock = I2C1_Clock,
@@ -229,11 +231,81 @@ static STM32FXXX_I2C1_Handler stm32fxxx_i2c1_setup = {
 	.master_write = I2C1_Master_Write,
 	.master_read = I2C1_Master_Read,
 	.stop = I2C1_Stop,
-	.status = I2C1_Status
+	.status = I2C1_Status,
+	.callback = &I2C1_callback_setup
 };
 
 STM32FXXX_I2C1_Handler*  i2c1(void){ return (STM32FXXX_I2C1_Handler*) &stm32fxxx_i2c1_setup; }
+
+/*** IRQ ***/
+void I2C1_EV_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c1()->callback;
+	uint32_t sr1 = I2C1->SR1;
+	uint32_t sr2 = I2C1->SR2; // Read SR2 to clear some flags
+
+	if (sr1 & I2C_SR1_SB) {
+		if (cb->start_detected)
+			cb->start_detected();
+	}
+
+	if (sr1 & I2C_SR1_ADDR) {
+		if (cb->addr_matched)
+			cb->addr_matched();
+		(void)I2C1->SR2; // Clear ADDR
+	}
+
+	if (sr1 & I2C_SR1_TXE) {
+		if (cb->tx_complete)
+			cb->tx_complete();
+	}
+
+	if (sr1 & I2C_SR1_RXNE) {
+		if (cb->rx_complete)
+			cb->rx_complete();
+	}
+
+	if (sr1 & I2C_SR1_STOPF) {
+		if (cb->stop_detected)
+			cb->stop_detected();
+		I2C1->CR1 |= I2C_CR1_PE; // Clear STOPF
+	}
+
+	if (cb->event)
+		cb->event();
+	(void)sr2;
+}
+
+void I2C1_ER_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c1()->callback;
+	uint32_t sr1 = I2C1->SR1;
+
+	if (sr1 & I2C_SR1_BERR) {
+		I2C1->SR1 &= ~I2C_SR1_BERR;
+		if (cb->bus_error)
+			cb->bus_error();
+	}
+
+	if (sr1 & I2C_SR1_ARLO) {
+		I2C1->SR1 &= ~I2C_SR1_ARLO;
+		if (cb->arb_lost)
+			cb->arb_lost();
+	}
+
+	if (sr1 & I2C_SR1_OVR) {
+		I2C1->SR1 &= ~I2C_SR1_OVR;
+		if (cb->ovr_error)
+			cb->ovr_error();
+	}
+
+	if (cb->error)
+		cb->error();
+}
+
 /*** I2C2 INIC Handler ***/
+static STM32FXXX_I2C_Callback I2C2_callback_setup = {0};
+
 static STM32FXXX_I2C2_Handler stm32fxxx_i2c2_setup = {
 	/*** Clock and Nvic ***/
 	.clock = I2C2_Clock,
@@ -246,11 +318,81 @@ static STM32FXXX_I2C2_Handler stm32fxxx_i2c2_setup = {
 	.master_write = I2C2_Master_Write,
 	.master_read = I2C2_Master_Read,
 	.stop = I2C2_Stop,
-	.status = I2C2_Status
+	.status = I2C2_Status,
+	.callback = &I2C2_callback_setup
 };
 
 STM32FXXX_I2C2_Handler*  i2c2(void){ return (STM32FXXX_I2C2_Handler*) &stm32fxxx_i2c2_setup; }
+
+/*** IRQ ***/
+void I2C2_EV_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c2()->callback;
+	uint32_t sr1 = I2C1->SR1;
+	uint32_t sr2 = I2C1->SR2; // Read SR2 to clear some flags
+
+	if (sr1 & I2C_SR1_SB) {
+		if (cb->start_detected)
+			cb->start_detected();
+	}
+
+	if (sr1 & I2C_SR1_ADDR) {
+		if (cb->addr_matched)
+			cb->addr_matched();
+		(void)I2C1->SR2; // Clear ADDR
+	}
+
+	if (sr1 & I2C_SR1_TXE) {
+		if (cb->tx_complete)
+			cb->tx_complete();
+	}
+
+	if (sr1 & I2C_SR1_RXNE) {
+		if (cb->rx_complete)
+			cb->rx_complete();
+	}
+
+	if (sr1 & I2C_SR1_STOPF) {
+		if (cb->stop_detected)
+			cb->stop_detected();
+		I2C1->CR1 |= I2C_CR1_PE; // Clear STOPF
+	}
+
+	if (cb->event)
+		cb->event();
+	(void)sr2;
+}
+
+void I2C2_ER_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c2()->callback;
+	uint32_t sr1 = I2C1->SR1;
+
+	if (sr1 & I2C_SR1_BERR) {
+		I2C1->SR1 &= ~I2C_SR1_BERR;
+		if (cb->bus_error)
+			cb->bus_error();
+	}
+
+	if (sr1 & I2C_SR1_ARLO) {
+		I2C1->SR1 &= ~I2C_SR1_ARLO;
+		if (cb->arb_lost)
+			cb->arb_lost();
+	}
+
+	if (sr1 & I2C_SR1_OVR) {
+		I2C1->SR1 &= ~I2C_SR1_OVR;
+		if (cb->ovr_error)
+			cb->ovr_error();
+	}
+
+	if (cb->error)
+		cb->error();
+}
+
 /*** I2C3 INIC Handler ***/
+static STM32FXXX_I2C_Callback I2C3_callback_setup = {0};
+
 static STM32FXXX_I2C3_Handler stm32fxxx_i2c3_setup = {
 	/*** Clock and Nvic ***/
 	.clock = I2C3_Clock,
@@ -263,10 +405,78 @@ static STM32FXXX_I2C3_Handler stm32fxxx_i2c3_setup = {
 	.master_write = I2C3_Master_Write,
 	.master_read = I2C3_Master_Read,
 	.stop = I2C3_Stop,
-	.status = I2C3_Status
+	.status = I2C3_Status,
+	.callback = &I2C3_callback_setup
 };
 
 STM32FXXX_I2C3_Handler*  i2c3(void){ return (STM32FXXX_I2C3_Handler*) &stm32fxxx_i2c3_setup; }
+
+/*** IRQ ***/
+void I2C3_EV_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c3()->callback;
+	uint32_t sr1 = I2C1->SR1;
+	uint32_t sr2 = I2C1->SR2; // Read SR2 to clear some flags
+
+	if (sr1 & I2C_SR1_SB) {
+		if (cb->start_detected)
+			cb->start_detected();
+	}
+
+	if (sr1 & I2C_SR1_ADDR) {
+		if (cb->addr_matched)
+			cb->addr_matched();
+		(void)I2C1->SR2; // Clear ADDR
+	}
+
+	if (sr1 & I2C_SR1_TXE) {
+		if (cb->tx_complete)
+			cb->tx_complete();
+	}
+
+	if (sr1 & I2C_SR1_RXNE) {
+		if (cb->rx_complete)
+			cb->rx_complete();
+	}
+
+	if (sr1 & I2C_SR1_STOPF) {
+		if (cb->stop_detected)
+			cb->stop_detected();
+		I2C1->CR1 |= I2C_CR1_PE; // Clear STOPF
+	}
+
+	if (cb->event)
+		cb->event();
+	(void)sr2;
+}
+
+void I2C3_ER_IRQHandler(void)
+{
+	STM32FXXX_I2C_Callback* cb = i2c3()->callback;
+	uint32_t sr1 = I2C1->SR1;
+
+	if (sr1 & I2C_SR1_BERR) {
+		I2C1->SR1 &= ~I2C_SR1_BERR;
+		if (cb->bus_error)
+			cb->bus_error();
+	}
+
+	if (sr1 & I2C_SR1_ARLO) {
+		I2C1->SR1 &= ~I2C_SR1_ARLO;
+		if (cb->arb_lost)
+			cb->arb_lost();
+	}
+
+	if (sr1 & I2C_SR1_OVR) {
+		I2C1->SR1 &= ~I2C_SR1_OVR;
+		if (cb->ovr_error)
+			cb->ovr_error();
+	}
+
+	if (cb->error)
+		cb->error();
+}
+
 
 /*** EOF ***/
 

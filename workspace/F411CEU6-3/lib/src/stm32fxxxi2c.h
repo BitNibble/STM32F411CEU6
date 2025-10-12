@@ -16,6 +16,21 @@ Comment:
 //#define I2C_SCL_CLOCK 100000UL
 #define I2C_ACK 1
 #define I2C_NACK 0
+
+/*** IRQ ***/
+typedef struct {
+	void (*event)(void);           // Generic EV interrupt
+	void (*error)(void);           // Generic ER interrupt
+	void (*tx_complete)(void);     // TXE
+	void (*rx_complete)(void);     // RXNE
+	void (*stop_detected)(void);   // STOPF
+	void (*start_detected)(void);  // SB
+	void (*addr_matched)(void);    // ADDR
+	void (*bus_error)(void);       // BERR
+	void (*arb_lost)(void);        // ARLO
+	void (*ovr_error)(void);       // OVR
+} STM32FXXX_I2C_Callback;
+
 /*** I2C 1..3 Handler TypeDef ***/
 // I2C -> I2C1,2,3
 typedef struct
@@ -32,6 +47,9 @@ typedef struct
 	uint8_t (*master_read)(uint8_t ack_nack);
 	void (*stop)(void);
 	uint8_t (*status)(void);
+
+	/* Callback registration */
+	STM32FXXX_I2C_Callback* callback;
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 
 /*** I2C Procedure and Function Declarations ***/
