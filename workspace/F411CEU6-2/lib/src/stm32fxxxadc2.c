@@ -37,6 +37,8 @@ void ADC2_stop(void)
 }
 
 /*** ADC2 ***/
+static ADC2_Callback ADC2_callback_setup = {0};
+
 static STM32FXXX_ADC2 stm32fxxx_adc2_setup = {
 	.clock = ADC2_Clock,
 	.nvic = ADC2_Nvic,

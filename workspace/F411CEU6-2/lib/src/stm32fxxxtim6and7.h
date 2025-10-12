@@ -31,7 +31,7 @@ typedef struct
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
-	tim6and7_callback callback;
+	tim6and7_callback* callback;
 }STM32FXXX_TIM6, STM32FXXX_TIM7;
 
 void tim6_enable(void); STM32FXXX_TIM6* tim6(void);

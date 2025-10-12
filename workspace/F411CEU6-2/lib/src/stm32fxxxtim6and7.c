@@ -26,13 +26,15 @@ void TIM6_Nvic(uint8_t state)
 void TIM6_start(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM6_stop(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM6 INIC Procedure & Function Definition ***/
+static tim6and7_callback tim6_callback_setup = {0};
+
 static STM32FXXX_TIM6 stm32fxxx_tim6_setup = {
 	.clock = TIM6_Clock,
 	.nvic = TIM6_Nvic,
 	.start = TIM6_start,
 	.stop = TIM6_stop,
-	.callback = {0}
+	.callback = &tim6_callback_setup
 };
 
 STM32FXXX_TIM6* tim6(void){ return (STM32FXXX_TIM6*) &stm32fxxx_tim6_setup;}
@@ -51,13 +53,15 @@ void TIM7_Nvic(uint8_t state)
 void TIM7_start(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM7_stop(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM7 INIC Procedure & Function Definition ***/
+static tim6and7_callback tim7_callback_setup = {0};
+
 static STM32FXXX_TIM7 stm32fxxx_tim7_setup = {
 	.clock = TIM7_Clock,
 	.nvic = TIM7_Nvic,
 	.start = TIM7_start,
 	.stop = TIM7_stop,
-	.callback = {0}
+	.callback = &tim7_callback_setup
 };
 
 STM32FXXX_TIM7* tim7(void){ return (STM32FXXX_TIM7*) &stm32fxxx_tim7_setup;}

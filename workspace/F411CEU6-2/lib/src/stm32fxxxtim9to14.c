@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Date:     22062023
-Comment:
-	
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxtim9to14.h"
@@ -25,13 +23,15 @@ void TIM9_Nvic(uint8_t state)
 void TIM9_start(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM9_stop(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM9 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim9_callback_setup = {0};
+
 static STM32FXXX_TIM9 stm32fxxx_tim9_setup = {
 	.clock = TIM9_Clock,
 	.nvic = TIM9_Nvic,
 	.start = TIM9_start,
 	.stop = TIM9_stop,
-	.callback = {0}
+	.callback = &tim9_callback_setup
 };
 
 STM32FXXX_TIM9* tim9(void){ return (STM32FXXX_TIM9*) &stm32fxxx_tim9_setup;}
@@ -50,13 +50,15 @@ void TIM10_Nvic(uint8_t state)
 void TIM10_start(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM10_stop(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM10 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim10_callback_setup = {0};
+
 static STM32FXXX_TIM10 stm32fxxx_tim10_setup = {
 	.clock = TIM10_Clock,
 	.nvic = TIM10_Nvic,
 	.start = TIM10_start,
 	.stop = TIM10_stop,
-	.callback = {0}
+	.callback = &tim10_callback_setup
 };
 
 STM32FXXX_TIM10* tim10(void){ return (STM32FXXX_TIM10*) &stm32fxxx_tim10_setup;}
@@ -75,13 +77,15 @@ void TIM11_Nvic(uint8_t state)
 void TIM11_start(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM11_stop(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM11 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim11_callback_setup = {0};
+
 static STM32FXXX_TIM11 stm32fxxx_tim11_setup = {
 	.clock = TIM11_Clock,
 	.nvic = TIM11_Nvic,
 	.start = TIM11_start,
 	.stop = TIM11_stop,
-	.callback = {0}
+	.callback = &tim11_callback_setup
 };
 
 STM32FXXX_TIM11* tim11(void){ return (STM32FXXX_TIM11*) &stm32fxxx_tim11_setup;}
@@ -101,13 +105,15 @@ void TIM12_Nvic(uint8_t state)
 void TIM12_start(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
 void TIM12_stop(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM12 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim12_callback_setup = {0};
+
 static STM32FXXX_TIM12 stm32fxxx_tim12_setup = {
 	.clock = TIM12_Clock,
 	.nvic = TIM12_Nvic,
 	.start = TIM12_start,
 	.stop = TIM12_stop,
-	.callback = {0}
+	.callback = &tim12_callback_setup
 };
 
 STM32FXXX_TIM12* tim12(void){ return (STM32FXXX_TIM12*) &stm32fxxx_tim12_setup;}
@@ -130,13 +136,15 @@ void TIM13_Nvic(uint8_t state)
 void TIM13_start(void){ set_reg_Msk(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM13_stop(void){ set_reg_Msk(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM13 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim13_callback_setup = {0};
+
 static STM32FXXX_TIM13 stm32fxxx_tim13_setup = {
 	.clock = TIM13_Clock,
 	.nvic = TIM13_Nvic,
 	.start = TIM13_start,
 	.stop = TIM13_stop,
-	.callback = {0}
+	.callback = &tim13_callback_setup
 };
 
 STM32FXXX_TIM13* tim13(void){ return (STM32FXXX_TIM13*) &stm32fxxx_tim13_setup;}
@@ -155,13 +163,15 @@ void TIM14_Nvic(uint8_t state)
 void TIM14_start(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
 void TIM14_stop(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM14 INIC Procedure & Function Definition ***/
+static tim9to14_callback tim14_callback_setup = {0};
+
 static STM32FXXX_TIM14 stm32fxxx_tim14_setup = {
 	.clock = TIM14_Clock,
 	.nvic = TIM14_Nvic,
 	.start = TIM14_start,
 	.stop = TIM14_stop,
-	.callback = {0}
+	.callback = &tim14_callback_setup
 };
 
 STM32FXXX_TIM14* tim14(void){ return (STM32FXXX_TIM14*) &stm32fxxx_tim14_setup;}

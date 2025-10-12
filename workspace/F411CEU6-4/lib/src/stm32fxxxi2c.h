@@ -3,12 +3,9 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
-Date:     04102024
-Comment:
-
 *******************************************************************************/
-#ifndef _STM32FXXXI2C_H_
-	#define _STM32FXXXI2C_H_
+#ifndef STM32FXXXI2C_H
+	#define STM32FXXXI2C_H
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
@@ -48,7 +45,7 @@ typedef struct
 	void (*stop)(void);
 	uint8_t (*status)(void);
 
-	/* Callback registration */
+	/* Callback */
 	STM32FXXX_I2C_Callback* callback;
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 

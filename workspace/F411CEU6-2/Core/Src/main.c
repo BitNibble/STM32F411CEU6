@@ -159,8 +159,8 @@ int main(void)
 	set_reg_Msk(&TIM1->CR1, TIM_CR1_ARPE_Msk, 1);
 
 	/*** Link to Callback ***/
-	tim1()->callback.cc1 = tim1_cc1_callback;
-	tim1()->callback.cc2 = tim1_cc2_callback;
+	tim1()->callback->cc1 = tim1_cc1_callback;
+	tim1()->callback->cc2 = tim1_cc2_callback;
 
 	tim1()->start();
 

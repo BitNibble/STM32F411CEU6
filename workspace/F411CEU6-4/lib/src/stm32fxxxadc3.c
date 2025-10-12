@@ -37,6 +37,8 @@ void ADC3_stop(void)
 }
 
 /*** ADC3 ***/
+static ADC3_Callback ADC3_callback_setup = {0};
+
 static STM32FXXX_ADC3 stm32fxxx_adc3_setup = {
 	.clock = ADC3_Clock,
 	.nvic = ADC3_Nvic,

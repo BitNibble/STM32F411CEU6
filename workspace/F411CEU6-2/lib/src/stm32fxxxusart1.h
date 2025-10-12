@@ -31,7 +31,7 @@ typedef struct {
 	char* rxbuff;
 	char* txbuff;
 	/*** Callback ***/
-	STM32FXXX_USART1_CallBack callback;
+	STM32FXXX_USART1_CallBack* callback;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);

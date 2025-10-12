@@ -13,6 +13,12 @@ Comment:
 /*** Library ***/
 #include "stm32f411ceu6.h"
 /*** ADC TypeDef ***/
+typedef struct {
+    void (*on_conversion_complete)(uint16_t value);
+    void (*on_error)(uint32_t code);
+    void (*on_start)(void);
+    void (*on_stop)(void);
+} ADC2_Callback;
 // ADC -> ADC2
 typedef struct
 {
@@ -22,6 +28,8 @@ typedef struct
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
+
+	ADC2_Callback* callback;
 }STM32FXXX_ADC2;
 
 // INIC

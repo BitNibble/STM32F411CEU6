@@ -694,6 +694,8 @@ void RTC_L_select(uint8_t lclock) {
 }
 
 /*** RTC Procedure & Function Definition ***/
+static RTC_callback RTC_callback_setup = {0};
+
 static STM32FXXX_RTC stm32fxxx_rtc_setup = {
 	/***/
 	.get_year = RTC_Get_year,
@@ -723,7 +725,7 @@ static STM32FXXX_RTC stm32fxxx_rtc_setup = {
 	.nvic = RTC_NVIC,
 	.irq_enable = RTC_IRQ_enable,
 	.irq_disable = RTC_IRQ_disable,
-	.callback = {0}
+	.callback = &RTC_callback_setup
 };
 
 STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc_setup; }
@@ -753,34 +755,35 @@ const char* WeekDay_String(uint8_t weekday_n) {
 /*** INTERRUPT ***/
 void RTC_IRQHandler(void)
 {
+	RTC_callback* cb = rtc()->callback;
     // Alarm
     if (RTC->ISR & RTC_ISR_ALRAF) {
         RTC->ISR &= ~RTC_ISR_ALRAF; // Clear flag
-        if (stm32fxxx_rtc_setup.callback.Alarm) stm32fxxx_rtc_setup.callback.Alarm();
+        if (cb->Alarm) cb->Alarm();
     }
 
     // WakeUp
     if (RTC->ISR & RTC_ISR_WUTF) {
         RTC->ISR &= ~RTC_ISR_WUTF;  // Clear flag
-        if (stm32fxxx_rtc_setup.callback.WakeUp) stm32fxxx_rtc_setup.callback.WakeUp();
+        if (cb->WakeUp) cb->WakeUp();
     }
 
     // Timestamp
     if (RTC->ISR & RTC_ISR_TSF) {
         RTC->ISR &= ~RTC_ISR_TSF;
-        if (stm32fxxx_rtc_setup.callback.TimeStamp) stm32fxxx_rtc_setup.callback.TimeStamp();
+        if (cb->TimeStamp) cb->TimeStamp();
     }
 
     // Tamper (depends on TAFCR)
     if (RTC->ISR & RTC_ISR_TAMP1F) {
         RTC->ISR &= ~RTC_ISR_TAMP1F;
-        if (stm32fxxx_rtc_setup.callback.Tamper) stm32fxxx_rtc_setup.callback.Tamper();
+        if (cb->Tamper) cb->Tamper();
     }
 
     // Overrun (if applicable)
     if (RTC->ISR & RTC_ISR_RECALPF) {
         RTC->ISR &= ~RTC_ISR_RECALPF;
-        if (stm32fxxx_rtc_setup.callback.Overrun) stm32fxxx_rtc_setup.callback.Overrun();
+        if (cb->Overrun) cb->Overrun();
     }
 
     // Clear EXTI line 17 flag if used

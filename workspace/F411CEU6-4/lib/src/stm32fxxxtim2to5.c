@@ -26,12 +26,14 @@ void TIM2_start(void){ set_reg_Msk(&TIM2->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM2_stop(void){ set_reg_Msk(&TIM2->CR1, TIM_CR1_CEN_Msk, 0); }
 
 /*** TIM2 INIC Procedure & Function Definition ***/
+static tim2to5_callback tim2_callback_setup = {0};
+
 static STM32FXXX_TIM2 stm32fxxx_tim2_setup = {
 	.clock = TIM2_Clock,
 	.nvic = TIM2_Nvic,
 	.start = TIM2_start,
 	.stop = TIM2_stop,
-	.callback = {0}
+	.callback = &tim2_callback_setup
 };
 
 STM32FXXX_TIM2* tim2(void){ return (STM32FXXX_TIM2*) &stm32fxxx_tim2_setup;}
@@ -50,13 +52,15 @@ void TIM3_Nvic(uint8_t state)
 void TIM3_start(void){ set_reg_Msk(&TIM3->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM3_stop(void){ set_reg_Msk(&TIM3->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM3 INIC Procedure & Function Definition ***/
+static tim2to5_callback tim3_callback_setup = {0};
+
 static STM32FXXX_TIM3 stm32fxxx_tim3_setup = {
 	.clock = TIM3_Clock,
 	.nvic = TIM3_Nvic,
 	.start = TIM3_start,
 	.stop = TIM3_stop,
-	.callback = {0}
+	.callback = &tim3_callback_setup
 };
 
 STM32FXXX_TIM3* tim3(void){ return (STM32FXXX_TIM3*) &stm32fxxx_tim3_setup;}
@@ -75,13 +79,15 @@ void TIM4_Nvic(uint8_t state)
 void TIM4_start(void){ set_reg_Msk(&TIM4->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM4_stop(void){ set_reg_Msk(&TIM4->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM4 INIC Procedure & Function Definition ***/
+static tim2to5_callback tim4_callback_setup = {0};
+
 static STM32FXXX_TIM4 stm32fxxx_tim4_setup = {
 	.clock = TIM4_Clock,
 	.nvic = TIM4_Nvic,
 	.start = TIM4_start,
 	.stop = TIM4_stop,
-	.callback = {0}
+	.callback = &tim4_callback_setup
 };
 
 STM32FXXX_TIM4* tim4(void){ return (STM32FXXX_TIM4*) &stm32fxxx_tim4_setup;}
@@ -100,13 +106,15 @@ void TIM5_Nvic(uint8_t state)
 void TIM5_start(void){ set_reg_Msk(&TIM5->CR1, TIM_CR1_CEN_Msk, 1); }
 void TIM5_stop(void){ set_reg_Msk(&TIM5->CR1, TIM_CR1_CEN_Msk, 0); }
 
-/*** TIM1 INIC Procedure & Function Definition ***/
+/*** TIM5 INIC Procedure & Function Definition ***/
+static tim2to5_callback tim5_callback_setup = {0};
+
 static STM32FXXX_TIM5 stm32fxxx_tim5_setup = {
 	.clock = TIM5_Clock,
 	.nvic = TIM5_Nvic,
 	.start = TIM5_start,
 	.stop = TIM5_stop,
-	.callback = {0}
+	.callback = &tim5_callback_setup
 };
 
 STM32FXXX_TIM5* tim5(void){ return (STM32FXXX_TIM5*) &stm32fxxx_tim5_setup;}

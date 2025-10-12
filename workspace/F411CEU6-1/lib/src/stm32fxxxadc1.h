@@ -18,8 +18,7 @@ typedef struct {
     void (*on_error)(uint32_t code);
     void (*on_start)(void);
     void (*on_stop)(void);
-} ADC_Callback;
-
+} ADC1_Callback;
 // ADC -> ADC1
 typedef struct
 {
@@ -35,7 +34,7 @@ typedef struct
 	void (*temperaturesetup)(void);
 	uint16_t (*readtemperature)(void);
 
-	ADC_Callback callback;
+	ADC1_Callback* callback;
 }STM32FXXX_ADC1;
 
 // INIC

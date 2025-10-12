@@ -376,6 +376,8 @@ void RCC_default(void)
 }
 
 /*** INIC Procedure & Function Definition ***/
+static	RCC_Callback RCC_Callback_setup = {0};
+
 static STM32FXXX_RCC stm32fxxx_rcc_setup = {
 	.inic = RCC_default,
 	/*** RCC Bit Mapping Link ***/
@@ -395,7 +397,7 @@ static STM32FXXX_RCC stm32fxxx_rcc_setup = {
 	.l_select = RCC_L_select,
 	/*** Clock and Nvic ***/
 	.nvic = RCC_nvic,
-	.callback = {0}
+	.callback = &RCC_Callback_setup
 };
 
 STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc_setup; };
@@ -403,49 +405,50 @@ STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc_setup; };
 /*** Interrupt ***/
 void RCC_IRQHandler(void)
 {
+	RCC_Callback* cb = rcc()->callback;
     uint32_t status = RCC->CIR;
     uint32_t mask   = status & 0xFF; // lower bits are flags
 
     // LSI Ready
     if (status & RCC_CIR_LSIRDYF) {
         RCC->CIR = RCC_CIR_LSIRDYC; // clear
-        if (stm32fxxx_rcc_setup.callback.lsi_ready) stm32fxxx_rcc_setup.callback.lsi_ready();
+        if (cb->lsi_ready) cb->lsi_ready();
     }
 
     // LSE Ready
     if (status & RCC_CIR_LSERDYF) {
         RCC->CIR = RCC_CIR_LSERDYC;
-        if (stm32fxxx_rcc_setup.callback.lse_ready) stm32fxxx_rcc_setup.callback.lse_ready();
+        if (cb->lse_ready) cb->lse_ready();
     }
 
     // HSI Ready
     if (status & RCC_CIR_HSIRDYF) {
         RCC->CIR = RCC_CIR_HSIRDYC;
-        if (stm32fxxx_rcc_setup.callback.hsi_ready) stm32fxxx_rcc_setup.callback.hsi_ready();
+        if (cb->hsi_ready) cb->hsi_ready();
     }
 
     // HSE Ready
     if (status & RCC_CIR_HSERDYF) {
         RCC->CIR = RCC_CIR_HSERDYC;
-        if (stm32fxxx_rcc_setup.callback.hse_ready) stm32fxxx_rcc_setup.callback.hse_ready();
+        if (cb->hse_ready) cb->hse_ready();
     }
 
     // PLL Ready
     if (status & RCC_CIR_PLLRDYF) {
         RCC->CIR = RCC_CIR_PLLRDYC;
-        if (stm32fxxx_rcc_setup.callback.pll_ready) stm32fxxx_rcc_setup.callback.pll_ready();
+        if (cb->pll_ready) cb->pll_ready();
     }
 
     // PLLI2S Ready
     if (status & RCC_CIR_PLLI2SRDYF) {
         RCC->CIR = RCC_CIR_PLLI2SRDYC;
-        if (stm32fxxx_rcc_setup.callback.plli2s_ready) stm32fxxx_rcc_setup.callback.plli2s_ready();
+        if (cb->plli2s_ready) cb->plli2s_ready();
     }
 
     // Clock Security System Fault
     if (status & RCC_CIR_CSSF) {
         RCC->CIR = RCC_CIR_CSSC;
-        if (stm32fxxx_rcc_setup.callback.css_fault) stm32fxxx_rcc_setup.callback.css_fault();
+        if (cb->css_fault) cb->css_fault();
     }
 
     (void)mask; // silence unused variable warning

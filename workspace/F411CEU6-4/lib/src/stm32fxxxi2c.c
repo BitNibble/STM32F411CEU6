@@ -3,7 +3,6 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
-Date:     04102024
 *******************************************************************************/
 #include "stm32fxxxi2c.h"
 #include "stm32fxxxnvic.h"
@@ -487,7 +486,6 @@ void I2C3_ER_IRQHandler(void)
 	if (cb->error)
 		cb->error();
 }
-
 
 /*** EOF ***/
 

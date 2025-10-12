@@ -76,7 +76,7 @@ typedef struct
 	void (*nvic)(uint8_t config);
 	void (*irq_enable)(uint8_t type);
 	void (*irq_disable)(uint8_t type);
-	RTC_callback callback;
+	RTC_callback* callback;
 }STM32FXXX_RTC;
 
 /*** Global ***/

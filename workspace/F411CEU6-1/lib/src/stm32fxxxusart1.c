@@ -299,6 +299,19 @@ void CallBack_ORE(void){
 }
 
 /*** USART1 INIC Procedure & Function Definition ***/
+static STM32FXXX_USART1_CallBack USART1_callback_setup = {
+		.cts = CallBack_CTS,
+		.lbd = CallBack_LBD,
+		.txe = CallBack_TXE,
+		.tc = CallBack_TC,
+		.rxne = CallBack_RXNE,
+		.idle = CallBack_IDLE,
+		.ore = CallBack_ORE,
+		.ne = NULL,
+		.fe = NULL,
+		.pe = NULL
+};
+
 static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
 	// V-table
 	.clock = USART1_Clock,
@@ -328,69 +341,61 @@ static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback
-	.callback.cts = CallBack_CTS,
-	.callback.lbd = CallBack_LBD,
-	.callback.txe = CallBack_TXE,
-	.callback.tc = CallBack_TC,
-	.callback.rxne = CallBack_RXNE,
-	.callback.idle = CallBack_IDLE,
-	.callback.ore = CallBack_ORE,
-	.callback.ne = NULL,
-	.callback.fe = NULL,
-	.callback.pe = NULL
+	.callback = &USART1_callback_setup
 };
 
 STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1_setup; }
 
 /*** Interrupt handler for USART1 ***/
 void USART1_IRQHandler(void) {
+	STM32FXXX_USART1_CallBack* cb = usart1()->callback;
 	// Check for CTS flag (if hardware flow control is enabled)
 	if (is_SR_CTS()) {
-		if(usart1()->callback.cts){ usart1()->callback.cts(); }
+		if(cb->cts){ cb->cts(); }
 	}
 	// Check for LIN Break Detection (if LIN mode is enabled)
 	if (is_SR_LBD()) {
-		if(usart1()->callback.lbd){ usart1()->callback.lbd(); }
+		if(cb->lbd){ cb->lbd(); }
 	}
 
 	if(is_CR1_TXEIE()) {
 		if(is_SR_TXE()) {
-			if(usart1()->callback.txe){ usart1()->callback.txe(); }
+			if(cb->txe){ cb->txe(); }
 		}
 	}
 
 	if(is_CR1_TCIE()) {
 		// Check if the TC (Transmission Complete) flag is set
 		if (is_SR_TC()) {
-			if(usart1()->callback.tc){ usart1()->callback.tc(); }
+			if(cb->tc){ cb->tc(); }
 		}
 	}
 
 	if(is_SR_RXNE()) {
-		if(usart1()->callback.rxne){ usart1()->callback.rxne(); }
+		if(cb->rxne){ cb->rxne(); }
 	}
     // Check for IDLE line detection
     if (is_SR_IDLE()) {
-        if(usart1()->callback.idle){ usart1()->callback.idle(); }
+        if(cb->idle){ cb->idle(); }
     }
     // Error handling (Overrun, Noise, Framing, Parity)
     if (is_SR_ORE()) {
-    	if(usart1()->callback.ore){ usart1()->callback.ore(); }
+    	if(cb->ore){ cb->ore(); }
     }
     if (is_SR_NE()) {
     	// Noise error: Handle noise (e.g., log or recover from error)
     	USART1->SR &= ~USART_SR_NE;
-    	if (usart1()->callback.ne) { usart1()->callback.ne(); }
+    	if (cb->ne) { cb->ne(); }
     }
     if (is_SR_FE()) {
     	// Framing error: Handle framing issues (e.g., re-sync communication)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (usart1()->callback.fe) { usart1()->callback.fe(); }
+    	    if (cb->fe) { cb->fe(); }
     }
     if (is_SR_PE()) {
     	// Parity error: Handle parity mismatch (e.g., request retransmission)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (usart1()->callback.pe) { usart1()->callback.pe(); }
+    	    if (cb->pe) { cb->pe(); }
     }
     // Optionally reset USART or take corrective action based on error type
 	/***/

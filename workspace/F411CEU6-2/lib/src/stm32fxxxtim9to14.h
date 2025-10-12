@@ -4,8 +4,6 @@ Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32-XXX
 Date:     22062023
-Comment:
-	
 *******************************************************************************/
 #ifndef _STM32FXXXTIM9TO14_H_
 	#define _STM32FXXXTIM9TO14_H_
@@ -31,7 +29,7 @@ typedef struct
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
-	tim9to14_callback callback;
+	tim9to14_callback* callback;
 }STM32FXXX_TIM9, STM32FXXX_TIM12;
 // ( 10/11/13/14 ) TIM
 typedef struct
@@ -42,7 +40,7 @@ typedef struct
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
-	tim9to14_callback callback;
+	tim9to14_callback* callback;
 }STM32FXXX_TIM10, STM32FXXX_TIM11, STM32FXXX_TIM13, STM32FXXX_TIM14;
 
 void tim9_enable(void); STM32FXXX_TIM9* tim9(void);

@@ -53,7 +53,7 @@ typedef struct
 	void (*l_enable)(uint8_t lclock);
 	void (*l_select)(uint8_t lclock);
 	void (*nvic)(uint8_t state);
-	RCC_Callback callback;
+	RCC_Callback* callback;
 }STM32FXXX_RCC;
 
 STM32FXXX_RCC* rcc(void);

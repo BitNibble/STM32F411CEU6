@@ -31,7 +31,7 @@ typedef struct
 	void (*nvic)(uint8_t value);
 	void (*start)(void);
 	void (*stop)(void);
-	tim1and8_callback callback;
+	tim1and8_callback* callback;
 }STM32FXXX_TIM1, STM32FXXX_TIM8;
 
 void tim1_enable(void); STM32FXXX_TIM1* tim1(void);
