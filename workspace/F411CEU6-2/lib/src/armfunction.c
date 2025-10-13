@@ -30,8 +30,8 @@ Comment:
 #define ERROR_INVALID_BUFFER 3
 
 /*** File Variable ***/
-static FUNC_Handler setup_func;
-static ARM_FUNC setup_arm_func;
+static FUNC_Handler func_setup;
+static ARM_FUNC arm_func_setup;
 
 
 static char FUNCstr[FUNCSTRSIZE] = {0};
@@ -112,60 +112,60 @@ FUNC_Handler FUNC_enable( void )
 {
 	FUNC_var();
 	/*** TOP ***/
-	setup_func.power = function_power;
-	setup_func.divide = function_divide;
-	setup_func.realnumber = function_realnumber;
-	setup_func.stringlength = function_StringLength;
-	setup_func.reverse = function_Reverse;
-	setup_func.swap = function_swap;
+	func_setup.power = function_power;
+	func_setup.divide = function_divide;
+	func_setup.realnumber = function_realnumber;
+	func_setup.stringlength = function_StringLength;
+	func_setup.reverse = function_Reverse;
+	func_setup.swap = function_swap;
 	/***********/
 	// 1
-	setup_func.SwapByte = function_SwapByte;
+	func_setup.SwapByte = function_SwapByte;
 	// 2
-	setup_func.copy = function_copy;
-	setup_func.squeeze = function_squeeze;
-	setup_func.shellsort = function_shellsort;
-	setup_func.resizestr = function_resizestr;
-	setup_func.trim = function_trim;
+	func_setup.copy = function_copy;
+	func_setup.squeeze = function_squeeze;
+	func_setup.shellsort = function_shellsort;
+	func_setup.resizestr = function_resizestr;
+	func_setup.trim = function_trim;
 	// 3
-	setup_func.bcd2dec = function_bcd2dec;
-	setup_func.dec2bcd = function_dec2bcd;
-	setup_func.dectohex = function_dectohex;
-	setup_func.bcd2bin = function_bcd2bin;
-	setup_func.twocomptoint8bit = function_twocomptoint8bit;
-	setup_func.twocomptoint10bit = function_twocomptoint10bit;
-	setup_func.twocomptointnbit = function_twocomptointnbit;
+	func_setup.bcd2dec = function_bcd2dec;
+	func_setup.dec2bcd = function_dec2bcd;
+	func_setup.dectohex = function_dectohex;
+	func_setup.bcd2bin = function_bcd2bin;
+	func_setup.twocomptoint8bit = function_twocomptoint8bit;
+	func_setup.twocomptoint10bit = function_twocomptoint10bit;
+	func_setup.twocomptointnbit = function_twocomptointnbit;
 	// 4
-	setup_func.format_string = function_format_string;
-	setup_func.print_binary = function_print_binary;
+	func_setup.format_string = function_format_string;
+	func_setup.print_binary = function_print_binary;
 	// 5
-	setup_func.i16toa = function_i16toa;
-	setup_func.ui16toa = function_ui16toa;
-	setup_func.i32toa = function_i32toa;
-	setup_func.ui32toa = function_ui32toa;
-	setup_func.ftoa = function_ftoa;
+	func_setup.i16toa = function_i16toa;
+	func_setup.ui16toa = function_ui16toa;
+	func_setup.i32toa = function_i32toa;
+	func_setup.ui32toa = function_ui32toa;
+	func_setup.ftoa = function_ftoa;
 	// 6
-	setup_func.trimmer = function_trimmer;
-	setup_func.pmax = function_pmax;
-	setup_func.gcd_v1 = function_gcd_v1;
-	setup_func.gcd_v2 = function_gcd_v2;
-	setup_func.trim_whitespace = function_trim_whitespace;
+	func_setup.trimmer = function_trimmer;
+	func_setup.pmax = function_pmax;
+	func_setup.gcd_v1 = function_gcd_v1;
+	func_setup.gcd_v2 = function_gcd_v2;
+	func_setup.trim_whitespace = function_trim_whitespace;
 	// 8
-	setup_func.strToInt = function_StrToInt;
+	func_setup.strToInt = function_StrToInt;
 	// 9
-	setup_func.tokenize_string = function_tokenize_string;
-	setup_func.nullify_last_n_chars = function_nullify_last_n_chars;
+	func_setup.tokenize_string = function_tokenize_string;
+	func_setup.nullify_last_n_chars = function_nullify_last_n_chars;
 	// 10
-	setup_func.triggerA = function_triggerA;
-	setup_func.triggerB = function_triggerB;
-	setup_func.value = function_read_value;
+	func_setup.triggerA = function_triggerA;
+	func_setup.triggerB = function_triggerB;
+	func_setup.value = function_read_value;
 	// 11
-	setup_func.arm = arm_func_inic();
+	func_setup.arm = arm_func_inic();
 
-	return setup_func;
+	return func_setup;
 }
 
-FUNC_Handler* func(void){ return &setup_func; }
+FUNC_Handler* func(void){ return &func_setup; }
 
 void FUNC_var(void)
 {
@@ -173,9 +173,9 @@ void FUNC_var(void)
 }
 ARM_FUNC* arm_func_inic(void)
 {
-	setup_arm_func.dispar4x20 = ARMFUNC_ArmParDisplay4x20;
+	arm_func_setup.dispar4x20 = ARMFUNC_ArmParDisplay4x20;
 
-	return &setup_arm_func;
+	return &arm_func_setup;
 }
 /*** FUNC Procedure & Function Definition***/
 void ARMFUNC_ArmParDisplay4x20(ARMLCD0_Handler* func_lcd)
@@ -802,7 +802,6 @@ void function_nullify_last_n_chars(char *str, int n) {
         }
     }
 }
-
 
 // triggerA
 uint32_t function_triggerA(uint32_t ll_io, uint8_t pin, uint32_t counter)
