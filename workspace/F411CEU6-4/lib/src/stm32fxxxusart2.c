@@ -14,7 +14,7 @@ Comment:
 #include <math.h>
 
 /*** File Variable ***/
-static STM32FXXX_USART2 stm32fxxx_usart2_setup = {0};
+static STM32FXXX_USART2_Handler stm32fxxx_usart2_setup = {0};
 /******/
 // Buffer for received and transmit data
 uint8_t usart2_rx_buffer[USART2_RX_BUFFER_SIZE];
@@ -173,7 +173,7 @@ void usart2_enable(void)
 	usart2_rx_buffer[usart2_rx_buffer_size] = 0;
 }
 
-STM32FXXX_USART2*  usart2(void){ return (STM32FXXX_USART2*) &stm32fxxx_usart2_setup; }
+STM32FXXX_USART2_Handler*  usart2(void){ return (STM32FXXX_USART2_Handler*) &stm32fxxx_usart2_setup; }
 
 /*** Interrupt handler for USART2 ***/
 void USART2_IRQHandler(void) {

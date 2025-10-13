@@ -30,7 +30,7 @@ typedef struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim9to14_callback* callback;
-}STM32FXXX_TIM9, STM32FXXX_TIM12;
+}STM32FXXX_TIM9_Handler, STM32FXXX_TIM12_Handler;
 // ( 10/11/13/14 ) TIM
 typedef struct
 {
@@ -41,14 +41,14 @@ typedef struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim9to14_callback* callback;
-}STM32FXXX_TIM10, STM32FXXX_TIM11, STM32FXXX_TIM13, STM32FXXX_TIM14;
+}STM32FXXX_TIM10_Handler, STM32FXXX_TIM11_Handler, STM32FXXX_TIM13_Handler, STM32FXXX_TIM14_Handler;
 
-void tim9_enable(void); STM32FXXX_TIM9* tim9(void);
-void tim10_enable(void); STM32FXXX_TIM10* tim10(void);
-void tim11_enable(void); STM32FXXX_TIM11* tim11(void);
-void tim12_enable(void); STM32FXXX_TIM12* tim12(void);
-void tim13_enable(void); STM32FXXX_TIM13* tim13(void);
-void tim14_enable(void); STM32FXXX_TIM14* tim14(void);
+STM32FXXX_TIM9_Handler* tim9(void);
+STM32FXXX_TIM10_Handler* tim10(void);
+STM32FXXX_TIM11_Handler* tim11(void);
+STM32FXXX_TIM12_Handler* tim12(void);
+STM32FXXX_TIM13_Handler* tim13(void);
+STM32FXXX_TIM14_Handler* tim14(void);
 
 #endif
 

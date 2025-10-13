@@ -21,7 +21,7 @@ Comment:
 #define L_BIT 0
 
 /*** File Variable ***/
-double ZNPID_tmp;
+static double ZNPID_tmp;
 
 /*** File Header ***/
 void ZNPID_set_kc(znpidparameter* par, double kc);
@@ -67,10 +67,10 @@ znpidparameter znpid_par_inic(void)
 	return znpid_par;
 }
 /*** ZNPID Procedure & Function Definition ***/
-ZNPID ZNPIDenable(void)
+ZNPID_Handler ZNPIDenable(void)
 {
 	// LOCAL VARIABLES
-	ZNPID znpid;
+	ZNPID_Handler znpid;
 	// initialize variables
 	znpid.par = znpid_par_inic();
 	// Direccionar apontadores para PROTOTIPOS

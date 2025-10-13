@@ -30,10 +30,10 @@ typedef struct
 	void (*stop)(void);
 
 	ADC2_Callback* callback;
-}STM32FXXX_ADC2;
+}STM32FXXX_ADC2_Handler;
 
 // INIC
-void adc2_enable(void); STM32FXXX_ADC2* adc2(void);
+void adc2_enable(void); STM32FXXX_ADC2_Handler* adc2(void);
 
 #endif
 

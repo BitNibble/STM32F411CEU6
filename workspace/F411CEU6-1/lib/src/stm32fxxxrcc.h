@@ -54,9 +54,9 @@ typedef struct
 	void (*l_select)(uint8_t lclock);
 	void (*nvic)(uint8_t state);
 	RCC_Callback* callback;
-}STM32FXXX_RCC;
+}STM32FXXX_RCC_Handler;
 
-STM32FXXX_RCC* rcc(void);
+STM32FXXX_RCC_Handler* rcc(void);
 
 /*** INTERRUPT ***/
 void RCC_IRQHandler(void);

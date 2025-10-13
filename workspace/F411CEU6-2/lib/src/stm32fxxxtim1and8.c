@@ -82,7 +82,7 @@ void TIM1_stop(void) {
 /*** TIM1 INIC Procedure & Function Definition ***/
 static tim1and8_callback tim1_callback_setup = {0};
 
-static STM32FXXX_TIM1 stm32fxxx_tim1_setup = {
+static STM32FXXX_TIM1_Handler stm32fxxx_tim1_setup = {
 	.clock = TIM1_Clock,
 	.nvic = TIM1_Nvic,
 	.start = TIM1_start,
@@ -90,7 +90,7 @@ static STM32FXXX_TIM1 stm32fxxx_tim1_setup = {
 	.callback = &tim1_callback_setup
 };
 
-STM32FXXX_TIM1* tim1(void){ return (STM32FXXX_TIM1*) &stm32fxxx_tim1_setup;}
+STM32FXXX_TIM1_Handler* tim1(void){ return (STM32FXXX_TIM1_Handler*) &stm32fxxx_tim1_setup;}
 
 #ifdef STM32F446xx
 /************/

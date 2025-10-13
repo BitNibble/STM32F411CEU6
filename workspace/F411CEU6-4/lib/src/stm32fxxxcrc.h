@@ -23,9 +23,9 @@ typedef struct
 	void (*reset)(void);
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
-}STM32FXXX_CRC;
+}STM32FXXX_CRC_Handler;
 
-void crc_enable(void); STM32FXXX_CRC* crc(void);
+void crc_enable(void); STM32FXXX_CRC_Handler* crc(void);
 
 #endif
 

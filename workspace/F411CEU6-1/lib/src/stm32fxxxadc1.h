@@ -35,10 +35,10 @@ typedef struct
 	uint16_t (*readtemperature)(void);
 
 	ADC1_Callback* callback;
-}STM32FXXX_ADC1;
+}STM32FXXX_ADC1_Handler;
 
 // INIC
-void adc1_enable(void); STM32FXXX_ADC1* adc1(void);
+void adc1_enable(void); STM32FXXX_ADC1_Handler* adc1(void);
 
 #endif
 

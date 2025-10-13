@@ -32,10 +32,10 @@ typedef struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim1and8_callback* callback;
-}STM32FXXX_TIM1, STM32FXXX_TIM8;
+}STM32FXXX_TIM1_Handler, STM32FXXX_TIM8_Handler;
 
-void tim1_enable(void); STM32FXXX_TIM1* tim1(void);
-void tim8_enable(void); STM32FXXX_TIM8* tim8(void);
+STM32FXXX_TIM1_Handler* tim1(void);
+STM32FXXX_TIM8_Handler* tim8(void);
 
 #endif
 

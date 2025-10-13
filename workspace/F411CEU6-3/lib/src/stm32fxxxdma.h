@@ -86,11 +86,11 @@ typedef struct
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	STM32FXXX_DMA_func* func;
-}STM32FXXX_DMA, STM32FXXX_DMA1, STM32FXXX_DMA2;
+}STM32FXXX_DMA_Handler, STM32FXXX_DMA1_Handler, STM32FXXX_DMA2_Handler;
 /*************************************/
 /*************************************/
-void dma1_enable(void); STM32FXXX_DMA1* dma1(void);
-void dma2_enable(void); STM32FXXX_DMA2* dma2(void);
+void dma1_enable(void); STM32FXXX_DMA1_Handler* dma1(void);
+void dma2_enable(void); STM32FXXX_DMA2_Handler* dma2(void);
 
 /*** INTERRUPT HEADER ***/
 void DMA1_Stream0_IRQHandler(void);

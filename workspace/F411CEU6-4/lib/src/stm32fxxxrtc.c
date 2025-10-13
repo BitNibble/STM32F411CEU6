@@ -696,7 +696,7 @@ void RTC_L_select(uint8_t lclock) {
 /*** RTC Procedure & Function Definition ***/
 static RTC_callback RTC_callback_setup = {0};
 
-static STM32FXXX_RTC stm32fxxx_rtc_setup = {
+static STM32FXXX_RTC_Handler stm32fxxx_rtc_setup = {
 	/***/
 	.get_year = RTC_Get_year,
 	.get_month = RTC_Get_month,
@@ -728,7 +728,7 @@ static STM32FXXX_RTC stm32fxxx_rtc_setup = {
 	.callback = &RTC_callback_setup
 };
 
-STM32FXXX_RTC* rtc(void){ return (STM32FXXX_RTC*) &stm32fxxx_rtc_setup; }
+STM32FXXX_RTC_Handler* rtc(void){ return (STM32FXXX_RTC_Handler*) &stm32fxxx_rtc_setup; }
 
 /*** General RTC Function Definitions ***/
 const char* WeekDay_String(uint8_t weekday_n) {

@@ -312,7 +312,7 @@ static STM32FXXX_USART1_CallBack USART1_callback_setup = {
 		.pe = NULL
 };
 
-static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
+static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	// V-table
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
@@ -344,7 +344,7 @@ static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
 	.callback = &USART1_callback_setup
 };
 
-STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1_setup; }
+STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }
 
 /*** Interrupt handler for USART1 ***/
 void USART1_IRQHandler(void) {
@@ -390,12 +390,12 @@ void USART1_IRQHandler(void) {
     if (is_SR_FE()) {
     	// Framing error: Handle framing issues (e.g., re-sync communication)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (cb->fe) { cb->fe(); }
+    	if (cb->fe) { cb->fe(); }
     }
     if (is_SR_PE()) {
     	// Parity error: Handle parity mismatch (e.g., request retransmission)
     	USART1->SR &= ~USART_SR_NE;
-    	    if (cb->pe) { cb->pe(); }
+    	if (cb->pe) { cb->pe(); }
     }
     // Optionally reset USART or take corrective action based on error type
 	/***/

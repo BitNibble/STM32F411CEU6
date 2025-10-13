@@ -196,7 +196,7 @@ void SYSCFG_Clock(uint8_t state)
 /************************************************/
 /**** SYSCFG Procedure & Function Definition ****/
 /************************************************/
-static STM32FXXX_SYSCFG stm32fxxx_syscfg_setup = {
+static STM32FXXX_SYSCFG_Handler stm32fxxx_syscfg_setup = {
 	/*** LINK ***/
 	.memrmp = &SYSCFG_memrmp_setup,
 	.pmc = &SYSCFG_pmc_setup,
@@ -210,7 +210,7 @@ static STM32FXXX_SYSCFG stm32fxxx_syscfg_setup = {
 	.clock = SYSCFG_Clock
 };
 
-STM32FXXX_SYSCFG* syscfg(void){ return (STM32FXXX_SYSCFG*) &stm32fxxx_syscfg_setup; }
+STM32FXXX_SYSCFG_Handler* syscfg(void){ return (STM32FXXX_SYSCFG_Handler*) &stm32fxxx_syscfg_setup; }
 
 /*** EOF ***/
 

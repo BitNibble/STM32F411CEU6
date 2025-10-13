@@ -312,7 +312,7 @@ static STM32FXXX_USART1_CallBack USART1_callback_setup = {
 		.pe = NULL
 };
 
-static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
+static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	// V-table
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
@@ -344,7 +344,7 @@ static STM32FXXX_USART1 stm32fxxx_usart1_setup = {
 	.callback = &USART1_callback_setup
 };
 
-STM32FXXX_USART1*  usart1(void){ return (STM32FXXX_USART1*) &stm32fxxx_usart1_setup; }
+STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }
 
 /*** Interrupt handler for USART1 ***/
 void USART1_IRQHandler(void) {

@@ -77,10 +77,10 @@ typedef struct
 	void (*irq_enable)(uint8_t type);
 	void (*irq_disable)(uint8_t type);
 	RTC_callback* callback;
-}STM32FXXX_RTC;
+}STM32FXXX_RTC_Handler;
 
 /*** Global ***/
-STM32FXXX_RTC* rtc(void);
+STM32FXXX_RTC_Handler* rtc(void);
 
 const char* WeekDay_String(uint8_t weekday_n);
 

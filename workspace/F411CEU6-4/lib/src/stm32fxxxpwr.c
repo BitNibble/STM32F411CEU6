@@ -177,7 +177,7 @@ static STM32FXXX_PWR_csr stm32fxxx_pwr_csr_setup = {
 	.wuf = PWR_csr_wuf
 };
 /*** INIC Procedure & Function Definition ***/
-static STM32FXXX_PWR stm32fxxx_pwr_setup = {
+static STM32FXXX_PWR_Handler stm32fxxx_pwr_setup = {
 	/*** PWR Bit Mapping Link ***/
 	.cr = &stm32fxxx_pwr_cr_setup,
 	.csr = &stm32fxxx_pwr_csr_setup,
@@ -185,7 +185,7 @@ static STM32FXXX_PWR stm32fxxx_pwr_setup = {
 	.clock = PWR_clock
 };
 
-STM32FXXX_PWR* pwr(void){ return (STM32FXXX_PWR*) &stm32fxxx_pwr_setup; }
+STM32FXXX_PWR_Handler* pwr(void){ return (STM32FXXX_PWR_Handler*) &stm32fxxx_pwr_setup; }
 
 /*** EOF ***/
 

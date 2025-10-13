@@ -33,9 +33,9 @@ typedef struct {
 typedef struct {
 	explode_par par;
 	void (*update)(explode_par* par, IO_var x);
-}EXPLODE;
+}EXPLODE_Handler;
 
-EXPLODE EXPLODE_enable(void);
+EXPLODE_Handler EXPLODE_enable(void);
 
 #endif
 /***EOF***/

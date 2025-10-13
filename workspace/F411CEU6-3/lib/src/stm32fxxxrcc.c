@@ -378,7 +378,7 @@ void RCC_default(void)
 /*** INIC Procedure & Function Definition ***/
 static	RCC_Callback RCC_Callback_setup = {0};
 
-static STM32FXXX_RCC stm32fxxx_rcc_setup = {
+static STM32FXXX_RCC_Handler stm32fxxx_rcc_setup = {
 	.inic = RCC_default,
 	/*** RCC Bit Mapping Link ***/
 	.prescaler = RCC_Prescaler,
@@ -400,7 +400,7 @@ static STM32FXXX_RCC stm32fxxx_rcc_setup = {
 	.callback = &RCC_Callback_setup
 };
 
-STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc_setup; };
+STM32FXXX_RCC_Handler* rcc(void){ return &stm32fxxx_rcc_setup; };
 
 /*** Interrupt ***/
 void RCC_IRQHandler(void)

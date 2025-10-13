@@ -15,7 +15,7 @@ static STM32FXXX_FLASH_acr stm32fxxx_flash_acr_setup = {0};
 static STM32FXXX_FLASH_sr stm32fxxx_flash_sr_setup = {0};
 static STM32FXXX_FLASH_cr stm32fxxx_flash_cr_setup = {0};
 static STM32FXXX_FLASH_optcr stm32fxxx_flash_optcr_setup = {0};
-static STM32FXXX_FLASH stm32fxxx_flash_setup = {0};
+static STM32FXXX_FLASH_Handler stm32fxxx_flash_setup = {0};
 
 /*** File Procedure & Function Header ***/
 STM32FXXX_FLASH_acr* stm32fxxx_flash_acr_inic(void);
@@ -283,7 +283,7 @@ void flash_enable(void)
 	//return &stm32fxxx_flash;
 }
 
-STM32FXXX_FLASH* flash(void){ return (STM32FXXX_FLASH*) &stm32fxxx_flash_setup; }
+STM32FXXX_FLASH_Handler* flash(void){ return (STM32FXXX_FLASH_Handler*) &stm32fxxx_flash_setup; }
 
 /*** EOF ***/
 

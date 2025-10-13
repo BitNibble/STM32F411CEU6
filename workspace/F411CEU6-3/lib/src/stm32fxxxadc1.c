@@ -64,7 +64,7 @@ uint16_t ADC1_ReadTemperature(void) {
 /*** ADC1 ***/
 static ADC1_Callback ADC1_callback_setup = {0};
 
-static STM32FXXX_ADC1 stm32fxxx_adc1_setup = {
+static STM32FXXX_ADC1_Handler stm32fxxx_adc1_setup = {
 	.clock = ADC1_Clock,
 	.nvic = ADC1_Nvic,
 	.startconversion = ADC1_StartConversion,
@@ -76,7 +76,7 @@ static STM32FXXX_ADC1 stm32fxxx_adc1_setup = {
 	.callback = &ADC1_callback_setup
 };
 
-STM32FXXX_ADC1* adc1(void){ return (STM32FXXX_ADC1*) &stm32fxxx_adc1_setup; }
+STM32FXXX_ADC1_Handler* adc1(void){ return (STM32FXXX_ADC1_Handler*) &stm32fxxx_adc1_setup; }
 
 /*** INTERRUPT ***/
 void ADC_IRQHandler(void)

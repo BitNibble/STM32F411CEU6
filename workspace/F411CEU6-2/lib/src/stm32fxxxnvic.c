@@ -48,7 +48,7 @@ void NVIC_trigger(uint32_t IRQn)
 	write_reg_block(&NVIC->STIR, 9, 0, IRQn);
 }
 /*** INIC Procedure & Function Definition ***/
-static STM32FXXX_NVIC stm32fxxx_nvic_setup = {
+static STM32FXXX_NVIC_Handler stm32fxxx_nvic_setup = {
 	/*** NVIC Bit Mapping Link ***/
 	.set_enable = NVIC_set_enable,
 	.clear_enable = NVIC_clear_enable,
@@ -60,7 +60,7 @@ static STM32FXXX_NVIC stm32fxxx_nvic_setup = {
 	.trigger = NVIC_trigger
 };
 
-STM32FXXX_NVIC* nvic(void){ return (STM32FXXX_NVIC*) &stm32fxxx_nvic_setup; }
+STM32FXXX_NVIC_Handler* nvic(void){ return (STM32FXXX_NVIC_Handler*) &stm32fxxx_nvic_setup; }
 
 /******
 1º Sequence

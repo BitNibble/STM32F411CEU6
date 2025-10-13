@@ -26,7 +26,7 @@ void TIM9_stop(void){ set_reg_Msk(&TIM9->CR1, TIM_CR1_CEN_Msk, 0); }
 /*** TIM9 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim9_callback_setup = {0};
 
-static STM32FXXX_TIM9 stm32fxxx_tim9_setup = {
+static STM32FXXX_TIM9_Handler stm32fxxx_tim9_setup = {
 	.clock = TIM9_Clock,
 	.nvic = TIM9_Nvic,
 	.start = TIM9_start,
@@ -34,7 +34,7 @@ static STM32FXXX_TIM9 stm32fxxx_tim9_setup = {
 	.callback = &tim9_callback_setup
 };
 
-STM32FXXX_TIM9* tim9(void){ return (STM32FXXX_TIM9*) &stm32fxxx_tim9_setup;}
+STM32FXXX_TIM9_Handler* tim9(void){ return (STM32FXXX_TIM9_Handler*) &stm32fxxx_tim9_setup;}
 
 /*************/
 /*** TIM10 ***/
@@ -53,7 +53,7 @@ void TIM10_stop(void){ set_reg_Msk(&TIM10->CR1, TIM_CR1_CEN_Msk, 0); }
 /*** TIM10 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim10_callback_setup = {0};
 
-static STM32FXXX_TIM10 stm32fxxx_tim10_setup = {
+static STM32FXXX_TIM10_Handler stm32fxxx_tim10_setup = {
 	.clock = TIM10_Clock,
 	.nvic = TIM10_Nvic,
 	.start = TIM10_start,
@@ -61,7 +61,7 @@ static STM32FXXX_TIM10 stm32fxxx_tim10_setup = {
 	.callback = &tim10_callback_setup
 };
 
-STM32FXXX_TIM10* tim10(void){ return (STM32FXXX_TIM10*) &stm32fxxx_tim10_setup;}
+STM32FXXX_TIM10_Handler* tim10(void){ return (STM32FXXX_TIM10_Handler*) &stm32fxxx_tim10_setup;}
 
 /*************/
 /*** TIM11 ***/
@@ -80,7 +80,7 @@ void TIM11_stop(void){ set_reg_Msk(&TIM11->CR1, TIM_CR1_CEN_Msk, 0); }
 /*** TIM11 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim11_callback_setup = {0};
 
-static STM32FXXX_TIM11 stm32fxxx_tim11_setup = {
+static STM32FXXX_TIM11_Handler stm32fxxx_tim11_setup = {
 	.clock = TIM11_Clock,
 	.nvic = TIM11_Nvic,
 	.start = TIM11_start,
@@ -88,7 +88,7 @@ static STM32FXXX_TIM11 stm32fxxx_tim11_setup = {
 	.callback = &tim11_callback_setup
 };
 
-STM32FXXX_TIM11* tim11(void){ return (STM32FXXX_TIM11*) &stm32fxxx_tim11_setup;}
+STM32FXXX_TIM11_Handler* tim11(void){ return (STM32FXXX_TIM11_Handler*) &stm32fxxx_tim11_setup;}
 
 #ifdef STM32F446xx
 /*************/
@@ -108,7 +108,7 @@ void TIM12_stop(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos
 /*** TIM12 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim12_callback_setup = {0};
 
-static STM32FXXX_TIM12 stm32fxxx_tim12_setup = {
+static STM32FXXX_TIM12_Handler stm32fxxx_tim12_setup = {
 	.clock = TIM12_Clock,
 	.nvic = TIM12_Nvic,
 	.start = TIM12_start,
@@ -116,7 +116,7 @@ static STM32FXXX_TIM12 stm32fxxx_tim12_setup = {
 	.callback = &tim12_callback_setup
 };
 
-STM32FXXX_TIM12* tim12(void){ return (STM32FXXX_TIM12*) &stm32fxxx_tim12_setup;}
+STM32FXXX_TIM12_Handler* tim12(void){ return (STM32FXXX_TIM12_Handler*) &stm32fxxx_tim12_setup;}
 
 /*************/
 /*** TIM13 ***/
@@ -139,7 +139,7 @@ void TIM13_stop(void){ set_reg_Msk(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos
 /*** TIM13 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim13_callback_setup = {0};
 
-static STM32FXXX_TIM13 stm32fxxx_tim13_setup = {
+static STM32FXXX_TIM13_Handler stm32fxxx_tim13_setup = {
 	.clock = TIM13_Clock,
 	.nvic = TIM13_Nvic,
 	.start = TIM13_start,
@@ -147,7 +147,7 @@ static STM32FXXX_TIM13 stm32fxxx_tim13_setup = {
 	.callback = &tim13_callback_setup
 };
 
-STM32FXXX_TIM13* tim13(void){ return (STM32FXXX_TIM13*) &stm32fxxx_tim13_setup;}
+STM32FXXX_TIM13_Handler* tim13(void){ return (STM32FXXX_TIM13_Handler*) &stm32fxxx_tim13_setup;}
 
 /*************/
 /*** TIM14 ***/
@@ -166,7 +166,7 @@ void TIM14_stop(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos
 /*** TIM14 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim14_callback_setup = {0};
 
-static STM32FXXX_TIM14 stm32fxxx_tim14_setup = {
+static STM32FXXX_TIM14_Handler stm32fxxx_tim14_setup = {
 	.clock = TIM14_Clock,
 	.nvic = TIM14_Nvic,
 	.start = TIM14_start,
@@ -174,7 +174,7 @@ static STM32FXXX_TIM14 stm32fxxx_tim14_setup = {
 	.callback = &tim14_callback_setup
 };
 
-STM32FXXX_TIM14* tim14(void){ return (STM32FXXX_TIM14*) &stm32fxxx_tim14_setup;}
+STM32FXXX_TIM14_Handler* tim14(void){ return (STM32FXXX_TIM14_Handler*) &stm32fxxx_tim14_setup;}
 
 #endif
 

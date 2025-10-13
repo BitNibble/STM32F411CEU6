@@ -30,7 +30,7 @@ static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma1_stream5_fcr;
 static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma1_stream6_fcr;
 static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma1_stream7_fcr;
 static STM32FXXX_DMA_func stm32fxxx_dma1_func;
-static STM32FXXX_DMA1 stm32fxxx_dma1  = {0};
+static STM32FXXX_DMA1_Handler stm32fxxx_dma1  = {0};
 // DMA2
 static STM32FXXX_DMA_sr stm32fxxx_dma2_sr;
 static STM32FXXX_DMA_STREAM_cr stm32fxxx_dma2_stream0_cr;
@@ -50,7 +50,7 @@ static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma2_stream5_fcr;
 static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma2_stream6_fcr;
 static STM32FXXX_DMA_STREAM_fcr stm32fxxx_dma2_stream7_fcr;
 static STM32FXXX_DMA_func stm32fxxx_dma2_func;
-static STM32FXXX_DMA2 stm32fxxx_dma2 = {0};
+static STM32FXXX_DMA2_Handler stm32fxxx_dma2 = {0};
 
 static uint32_t time_out;
 
@@ -1798,7 +1798,7 @@ void dma1_enable(void)
 	//return &stm32fxxx_dma1;
 }
 
-STM32FXXX_DMA1* dma1(void){ return &stm32fxxx_dma1; }
+STM32FXXX_DMA1_Handler* dma1(void){ return &stm32fxxx_dma1; }
 
 /********************************************/
 /************* DMA2 Bit Mapping *************/
@@ -3428,7 +3428,7 @@ void dma2_enable(void)
 	//return &stm32fxxx_dma2;
 }
 
-STM32FXXX_DMA2* dma2(void){ return &stm32fxxx_dma2; }
+STM32FXXX_DMA2_Handler* dma2(void){ return &stm32fxxx_dma2; }
 
 /******
 1º Sequence

@@ -14,7 +14,7 @@ Comment:
 #include <math.h>
 
 /*** File Variable ***/
-static STM32FXXX_USART6 stm32fxxx_usart6_setup = {0};
+static STM32FXXX_USART6_Handler stm32fxxx_usart6_setup = {0};
 /******/
 // Buffer for received and transmit data
 uint8_t usart6_rx_buffer[USART6_RX_BUFFER_SIZE];
@@ -173,7 +173,7 @@ void usart6_enable(void)
 	usart6_rx_buffer[usart6_rx_buffer_size] = 0;
 }
 
-STM32FXXX_USART6*  usart6(void){ return (STM32FXXX_USART6*) &stm32fxxx_usart6_setup; }
+STM32FXXX_USART6_Handler*  usart6(void){ return (STM32FXXX_USART6_Handler*) &stm32fxxx_usart6_setup; }
 
 /*** Interrupt handler for USART6 ***/
 void USART6_IRQHandler(void) {

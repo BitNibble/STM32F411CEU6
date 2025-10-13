@@ -30,7 +30,7 @@ Comment:
 #define ERROR_INVALID_BUFFER 3
 
 /*** File Variable ***/
-static FUNC setup_func;
+static FUNC_Handler setup_func;
 static ARM_FUNC setup_arm_func;
 
 
@@ -40,7 +40,7 @@ static uint32_t mem[4];
 static uint32_t nen[4];
 static char* function_token_default = ":";
 /*** SYSTEM ***/
-void ARMFUNC_ArmParDisplay4x20(ARMLCD0* func_lcd);
+void ARMFUNC_ArmParDisplay4x20(ARMLCD0_Handler* func_lcd);
 
 ARM_FUNC* arm_func_inic(void);
 /*** File Header ***/
@@ -108,7 +108,7 @@ void int_to_hex_string(unsigned int value, char* buffer, size_t buffer_size);
 void FUNC_var(void);
 
 /*** FUNC Procedure & Function Definition ***/
-FUNC FUNC_enable( void )
+FUNC_Handler FUNC_enable( void )
 {
 	FUNC_var();
 	/*** TOP ***/
@@ -165,7 +165,7 @@ FUNC FUNC_enable( void )
 	return setup_func;
 }
 
-FUNC* func(void){ return &setup_func; }
+FUNC_Handler* func(void){ return &setup_func; }
 
 void FUNC_var(void)
 {
@@ -178,7 +178,7 @@ ARM_FUNC* arm_func_inic(void)
 	return &setup_arm_func;
 }
 /*** FUNC Procedure & Function Definition***/
-void ARMFUNC_ArmParDisplay4x20(ARMLCD0* func_lcd)
+void ARMFUNC_ArmParDisplay4x20(ARMLCD0_Handler* func_lcd)
 {
 #ifdef STM32F4
 	#ifdef _ARMLCD_H_

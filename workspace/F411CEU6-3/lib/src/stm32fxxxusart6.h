@@ -37,9 +37,9 @@ typedef struct
 	void (*receive_string)(char* oneshot, char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
-}STM32FXXX_USART6;
+}STM32FXXX_USART6_Handler;
 
-void usart6_enable(void); STM32FXXX_USART6*  usart6(void);
+void usart6_enable(void); STM32FXXX_USART6_Handler*  usart6(void);
 
 #endif
 

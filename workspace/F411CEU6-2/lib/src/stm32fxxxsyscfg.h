@@ -81,9 +81,9 @@ typedef struct
 	SYSCFG_cfgr* cfgr;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
-}STM32FXXX_SYSCFG;
+}STM32FXXX_SYSCFG_Handler;
 
-void syscfg_enable(void); STM32FXXX_SYSCFG* syscfg(void);
+STM32FXXX_SYSCFG_Handler* syscfg(void);
 
 /*** INTERRUPT HEADER ***/
 void PVD_IRQHandler(void);

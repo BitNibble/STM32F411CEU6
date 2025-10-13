@@ -18,9 +18,9 @@ IO_var EXPLODEhl(explode_par* par);
 explode_par setup_explode_par(void);
 
 /*** EXPLODE Procedure & Function Definition ***/
-EXPLODE EXPLODE_enable( void )
+EXPLODE_Handler EXPLODE_enable( void )
 {
-	EXPLODE setup = {
+	EXPLODE_Handler setup = {
 		.par = setup_explode_par(),
 		.update = EXPLODE_update
 	};

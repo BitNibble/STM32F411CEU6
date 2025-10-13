@@ -43,9 +43,9 @@ struct znpid{
 	void (*set_SP)(znpidparameter* par, double setpoint);
 	double (*output)(znpidparameter* par, double PV, double timelapse);
 };
-typedef struct znpid ZNPID;
+typedef struct znpid ZNPID_Handler;
 
-ZNPID ZNPIDenable(void);
+ZNPID_Handler ZNPIDenable(void);
 
 #endif
 

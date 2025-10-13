@@ -40,7 +40,7 @@ uint16_t count7 = 0;
 uint16_t count8 = 0;
 int8_t cdir;
 
-EXPLODE PA;
+EXPLODE_Handler PA;
 
 I2C_HandleTypeDef i2c;
 

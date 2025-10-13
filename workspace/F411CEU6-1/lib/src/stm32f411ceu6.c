@@ -11,7 +11,7 @@ Date:     30092025
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
 /*******************************************************************/
-STM32F411CEU6_CORE_Handler stm32f411ceu6_core_setup = {
+static STM32F411CEU6_CORE_Handler stm32f411ceu6_core_setup = {
     .nvic = ((NVIC_Type*) NVIC_BASE),
     .scb = ((SCB_Type*) SCB_BASE),
     .scnscb = ((SCnSCB_Type*) SCS_BASE),

@@ -59,7 +59,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #define PARSE_SIZE 2049
 #define SUBPARSE_SIZE 513
 
-EXPLODE PA;
+EXPLODE_Handler PA;
 char str[32];
 
 void setup_usart1(void);

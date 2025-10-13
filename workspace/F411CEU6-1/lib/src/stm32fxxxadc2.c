@@ -39,7 +39,7 @@ void ADC2_stop(void)
 /*** ADC2 ***/
 static ADC2_Callback ADC2_callback_setup = {0};
 
-static STM32FXXX_ADC2 stm32fxxx_adc2_setup = {
+static STM32FXXX_ADC2_Handler stm32fxxx_adc2_setup = {
 	.clock = ADC2_Clock,
 	.nvic = ADC2_Nvic,
 	.startconversion = ADC2_StartConversion,
@@ -48,7 +48,7 @@ static STM32FXXX_ADC2 stm32fxxx_adc2_setup = {
 	.stop = ADC2_Stop
 };
 
-STM32FXXX_ADC2* adc2(void){ return (STM32FXXX_ADC2*) &stm32fxxx_adc2_setup; }
+STM32FXXX_ADC2_Handler* adc2(void){ return (STM32FXXX_ADC2_Handler*) &stm32fxxx_adc2_setup; }
 
 #endif
 

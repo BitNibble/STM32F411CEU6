@@ -37,7 +37,7 @@ Comment:
 #define OSPEEDR_PINS_25MHZ_Msk ((1 << (ARMLCD0_RS * 2)) | (1 << (ARMLCD0_RW * 2)) | (1 << (ARMLCD0_EN * 2)) | (1 << (ARMLCD0_DB4 * 2)) | (1 << (ARMLCD0_DB5 * 2)) | (1 << (ARMLCD0_DB6 * 2)) | (1 << (ARMLCD0_DB7 * 2)))
 
 /*** File Variable ***/
-static ARMLCD0 setup_armlcd0;
+static ARMLCD0_Handler setup_armlcd0 = {0};
 static GPIO_TypeDef* ireg;
 static uint32_t armlcd0_detect;
 
@@ -58,7 +58,7 @@ void ARMLCD0_delayMiliseconds(unsigned int ms);
 void ARMLCD0_delayMicroseconds(unsigned int us);
 
 /*** LCD0 Procedure & Function Definition ***/
-ARMLCD0 ARMLCD0_enable(GPIO_TypeDef* reg)
+ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg)
 {
 	ireg = reg;
 	delay_Configure();
@@ -91,7 +91,7 @@ ARMLCD0 ARMLCD0_enable(GPIO_TypeDef* reg)
 	return setup_armlcd0;
 }
 
-ARMLCD0* lcd0(void){ return (ARMLCD0*) &setup_armlcd0; }
+ARMLCD0_Handler* lcd0(void){ return (ARMLCD0_Handler*) &setup_armlcd0; }
 
 void ARMLCD0_inic(void)
 {

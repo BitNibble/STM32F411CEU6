@@ -35,11 +35,11 @@ void SRAM_Access(void)
 /*** SRAM Bit Mapping Definition ***/
 
 /*** INIC Procedure & Function Definition ***/
-static STM32FXXX_SRAM stm32fxxx_sram_setup = {
+static STM32FXXX_SRAM_Handler stm32fxxx_sram_setup = {
 	.access = SRAM_Access
 };
 
-STM32FXXX_SRAM* sram(void){ return (STM32FXXX_SRAM*) &stm32fxxx_sram_setup; }
+STM32FXXX_SRAM_Handler* sram(void){ return (STM32FXXX_SRAM_Handler*) &stm32fxxx_sram_setup; }
 
 /*** EOF ***/
 

@@ -15,9 +15,9 @@ void HC595_shift_byte(hc595_par* par, uint8_t byte);
 void HC595_shift_out(hc595_par* par);
 
 /*** 74HC595 Procedure & Function Definition ***/
-HC595 hc595_enable(volatile IO_var *ddr, volatile IO_var *port, uint8_t datapin, uint8_t clkpin, uint8_t outpin)
+HC595_Handler hc595_enable(volatile IO_var *ddr, volatile IO_var *port, uint8_t datapin, uint8_t clkpin, uint8_t outpin)
 {
-	HC595 setup_hc595 = {
+	HC595_Handler setup_hc595 = {
 		.par = {
 			.hc595_DDR = ddr,
 			.hc595_PORT = port,

@@ -37,7 +37,7 @@ void CRC_clock(uint8_t state)
 	if(state){ RCC->AHB1ENR |= (1 << RCC_AHB1ENR_CRCEN_Pos); } else{ RCC->AHB1ENR &= ~(1 << RCC_AHB1ENR_CRCEN_Pos); }
 }
 /*** INIC Procedure & Function Definition ***/
-static STM32FXXX_CRC stm32fxxx_crc_setup = {
+static STM32FXXX_CRC_Handler stm32fxxx_crc_setup = {
 	/***CRC Bit Mapping Link***/
 	.dr = CRC_dr,
 	.get_dr = CRC_get_dr,
@@ -47,7 +47,7 @@ static STM32FXXX_CRC stm32fxxx_crc_setup = {
 	.clock = CRC_clock
 };
 
-STM32FXXX_CRC* crc(void){ return (STM32FXXX_CRC*) &stm32fxxx_crc_setup; }
+STM32FXXX_CRC_Handler* crc(void){ return (STM32FXXX_CRC_Handler*) &stm32fxxx_crc_setup; }
 
 /******
 1º Sequence

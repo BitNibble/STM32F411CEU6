@@ -50,10 +50,10 @@ typedef struct
 	void (*clear)(void);
 	void (*gotoxy)(unsigned int y, unsigned int x);
 	void (*reboot)(void);
-}ARMLCD0;
+}ARMLCD0_Handler;
 
-ARMLCD0 ARMLCD0_enable(GPIO_TypeDef* reg);
-ARMLCD0* lcd0(void);
+ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg);
+ARMLCD0_Handler* lcd0(void);
 
 #endif
 

@@ -36,18 +36,18 @@ typedef struct
 	void (*clock)( uint8_t state );
 	/*************/
 
-}STM32FXXX_GPIOA, STM32FXXX_GPIOB, STM32FXXX_GPIOC, \
- STM32FXXX_GPIOD, STM32FXXX_GPIOE, STM32FXXX_GPIOF, \
- STM32FXXX_GPIOG, STM32FXXX_GPIOH;
+}STM32FXXX_GPIOA_Handler, STM32FXXX_GPIOB_Handler, STM32FXXX_GPIOC_Handler, \
+ STM32FXXX_GPIOD_Handler, STM32FXXX_GPIOE_Handler, STM32FXXX_GPIOF_Handler, \
+ STM32FXXX_GPIOG_Handler, STM32FXXX_GPIOH_Handler;
 // INIC
-STM32FXXX_GPIOA* gpioa(void);
-void gpiob_enable(void); STM32FXXX_GPIOB* gpiob(void);
-void gpioc_enable(void); STM32FXXX_GPIOC* gpioc(void);
-void gpiod_enable(void); STM32FXXX_GPIOD* gpiod(void);
-void gpioe_enable(void); STM32FXXX_GPIOE* gpioe(void);
-void gpiof_enable(void); STM32FXXX_GPIOF* gpiof(void);
-void gpiog_enable(void); STM32FXXX_GPIOG* gpiog(void);
-void gpioh_enable(void); STM32FXXX_GPIOH* gpioh(void);
+STM32FXXX_GPIOA_Handler* gpioa(void);
+STM32FXXX_GPIOB_Handler* gpiob(void);
+STM32FXXX_GPIOC_Handler* gpioc(void);
+STM32FXXX_GPIOD_Handler* gpiod(void);
+STM32FXXX_GPIOE_Handler* gpioe(void);
+STM32FXXX_GPIOF_Handler* gpiof(void);
+STM32FXXX_GPIOG_Handler* gpiog(void);
+STM32FXXX_GPIOH_Handler* gpioh(void);
 
 #endif
 

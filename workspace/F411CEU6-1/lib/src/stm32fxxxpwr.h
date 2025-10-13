@@ -60,9 +60,9 @@ typedef struct
 	STM32FXXX_PWR_csr* csr;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
-}STM32FXXX_PWR;
+}STM32FXXX_PWR_Handler;
 
-STM32FXXX_PWR* pwr(void);
+STM32FXXX_PWR_Handler* pwr(void);
 
 #endif
 

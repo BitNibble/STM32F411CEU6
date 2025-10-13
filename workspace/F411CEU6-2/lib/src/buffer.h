@@ -29,9 +29,9 @@ struct buffer
 	BUFF_var* (*raw)(bufferparameter* par);
 	void (*flush)(bufferparameter* par);
 };
-typedef struct buffer BUFF;
+typedef struct buffer BUFF_Handler;
 
-BUFF BUFF_enable(uint8_t size_buff, BUFF_var* buff);
+BUFF_Handler BUFF_enable(uint8_t size_buff, BUFF_var* buff);
 
 #endif
 

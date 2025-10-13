@@ -30,7 +30,7 @@ typedef struct {
 } RealNum_TypeDef;
 
 typedef struct{
-	void (*dispar4x20)(ARMLCD0* func_lcd);
+	void (*dispar4x20)(ARMLCD0_Handler* func_lcd);
 }ARM_FUNC;
 
 /*** PROCEDURE & FUNCTION TypeDef ***/
@@ -86,10 +86,10 @@ typedef struct
 	uint32_t (*triggerA)(uint32_t hllh_io, uint8_t pin, uint32_t counter);
 	uint32_t (*triggerB)(uint32_t hl_io, uint32_t lh_io, uint8_t pin, uint32_t counter);
 	uint32_t (*value)(void);
-}FUNC;
+}FUNC_Handler;
 
-FUNC FUNC_enable(void);
-FUNC* func(void);
+FUNC_Handler FUNC_enable(void);
+FUNC_Handler* func(void);
 
 #endif
 

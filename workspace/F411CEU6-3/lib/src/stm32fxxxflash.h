@@ -101,9 +101,9 @@ typedef struct
 	void (*optkeyr)(uint32_t);
 	/*** Clock and Nvic ***/
 	void (*nvic)(uint8_t state);
-}STM32FXXX_FLASH;
+}STM32FXXX_FLASH_Handler;
 
-void flash_enable(void); STM32FXXX_FLASH* flash(void);
+void flash_enable(void); STM32FXXX_FLASH_Handler* flash(void);
 
 /*** INTERRRUPT HEADER ***/
 void FLASH_IRQHandler(void);
