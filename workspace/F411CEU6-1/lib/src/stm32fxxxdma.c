@@ -1796,6 +1796,10 @@ void dma1_enable(void)
 	stm32fxxx_dma1.func = stm32fxxx_dma1_func_inic();
 	stm32fxxx_dma1.clock = DMA1_Clock;
 	//return &stm32fxxx_dma1;
+
+#if defined(STM32F411CEU6_H)
+	stm32fxxx_dma1.dev = stm32f411ceu6;
+#endif
 }
 
 STM32FXXX_DMA1_Handler* dma1(void){ return &stm32fxxx_dma1; }
@@ -3426,6 +3430,10 @@ void dma2_enable(void)
 	stm32fxxx_dma2.func = stm32fxxx_dma2_func_inic();
 	stm32fxxx_dma2.clock = DMA2_Clock;
 	//return &stm32fxxx_dma2;
+
+#if defined(STM32F411CEU6_H)
+	stm32fxxx_dma2.dev = stm32f411ceu6;
+#endif
 }
 
 STM32FXXX_DMA2_Handler* dma2(void){ return &stm32fxxx_dma2; }

@@ -182,7 +182,11 @@ static STM32FXXX_PWR_Handler stm32fxxx_pwr_setup = {
 	.cr = &stm32fxxx_pwr_cr_setup,
 	.csr = &stm32fxxx_pwr_csr_setup,
 	/*** Clock and Nvic ***/
-	.clock = PWR_clock
+	.clock = PWR_clock,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_PWR_Handler* pwr(void){ return (STM32FXXX_PWR_Handler*) &stm32fxxx_pwr_setup; }

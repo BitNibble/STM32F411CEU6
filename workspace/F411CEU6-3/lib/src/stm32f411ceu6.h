@@ -5,8 +5,8 @@ License:  GNU General Public License
 Hardware: STM32F411CEU6
 Date:     30092025
 **********************************************************************/
-#ifndef _STM32F411CEU6_H_
-#define _STM32F411CEU6_H_
+#ifndef STM32F411CEU6_H
+#define STM32F411CEU6_H
 
 #include <stdint.h>
 #include <inttypes.h>

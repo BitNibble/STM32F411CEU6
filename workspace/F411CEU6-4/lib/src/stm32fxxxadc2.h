@@ -30,6 +30,10 @@ typedef struct
 	void (*stop)(void);
 
 	ADC2_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_ADC2_Handler;
 
 // INIC

@@ -725,7 +725,11 @@ static STM32FXXX_RTC_Handler stm32fxxx_rtc_setup = {
 	.nvic = RTC_NVIC,
 	.irq_enable = RTC_IRQ_enable,
 	.irq_disable = RTC_IRQ_disable,
-	.callback = &RTC_callback_setup
+	.callback = &RTC_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_RTC_Handler* rtc(void){ return (STM32FXXX_RTC_Handler*) &stm32fxxx_rtc_setup; }

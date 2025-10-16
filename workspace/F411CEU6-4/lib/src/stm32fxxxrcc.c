@@ -397,7 +397,11 @@ static STM32FXXX_RCC_Handler stm32fxxx_rcc_setup = {
 	.l_select = RCC_L_select,
 	/*** Clock and Nvic ***/
 	.nvic = RCC_nvic,
-	.callback = &RCC_Callback_setup
+	.callback = &RCC_Callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_RCC_Handler* rcc(void){ return &stm32fxxx_rcc_setup; };

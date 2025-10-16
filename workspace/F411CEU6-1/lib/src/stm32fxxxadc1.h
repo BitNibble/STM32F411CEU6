@@ -35,6 +35,10 @@ typedef struct
 	uint16_t (*readtemperature)(void);
 
 	ADC1_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_ADC1_Handler;
 
 // INIC

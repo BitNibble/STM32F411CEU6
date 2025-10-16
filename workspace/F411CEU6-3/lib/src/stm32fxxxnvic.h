@@ -25,6 +25,10 @@ typedef struct
 	void (*priority)(uint32_t IRQn, uint32_t priority);
 	void (*trigger)(uint32_t IRQn);
 	/*** Other ***/
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_NVIC_Handler;
 
 STM32FXXX_NVIC_Handler* nvic(void);

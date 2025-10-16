@@ -207,7 +207,11 @@ static STM32FXXX_SYSCFG_Handler stm32fxxx_syscfg_setup = {
 	.cmpcr = &SYSCFG_cmpcr_setup,
 	.cfgr = &SYSCFG_cfgr_setup,
 	/*** Clock and Nvic ***/
-	.clock = SYSCFG_Clock
+	.clock = SYSCFG_Clock,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_SYSCFG_Handler* syscfg(void){ return (STM32FXXX_SYSCFG_Handler*) &stm32fxxx_syscfg_setup; }

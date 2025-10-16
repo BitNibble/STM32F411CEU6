@@ -35,7 +35,9 @@ typedef struct
 	/*************/
 	void (*clock)( uint8_t state );
 	/*************/
-
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_GPIOA_Handler, STM32FXXX_GPIOB_Handler, STM32FXXX_GPIOC_Handler, \
  STM32FXXX_GPIOD_Handler, STM32FXXX_GPIOE_Handler, STM32FXXX_GPIOF_Handler, \
  STM32FXXX_GPIOG_Handler, STM32FXXX_GPIOH_Handler;

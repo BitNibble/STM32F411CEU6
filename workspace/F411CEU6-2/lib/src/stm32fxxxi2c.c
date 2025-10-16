@@ -242,7 +242,11 @@ static STM32FXXX_I2C1_Handler stm32fxxx_i2c1_setup = {
 	.master_read = I2C1_Master_Read,
 	.stop = I2C1_Stop,
 	.status = I2C1_Status,
-	.callback = &I2C1_callback_setup
+	.callback = &I2C1_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_I2C1_Handler*  i2c1(void){ return (STM32FXXX_I2C1_Handler*) &stm32fxxx_i2c1_setup; }
@@ -329,7 +333,11 @@ static STM32FXXX_I2C2_Handler stm32fxxx_i2c2_setup = {
 	.master_read = I2C2_Master_Read,
 	.stop = I2C2_Stop,
 	.status = I2C2_Status,
-	.callback = &I2C2_callback_setup
+	.callback = &I2C2_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_I2C2_Handler*  i2c2(void){ return (STM32FXXX_I2C2_Handler*) &stm32fxxx_i2c2_setup; }
@@ -416,7 +424,11 @@ static STM32FXXX_I2C3_Handler stm32fxxx_i2c3_setup = {
 	.master_read = I2C3_Master_Read,
 	.stop = I2C3_Stop,
 	.status = I2C3_Status,
-	.callback = &I2C3_callback_setup
+	.callback = &I2C3_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_I2C3_Handler*  i2c3(void){ return (STM32FXXX_I2C3_Handler*) &stm32fxxx_i2c3_setup; }

@@ -31,7 +31,11 @@ static STM32FXXX_TIM9_Handler stm32fxxx_tim9_setup = {
 	.nvic = TIM9_Nvic,
 	.start = TIM9_start,
 	.stop = TIM9_stop,
-	.callback = &tim9_callback_setup
+	.callback = &tim9_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM9_Handler* tim9(void){ return (STM32FXXX_TIM9_Handler*) &stm32fxxx_tim9_setup;}
@@ -58,7 +62,11 @@ static STM32FXXX_TIM10_Handler stm32fxxx_tim10_setup = {
 	.nvic = TIM10_Nvic,
 	.start = TIM10_start,
 	.stop = TIM10_stop,
-	.callback = &tim10_callback_setup
+	.callback = &tim10_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM10_Handler* tim10(void){ return (STM32FXXX_TIM10_Handler*) &stm32fxxx_tim10_setup;}
@@ -85,7 +93,11 @@ static STM32FXXX_TIM11_Handler stm32fxxx_tim11_setup = {
 	.nvic = TIM11_Nvic,
 	.start = TIM11_start,
 	.stop = TIM11_stop,
-	.callback = &tim11_callback_setup
+	.callback = &tim11_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM11_Handler* tim11(void){ return (STM32FXXX_TIM11_Handler*) &stm32fxxx_tim11_setup;}
@@ -113,7 +125,11 @@ static STM32FXXX_TIM12_Handler stm32fxxx_tim12_setup = {
 	.nvic = TIM12_Nvic,
 	.start = TIM12_start,
 	.stop = TIM12_stop,
-	.callback = &tim12_callback_setup
+	.callback = &tim12_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM12_Handler* tim12(void){ return (STM32FXXX_TIM12_Handler*) &stm32fxxx_tim12_setup;}
@@ -144,7 +160,11 @@ static STM32FXXX_TIM13_Handler stm32fxxx_tim13_setup = {
 	.nvic = TIM13_Nvic,
 	.start = TIM13_start,
 	.stop = TIM13_stop,
-	.callback = &tim13_callback_setup
+	.callback = &tim13_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM13_Handler* tim13(void){ return (STM32FXXX_TIM13_Handler*) &stm32fxxx_tim13_setup;}
@@ -171,7 +191,11 @@ static STM32FXXX_TIM14_Handler stm32fxxx_tim14_setup = {
 	.nvic = TIM14_Nvic,
 	.start = TIM14_start,
 	.stop = TIM14_stop,
-	.callback = &tim14_callback_setup
+	.callback = &tim14_callback_setup,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_TIM14_Handler* tim14(void){ return (STM32FXXX_TIM14_Handler*) &stm32fxxx_tim14_setup;}

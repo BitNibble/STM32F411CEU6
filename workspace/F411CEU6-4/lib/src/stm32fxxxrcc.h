@@ -54,6 +54,10 @@ typedef struct
 	void (*l_select)(uint8_t lclock);
 	void (*nvic)(uint8_t state);
 	RCC_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_RCC_Handler;
 
 STM32FXXX_RCC_Handler* rcc(void);

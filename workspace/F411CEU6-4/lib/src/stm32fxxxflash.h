@@ -101,6 +101,10 @@ typedef struct
 	void (*optkeyr)(uint32_t);
 	/*** Clock and Nvic ***/
 	void (*nvic)(uint8_t state);
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_FLASH_Handler;
 
 void flash_enable(void); STM32FXXX_FLASH_Handler* flash(void);

@@ -281,6 +281,10 @@ void flash_enable(void)
 	stm32fxxx_flash_setup.nvic = FLASH_nvic;
 
 	//return &stm32fxxx_flash;
+
+#if defined(STM32F411CEU6_H)
+	stm32fxxx_flash_setup.dev = stm32f411ceu6;
+#endif
 }
 
 STM32FXXX_FLASH_Handler* flash(void){ return (STM32FXXX_FLASH_Handler*) &stm32fxxx_flash_setup; }

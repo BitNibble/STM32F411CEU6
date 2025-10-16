@@ -44,7 +44,11 @@ static STM32FXXX_CRC_Handler stm32fxxx_crc_setup = {
 	.idr = CRC_idr,
 	.get_idr = CRC_get_idr,
 	.reset = CRC_reset,
-	.clock = CRC_clock
+	.clock = CRC_clock,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_CRC_Handler* crc(void){ return (STM32FXXX_CRC_Handler*) &stm32fxxx_crc_setup; }

@@ -81,6 +81,10 @@ typedef struct
 	SYSCFG_cfgr* cfgr;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_SYSCFG_Handler;
 
 STM32FXXX_SYSCFG_Handler* syscfg(void);

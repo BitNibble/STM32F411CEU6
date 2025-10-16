@@ -23,6 +23,10 @@ typedef struct
 	void (*reset)(void);
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_CRC_Handler;
 
 void crc_enable(void); STM32FXXX_CRC_Handler* crc(void);

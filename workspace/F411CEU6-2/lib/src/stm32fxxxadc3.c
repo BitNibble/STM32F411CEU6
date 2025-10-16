@@ -45,7 +45,11 @@ static STM32FXXX_ADC3_Handler stm32fxxx_adc3_setup = {
 	.startconversion = ADC3_StartConversion,
 	.waitendofconversion = ADC3_WaitEndOfConversion,
 	.start = ADC3_Start,
-	.stop = ADC3_Stop
+	.stop = ADC3_Stop,
+
+#if defined(STM32F411CEU6_H)
+	.dev = stm32f411ceu6
+#endif
 };
 
 STM32FXXX_ADC3_Handler* adc3(void){ return (STM32FXXX_ADC3_Handler*) &stm32fxxx_adc3_setup; }

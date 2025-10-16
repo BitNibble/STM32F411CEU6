@@ -32,6 +32,10 @@ typedef struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim1and8_callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_TIM1_Handler, STM32FXXX_TIM8_Handler;
 
 STM32FXXX_TIM1_Handler* tim1(void);

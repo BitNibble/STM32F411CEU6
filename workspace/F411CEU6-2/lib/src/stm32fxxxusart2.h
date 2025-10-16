@@ -54,6 +54,10 @@ typedef struct {
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_USART2_Handler;
 
 STM32FXXX_USART2_Handler*  usart2(void);

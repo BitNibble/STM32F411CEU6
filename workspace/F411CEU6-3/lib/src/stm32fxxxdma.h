@@ -86,6 +86,10 @@ typedef struct
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
 	STM32FXXX_DMA_func* func;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_DMA_Handler, STM32FXXX_DMA1_Handler, STM32FXXX_DMA2_Handler;
 /*************************************/
 /*************************************/

@@ -47,6 +47,10 @@ typedef struct
 
 	/* Callback */
 	STM32FXXX_I2C_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#endif
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 
 /*** I2C Procedure and Function Declarations ***/
