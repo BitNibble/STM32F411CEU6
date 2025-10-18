@@ -174,8 +174,7 @@ void USART6_PutChar(char c) {
     USART6->DR = c;	// Send the character
 }
 char USART6_GetChar(void) {
-    char ret = USART6->DR;	// Return the character
-    return ret;
+    return USART6->DR;	// Return the character
 }
 void USART6_TransmitChar(char c) {
     while (!(USART6->SR & USART_SR_TXE)); // Wait until TX is empty

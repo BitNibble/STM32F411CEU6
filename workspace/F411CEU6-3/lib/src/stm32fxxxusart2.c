@@ -174,8 +174,7 @@ void USART2_PutChar(char c) {
     USART2->DR = c;	// Send the character
 }
 char USART2_GetChar(void) {
-    char ret = USART2->DR;	// Return the character
-    return ret;
+    return USART2->DR;	// Return the character
 }
 void USART2_TransmitChar(char c) {
     while (!(USART2->SR & USART_SR_TXE)); // Wait until TX is empty
