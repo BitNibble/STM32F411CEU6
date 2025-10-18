@@ -393,12 +393,12 @@ void USART2_IRQHandler(void) {
     }
     if (is_USART2_SR_FE()) {
     	// Framing error: Handle framing issues (e.g., re-sync communication)
-    	USART2->SR &= ~USART_SR_NE;
+    	USART2->SR &= ~USART_SR_FE;
     	if (cb->fe) { cb->fe(); }
     }
     if (is_USART2_SR_PE()) {
     	// Parity error: Handle parity mismatch (e.g., request retransmission)
-    	USART2->SR &= ~USART_SR_NE;
+    	USART2->SR &= ~USART_SR_PE;
     	if (cb->pe) { cb->pe(); }
     }
     // Optionally reset USART or take corrective action based on error type
