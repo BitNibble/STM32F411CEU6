@@ -76,7 +76,7 @@ static STM32FXXX_ADC1_Handler stm32fxxx_adc1_setup = {
 	.callback = &ADC1_callback_setup,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -86,13 +86,13 @@ STM32FXXX_ADC1_Handler* adc1(void){ return (STM32FXXX_ADC1_Handler*) &stm32fxxx_
 void ADC_IRQHandler(void)
 {
 	ADC1_Callback* cb = adc1()->callback;
-    uint32_t status = stm32f411ceu6()->adc1->SR;   // Read status register
+    uint32_t status = dev()->adc1->SR;   // Read status register
     uint32_t value  = 0;
 
     /*** 1. End of Conversion (EOC) ***/
     if (status & (1 << 1))  // EOC flag
     {
-        value = stm32f411ceu6()->adc1->DR;  // Read result clears EOC
+        value = dev()->adc1->DR;  // Read result clears EOC
         if (cb->on_conversion_complete)
             cb->on_conversion_complete((uint16_t)value);
     }
@@ -103,8 +103,8 @@ void ADC_IRQHandler(void)
         // Read injected data register if used
         // For now just trigger callback for injected channel done
         if (cb->on_conversion_complete)
-            cb->on_conversion_complete((uint16_t)stm32f411ceu6()->adc1->DR);
-        stm32f411ceu6()->adc1->SR &= ~(1 << 2);  // Clear JEOC manually
+            cb->on_conversion_complete((uint16_t)dev()->adc1->DR);
+        dev()->adc1->SR &= ~(1 << 2);  // Clear JEOC manually
     }
 
     /*** 3. Analog Watchdog (AWD) ***/
@@ -112,7 +112,7 @@ void ADC_IRQHandler(void)
     {
         if (cb->on_error)
             cb->on_error(0xA0);  // Custom code for AWD
-        stm32f411ceu6()->adc1->SR &= ~(1 << 0);  // Clear AWD
+        dev()->adc1->SR &= ~(1 << 0);  // Clear AWD
     }
 
     /*** 4. Overrun Error (OVR) ***/
@@ -120,7 +120,7 @@ void ADC_IRQHandler(void)
     {
         if (cb->on_error)
             cb->on_error(0xE0);  // Custom code for overrun
-        stm32f411ceu6()->adc1->SR &= ~(1 << 5);  // Clear OVR
+        dev()->adc1->SR &= ~(1 << 5);  // Clear OVR
     }
 
     /*** 5. Start/Stop notification (optional custom hooks) ***/

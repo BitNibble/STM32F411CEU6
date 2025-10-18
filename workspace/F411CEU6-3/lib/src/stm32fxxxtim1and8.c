@@ -90,7 +90,7 @@ static STM32FXXX_TIM1_Handler stm32fxxx_tim1_setup = {
 	.callback = &tim1_callback_setup,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -163,7 +163,7 @@ static STM32FXXX_TIM8 stm32fxxx_tim8_setup = {
 	.callback = &tim8_callback_setup,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

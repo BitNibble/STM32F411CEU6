@@ -185,7 +185,7 @@ static STM32FXXX_PWR_Handler stm32fxxx_pwr_setup = {
 	.clock = PWR_clock,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

@@ -114,7 +114,7 @@ static STM32FXXX_GPIOA_Handler stm32fxxx_gpioa_setup = {
     .lck = GPIOA_lck,
     .af = GPIOA_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -220,7 +220,7 @@ static STM32FXXX_GPIOB_Handler stm32fxxx_gpiob_setup = {
     .lck = GPIOB_lck,
     .af = GPIOB_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -327,7 +327,7 @@ static STM32FXXX_GPIOC_Handler stm32fxxx_gpioc_setup = {
     .lck = GPIOC_lck,
     .af = GPIOC_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -433,7 +433,7 @@ static STM32FXXX_GPIOD_Handler stm32fxxx_gpiod_setup = {
     .lck = GPIOD_lck,
     .af = GPIOD_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -540,7 +540,7 @@ static STM32FXXX_GPIOE_Handler stm32fxxx_gpioe_setup = {
     .lck = GPIOE_lck,
     .af = GPIOE_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -648,7 +648,7 @@ static STM32FXXX_GPIOF_Handler stm32fxxx_gpiof_setup = {
     .lck = GPIOF_lck,
     .af = GPIOF_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -755,7 +755,7 @@ static STM32FXXX_GPIOG_Handler stm32fxxx_gpiog_setup = {
     .lck = GPIOG_lck,
     .af = GPIOG_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 
@@ -862,7 +862,7 @@ static STM32FXXX_GPIOH_Handler stm32fxxx_gpioh_setup = {
     .lck = GPIOH_lck,
     .af = GPIOH_af,
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

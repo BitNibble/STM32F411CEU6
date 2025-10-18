@@ -344,7 +344,7 @@ static STM32FXXX_USART6_Handler stm32fxxx_usart6_setup = {
 	.callback = &USART6_callback_setup,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

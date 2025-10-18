@@ -64,5 +64,5 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif
 
 void blink(void){
-	stm32f411ceu6()->gpioc->ODR ^= (1 << 13);
+	dev()->gpioc->ODR ^= (1 << 13);
 }

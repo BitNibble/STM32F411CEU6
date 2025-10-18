@@ -728,7 +728,7 @@ static STM32FXXX_RTC_Handler stm32fxxx_rtc_setup = {
 	.callback = &RTC_callback_setup,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

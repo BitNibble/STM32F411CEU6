@@ -39,7 +39,7 @@ static STM32FXXX_SRAM_Handler stm32fxxx_sram_setup = {
 	.access = SRAM_Access,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

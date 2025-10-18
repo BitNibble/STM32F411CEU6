@@ -104,7 +104,7 @@ const char unit = (char)0xDF;
 char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 
-ARMLCD0_enable(stm32f411ceu6()->gpiob);
+ARMLCD0_enable(dev()->gpiob);
 
 gpioc()->moder(13,1);
 gpioa()->moder(0,0);
@@ -115,9 +115,9 @@ adc1()->temperaturesetup();
 
 char vecD[8]; // for calendar date
 char vecT[8]; // for calendar time
-PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
+PA.update(&PA.par, dev()->gpioa->IDR);
 
-stm32f411ceu6()->gpioc->BSRR = GPIO_BSRR_BS13;
+dev()->gpioc->BSRR = GPIO_BSRR_BS13;
 
 Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
 tm_jumpstep( 0, 22 );
@@ -126,7 +126,7 @@ tm_jumpstep( 0, 22 );
 while (1) {
 	Turingi22to24_Station_Mux1Server( );
 
-	PA.update(&PA.par, stm32f411ceu6()->gpioa->IDR);
+	PA.update(&PA.par, dev()->gpioa->IDR);
 
 	/*** Magic ***/
 	if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
@@ -162,7 +162,7 @@ while (1) {
 	   if ((tokens[0] && strstr(tokens[0], "status")) ||
 		   (tokens[1] && strstr(tokens[1], "status")))
 	   {
-		   char* status_text = (stm32f411ceu6()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
+		   char* status_text = (dev()->gpioc->ODR & (1 << 13)) ? "OFF" : "ON";
 		   tm_setstep(25);
 		   Turingi25to28_Station_Mux1ServerSend_tcp(link_ID, status_text, strlen(status_text));
 		   continue; // skip the rest of the loop for this request

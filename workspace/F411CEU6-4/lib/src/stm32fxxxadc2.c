@@ -48,7 +48,7 @@ static STM32FXXX_ADC2_Handler stm32fxxx_adc2_setup = {
 	.stop = ADC2_Stop,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

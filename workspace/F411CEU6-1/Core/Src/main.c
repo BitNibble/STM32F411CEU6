@@ -35,6 +35,7 @@ int main(void)
 {
 	rcc()->inic(); // Clock Configuration
 	systick_start(); // Delays
+	gpioa()->clock(1);
 	gpiob()->clock(1); // LCD display 4x20
 	gpioc()->clock(1); // Gpioc13
 	tim1()->clock(1); // Blink led at uie (4)
@@ -43,13 +44,14 @@ int main(void)
 
 	char vecT[8]; // for calendar
 
-	ARMLCD0_enable( stm32f411ceu6()->gpiob );
+	ARMLCD0_enable( dev()->gpiob );
 	FUNC_enable();
 
 	GPIOC->MODER |= GPIO_MODER_MODER13_0;
+	gpioa()->moder(5,1);
 
-	stm32f411ceu6()->tim1->ARR = 0xFFFF;
-	stm32f411ceu6()->tim1->PSC = 100;
+	dev()->tim1->ARR = 0xFFFF;
+	dev()->tim1->PSC = 100;
 	tim1()->nvic(4);
 	tim1()->callback->u = tim1_u_callback;
 	tim1()->start();
@@ -70,7 +72,10 @@ int main(void)
 	}
 }
 
-void tim1_u_callback(void){ stm32f411ceu6()->gpioc->ODR ^= GPIO_ODR_ODR_13; }
+void tim1_u_callback(void){
+	dev()->gpioc->ODR ^= GPIO_ODR_ODR_13;
+	gpioa()->dev()->gpioa->ODR ^= GPIO_ODR_ODR_5;
+}
 
 void Error_Handler(void)
 {

@@ -1798,7 +1798,7 @@ void dma1_enable(void)
 	//return &stm32fxxx_dma1;
 
 #if defined(STM32F411CEU6_H)
-	stm32fxxx_dma1.dev = stm32f411ceu6;
+	stm32fxxx_dma1.dev = dev;
 #endif
 }
 
@@ -3432,7 +3432,7 @@ void dma2_enable(void)
 	//return &stm32fxxx_dma2;
 
 #if defined(STM32F411CEU6_H)
-	stm32fxxx_dma2.dev = stm32f411ceu6;
+	stm32fxxx_dma2.dev = dev;
 #endif
 }
 

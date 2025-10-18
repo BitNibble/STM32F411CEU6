@@ -48,7 +48,7 @@ static STM32FXXX_ADC3_Handler stm32fxxx_adc3_setup = {
 	.stop = ADC3_Stop,
 
 #if defined(STM32F411CEU6_H)
-	.dev = stm32f411ceu6
+	.dev = dev
 #endif
 };
 

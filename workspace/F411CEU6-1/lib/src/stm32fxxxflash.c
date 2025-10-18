@@ -283,7 +283,7 @@ void flash_enable(void)
 	//return &stm32fxxx_flash;
 
 #if defined(STM32F411CEU6_H)
-	stm32fxxx_flash_setup.dev = stm32f411ceu6;
+	stm32fxxx_flash_setup.dev = dev;
 #endif
 }
 

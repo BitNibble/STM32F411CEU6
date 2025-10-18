@@ -114,7 +114,7 @@ int main(void)
 	//	Error_Handler();
 	//}
 
-	ARMLCD0_enable( stm32f411ceu6()->gpiob );
+	ARMLCD0_enable( dev()->gpiob );
 	FUNC_enable();
 
 	//gpioc()->instance->moder.par.pin_1 = 1;
@@ -143,7 +143,7 @@ int main(void)
 	TIM1->CCR2 = 60000;
 	// pre-scaler
 	//TIM1->PSC = 1;
-	stm32f411ceu6()->tim1->PSC = 1;
+	dev()->tim1->PSC = 1;
 	// interrupt
 	set_reg_Msk(&TIM1->DIER, TIM_DIER_CC1IE_Msk, 1);
 	set_reg_Msk(&TIM1->DIER, TIM_DIER_CC2IE_Msk, 1);

@@ -162,7 +162,7 @@ typedef struct {
 
 } STM32F411CEU6_Handler;
 
-STM32F411CEU6_Handler* stm32f411ceu6(void);
+STM32F411CEU6_Handler* dev(void);
 
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/
