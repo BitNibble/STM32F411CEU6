@@ -109,44 +109,44 @@ static const uint8_t mco_table[8] = {1,1,1,1,2,3,4,5};
 /************************** CLOCK GETTERS **************************/
 /*******************************************************************/
 uint16_t get_hpre(void) {
-    uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_HPRE);
+    uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_HPRE);
     return hpre_table[value];
 }
 
 uint8_t get_hppre1(void) {
-    uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE1);
+    uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_PPRE1);
     return ppre_table[value];
 }
 
 uint8_t get_hppre2(void) {
-    uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_PPRE2);
+    uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_PPRE2);
     return ppre_table[value];
 }
 
 uint8_t get_hmco1pre(void) {
-    uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO1PRE);
+    uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_MCO1PRE);
     return mco_table[value];
 }
 
 uint8_t get_hmco2pre(void) {
-    uint32_t value = get_reg_Msk(RCC->CFGR, RCC_CFGR_MCO2PRE);
+    uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_MCO2PRE);
     return mco_table[value];
 }
 
 uint8_t get_rtcpre(void) {
-    return get_reg_Msk(RCC->CFGR, RCC_CFGR_RTCPRE);
+    return get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_RTCPRE);
 }
 
 uint8_t get_pllm(void) {
-    return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLM);
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLM);
 }
 
 uint16_t get_plln(void) {
-    return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLN);
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLN);
 }
 
 uint8_t get_pllp(void) {
-    uint32_t value = get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLP);
+    uint32_t value = get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLP);
     switch(value){
         case 0b00: return 2;
         case 0b01: return 4;
@@ -157,17 +157,17 @@ uint8_t get_pllp(void) {
 }
 
 uint8_t get_pllq(void) {
-    return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLQ);
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLQ);
 }
 
 #ifdef STM32F446xx
 uint8_t get_pllr(void) {
-    return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLR);
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLR);
 }
 #endif
 
 uint32_t get_pllsourceclk(void) {
-    return get_reg_Msk(RCC->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
 }
 
 uint32_t get_pllclk(void) {
@@ -178,7 +178,7 @@ uint32_t get_pllclk(void) {
 }
 
 uint32_t get_sysclk(void) {
-    uint32_t sws = get_reg_Msk(RCC->CFGR, RCC_CFGR_SWS);
+    uint32_t sws = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS);
     switch(sws) {
         case 0: return HSI_RC;
         case 1: return HSE_OSC;
@@ -259,7 +259,7 @@ void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t bau
 /************************** FPU ENABLE *****************************/
 /*******************************************************************/
 void fpu_enable(void) {
-    SCB->CPACR |= (0xF << 20);
+    dev()->core->scb->CPACR |= (0xF << 20);
 }
 
 /*** EOF ***/
