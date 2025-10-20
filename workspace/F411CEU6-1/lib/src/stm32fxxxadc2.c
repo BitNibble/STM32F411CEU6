@@ -46,10 +46,7 @@ static STM32FXXX_ADC2_Handler stm32fxxx_adc2_setup = {
 	.waitendofconversion = ADC2_WaitEndOfConversion,
 	.start = ADC2_Start,
 	.stop = ADC2_Stop,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_ADC2_Handler* adc2(void){ return (STM32FXXX_ADC2_Handler*) &stm32fxxx_adc2_setup; }

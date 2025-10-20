@@ -341,10 +341,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.stop = USART1_stop,
 	// Callback
 	.callback = &USART1_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }

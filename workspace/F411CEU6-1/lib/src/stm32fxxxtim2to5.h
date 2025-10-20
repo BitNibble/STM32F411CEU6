@@ -15,6 +15,8 @@ Comment:
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
+else
+	void* dev(void){ return NULL; }
 #endif
 /*** TIMER 2 to 5 TypeDef ***/
 typedef struct{
@@ -41,6 +43,10 @@ typedef struct
 
 #if defined(STM32F411CEU6_H)
 	STM32F411CEU6_Handler* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Handler* (*dev)(void);
+else
+	void* (*dev)(void);
 #endif
 }STM32FXXX_TIM2_Handler, STM32FXXX_TIM5_Handler;
 // ( 3 and 4 ) TIM
@@ -56,6 +62,10 @@ typedef struct
 
 #if defined(STM32F411CEU6_H)
 	STM32F411CEU6_Handler* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Handler* (*dev)(void);
+else
+	void* (*dev)(void);
 #endif
 }STM32FXXX_TIM3_Handler, STM32FXXX_TIM4_Handler;
 

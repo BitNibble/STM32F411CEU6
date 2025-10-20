@@ -58,10 +58,7 @@ static STM32FXXX_NVIC_Handler stm32fxxx_nvic_setup = {
 	.active = NVIC_active,
 	.priority = NVIC_priority,
 	.trigger = NVIC_trigger,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_NVIC_Handler* nvic(void){ return (STM32FXXX_NVIC_Handler*) &stm32fxxx_nvic_setup; }

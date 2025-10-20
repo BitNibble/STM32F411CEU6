@@ -34,10 +34,7 @@ static STM32FXXX_TIM2_Handler stm32fxxx_tim2_setup = {
 	.start = TIM2_start,
 	.stop = TIM2_stop,
 	.callback = &tim2_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM2_Handler* tim2(void){ return (STM32FXXX_TIM2_Handler*) &stm32fxxx_tim2_setup;}
@@ -65,10 +62,7 @@ static STM32FXXX_TIM3_Handler stm32fxxx_tim3_setup = {
 	.start = TIM3_start,
 	.stop = TIM3_stop,
 	.callback = &tim3_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM3_Handler* tim3(void){ return (STM32FXXX_TIM3_Handler*) &stm32fxxx_tim3_setup;}
@@ -96,10 +90,7 @@ static STM32FXXX_TIM4_Handler stm32fxxx_tim4_setup = {
 	.start = TIM4_start,
 	.stop = TIM4_stop,
 	.callback = &tim4_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM4_Handler* tim4(void){ return (STM32FXXX_TIM4_Handler*) &stm32fxxx_tim4_setup;}
@@ -127,10 +118,7 @@ static STM32FXXX_TIM5_Handler stm32fxxx_tim5_setup = {
 	.start = TIM5_start,
 	.stop = TIM5_stop,
 	.callback = &tim5_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM5_Handler* tim5(void){ return (STM32FXXX_TIM5_Handler*) &stm32fxxx_tim5_setup;}

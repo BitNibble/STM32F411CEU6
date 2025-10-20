@@ -37,10 +37,7 @@ void SRAM_Access(void)
 /*** INIC Procedure & Function Definition ***/
 static STM32FXXX_SRAM_Handler stm32fxxx_sram_setup = {
 	.access = SRAM_Access,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_SRAM_Handler* sram(void){ return (STM32FXXX_SRAM_Handler*) &stm32fxxx_sram_setup; }

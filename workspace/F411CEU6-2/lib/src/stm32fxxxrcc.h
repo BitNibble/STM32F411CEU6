@@ -1,12 +1,9 @@
 /******************************************************************************
 	STM32 FXXX RCC
-Author: Sergio Santos 
-	<sergio.salazar.santos@gmail.com>
+Author: <sergio.salazar.santos@gmail.com>
 License: GNU General Public License
 Hardware: STM32-FXXX
-Date: 07032024
-Comment:
-	
+Date: 20102025
 *******************************************************************************/
 #ifndef _STM32FXXXRCC_H_
 	#define _STM32FXXXRCC_H_
@@ -15,6 +12,8 @@ Comment:
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
+else
+	void* dev(void){ return NULL; }
 #endif
 /*** RCC_Common TypeDef ***/
 // RCC -> PLL
@@ -36,9 +35,7 @@ typedef struct
 /*** RCC TypeDef ***/
 typedef struct
 {
-
 	/*** Bit Mapping ***/
-	RCC_TypeDef* instance;
 	void (*prescaler)(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre);
 	/*** Extended ***/
 	STM32FXXXRCCPLL* pll;
@@ -50,12 +47,19 @@ typedef struct
 	void (*hselect)(uint8_t sysclk);
 	void (*lenable)(uint8_t lclock);
 	void (*lselect)(uint8_t lclock);
-
+	/*** NVIC ***/
 	void (*nvic)(uint8_t state);
-}STM32FXXX_RCC;
+	/*** Device ***/
+	#if defined(STM32F411CEU6_H)
+		STM32F411CEU6_Handler* (*dev)(void);
+	#elif defined(STM32F446RE_H)
+		STM32F446RE_Handler* (*dev)(void);
+	else
+		void* (*dev)(void);
+	#endif
+}STM32FXXX_RCC_HANDLER;
 
-STM32FXXX_RCC* rcc_enable(void);
-STM32FXXX_RCC* rcc(void);
+STM32FXXX_RCC_HANDLER* rcc(void);
 
 /*** Procedure & Function Header ***/
 void STM32FXXXRCC_nvic(uint8_t state);
@@ -71,7 +75,7 @@ void STM32FXXXRccHEnable(uint8_t hclock);
 void STM32FXXXRccHSelect(uint8_t hclock);
 void STM32FXXXRccLEnable(uint8_t lclock);
 void STM32FXXXRccLSelect(uint8_t lclock);
-void STM32FXXXPrescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre);
+void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre);
 
 /*** INTERRUPT HEADER ***/
 void RCC_IRQHandler(void);

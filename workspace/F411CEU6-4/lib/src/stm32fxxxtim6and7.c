@@ -35,10 +35,7 @@ static STM32FXXX_TIM6_Handler stm32fxxx_tim6_setup = {
 	.start = TIM6_start,
 	.stop = TIM6_stop,
 	.callback = &tim6_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM6_Handler* tim6(void){ return (STM32FXXX_TIM6_Handler*) &stm32fxxx_tim6_setup;}
@@ -66,10 +63,7 @@ static STM32FXXX_TIM7_Handler stm32fxxx_tim7_setup = {
 	.start = TIM7_start,
 	.stop = TIM7_stop,
 	.callback = &tim7_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_TIM7_Handler* tim7(void){ return (STM32FXXX_TIM7_Handler*) &stm32fxxx_tim7_setup;}

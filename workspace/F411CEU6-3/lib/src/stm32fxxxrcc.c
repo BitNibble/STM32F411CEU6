@@ -1,28 +1,14 @@
 /******************************************************************************
 	STM32 FXXX RCC
-Author: Sergio Santos 
-	<sergio.salazar.santos@gmail.com>
+Author: <sergio.salazar.santos@gmail.com>
 License: GNU General Public License
 Hardware: STM32-FXXX
-Date: 07032024
-Comment:
-	
+Date: 20102025
 *******************************************************************************/
 /*** File Library ***/
 #include <stm32fxxxrcc.h>
 
-/*** File Variables ***/
-static STM32FXXXRCCPLL stm32fxxx_rcc_pll;
-static STM32FXXXRCCPLLI2S stm32fxxx_rcc_plli2s;
-static STM32FXXXRCCPLLSAI stm32fxxx_rcc_pllsai;
-static STM32FXXX_RCC stm32fxxx_rcc;
-
 /*** File Procedure & Function Header ***/
-/*** Extended ***/
-STM32FXXXRCCPLL* stm32fxxx_rcc_pll_inic(void);
-STM32FXXXRCCPLLI2S* stm32fxxx_rcc_plli2s_inic(void);
-STM32FXXXRCCPLLSAI* stm32fxxx_rcc_pllsai_inic(void);
-/******/
 void STM32FXXXRccPwrClock(uint8_t state);
 void STM32FXXXRccWriteEnable(void);
 void STM32FXXXRccWriteDisable(void);
@@ -30,7 +16,7 @@ uint8_t STM32FXXXRccPLLSelect(uint8_t hclock);
 
 /*******   0 -> HSI    1->HSE   *********/
 #ifndef H_Clock_Source
-	#define H_Clock_Source 0
+	#define H_Clock_Source 1
 #endif
 /****************************************/
 /****   PLL ON -> 1    PLL OFF = 0   ****/
@@ -44,7 +30,7 @@ void rcc_start(void)
 {	// Configure -> Enable -> Select
     // AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
 	//STM32FXXXPrescaler(8, 1, 1, 1); // (8, 1, 1, 0)
-	STM32FXXXPrescaler(1, 1, 1, 0); // (1, 1, 1, 0)
+	STM32FXXX_Prescaler(1, 1, 1, 0); // (1, 1, 1, 0)
 	STM32FXXXRccHEnable(H_Clock_Source); // 0 - HSI, 1 - HSE
 	STM32FXXXRccPLLSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
 	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
@@ -224,7 +210,7 @@ void STM32FXXXRccLSelect(uint8_t lclock)
 
 	STM32FXXXRccWriteDisable(); // Disable write access to the backup domain
 }
-void STM32FXXXPrescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
+void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
 {
 	set_reg_block(&dev()->rcc->CFGR, 5, 16, rtcpre);
 	switch(ppre2){ // 13
@@ -360,48 +346,37 @@ void STM32FXXXRCC_nvic(uint8_t state)
 	if(state){ set_bit_block(dev()->core->nvic->ISER, 1, RCC_IRQn, 1); } else{ set_bit_block(dev()->core->nvic->ICER, 1, RCC_IRQn, 1); }
 }
 /*** Extended ***/
-STM32FXXXRCCPLL* stm32fxxx_rcc_pll_inic(void)
-{
-
-	stm32fxxx_rcc_pll.division = STM32FXXXPLLDivision;
-	stm32fxxx_rcc_pll.enable = STM32FXXXRccPLLCLKEnable;
-	return &stm32fxxx_rcc_pll;
-}
-STM32FXXXRCCPLLI2S* stm32fxxx_rcc_plli2s_inic(void)
-{
-
-	stm32fxxx_rcc_plli2s.enable = STM32FXXXRccPLLI2SEnable;
-	return &stm32fxxx_rcc_plli2s;
-}
-STM32FXXXRCCPLLSAI* stm32fxxx_rcc_pllsai_inic(void)
-{
-
-	stm32fxxx_rcc_pllsai.enable = STM32FXXXRccPLLSAIEnable;
-	return &stm32fxxx_rcc_pllsai;
-}
-/*** INIC Procedure & Function Definition ***/
-STM32FXXX_RCC* rcc_enable(void)
-{
-
+static STM32FXXXRCCPLL stm32fxxx_rcc_pll_setup = {
+	.division = STM32FXXXPLLDivision,
+	.enable = STM32FXXXRccPLLCLKEnable
+};
+static STM32FXXXRCCPLLI2S stm32fxxx_rcc_plli2s_setup = {
+	.enable = STM32FXXXRccPLLI2SEnable
+};
+static STM32FXXXRCCPLLSAI stm32fxxx_rcc_pllsai_setup = {
+	.enable = STM32FXXXRccPLLSAIEnable
+};
+/*** HANDLER ***/
+static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 	/*** RCC Bit Mapping Link ***/
-	stm32fxxx_rcc.instance = dev()->rcc;
-	stm32fxxx_rcc.prescaler = STM32FXXXPrescaler;
+	.prescaler = STM32FXXX_Prescaler,
 	/*** PLL ***/
-	stm32fxxx_rcc.pll = stm32fxxx_rcc_pll_inic();
-	stm32fxxx_rcc.plli2s = stm32fxxx_rcc_plli2s_inic();
-	stm32fxxx_rcc.pllsai = stm32fxxx_rcc_pllsai_inic();
+	.pll = &stm32fxxx_rcc_pll_setup,
+	.plli2s = &stm32fxxx_rcc_plli2s_setup,
+	.pllsai = &stm32fxxx_rcc_pllsai_setup,
 	/*** Other ***/
-	stm32fxxx_rcc.inic = rcc_start;
-	stm32fxxx_rcc.henable = STM32FXXXRccHEnable;
-	stm32fxxx_rcc.hselect = STM32FXXXRccHSelect;
-	stm32fxxx_rcc.lenable = STM32FXXXRccLEnable;
-	stm32fxxx_rcc.lselect = STM32FXXXRccLSelect;
-	/*** Nvic ***/
-	stm32fxxx_rcc.nvic = STM32FXXXRCC_nvic;
-	return &stm32fxxx_rcc;
-}
+	.inic = rcc_start,
+	.henable = STM32FXXXRccHEnable,
+	.hselect = STM32FXXXRccHSelect,
+	.lenable = STM32FXXXRccLEnable,
+	.lselect = STM32FXXXRccLSelect,
+	/*** NVIC ***/
+	.nvic = STM32FXXXRCC_nvic,
+	/*** Device ***/
+	.dev = dev
+};
 
-STM32FXXX_RCC* rcc(void){ return &stm32fxxx_rcc; };
+STM32FXXX_RCC_HANDLER* rcc(void){ return &stm32fxxx_rcc_setup; };
 
 /******
 1º Sequence

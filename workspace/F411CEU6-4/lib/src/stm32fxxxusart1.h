@@ -13,6 +13,8 @@ Date:     24022024
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
+else
+	void* dev(void){ return NULL; }
 #endif
 /*** Define and Macros ***/
 #define USART1_RX_BUFFER_SIZE 2049
@@ -61,6 +63,10 @@ typedef struct {
 
 #if defined(STM32F411CEU6_H)
 	STM32F411CEU6_Handler* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Handler* (*dev)(void);
+else
+	void* (*dev)(void);
 #endif
 }STM32FXXX_USART1_Handler;
 

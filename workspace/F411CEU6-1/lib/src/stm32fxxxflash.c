@@ -279,12 +279,7 @@ void flash_enable(void)
 	stm32fxxx_flash_setup.keyr = FLASH_keyr_key;
 	stm32fxxx_flash_setup.optkeyr = FLASH_optkeyr_optkey;
 	stm32fxxx_flash_setup.nvic = FLASH_nvic;
-
-	//return &stm32fxxx_flash;
-
-#if defined(STM32F411CEU6_H)
 	stm32fxxx_flash_setup.dev = dev;
-#endif
 }
 
 STM32FXXX_FLASH_Handler* flash(void){ return (STM32FXXX_FLASH_Handler*) &stm32fxxx_flash_setup; }

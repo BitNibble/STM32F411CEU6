@@ -16,6 +16,8 @@ Comment:
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
+else
+	void* dev(void){ return NULL; }
 #endif
 /*** Define and Macro ***/
 #if !defined (MODE_INPUT) || !defined (MODE_OUTPUT) || !defined (MODE_AF) || !defined (MODE_ANALOG)
@@ -38,9 +40,13 @@ typedef struct
 	void (*af)(uint8_t pin, uint8_t af);
 	/*************/
 	void (*clock)( uint8_t state );
-	/*************/
+	/*** Device ***/
 #if defined(STM32F411CEU6_H)
 	STM32F411CEU6_Handler* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Handler* (*dev)(void);
+else
+	void* (*dev)(void);
 #endif
 }STM32FXXX_GPIOA_Handler, STM32FXXX_GPIOB_Handler, STM32FXXX_GPIOC_Handler, \
  STM32FXXX_GPIOD_Handler, STM32FXXX_GPIOE_Handler, STM32FXXX_GPIOF_Handler, \

@@ -74,10 +74,7 @@ static STM32FXXX_ADC1_Handler stm32fxxx_adc1_setup = {
 	.temperaturesetup = ADC1_TemperatureSetup,
 	.readtemperature = ADC1_ReadTemperature,
 	.callback = &ADC1_callback_setup,
-
-#if defined(STM32F411CEU6_H)
 	.dev = dev
-#endif
 };
 
 STM32FXXX_ADC1_Handler* adc1(void){ return (STM32FXXX_ADC1_Handler*) &stm32fxxx_adc1_setup; }
