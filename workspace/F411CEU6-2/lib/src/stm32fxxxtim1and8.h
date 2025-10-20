@@ -7,11 +7,15 @@ Date:     22062023
 Comment:
 	
 *******************************************************************************/
-#ifndef _STM32FXXXTIM1AND8_H_
-	#define _STM32FXXXTIM1AND8_H_
+#ifndef STM32FXXXTIM1AND8_H
+	#define STM32FXXXTIM1AND8_H
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*************************/
 /*** TIMER1and8 TypeDef***/
 /*************************/

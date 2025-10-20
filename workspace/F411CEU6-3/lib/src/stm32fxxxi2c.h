@@ -8,8 +8,12 @@ Hardware: STM32-XXX
 	#define STM32FXXXI2C_H
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-/******/
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
+/***********/
 //#define I2C_SCL_CLOCK 100000UL
 #define I2C_ACK 1
 #define I2C_NACK 0

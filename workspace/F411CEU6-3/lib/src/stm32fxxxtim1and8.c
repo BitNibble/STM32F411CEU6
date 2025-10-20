@@ -108,37 +108,37 @@ void TIM8_Nvic(uint8_t value)
 { // 43, 44, 45, 46
 	switch(value){
 		case 0b1000:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, ON);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 1);
 			set_bit_block(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);
 		break;
 		case 0b0100:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, ON);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 1);
 			set_bit_block(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);
 		break;
 		case 0b0010:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, ON);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 1);
 			set_bit_block(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
 		break;
 		case 0b0001:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, ON);
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, ON);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 1);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 1);
 			set_bit_block(NVIC->ISER, 1, TIM8_CC_IRQn, 1);
 		break;
 		case 0b11000:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, OFF);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 0);
 			set_bit_block(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);
 		break;
 		case 0b10100:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, OFF);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 0);
 			set_bit_block(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);
 		break;
 		case 0b10010:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, OFF);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 0);
 			set_bit_block(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
 		break;
 		case 0b10001:
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, OFF);
-			set_reg_Msk(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, OFF);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 0);
+			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 0);
 			set_bit_block(NVIC->ICER, 1, TIM8_CC_IRQn, 1);
 		break;
 	default:
@@ -146,16 +146,16 @@ void TIM8_Nvic(uint8_t value)
 	}
 }
 void TIM8_start(void) {
-	set_reg_Msk(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON);
+	set_reg_Msk_Pos(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1);
 }
 void TIM8_stop(void) {
-	set_reg_Msk(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF);
+	set_reg_Msk_Pos(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0);
 }
 
 /*** TIM8 INIC Procedure & Function Definition ***/
 static tim1and8_callback tim8_callback_setup = {0};
 
-static STM32FXXX_TIM8 stm32fxxx_tim8_setup = {
+static STM32FXXX_TIM8_Handler stm32fxxx_tim8_setup = {
 	.clock = TIM8_Clock,
 	.nvic = TIM8_Nvic,
 	.start = TIM8_start,
@@ -167,7 +167,7 @@ static STM32FXXX_TIM8 stm32fxxx_tim8_setup = {
 #endif
 };
 
-STM32FXXX_TIM8* tim8(void){ return (STM32FXXX_TIM8*) &stm32fxxx_tim8_setup;}
+STM32FXXX_TIM8_Handler* tim8(void){ return (STM32FXXX_TIM8_Handler*) &stm32fxxx_tim8_setup;}
 
 #endif
 

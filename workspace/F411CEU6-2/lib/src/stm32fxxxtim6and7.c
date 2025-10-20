@@ -23,8 +23,8 @@ void TIM6_Nvic(uint8_t state)
 { // 54
 	if(state){set_bit_block(NVIC->ISER, 1, TIM6_DAC_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM6_DAC_IRQn, 1);}
 }
-void TIM6_start(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
-void TIM6_stop(void){ set_reg_Msk(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+void TIM6_start(void){ set_reg_Msk_Pos(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM6_stop(void){ set_reg_Msk_Pos(&TIM6->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
 /*** TIM6 INIC Procedure & Function Definition ***/
 static tim6and7_callback tim6_callback_setup = {0};
@@ -54,8 +54,8 @@ void TIM7_Nvic(uint8_t state)
 { // 55
 	if(state){set_bit_block(NVIC->ISER, 1, TIM7_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM7_IRQn, 1);}
 }
-void TIM7_start(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
-void TIM7_stop(void){ set_reg_Msk(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+void TIM7_start(void){ set_reg_Msk_Pos(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM7_stop(void){ set_reg_Msk_Pos(&TIM7->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
 /*** TIM7 INIC Procedure & Function Definition ***/
 static tim6and7_callback tim7_callback_setup = {0};

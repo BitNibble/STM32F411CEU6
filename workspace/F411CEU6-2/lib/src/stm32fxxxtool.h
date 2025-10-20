@@ -12,6 +12,8 @@ Update:   07/01/2024
 #include <stddef.h>
 
 /*** Define & Macro ***/
+#define ZERO 0
+#define ONE 1
 #define TWO 2
 #define NIBBLE_BITS 4
 #define BYTE_BITS 8
@@ -24,6 +26,9 @@ Update:   07/01/2024
 /*******************************************************************/
 void set_reg(volatile uint32_t* reg, uint32_t hbits);
 void clear_reg(volatile uint32_t* reg, uint32_t hbits);
+uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos);
+void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk);
 void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);
 void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);

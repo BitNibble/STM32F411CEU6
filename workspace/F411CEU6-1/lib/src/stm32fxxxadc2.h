@@ -11,7 +11,11 @@ Comment:
 	#define _STM32FXXXADC2_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** ADC TypeDef ***/
 typedef struct {
     void (*on_conversion_complete)(uint16_t value);

@@ -9,7 +9,11 @@ Date:     24022024
 	#define _STM32FXXXUSART2_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** Define and Macros ***/
 #define USART2_RX_BUFFER_SIZE 2049
 #define USART2_TX_BUFFER_SIZE 2049

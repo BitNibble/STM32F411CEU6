@@ -114,8 +114,8 @@ void TIM12_Nvic(uint8_t state)
 { // 43
 	if(state){set_bit_block(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);}
 }
-void TIM12_start(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
-void TIM12_stop(void){ set_reg_Msk(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
+void TIM12_start(void){ set_reg_Msk_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM12_stop(void){ set_reg_Msk_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
 /*** TIM12 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim12_callback_setup = {0};
@@ -149,8 +149,8 @@ void TIM13_Nvic(uint8_t state)
 { // 44
 	if(state){set_bit_block(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);}
 }
-void TIM13_start(void){ set_reg_Msk(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
-void TIM13_stop(void){ set_reg_Msk(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+void TIM13_start(void){ set_reg_Msk_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM13_stop(void){ set_reg_Msk_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
 /*** TIM13 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim13_callback_setup = {0};
@@ -180,8 +180,8 @@ void TIM14_Nvic(uint8_t state)
 { // 45
 	if(state){set_bit_block(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}else{set_bit_block(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}
 }
-void TIM14_start(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, ON); }
-void TIM14_stop(void){ set_reg_Msk(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, OFF); }
+void TIM14_start(void){ set_reg_Msk_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1); }
+void TIM14_stop(void){ set_reg_Msk_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0); }
 
 /*** TIM14 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim14_callback_setup = {0};

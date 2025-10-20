@@ -12,7 +12,11 @@ Comment:
 	#define _STM32FXXXGPIO_H_
 
 /*** File Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** Define and Macro ***/
 #if !defined (MODE_INPUT) || !defined (MODE_OUTPUT) || !defined (MODE_AF) || !defined (MODE_ANALOG)
 	#define MODE_INPUT 0x0UL

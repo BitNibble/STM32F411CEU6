@@ -6,7 +6,11 @@ Hardware: STM32-XXX
 Update:   16012024
 *******************************************************************************/
 #include "armsystick.h"
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 #include <stdio.h>
 #include <string.h>
 /******/
@@ -96,10 +100,9 @@ void systick_start(void)
 	SysTick->CTRL |= SYSTICK_ENABLE;
 }
 /**** Interrupt Handler ****/
-void SysTick_Handler(void)
+void SysTick_Inc(void)
 {
 	DelayCounter_0++;
-	HAL_IncTick();
 }
 /***************************/
 

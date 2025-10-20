@@ -11,7 +11,11 @@ Comment:
 	#define _STM32FXXXRTC_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** Define & Macro ***/
 #ifndef RTC_KEY1
 	#define RTC_KEY1 0xCA

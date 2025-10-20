@@ -11,7 +11,11 @@ Comment:
 	#define STM32FXXXNVIC_H
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** NVIC TypeDef ***/
 typedef struct
 {

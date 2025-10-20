@@ -11,7 +11,11 @@ Comment:
 	#define _STM32FXXXPWR_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+#elif defined(STM32F446xx)
+	#include "stm32f446re.h"
+#endif
 /*** PWR Bit Mapping TypeDef ***/
 // CR
 typedef struct

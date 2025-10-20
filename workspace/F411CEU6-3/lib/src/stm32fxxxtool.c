@@ -50,6 +50,19 @@ inline void set_reg(volatile uint32_t* reg, uint32_t hbits){
 inline void clear_reg(volatile uint32_t* reg, uint32_t hbits){
 	*reg &= ~hbits;
 }
+inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
+{
+	return (reg & Msk) >> Pos;
+}
+inline void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
+{
+	uint32_t value = *reg;
+	data = (data << Pos) & Msk; value &= ~(Msk); value |= data; *reg = value;
+}
+inline void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
+{
+	data = (data << Pos) & Msk; *reg &= ~(Msk); *reg |= data;
+}
 inline uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
 	return (reg & Msk) >> _mask_pos(Msk);
