@@ -36,8 +36,8 @@ uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
 // --- Generic helpers ---
-uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask) {
-    return (*reg & mask) >> _mask_pos(mask);
+uint32_t _reg_get(uint32_t reg, uint32_t mask) {
+    return (reg & mask) >> _mask_pos(mask);
 }
 
 void _reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t val) {
@@ -65,66 +65,37 @@ inline void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, 
 }
 inline uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
-	return (reg & Msk) >> _mask_pos(Msk);
+	return get_reg_Msk_Pos(reg, Msk, _mask_pos(Msk));
 }
 inline void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 {
-	uint32_t value = *reg;
-	uint32_t Pos = _mask_pos(Msk);
-	data = (data << Pos) & Msk; value &= ~(Msk); value |= data; *reg = value;
+	write_reg_Msk_Pos(reg, Msk, _mask_pos(Msk), data);
 }
 inline void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 {
-	uint32_t Pos = _mask_pos(Msk);
-	data = (data << Pos) & Msk; *reg &= ~(Msk); *reg |= data;
+	set_reg_Msk_Pos(reg, Msk, _mask_pos(Msk), data);
 }
-uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t bit_n)
+uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t Pos)
 {
-	if(bit_n < DWORD_BITS && size_block != 0 && bit_n + size_block <= DWORD_BITS) {
-		uint32_t Msk = _get_mask(size_block, bit_n);
-		reg = (reg & Msk) >> bit_n;
-	}
-	return reg;
+	return get_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos);
 }
-void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data)
+void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	uint32_t value = *reg;
-	if(bit_n < DWORD_BITS && size_block != 0 && bit_n + size_block <= DWORD_BITS) {
-		uint32_t block = _size_to_block(size_block);
-		data &= block; value &= ~(block << bit_n);
-		data = (data << bit_n);
-		value |= data;
-		*reg = value;
-	}
+	write_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
 }
-void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data)
+void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	if(bit_n < DWORD_BITS && size_block != 0 && bit_n + size_block <= DWORD_BITS) {
-		uint32_t block = _size_to_block(size_block);
-		data &= block;
-		*reg &= ~(block << bit_n);
-		*reg |= (data << bit_n);
-	}
+	set_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
 }
-uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n)
+uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos)
 {
-	uint32_t n = bit_n / DWORD_BITS; bit_n = bit_n % DWORD_BITS;
-	uint32_t value = *(reg + n );
-	if(size_block != 0 && bit_n + size_block <= DWORD_BITS){
-		uint32_t Msk = _get_mask(size_block, bit_n);
-		value = (value & Msk) >> bit_n;
-	}
-	return value;
+	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
+	return get_reg_Msk_Pos((uint32_t)*(reg + n), _get_mask(size_block, Pos), Pos);
 }
-void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data)
+void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	uint32_t n = bit_n / DWORD_BITS; bit_n = bit_n % DWORD_BITS;
-	if(size_block != 0 && bit_n + size_block <= DWORD_BITS) {
-		uint32_t block = _size_to_block(size_block);
-		data &= block;
-		*(reg + n ) &= ~(block << bit_n);
-		*(reg + n ) |= (data << bit_n);
-	}
+	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
+	set_reg_Msk_Pos((reg + n), _get_mask(size_block, Pos), Pos, data);
 }
 
 /****************************************/
@@ -213,7 +184,7 @@ void ftdelayReset(uint8_t ID) {
 /****************************************/
 /***
 TypeDef -> Instance -> Handler
-bit_n = bit_n % DWORD_BITS; is the same as bit_n = bit_n & (DWORD_BITS - 1);, for power of two numbers.
+Pos = Pos % DWORD_BITS; is the same as Pos = Pos & (DWORD_BITS - 1);, for power of two numbers.
 General behavior for filtering inputs, is if does not pass the filter it is to be ignored and not make
 any changes, leaving everything as was. Maybe think later to just give a signal warning.
 ***/

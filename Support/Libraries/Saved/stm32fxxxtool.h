@@ -38,7 +38,7 @@ void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint
 uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos);
 void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 // --- Generic helpers ---
-uint32_t _reg_get(uint32_t reg, uint32_t mask);
+uint32_t _reg_get(volatile uint32_t reg, uint32_t mask);
 void _reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t val);
 /****************************************/
 /*** NULL Check ***/

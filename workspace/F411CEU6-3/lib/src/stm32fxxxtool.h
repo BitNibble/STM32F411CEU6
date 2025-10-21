@@ -32,13 +32,13 @@ void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk);
 void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);
 void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);
-uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t bit_n);
-void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data);
-void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data);
-uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n);
-void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit_n, uint32_t data);
+uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t Pos);
+void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos);
+void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 // --- Generic helpers ---
-uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask);
+uint32_t _reg_get(uint32_t reg, uint32_t mask);
 void _reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t val);
 /****************************************/
 /*** NULL Check ***/
@@ -52,7 +52,7 @@ void ftdelayReset(uint8_t ID);
 /****************************************/
 /***
 TypeDef -> Instance -> Handler
-bit_n = bit_n % DWORD_BITS; is the same as bit_n = bit_n & (DWORD_BITS - 1);, for power of two numbers.
+Pos = Pos % DWORD_BITS; is the same as Pos = Pos & (DWORD_BITS - 1);, for power of two numbers.
 General behavior for filtering inputs, is if does not pass the filter it is to be ignored and not make
 any changes, leaving everything as was. Maybe think later to just give a signal warning.
 ***/

@@ -36,7 +36,7 @@ uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
 // --- Generic helpers ---
-uint32_t _reg_get(uint32_t reg, uint32_t mask) {
+uint32_t _reg_get(volatile uint32_t reg, uint32_t mask) {
     return (reg & mask) >> _mask_pos(mask);
 }
 
@@ -77,25 +77,51 @@ inline void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 }
 uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t Pos)
 {
-	return get_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos);
+	if(Pos < DWORD_BITS && size_block != 0 && Pos + size_block <= DWORD_BITS) {
+		uint32_t Msk = _get_mask(size_block, Pos);
+		reg = (reg & Msk) >> Pos;
+	}
+	return reg;
 }
 void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	write_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
+	uint32_t value = *reg;
+	if(Pos < DWORD_BITS && size_block != 0 && Pos + size_block <= DWORD_BITS) {
+		uint32_t block = _size_to_block(size_block);
+		data &= block; value &= ~(block << Pos);
+		data = (data << Pos);
+		value |= data;
+		*reg = value;
+	}
 }
 void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	set_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
+	if(Pos < DWORD_BITS && size_block != 0 && Pos + size_block <= DWORD_BITS) {
+		uint32_t block = _size_to_block(size_block);
+		data &= block;
+		*reg &= ~(block << Pos);
+		*reg |= (data << Pos);
+	}
 }
 uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos)
 {
 	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
-	return get_reg_Msk_Pos((uint32_t)*(reg + n), _get_mask(size_block, Pos), Pos);
+	uint32_t value = *(reg + n );
+	if(size_block != 0 && Pos + size_block <= DWORD_BITS){
+		uint32_t Msk = _get_mask(size_block, Pos);
+		value = (value & Msk) >> Pos;
+	}
+	return value;
 }
 void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
 	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
-	set_reg_Msk_Pos((reg + n), _get_mask(size_block, Pos), Pos, data);
+	if(size_block != 0 && Pos + size_block <= DWORD_BITS) {
+		uint32_t block = _size_to_block(size_block);
+		data &= block;
+		*(reg + n ) &= ~(block << Pos);
+		*(reg + n ) |= (data << Pos);
+	}
 }
 
 /****************************************/
