@@ -35,13 +35,23 @@ uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
 uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
+inline void _clear_mask(volatile uint32_t *reg, uint32_t Msk){
+	*reg &= ~Msk;
+}
+inline uint32_t _block_val(uint32_t block, uint32_t val){
+	return (block & val);
+}
+inline void _mask_val(volatile uint32_t *reg, uint32_t Msk, uint32_t val){
+	*reg |= ((val << _mask_pos(Msk)) & Msk);
+}
 // --- Generic helpers ---
-uint32_t _reg_get(uint32_t reg, uint32_t mask) {
-    return (reg & mask) >> _mask_pos(mask);
+uint32_t _reg_get(uint32_t reg, uint32_t Msk){
+    return (reg & Msk) >> _mask_pos(Msk);
 }
 
-void _reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t val) {
-    *reg = (*reg & ~mask) | ((val << _mask_pos(mask)) & mask);
+void _reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t val){
+	_clear_mask(reg, Msk);
+    _mask_val(reg, Msk, val);
 }
 /*** Tools ***/
 inline void set_reg(volatile uint32_t* reg, uint32_t hbits){
