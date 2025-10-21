@@ -26,10 +26,10 @@ void GPIOA_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOA->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOA->MODER &= ~(BLOCK << Pos);
 		GPIOA->MODER |= (mode << Pos);
 	}
 }
@@ -44,10 +44,10 @@ void GPIOA_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		ospeed &= MASK;
-		GPIOA->OSPEEDR &= ~( MASK << Pos );
+		ospeed &= BLOCK;
+		GPIOA->OSPEEDR &= ~( BLOCK << Pos );
 		GPIOA->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -55,10 +55,10 @@ void GPIOA_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		pupd &= MASK;
-		GPIOA->PUPDR &= ~( MASK << Pos );
+		pupd &= BLOCK;
+		GPIOA->PUPDR &= ~( BLOCK << Pos );
 		GPIOA->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -89,13 +89,13 @@ void GPIOA_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
     	const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-    	af &= MASK;
+    	af &= BLOCK;
     	if(index < TWO){
-    		GPIOA->AFR[index] &= ~( MASK << Pos );
+    		GPIOA->AFR[index] &= ~( BLOCK << Pos );
     		GPIOA->AFR[index] |= ( af << Pos );
     	}
 	}
@@ -131,10 +131,10 @@ void GPIOB_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOB->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOB->MODER &= ~(BLOCK << Pos);
 		GPIOB->MODER |= (mode << Pos);
 	}
 }
@@ -149,10 +149,10 @@ void GPIOB_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	ospeed &= MASK;
-    	GPIOB->OSPEEDR &= ~( MASK << Pos );
+    	ospeed &= BLOCK;
+    	GPIOB->OSPEEDR &= ~( BLOCK << Pos );
     	GPIOB->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -160,10 +160,10 @@ void GPIOB_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	pupd &= MASK;
-    	GPIOB->PUPDR &= ~( MASK << Pos );
+    	pupd &= BLOCK;
+    	GPIOB->PUPDR &= ~( BLOCK << Pos );
     	GPIOB->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -193,13 +193,13 @@ void GPIOB_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOB->AFR[index] &= ~( MASK << Pos );
+			GPIOB->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOB->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -235,10 +235,10 @@ void GPIOC_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOC->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOC->MODER &= ~(BLOCK << Pos);
 		GPIOC->MODER |= (mode << Pos);
 	}
 }
@@ -253,10 +253,10 @@ void GPIOC_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	ospeed &= MASK;
-    	GPIOC->OSPEEDR &= ~( MASK << Pos );
+    	ospeed &= BLOCK;
+    	GPIOC->OSPEEDR &= ~( BLOCK << Pos );
     	GPIOC->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -264,10 +264,10 @@ void GPIOC_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	pupd &= MASK;
-    	GPIOC->PUPDR &= ~( MASK << Pos );
+    	pupd &= BLOCK;
+    	GPIOC->PUPDR &= ~( BLOCK << Pos );
     	GPIOC->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -298,13 +298,13 @@ void GPIOC_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOC->AFR[index] &= ~( MASK << Pos );
+			GPIOC->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOC->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -340,10 +340,10 @@ void GPIOD_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOD->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOD->MODER &= ~(BLOCK << Pos);
 		GPIOD->MODER |= (mode << Pos);
 	}
 }
@@ -358,10 +358,10 @@ void GPIOD_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		ospeed &= MASK;
-		GPIOD->OSPEEDR &= ~( MASK << Pos );
+		ospeed &= BLOCK;
+		GPIOD->OSPEEDR &= ~( BLOCK << Pos );
 		GPIOD->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -369,10 +369,10 @@ void GPIOD_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	pupd &= MASK;
-    	GPIOD->PUPDR &= ~( MASK << Pos );
+    	pupd &= BLOCK;
+    	GPIOD->PUPDR &= ~( BLOCK << Pos );
     	GPIOD->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -402,13 +402,13 @@ void GPIOD_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOD->AFR[index] &= ~( MASK << Pos );
+			GPIOD->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOD->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -444,10 +444,10 @@ void GPIOE_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOE->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOE->MODER &= ~(BLOCK << Pos);
 		GPIOE->MODER |= (mode << Pos);
 	}
 }
@@ -462,10 +462,10 @@ void GPIOE_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		ospeed &= MASK;
-		GPIOE->OSPEEDR &= ~( MASK << Pos );
+		ospeed &= BLOCK;
+		GPIOE->OSPEEDR &= ~( BLOCK << Pos );
 		GPIOE->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -473,10 +473,10 @@ void GPIOE_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		pupd &= MASK;
-		GPIOE->PUPDR &= ~( MASK << Pos );
+		pupd &= BLOCK;
+		GPIOE->PUPDR &= ~( BLOCK << Pos );
 		GPIOE->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -507,13 +507,13 @@ void GPIOE_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOE->AFR[index] &= ~( MASK << Pos );
+			GPIOE->AFR[index] &= ~( BLOCK << Pos );
 			GPIOE->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -550,10 +550,10 @@ void GPIOF_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOF->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOF->MODER &= ~(BLOCK << Pos);
 		GPIOF->MODER |= (mode << Pos);
 	}
 }
@@ -568,10 +568,10 @@ void GPIOF_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	ospeed &= MASK;
-    	GPIOF->OSPEEDR &= ~( MASK << Pos );
+    	ospeed &= BLOCK;
+    	GPIOF->OSPEEDR &= ~( BLOCK << Pos );
     	GPIOF->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -579,10 +579,10 @@ void GPIOF_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	pupd &= MASK;
-    	GPIOF->PUPDR &= ~( MASK << Pos );
+    	pupd &= BLOCK;
+    	GPIOF->PUPDR &= ~( BLOCK << Pos );
     	GPIOF->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -613,13 +613,13 @@ void GPIOF_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOF->AFR[index] &= ~( MASK << Pos );
+			GPIOF->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOF->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -655,10 +655,10 @@ void GPIOG_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOG->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOG->MODER &= ~(BLOCK << Pos);
 		GPIOG->MODER |= (mode << Pos);
 	}
 }
@@ -673,10 +673,10 @@ void GPIOG_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	ospeed &= MASK;
-    	GPIOG->OSPEEDR &= ~( MASK << Pos );
+    	ospeed &= BLOCK;
+    	GPIOG->OSPEEDR &= ~( BLOCK << Pos );
     	GPIOG->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -684,10 +684,10 @@ void GPIOG_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	pupd &= MASK;
-    	GPIOG->PUPDR &= ~( MASK << Pos );
+    	pupd &= BLOCK;
+    	GPIOG->PUPDR &= ~( BLOCK << Pos );
     	GPIOG->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -718,13 +718,13 @@ void GPIOG_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOG->AFR[index] &= ~( MASK << Pos );
+			GPIOG->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOG->AFR[index] |= ( af << Pos );
 		}
 	}
@@ -760,10 +760,10 @@ void GPIOH_moder( uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= MASK;
-		GPIOH->MODER &= ~(MASK << Pos);
+		mode &= BLOCK;
+		GPIOH->MODER &= ~(BLOCK << Pos);
 		GPIOH->MODER |= (mode << Pos);
 	}
 }
@@ -778,10 +778,10 @@ void GPIOH_ospeed(uint8_t pin, uint8_t ospeed)
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-    	const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
     	const uint16_t Pos = (pin * BLOCK_SIZE);
-    	ospeed &= MASK;
-    	GPIOH->OSPEEDR &= ~( MASK << Pos );
+    	ospeed &= BLOCK;
+    	GPIOH->OSPEEDR &= ~( BLOCK << Pos );
     	GPIOH->OSPEEDR |= ( ospeed << Pos );
 	}
 }
@@ -789,10 +789,10 @@ void GPIOH_pupd(uint8_t pin, uint8_t pupd)
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint16_t Pos = (pin * BLOCK_SIZE);
-		pupd &= MASK;
-    	GPIOH->PUPDR &= ~( MASK << Pos );
+		pupd &= BLOCK;
+    	GPIOH->PUPDR &= ~( BLOCK << Pos );
     	GPIOH->PUPDR |= ( pupd << Pos );
 	}
 }
@@ -823,13 +823,13 @@ void GPIOH_af(uint8_t pin, uint8_t af)
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-		const uint8_t MASK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
 		const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
 		const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-		af &= MASK;
+		af &= BLOCK;
 		if(index < TWO){
-			GPIOH->AFR[index] &= ~( MASK << Pos );
+			GPIOH->AFR[index] &= ~( BLOCK << Pos );
 	    	GPIOH->AFR[index] |= ( af << Pos );
 		}
 	}
