@@ -24,7 +24,7 @@ uint32_t _size_to_block(uint32_t size_block){
 	return (size_block > 31) ? 0xFFFFFFFFU : ((1U << size_block) - 1);
 }
 uint32_t _block_to_size(uint32_t block) {
-    return block ? (32 - __builtin_clz(block)) : 0U;
+    return block ? (32U - __builtin_clz(block)) : 0U;
 }
 uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
 	return _size_to_block(size_block) << Pos;
@@ -33,7 +33,7 @@ uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
 	return size_block * block_n;
 }
 uint32_t _mask_pos(uint32_t Msk){
-	return Msk ? __builtin_ctz(Msk) : 0U;
+	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
 // --- Generic helpers ---
 uint32_t _reg_get(volatile uint32_t *reg, uint32_t mask) {

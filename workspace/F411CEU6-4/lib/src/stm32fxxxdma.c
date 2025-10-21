@@ -1691,7 +1691,6 @@ void dma1_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t
 	// Filter to Default
 	if(stream_n > 7){ stream_n = 0;}
 	if(channel_n > 7){ channel_n = 0;}
-	if(quant_d > 65535){ quant_d = 1;}
 	if(p_size > 2){ p_size = 0;}
 	if(m_size > 2){ m_size = 0;}
 	if(priority > 3){ priority = 0;}
@@ -3321,7 +3320,6 @@ void dma2_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t
 	// Filter to Default
 	if(stream_n > 7){ stream_n = 0;}
 	if(channel_n > 7){ channel_n = 0;}
-	if(quant_d > 65535){ quant_d = 1;}
 	if(p_size > 2){ p_size = 0;}
 	if(m_size > 2){ m_size = 0;}
 	if(priority > 3){ priority = 0;}

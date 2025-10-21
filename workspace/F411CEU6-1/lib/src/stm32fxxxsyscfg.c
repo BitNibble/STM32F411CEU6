@@ -152,7 +152,7 @@ static SYSCFG_exticr1 SYSCFG_exticr1_setup = {
 /*** File Variables ***/
 static SYSCFG_exticr2 SYSCFG_exticr2_setup = {
 	.exti7 = SYSCFG_exticr2_exti7,
-	.exti7 = SYSCFG_exticr2_exti6,
+	.exti6 = SYSCFG_exticr2_exti6,
 	.exti5 = SYSCFG_exticr2_exti5,
 	.exti4 = SYSCFG_exticr2_exti4
 };

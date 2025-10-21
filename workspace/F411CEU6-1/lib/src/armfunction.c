@@ -221,7 +221,7 @@ unsigned int function_power(unsigned int base, unsigned int power) {
 }
 // Function to handle division and return a Real structure
 RealNum_TypeDef function_divide(int numerator, int denominator) {
-    RealNum_TypeDef result = {0, 1, 0, 0, 1, 0.0, 0.0}; // Default result
+    RealNum_TypeDef result = {0, 1, 0, 0, 1, 0.0, 0.0,0}; // Default result
 
     // Handle case for division by zero
     if (denominator == 0) {
@@ -349,7 +349,7 @@ void function_copy(char to[], const char from[], size_t to_size) {
         return;
     }
 
-    int i = 0;
+    size_t i = 0;
 
     // Copy each character while checking the destination size
     while (i < to_size - 1 && (to[i] = from[i]) != '\0') {

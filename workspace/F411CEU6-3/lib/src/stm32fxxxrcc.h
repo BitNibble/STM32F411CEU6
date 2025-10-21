@@ -12,7 +12,7 @@ Date: 20102025
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
-else
+#else
 	void* dev(void){ return NULL; }
 #endif
 /*** RCC_Common TypeDef ***/
@@ -50,13 +50,13 @@ typedef struct
 	/*** NVIC ***/
 	void (*nvic)(uint8_t state);
 	/*** Device ***/
-	#if defined(STM32F411CEU6_H)
-		STM32F411CEU6_Handler* (*dev)(void);
-	#elif defined(STM32F446RE_H)
-		STM32F446RE_Handler* (*dev)(void);
-	else
-		void* (*dev)(void);
-	#endif
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Handler* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Handler* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_RCC_HANDLER;
 
 STM32FXXX_RCC_HANDLER* rcc(void);

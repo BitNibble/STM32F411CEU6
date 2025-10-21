@@ -15,7 +15,7 @@ Comment:
 	#include "stm32f411ceu6.h"
 #elif defined(STM32F446xx)
 	#include "stm32f446re.h"
-else
+#else
 	void* dev(void){ return NULL; }
 #endif
 /*** CRC TypeDef ***/
@@ -34,7 +34,7 @@ typedef struct
 	STM32F411CEU6_Handler* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Handler* (*dev)(void);
-else
+#else
 	void* (*dev)(void);
 #endif
 }STM32FXXX_CRC_Handler;
