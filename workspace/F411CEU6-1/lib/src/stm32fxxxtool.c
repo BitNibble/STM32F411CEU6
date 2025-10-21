@@ -141,6 +141,7 @@ int isPtrNull(void* ptr) {
     return ptr ? 0 : 1; // Returns 1 if NULL, 0 otherwise
 }
 int isCharPtrFlush(void* ptr) {
+	if (ptr == NULL) return 1;
     // Cast the void pointer to a char pointer to dereference it
     return *((unsigned char*)ptr) ? 0 : 1; // Returns 1 if '\0', 0 otherwise
 }
@@ -151,7 +152,7 @@ float CalculateTemperature(uint16_t adc_value) {
     const float Avg_slope = 0.0025f;  // Average slope (in volts/°C)
     const float V_ref = 3.3f;  // Reference voltage, typically 3.0V or 3.3V
 
-    float V_sense = ((float)adc_value / 4096) * V_ref;
+    float V_sense = ((float)adc_value / 4095.0) * V_ref;
     return ((V_sense - V_25) / Avg_slope) + 25.0f;
 }
 
