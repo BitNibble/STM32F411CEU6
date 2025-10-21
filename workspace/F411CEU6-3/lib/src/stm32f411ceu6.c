@@ -166,12 +166,12 @@ uint8_t get_pllr(void) {
 }
 #endif
 
-uint32_t get_pllsourceclk(void) {
+uint32_t get_pllsclk(void) {
     return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
 }
 
 uint32_t get_pllclk(void) {
-    uint32_t clk = get_pllsourceclk() / get_pllm();
+    uint32_t clk = get_pllsclk() / get_pllm();
     clk /= get_pllp();
     clk *= get_plln();
     return clk;

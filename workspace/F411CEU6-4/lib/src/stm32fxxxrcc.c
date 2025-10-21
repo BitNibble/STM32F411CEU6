@@ -3,16 +3,16 @@
 Author: <sergio.salazar.santos@gmail.com>
 License: GNU General Public License
 Hardware: STM32-FXXX
-Date: 20102025
+Date: 21102025
 *******************************************************************************/
 /*** File Library ***/
 #include <stm32fxxxrcc.h>
 
 /*** File Procedure & Function Header ***/
-void STM32FXXXRccPwrClock(uint8_t state);
-void STM32FXXXRccWriteEnable(void);
-void STM32FXXXRccWriteDisable(void);
-uint8_t STM32FXXXRccPLLSelect(uint8_t hclock);
+void STM32FXXX_Rcc_Pwr_Clock(uint8_t state);
+void STM32FXXX_Rcc_Write_Enable(void);
+void STM32FXXX_Rcc_Write_Disable(void);
+uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock);
 
 /*******   0 -> HSI    1->HSE   *********/
 #ifndef H_Clock_Source
@@ -31,21 +31,21 @@ void rcc_start(void)
     // AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
 	//STM32FXXXPrescaler(8, 1, 1, 1); // (8, 1, 1, 0)
 	STM32FXXX_Prescaler(1, 1, 1, 0); // (1, 1, 1, 0)
-	STM32FXXXRccHEnable(H_Clock_Source); // 0 - HSI, 1 - HSE
-	STM32FXXXRccPLLSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
+	STM32FXXX_Rcc_HEnable(H_Clock_Source); // 0 - HSI, 1 - HSE
+	STM32FXXX_Rcc_PLL_Select(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
 	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
-	STM32FXXXPLLDivision((uint32_t)get_pllsourceclk()/1000000, 240, 2, 4);
+	STM32FXXX_PLL_Division((uint32_t)get_pllsclk()/1000000, 240, 2, 4);
 	if(PLL_ON_OFF){
-		STM32FXXXRccPLLCLKEnable();
+		STM32FXXX_Rcc_PLL_CLK_Enable();
 		// System Clock Switch
-		STM32FXXXRccHSelect(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
+		STM32FXXX_Rcc_HSelect(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
 	}else{
 		// System Clock Switch
-		STM32FXXXRccHSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
+		STM32FXXX_Rcc_HSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
 	}
 }
 // RCC
-void STM32FXXXRccHEnable(uint8_t hclock)
+void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 {
     uint8_t set = 1;
     uint8_t rdy = 1;
@@ -89,7 +89,7 @@ void STM32FXXXRccHEnable(uint8_t hclock)
         }
     }
 }
-void STM32FXXXRccHSelect(uint8_t hclock)
+void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
     switch(hclock){
         case 0: // HSI selected as system clock
@@ -117,7 +117,7 @@ void STM32FXXXRccHSelect(uint8_t hclock)
             break;
     }
 }
-uint8_t STM32FXXXRccPLLSelect(uint8_t hclock)
+uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled
 	set_reg_block(&dev()->rcc->CR, 1, 24, 0); set_reg_block(&dev()->rcc->CR, 1, 26, 0);
 	switch(hclock){
@@ -133,7 +133,7 @@ uint8_t STM32FXXXRccPLLSelect(uint8_t hclock)
 	}
 	return get_reg_block(dev()->rcc->PLLCFGR, 1, 22);
 }
-void STM32FXXXRccLEnable(uint8_t lclock)
+void STM32FXXX_Rcc_LEnable(uint8_t lclock)
 {
     uint8_t set = 1;
     uint8_t rdy = 1;
@@ -157,9 +157,9 @@ void STM32FXXXRccLEnable(uint8_t lclock)
             case 1: // LSEON: External low-speed oscillator enable
                 if(set)
                 {
-                    STM32FXXXRccWriteEnable();
+                    STM32FXXX_Rcc_Write_Enable();
                     dev()->rcc->BDCR |= (1 << 0); // Enable LSE
-                    STM32FXXXRccWriteDisable();
+                    STM32FXXX_Rcc_Write_Disable();
                     set = 0;
                 }
                 else if(dev()->rcc->BDCR & (1 << 1)) // Wait for LSERDY
@@ -171,9 +171,9 @@ void STM32FXXXRccLEnable(uint8_t lclock)
             case 2: // LSEBYP: External low-speed oscillator bypass
                 if(set)
                 {
-                    STM32FXXXRccWriteEnable();
+                    STM32FXXX_Rcc_Write_Enable();
                     dev()->rcc->BDCR |= (1 << 2); // Enable LSE bypass
-                    STM32FXXXRccWriteDisable();
+                    STM32FXXX_Rcc_Write_Disable();
                     set = 0;
                 }
                 lclock = 1; // Switch to enabling LSE
@@ -185,9 +185,9 @@ void STM32FXXXRccLEnable(uint8_t lclock)
         }
     }
 }
-void STM32FXXXRccLSelect(uint8_t lclock)
+void STM32FXXX_Rcc_LSelect(uint8_t lclock)
 {
-	STM32FXXXRccWriteEnable(); // Enable write access to the backup domain
+	STM32FXXX_Rcc_Write_Enable(); // Enable write access to the backup domain
 
 	switch(lclock)
 	{
@@ -208,7 +208,7 @@ void STM32FXXXRccLSelect(uint8_t lclock)
 			break;
 	}
 
-	STM32FXXXRccWriteDisable(); // Disable write access to the backup domain
+	STM32FXXX_Rcc_Write_Disable(); // Disable write access to the backup domain
 }
 void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
 {
@@ -278,7 +278,7 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 	}
 }
 // PLL
-void STM32FXXXPLLDivision(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
+void STM32FXXX_PLL_Division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
 	set_reg_block(&dev()->rcc->CR, 1, 24, 0);
 	set_reg_block(&dev()->rcc->PLLCFGR,4,24,pllq);
@@ -302,59 +302,59 @@ void STM32FXXXPLLDivision(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pll
 	set_reg_block(&dev()->rcc->PLLCFGR,9,6,plln);
 	set_reg_block(&dev()->rcc->PLLCFGR,6,0,pllm);
 }
-void STM32FXXXRccPLLCLKEnable(void)
+void STM32FXXX_Rcc_PLL_CLK_Enable(void)
 {
-	uint32_t rcc_time_out;
+	volatile uint32_t rcc_time_out;
 	//if(onoff){
 		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 24) ; !(dev()->rcc->CR & (1 << 25)) && rcc_time_out; rcc_time_out-- ); // PLLON: Main PLL (PLL) enable
 	//}else{
 		//dev()->rcc->CR &= (unsigned int) ~(1 << 24);
 	//}
 }
-void STM32FXXXRccPLLI2SEnable(void)
+void STM32FXXX_Rcc_PLL_I2S_Enable(void)
 {
-	uint32_t rcc_time_out;
+	volatile uint32_t rcc_time_out;
 	//if(onoff)
 		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 26) ; !(dev()->rcc->CR & (1 << 27)) && rcc_time_out; rcc_time_out-- ); // PLLI2SON: PLLI2S enable
 	//else
 		//dev()->rcc->CR &= (unsigned int) ~(1 << 26);
 }
-void STM32FXXXRccPLLSAIEnable(void)
+void STM32FXXX_Rcc_PLL_SAI_Enable(void)
 {
-	uint32_t rcc_time_out;
+	volatile uint32_t rcc_time_out;
 	//if(onoff)
 		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 28) ; !(dev()->rcc->CR & (1 << 29)) && rcc_time_out; rcc_time_out-- ); // PLLSAION: PLLSAI enable
 	//else
 		//dev()->rcc->CR &= (unsigned int) ~(1 << 28);
 }
-void STM32FXXXRccPwrClock(uint8_t state)
+void STM32FXXX_Rcc_Pwr_Clock(uint8_t state)
 {
 	set_reg_block(&dev()->rcc->APB1ENR, 1, 28, state); // Power interface clock enable
 }
-void STM32FXXXRccWriteEnable(void)
+void STM32FXXX_Rcc_Write_Enable(void)
 {
 	dev()->pwr->CR |= (1 << 8); // Disable protection
 }
-void STM32FXXXRccWriteDisable(void)
+void STM32FXXX_Rcc_Write_Disable(void)
 {
 	dev()->pwr->CR &= (uint32_t) ~(1 << 8); // Enable protection
 }
 /*** RCC Bit Mapping Definition ***/
 /*** Other ***/
-void STM32FXXXRCC_nvic(uint8_t state)
+void STM32FXXX_RCC_nvic(uint8_t state)
 {
 	if(state){ set_bit_block(dev()->core->nvic->ISER, 1, RCC_IRQn, 1); } else{ set_bit_block(dev()->core->nvic->ICER, 1, RCC_IRQn, 1); }
 }
 /*** Extended ***/
-static STM32FXXXRCCPLL stm32fxxx_rcc_pll_setup = {
-	.division = STM32FXXXPLLDivision,
-	.enable = STM32FXXXRccPLLCLKEnable
+static STM32FXXX_RCC_PLL stm32fxxx_rcc_pll_setup = {
+	.division = STM32FXXX_PLL_Division,
+	.enable = STM32FXXX_Rcc_PLL_CLK_Enable
 };
-static STM32FXXXRCCPLLI2S stm32fxxx_rcc_plli2s_setup = {
-	.enable = STM32FXXXRccPLLI2SEnable
+static STM32FXXX_RCC_PLL_I2S stm32fxxx_rcc_pll_i2s_setup = {
+	.enable = STM32FXXX_Rcc_PLL_I2S_Enable
 };
-static STM32FXXXRCCPLLSAI stm32fxxx_rcc_pllsai_setup = {
-	.enable = STM32FXXXRccPLLSAIEnable
+static STM32FXXX_RCC_PLL_SAI stm32fxxx_rcc_pll_sai_setup = {
+	.enable = STM32FXXX_Rcc_PLL_SAI_Enable
 };
 /*** HANDLER ***/
 static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
@@ -362,16 +362,16 @@ static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 	.prescaler = STM32FXXX_Prescaler,
 	/*** PLL ***/
 	.pll = &stm32fxxx_rcc_pll_setup,
-	.plli2s = &stm32fxxx_rcc_plli2s_setup,
-	.pllsai = &stm32fxxx_rcc_pllsai_setup,
+	.pll_i2s = &stm32fxxx_rcc_pll_i2s_setup,
+	.pll_sai = &stm32fxxx_rcc_pll_sai_setup,
 	/*** Other ***/
 	.inic = rcc_start,
-	.henable = STM32FXXXRccHEnable,
-	.hselect = STM32FXXXRccHSelect,
-	.lenable = STM32FXXXRccLEnable,
-	.lselect = STM32FXXXRccLSelect,
+	.henable = STM32FXXX_Rcc_HEnable,
+	.hselect = STM32FXXX_Rcc_HSelect,
+	.lenable = STM32FXXX_Rcc_LEnable,
+	.lselect = STM32FXXX_Rcc_LSelect,
 	/*** NVIC ***/
-	.nvic = STM32FXXXRCC_nvic,
+	.nvic = STM32FXXX_RCC_nvic,
 	/*** Device ***/
 	.dev = dev
 };
