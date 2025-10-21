@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
-Update:   07/01/2024
+Update:   21/10/2025
 ****************************************************/
 #pragma once
 
@@ -49,13 +49,6 @@ float CalculateTemperature(uint16_t adc_value);
 /*** Fall Threw Delay ***/
 int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void));
 void ftdelayReset(uint8_t ID);
-/****************************************/
-/***
-TypeDef -> Instance -> Handler
-Pos = Pos % DWORD_BITS; is the same as Pos = Pos & (DWORD_BITS - 1);, for power of two numbers.
-General behavior for filtering inputs, is if does not pass the filter it is to be ignored and not make
-any changes, leaving everything as was. Maybe think later to just give a signal warning.
-***/
 
 /*** EOF ***/
 

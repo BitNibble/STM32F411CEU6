@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
-Update:   07/01/2024
+Update:   21/10/2025
 *****************************************/
 #include "stm32fxxxtool.h"
 #include <stdarg.h>
@@ -14,13 +14,14 @@ Update:   07/01/2024
 unsigned int ft_Delay_Lock[FTDELAY_SIZE] = {0};
 volatile unsigned int ftCounter[FTDELAY_SIZE] = {0};
 /*** Local ***/
+uint32_t _var_mask(uint32_t var, uint32_t Msk);
+uint32_t _var_imask(uint32_t var, uint32_t Msk);
 uint32_t _size_to_block(uint32_t size_block);
 uint32_t _block_to_size(uint32_t block);
 uint32_t _get_mask(uint32_t size_block, uint32_t Pos);
 uint32_t _get_pos(uint32_t size_block, uint32_t block_n);
 uint32_t _mask_pos(uint32_t Msk);
-uint32_t _var_mask(uint32_t var, uint32_t Msk);
-uint32_t _var_imask(uint32_t var, uint32_t Msk);
+uint32_t _mask_val(uint32_t Msk, uint32_t val);
 /*** SUB Tools ***/
 inline uint32_t _var_mask(uint32_t var, uint32_t Msk){
 	return (var & Msk);
@@ -193,13 +194,6 @@ void ftdelayReset(uint8_t ID) {
     ft_Delay_Lock[ID] = 0U;
     ftCounter[ID] = 0U;
 }
-/****************************************/
-/***
-TypeDef -> Instance -> Handler
-Pos = Pos % DWORD_BITS; is the same as Pos = Pos & (DWORD_BITS - 1);, for power of two numbers.
-General behavior for filtering inputs, is if does not pass the filter it is to be ignored and not make
-any changes, leaving everything as was. Maybe think later to just give a signal warning.
-***/
 
 /*** EOF ***/
 
