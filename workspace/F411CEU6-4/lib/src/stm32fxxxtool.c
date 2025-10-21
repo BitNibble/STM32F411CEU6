@@ -175,11 +175,11 @@ int ftdelayCycles(uint8_t lock_ID, unsigned int n_cycle, void (*execute)(void)) 
 
     if (ft_Delay_Lock[lock_ID] != lock_ID) {
         ft_Delay_Lock[lock_ID] = lock_ID;
-        ftCounter[lock_ID] = n_cycle;
+        ftCounter[lock_ID] = (n_cycle > 0U) ? (n_cycle - 1U) : 0;
         if(execute){ execute (); }
-        ftCounter[lock_ID]--;
     } else {
-        if (--ftCounter[lock_ID] > 0U) {
+        if (ftCounter[lock_ID] > 0U) {
+        	ftCounter[lock_ID]--;
             // still counting down, do nothing
         } else {
             ft_Delay_Lock[lock_ID] = 0U;
