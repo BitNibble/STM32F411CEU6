@@ -20,19 +20,19 @@ uint32_t _get_mask(uint32_t size_block, uint32_t Pos);
 uint32_t _get_pos(uint32_t size_block, uint32_t block_n);
 uint32_t _mask_pos(uint32_t Msk);
 /*** SUB Tools ***/
-uint32_t _size_to_block(uint32_t size_block){
+inline uint32_t _size_to_block(uint32_t size_block){
 	return (size_block > 31) ? 0xFFFFFFFFU : ((1U << size_block) - 1);
 }
-uint32_t _block_to_size(uint32_t block) {
+inline uint32_t _block_to_size(uint32_t block) {
     return block ? (32U - __builtin_clz(block)) : 0U;
 }
-uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
+inline uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
 	return _size_to_block(size_block) << Pos;
 }
-uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
+inline uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
 	return size_block * block_n;
 }
-uint32_t _mask_pos(uint32_t Msk){
+inline uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
 inline void _clear_mask(volatile uint32_t *reg, uint32_t Msk){
@@ -45,19 +45,19 @@ inline void _mask_val(volatile uint32_t *reg, uint32_t Msk, uint32_t val){
 	*reg |= ((val << _mask_pos(Msk)) & Msk);
 }
 // --- Generic helpers ---
-uint32_t _reg_get(uint32_t reg, uint32_t Msk){
+inline uint32_t _reg_get(uint32_t reg, uint32_t Msk){
     return (reg & Msk) >> _mask_pos(Msk);
 }
 
-void _reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t val){
+inline void _reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t val){
 	_clear_mask(reg, Msk);
     _mask_val(reg, Msk, val);
 }
 /*** Tools ***/
-inline void set_reg(volatile uint32_t* reg, uint32_t hbits){
+void set_reg(volatile uint32_t* reg, uint32_t hbits){
 	*reg |= hbits;
 }
-inline void clear_reg(volatile uint32_t* reg, uint32_t hbits){
+void clear_reg(volatile uint32_t* reg, uint32_t hbits){
 	*reg &= ~hbits;
 }
 inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
@@ -73,15 +73,15 @@ inline void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, 
 {
 	data = (data << Pos) & Msk; *reg &= ~(Msk); *reg |= data;
 }
-inline uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
+uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
 	return get_reg_Msk_Pos(reg, Msk, _mask_pos(Msk));
 }
-inline void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
+void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 {
 	write_reg_Msk_Pos(reg, Msk, _mask_pos(Msk), data);
 }
-inline void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
+void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 {
 	set_reg_Msk_Pos(reg, Msk, _mask_pos(Msk), data);
 }
