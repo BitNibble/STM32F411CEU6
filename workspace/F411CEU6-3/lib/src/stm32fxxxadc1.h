@@ -32,13 +32,13 @@ typedef struct
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);
 	/*** Procedures ***/
-	void (*startconversion)(void);
-	void (*waitendofconversion)(void);
+	void (*start_conversion)(void);
+	void (*wait_end_of_conversion)(void);
 	/*** Other ***/
 	void (*start)(void);
 	void (*stop)(void);
-	void (*temperaturesetup)(void);
-	uint16_t (*readtemperature)(void);
+	void (*temperature_setup)(void);
+	uint16_t (*read_temperature)(void);
 
 	ADC1_Callback* callback;
 

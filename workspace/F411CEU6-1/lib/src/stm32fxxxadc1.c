@@ -26,10 +26,10 @@ void ADC1_Clock(uint8_t state)
 void ADC1_Nvic(uint8_t state) {
 	if(state){ set_bit_block(NVIC->ISER, 1, ADC_IRQn, 1); } else{ set_bit_block(NVIC->ICER, 1, ADC_IRQn, 1); }
 }
-void ADC1_StartConversion(void) {
+void ADC1_Start_Conversion(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_SWSTART, 1);
 }
-void ADC1_WaitEndOfConversion(void) {
+void ADC1_Wait_End_Of_Conversion(void) {
 	for (volatile uint32_t time_out = END_OF_CONVERSION_TIME_OUT; !get_reg_Msk(ADC1->SR, ADC_SR_EOC) && time_out; time_out-- );
 }
 void ADC1_Start(void) {
@@ -39,7 +39,7 @@ void ADC1_Start(void) {
 void ADC1_Stop(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_ADON, 0);
 }
-void ADC1_TemperatureSetup(void) {
+void ADC1_Temperature_Setup(void) {
     // Enable ADC1 clock
     ADC1_Clock(1);
 
@@ -53,10 +53,10 @@ void ADC1_TemperatureSetup(void) {
     set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);
     ADC1_Start();
 }
-uint16_t ADC1_ReadTemperature(void) {
+uint16_t ADC1_Read_Temperature(void) {
 	uint16_t adc_value;
-	ADC1_StartConversion();
-	ADC1_WaitEndOfConversion();
+	ADC1_Start_Conversion();
+	ADC1_Wait_End_Of_Conversion();
     adc_value = ADC1->DR;
     return adc_value;
 }
@@ -67,12 +67,12 @@ static ADC1_Callback ADC1_callback_setup = {0};
 static STM32FXXX_ADC1_Handler stm32fxxx_adc1_setup = {
 	.clock = ADC1_Clock,
 	.nvic = ADC1_Nvic,
-	.startconversion = ADC1_StartConversion,
-	.waitendofconversion = ADC1_WaitEndOfConversion,
+	.start_conversion = ADC1_Start_Conversion,
+	.wait_end_of_conversion = ADC1_Wait_End_Of_Conversion,
 	.start = ADC1_Start,
 	.stop = ADC1_Stop,
-	.temperaturesetup = ADC1_TemperatureSetup,
-	.readtemperature = ADC1_ReadTemperature,
+	.temperature_setup = ADC1_Temperature_Setup,
+	.read_temperature = ADC1_Read_Temperature,
 	.callback = &ADC1_callback_setup,
 	.dev = dev
 };

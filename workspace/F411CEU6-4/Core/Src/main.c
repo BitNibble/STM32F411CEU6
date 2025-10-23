@@ -111,7 +111,7 @@ gpioa()->moder(0,0);
 gpioa()->pupd(0,1);
 
 FUNC_enable();
-adc1()->temperaturesetup();
+adc1()->temperature_setup();
 
 char vecD[8]; // for calendar date
 char vecT[8]; // for calendar time
@@ -375,7 +375,7 @@ while (1) {
 			count_1 = ADC_DELAY;
 			if (n_sample) {
 				n_sample--;
-				adc_value.var += adc1()->readtemperature();
+				adc_value.var += adc1()->read_temperature();
 			} else {
 				n_sample = ADC_SAMPLE;
 				adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
