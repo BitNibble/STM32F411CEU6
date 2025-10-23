@@ -60,7 +60,7 @@ typedef const struct
 	STM32F411CEU6_Handler* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Handler* (*dev)(void);
-else
+#else
 	void* (*dev)(void);
 #endif
 }STM32FXXX_TIM10_Handler, STM32FXXX_TIM11_Handler, STM32FXXX_TIM13_Handler, STM32FXXX_TIM14_Handler;
