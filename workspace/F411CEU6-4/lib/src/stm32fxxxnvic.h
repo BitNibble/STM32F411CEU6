@@ -19,7 +19,7 @@ Comment:
 	void* dev(void){ return NULL; }
 #endif
 /*** NVIC TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	void (*set_enable)( uint8_t IRQn );

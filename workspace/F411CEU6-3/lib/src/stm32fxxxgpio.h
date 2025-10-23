@@ -27,7 +27,7 @@ Comment:
 	#define MODE_ANALOG 0x3UL
 #endif
 /*** GPIO -> GPIO ***/
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*moder)(uint8_t pin, uint8_t mode);

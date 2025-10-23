@@ -26,7 +26,7 @@ typedef struct {
     void (*on_stop)(void);
 } ADC2_Callback;
 // ADC -> ADC2
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
@@ -47,7 +47,7 @@ typedef struct
 }STM32FXXX_ADC2_Handler;
 
 // INIC
-void adc2_enable(void); STM32FXXX_ADC2_Handler* adc2(void);
+STM32FXXX_ADC2_Handler* adc2(void);
 
 #endif
 

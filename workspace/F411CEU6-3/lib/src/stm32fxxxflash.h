@@ -96,7 +96,7 @@ typedef struct
 	void (*optlock)(uint8_t state);
 }STM32FXXX_FLASH_optcr;
 /*** FLASH TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	STM32FXXX_FLASH_acr* acr;
@@ -117,7 +117,7 @@ typedef struct
 #endif
 }STM32FXXX_FLASH_Handler;
 
-void flash_enable(void); STM32FXXX_FLASH_Handler* flash(void);
+STM32FXXX_FLASH_Handler* flash(void);
 
 /*** INTERRRUPT HEADER ***/
 void FLASH_IRQHandler(void);

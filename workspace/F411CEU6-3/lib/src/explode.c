@@ -15,27 +15,20 @@ IO_var EXPLODEhh(explode_par* par);
 IO_var EXPLODEll(explode_par* par);
 IO_var EXPLODElh(explode_par* par);
 IO_var EXPLODEhl(explode_par* par);
-explode_par setup_explode_par(void);
 
 /*** EXPLODE Procedure & Function Definition ***/
 EXPLODE_Handler EXPLODE_enable( void )
 {
 	EXPLODE_Handler setup = {
-		.par = setup_explode_par(),
+		.par = {
+				.XI = 0,
+				.XF = 0,
+				.HH = 0,
+				.LL = 0,
+				.LH = 0,
+				.HL = 0
+			},
 		.update = EXPLODE_update
-	};
-	return setup;
-}
-/*** Auxilar ***/
-explode_par setup_explode_par(void)
-{
-	explode_par setup = {
-		.XI = 0,
-		.XF = 0,
-		.HH = 0,
-		.LL = 0,
-		.LH = 0,
-		.HL = 0
 	};
 	return setup;
 }

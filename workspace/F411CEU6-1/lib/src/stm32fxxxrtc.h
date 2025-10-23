@@ -52,7 +52,7 @@ typedef struct {
     void (*Overrun)(void);
 } RTC_callback;
 /*** RTC TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/***/
 	uint8_t (*get_year)(void);

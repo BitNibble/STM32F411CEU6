@@ -59,7 +59,7 @@ typedef struct
 }STM32FXXX_PWR_csr;
 
 /*** PWR TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	STM32FXXX_PWR_cr* cr;

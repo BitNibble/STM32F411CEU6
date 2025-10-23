@@ -29,7 +29,7 @@ typedef struct{
 	void (*cc4)(void);
 } tim6and7_callback;
 // ( 6 and 7 ) TIM 
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);

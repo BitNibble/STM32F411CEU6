@@ -74,7 +74,7 @@ typedef struct
 /***************************************/
 /********** SYSCFG TypeDef **********/
 /***************************************/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	SYSCFG_memrmp* memrmp;

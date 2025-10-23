@@ -36,7 +36,7 @@ typedef struct {
 
 /*** I2C 1..3 Handler TypeDef ***/
 // I2C -> I2C1,2,3
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);

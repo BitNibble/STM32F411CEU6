@@ -112,6 +112,7 @@ FUNC_Handler FUNC_enable( void )
 {
 	FUNC_var();
 	/*** TOP ***/
+	//static FUNC_Handler func_setup = {
 	func_setup.power = function_power;
 	func_setup.divide = function_divide;
 	func_setup.realnumber = function_realnumber;
@@ -161,6 +162,7 @@ FUNC_Handler FUNC_enable( void )
 	func_setup.value = function_read_value;
 	// 11
 	func_setup.arm = arm_func_inic();
+	//};
 
 	return func_setup;
 }

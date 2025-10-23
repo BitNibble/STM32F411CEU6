@@ -27,7 +27,7 @@ typedef struct{
 	void (*cc4)(void);
 } tim9to14_callback;
 // ( 9/12 ) TIM
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
@@ -46,7 +46,7 @@ typedef struct
 #endif
 }STM32FXXX_TIM9_Handler, STM32FXXX_TIM12_Handler;
 // ( 10/11/13/14 ) TIM
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);

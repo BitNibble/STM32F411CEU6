@@ -31,7 +31,7 @@ typedef struct{
 	void (*cc4)(void);
 } tim1and8_callback;
 
-typedef struct
+typedef const struct
 {
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t value);

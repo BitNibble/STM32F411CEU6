@@ -19,7 +19,7 @@ Comment:
 	void* dev(void){ return NULL; }
 #endif
 /*** CRC TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	void (*dr)(uint32_t value);
@@ -39,7 +39,7 @@ typedef struct
 #endif
 }STM32FXXX_CRC_Handler;
 
-void crc_enable(void); STM32FXXX_CRC_Handler* crc(void);
+STM32FXXX_CRC_Handler* crc(void);
 
 #endif
 

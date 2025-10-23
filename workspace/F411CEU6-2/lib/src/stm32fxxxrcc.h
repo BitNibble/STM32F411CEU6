@@ -33,7 +33,7 @@ typedef struct
 	void (*enable)(void);
 }STM32FXXX_RCC_PLL_SAI;
 /*** RCC TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	void (*prescaler)(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre);

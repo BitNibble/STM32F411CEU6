@@ -29,7 +29,7 @@ typedef struct{
 	void (*cc4)(void);
 } tim2to5_callback;
 // ( 2 and 5 ) TIM
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	TIM_TypeDef* instance;
@@ -50,7 +50,7 @@ typedef struct
 #endif
 }STM32FXXX_TIM2_Handler, STM32FXXX_TIM5_Handler;
 // ( 3 and 4 ) TIM
-typedef struct
+typedef const struct
 {
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);

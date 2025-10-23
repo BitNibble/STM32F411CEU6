@@ -33,7 +33,7 @@ typedef struct {
 	void (*pe)(void);
 }STM32FXXX_USART2_CallBack;
 /*** USART 2 Handler TypeDef ***/
-typedef struct {
+typedef const struct {
 	char* rxbuff;
 	char* txbuff;
 	/*** Callback ***/

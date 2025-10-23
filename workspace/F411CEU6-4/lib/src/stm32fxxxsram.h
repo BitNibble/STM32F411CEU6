@@ -19,7 +19,7 @@ Comment:
 	void* dev(void){ return NULL; }
 #endif
 /*** SRAM TypeDef ***/
-typedef struct
+typedef const struct
 {
 	/*** Bit Mapping ***/
 	/*** Other ***/
