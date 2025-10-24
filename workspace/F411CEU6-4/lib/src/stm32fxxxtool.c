@@ -73,7 +73,7 @@ inline void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos
 }
 inline void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
 {
-	data = _var_mask((data << Pos), Msk); *reg &= ~Msk; *reg |= data;
+	data = _var_mask((data << Pos), Msk); clear_reg(reg, Msk); set_reg(reg, data);
 }
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
