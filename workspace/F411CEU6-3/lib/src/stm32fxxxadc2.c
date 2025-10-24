@@ -29,11 +29,11 @@ void ADC2_Nvic(uint8_t state)
 }
 void ADC2_start(void)
 {
-	set_reg_Msk(&ADC2->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, ON);
+	set_reg_Msk_Pos(&ADC2->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, 1);
 }
 void ADC2_stop(void)
 {
-	set_reg_Msk(&ADC2->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, OFF);
+	set_reg_Msk_Pos(&ADC2->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, 0);
 }
 
 /*** ADC2 ***/
@@ -42,10 +42,9 @@ static ADC2_Callback ADC2_callback_setup = {0};
 static STM32FXXX_ADC2_Handler stm32fxxx_adc2_setup = {
 	.clock = ADC2_Clock,
 	.nvic = ADC2_Nvic,
-	.start_conversion = ADC2_Start_Conversion,
-	.wait_end_of_conversion = ADC2_Wait_End_Of_Conversion,
-	.start = ADC2_Start,
-	.stop = ADC2_Stop,
+	.start = ADC2_start,
+	.stop = ADC2_stop,
+	.callback = &ADC2_callback_setup,
 	.dev = dev
 };
 

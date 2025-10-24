@@ -29,11 +29,11 @@ void ADC3_Nvic(uint8_t state)
 }
 void ADC3_start(void)
 {
-	set_reg_Msk(&ADC3->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, ON);
+	set_reg_Msk_Pos(&ADC3->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, 1);
 }
 void ADC3_stop(void)
 {
-	set_reg_Msk(&ADC3->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, OFF);
+	set_reg_Msk_Pos(&ADC3->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos, 0);
 }
 
 /*** ADC3 ***/
@@ -42,10 +42,9 @@ static ADC3_Callback ADC3_callback_setup = {0};
 static STM32FXXX_ADC3_Handler stm32fxxx_adc3_setup = {
 	.clock = ADC3_Clock,
 	.nvic = ADC3_Nvic,
-	.start_conversion = ADC3_Start_Conversion,
-	.wait_end_of_conversion = ADC3_Wait_End_Of_Conversion,
-	.start = ADC3_Start,
-	.stop = ADC3_Stop,
+	.start = ADC3_start,
+	.stop = ADC3_stop,
+	.callback = &ADC3_callback_setup,
 	.dev = dev
 };
 
