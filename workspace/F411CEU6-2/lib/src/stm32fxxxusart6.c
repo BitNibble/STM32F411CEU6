@@ -14,12 +14,10 @@ Date:     24022024
 
 /*** File Variable ***/
 // Buffer for received and transmit data
-static char usart6_rx_buffer[USART6_RX_BUFFER_SIZE] = {0};
+static char usart6_rx_buffer[USART6_RX_BUFFER_SIZE + 1] = {0};
 volatile uint16_t usart6_rx_index = 0;
-static char usart6_tx_buffer[USART6_TX_BUFFER_SIZE] = {0};
+static char usart6_tx_buffer[USART6_TX_BUFFER_SIZE + 1] = {0};
 volatile uint16_t usart6_tx_index = 0;
-const uint16_t usart6_rx_buffer_size = (USART6_RX_BUFFER_SIZE - 1);
-const uint16_t usart6_tx_buffer_size = (USART6_TX_BUFFER_SIZE - 1);
 static uint8_t usart6_flag = 0;
 /*** USART Procedure & Function Definition ***/
 /*** USART6 ***/
@@ -202,7 +200,7 @@ void USART6_TxFlush(void) {
 void USART6_TransmitString(const char *str) {
 	USART6_TxFlush();
     // Copy the string into the transmit buffer
-    strncpy( (char *)usart6_tx_buffer, str, usart6_tx_buffer_size ); // Ensure tx_buffer is big enough
+    strncpy( (char *)usart6_tx_buffer, str, USART6_TX_BUFFER_SIZE ); // Ensure tx_buffer is big enough
     // Enable the TXE interrupt to start sending data
     USART6_Tx_EInterrupt(1);
 }
@@ -211,7 +209,7 @@ void USART6_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl
 	if(usart6_flag) { memset(oneshot, 0, size); usart6_flag = 0; }
 	char *ptr = usart6_rx_buffer;
 	size_t ptr_length = strlen((char*)ptr);
-	if( ptr_length < usart6_rx_buffer_size ) {
+	if( ptr_length < USART6_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
 		int32_t check;
@@ -232,7 +230,7 @@ void USART6_ReceiveRxString(char* rx, size_t size, const char* endl) {
 	const uint32_t buff_size = size - 1;
 	char *ptr = usart6_rx_buffer;
 	size_t ptr_length = strlen((char*)ptr);
-	if( ptr_length < usart6_rx_buffer_size ) {
+	if( ptr_length < USART6_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
 		int32_t check;
@@ -278,7 +276,7 @@ void USART6_CallBack_RXNE(void){
 	char rx = USART6_GetChar();
 	// Check if the RXNE (Receive Not Empty) flag is set
 	if( rx ) {
-		if (usart6_rx_index < usart6_rx_buffer_size) {
+		if (usart6_rx_index < USART6_RX_BUFFER_SIZE) {
 			usart6_rx_buffer[usart6_rx_index++] = rx;
 			usart6_rx_buffer[usart6_rx_index] = 0;
 		}
