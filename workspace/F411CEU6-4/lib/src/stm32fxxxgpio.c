@@ -13,6 +13,107 @@ Comment:
 #include "stm32fxxxgpio.h"
 #include <math.h>
 
+/*** GPIO Procedure & Function Definition ***/
+void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable )
+{
+	uint32_t Pos = 0;
+	if(GPIO == GPIOA){ Pos = RCC_AHB1ENR_GPIOAEN_Pos; }
+	else if(GPIO == GPIOB){ Pos = RCC_AHB1ENR_GPIOBEN_Pos; }
+	else if(GPIO == GPIOC){ Pos = RCC_AHB1ENR_GPIOCEN_Pos; }
+	else if(GPIO == GPIOD){ Pos = RCC_AHB1ENR_GPIODEN_Pos; }
+	else if(GPIO == GPIOE){ Pos = RCC_AHB1ENR_GPIOEEN_Pos; }
+#ifdef STM32F446xx
+	else if(GPIO == GPIOF){ Pos = RCC_AHB1ENR_GPIOFEN_Pos; }
+	else if(GPIO == GPIOG){ Pos = RCC_AHB1ENR_GPIOGEN_Pos; }
+#endif
+	else if(GPIO == GPIOH){ Pos = RCC_AHB1ENR_GPIOHEN_Pos; }
+	else { return; }
+
+    if (enable) {
+        RCC->AHB1ENR |= (1 << Pos);
+    } else {
+        RCC->AHB1ENR &= ~(1 << Pos);
+    }
+}
+void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode )
+{
+	if(pin < WORD_BITS && mode < NIBBLE_BITS){
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t Pos = pin * BLOCK_SIZE;
+		mode &= BLOCK;
+		GPIO->MODER &= ~(BLOCK << Pos);
+		GPIO->MODER |= (mode << Pos);
+	}
+}
+void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype )
+{
+    if(pin < WORD_BITS && otype < TWO){
+    	GPIO->OTYPER &= ~(1 << pin);
+    	GPIO->OTYPER |= ( otype << pin );
+    }
+}
+void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed )
+{
+	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+		const uint16_t Pos = (pin * BLOCK_SIZE);
+		ospeed &= BLOCK;
+		GPIO->OSPEEDR &= ~( BLOCK << Pos );
+		GPIO->OSPEEDR |= ( ospeed << Pos );
+	}
+}
+void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd )
+{
+	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+		const uint16_t Pos = (pin * BLOCK_SIZE);
+		pupd &= BLOCK;
+		GPIO->PUPDR &= ~( BLOCK << Pos );
+		GPIO->PUPDR |= ( pupd << Pos );
+	}
+}
+void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins )
+{
+	GPIO->BSRR = (uint32_t)hpins;
+}
+void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins )
+{
+	GPIO->BSRR = (uint32_t)(hpins << WORD_BITS);
+}
+void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins ){
+	GPIO->LCKR = hpins;
+	for(uint8_t status = TWO; status; ) {
+		if(GPIO->LCKR & (1 << WORD_BITS)) {
+			status = 0;
+		}else {
+			GPIO->LCKR |= 1 << WORD_BITS;
+			GPIO->LCKR &= ~(1 << WORD_BITS);
+			GPIO->LCKR |= 1 << WORD_BITS;
+			(void)GPIO->LCKR;
+			status--;
+		}
+	}
+
+}
+void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af )
+{
+	if(pin < WORD_BITS && af < WORD_BITS){
+		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
+    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
+    	const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
+
+    	af &= BLOCK;
+    	if(index < TWO){
+    		GPIO->AFR[index] &= ~( BLOCK << Pos );
+    		GPIO->AFR[index] |= ( af << Pos );
+    	}
+	}
+}
+
 /*** GPIOA Procedure & Function Definition ***/
 void GPIOA_clock(uint8_t enable)
 {

@@ -95,10 +95,8 @@ char* webpage_ptr = NULL;
 size_t webpage_size = 0;
 uint8_t link_ID = 0;
 
-char parse[PARSE_SIZE] = {0};
-const uint32_t parse_size = PARSE_SIZE - 1;
-char sub_parse[SUBPARSE_SIZE] = {0};
-const uint32_t subparse_size = SUBPARSE_SIZE - 1;
+char parse[PARSE_SIZE + 1] = {0};
+char sub_parse[SUBPARSE_SIZE + 1] = {0};
 
 const char unit = (char)0xDF;
 char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
@@ -130,10 +128,10 @@ while (1) {
 
 	/*** Magic ***/
 	if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
-			strncpy( parse, usart1()->rxbuff, parse_size );
+			strncpy( parse, usart1()->rxbuff, PARSE_SIZE );
 			func()->tokenize_string( parse, tokens, MAX_TOKENS, "\r\n" );
 			if(tokens[0] && !isCharPtrFlush(tokens[0])) {
-				strncpy( sub_parse, tokens[0], subparse_size ); // 0
+				strncpy( sub_parse, tokens[0], SUBPARSE_SIZE ); // 0
 				func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
 			}
 			usart1()->rx_purge();
