@@ -10,6 +10,7 @@ Comment:
 /*** File Library ***/
 #include "stm32fxxxadc1.h"
 #include "stm32fxxxnvic.h"
+#include <stdarg.h>
 
 /*** Define and Macro ***/
 #define ADC_STAB_DELAY 15 // 15
@@ -26,6 +27,73 @@ void ADC1_Clock(uint8_t state)
 void ADC1_Nvic(uint8_t state) {
 	if(state){ set_bit_block(NVIC->ISER, 1, ADC_IRQn, 1); } else{ set_bit_block(NVIC->ICER, 1, ADC_IRQn, 1); }
 }
+
+/*
+* Auto-handling version of adc_set_sequence()
+* - Detects internal channels 16/17/18
+* - Enables TSVREFE and VBATE
+* - Ensures long sampling times
+*/
+static inline void adc_set_sequence_auto(ADC_TypeDef *adc, uint8_t count, ...)
+{
+	if (count == 0 || count > 16) return;
+
+	/* Clear existing sequence */
+	adc->SQR1 &= ~(0xF << 20);
+	adc->SQR1 &= ~0x000FFFFF;
+	adc->SQR2 = 0;
+	adc->SQR3 = 0;
+
+	/* Set sequence length */
+	adc->SQR1 |= ((count - 1) & 0x0F) << 20;
+
+	va_list args;
+	va_start(args, count);
+
+	for (uint8_t i = 0; i < count; i++)
+	{
+		uint8_t ch = (uint8_t)va_arg(args, int);
+
+		/* Auto-enable internal channels */
+		if (ch == 16 || ch == 17)
+		{
+			ADC->CCR |= ADC_CCR_TSVREFE; /* Temp + Vref */
+		}
+		if (ch == 18)
+		{
+			ADC->CCR |= ADC_CCR_VBATE;
+		}
+
+		/* Assign channel to SQRx */
+		if (i < 6)
+			adc->SQR3 |= (ch & 0x1F) << (5 * i);
+		else if (i < 12)
+			adc->SQR2 |= (ch & 0x1F) << (5 * (i - 6));
+		else
+			adc->SQR1 |= (ch & 0x1F) << (5 * (i - 12));
+
+		/* Auto-set sampling time: long sample for internal channels */
+		uint32_t smp_bits = 0; /* default: fast sampling */
+
+		if (ch >= 16) /* internal channels */
+			smp_bits = 7; /* 480 cycles */
+
+		if (ch <= 9)
+		{
+			adc->SMPR2 &= ~(7 << (3 * ch));
+			adc->SMPR2 |= (smp_bits << (3 * ch));
+		}
+		else
+		{
+			uint8_t c = ch - 10;
+			adc->SMPR1 &= ~(7 << (3 * c));
+			adc->SMPR1 |= (smp_bits << (3 * c));
+	}
+}
+
+va_end(args);
+}
+
 void ADC1_Start_Conversion(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_SWSTART, 1);
 }
