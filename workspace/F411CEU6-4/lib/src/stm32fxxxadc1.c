@@ -15,6 +15,8 @@ Comment:
 /*** Define and Macro ***/
 #define ADC_STAB_DELAY 15 // 15
 #define END_OF_CONVERSION_TIME_OUT 100
+static volatile uint16_t ADC1_Regular_Channel[19] = {0};
+static volatile uint16_t ADC1_Injected_Channel[19] = {0};
 
 /*** File Procedure & Function Header ***/
 /*** ADC1 ***/
@@ -88,8 +90,65 @@ static inline void adc_set_sequence_auto(ADC_TypeDef *adc, uint8_t count, ...)
 			uint8_t c = ch - 10;
 			adc->SMPR1 &= ~(7 << (3 * c));
 			adc->SMPR1 |= (smp_bits << (3 * c));
+		}
 	}
+
+va_end(args);
 }
+
+/*
+* Auto-handling version of adc_set_injected_auto()
+* - Detects internal channels 16/17/18
+* - Enables TSVREFE and VBATE
+* - Ensures long sampling times
+* - Configures injected sequence (JSQR)
+*/
+static inline void adc_set_injected_auto(ADC_TypeDef *adc, uint8_t count, ...)
+{
+	if (count == 0 || count > 4) return; /* Injected channels max = 4 */
+
+	/* Clear injected sequence length and JSQR content */
+	adc->JSQR = 0;
+
+	/* Set injected sequence length (JL bits: count-1) */
+	adc->JSQR |= ((count - 1) & 3) << 20;
+
+	va_list args;
+	va_start(args, count);
+
+	for (uint8_t i = 0; i < count; i++)
+	{
+		uint8_t ch = (uint8_t)va_arg(args, int);
+
+		/* Auto-enable internal channels */
+		if (ch == 16 || ch == 17)
+		{
+			ADC->CCR |= ADC_CCR_TSVREFE; /* Temp + Vref */
+		}
+		if (ch == 18)
+		{
+			ADC->CCR |= ADC_CCR_VBATE;
+		}
+
+		/* Write to JSQR, injected slots are reversed: JSQ4..JSQ1 */
+		uint8_t pos = (count - 1) - i; /* Hardware orders JSQ1=LSB but sequence is last-first */
+		adc->JSQR |= (ch & 0x1F) << (5 * pos);
+
+		/* Auto-set sampling time */
+		uint32_t smp_bits = (ch >= 16) ? 7 : 0; /* internal → long sample */
+
+		if (ch <= 9)
+		{
+			adc->SMPR2 &= ~(7 << (3 * ch));
+			adc->SMPR2 |= (smp_bits << (3 * ch));
+		}
+		else
+		{
+			uint8_t c = ch - 10;
+			adc->SMPR1 &= ~(7 << (3 * c));
+			adc->SMPR1 |= (smp_bits << (3 * c));
+		}
+	}
 
 va_end(args);
 }
@@ -108,25 +167,16 @@ void ADC1_Stop(void) {
 	set_reg_Msk(&ADC1->CR2, ADC_CR2_ADON, 0);
 }
 void ADC1_Temperature_Setup(void) {
-    // Enable ADC1 clock
     ADC1_Clock(1);
-
-    // Configure ADC1 parameters
-    ADC1->CR1 = 0; // Clear control register
-    set_reg_Msk(&ADC1->SQR1, ADC_SQR1_L, 0);
-    set_reg_Msk(&ADC1->SQR3, ADC_SQR3_SQ1, 18);
-    set_reg_Msk(&ADC1->SMPR1, ADC_SMPR1_SMP18, 3);
-
-    // Enable temperature sensor
-    set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);
+    ADC1->CR1 = 0;
+    adc_set_sequence_auto(ADC1, 1, 16);
     ADC1_Start();
 }
 uint16_t ADC1_Read_Temperature(void) {
-	uint16_t adc_value;
 	ADC1_Start_Conversion();
 	ADC1_Wait_End_Of_Conversion();
-    adc_value = ADC1->DR;
-    return adc_value;
+    ADC1_Regular_Channel[16] = ADC1->DR;
+    return ADC1_Regular_Channel[16];
 }
 
 /*** ADC1 ***/
