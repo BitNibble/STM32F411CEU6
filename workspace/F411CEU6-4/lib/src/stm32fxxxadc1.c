@@ -12,17 +12,17 @@ Comment:
 #include "stm32fxxxnvic.h"
 
 /*** Define and Macro ***/
-#define ADC_EOC_TIMEOUT    100U
-#define ADC_JEOC_TIMEOUT   100U
+#define ADC_EOC_TIMEOUT    700U
+#define ADC_JEOC_TIMEOUT   700U
 #define ADC_STAB_DELAY     15U
 
 /* trackers */
-ADC_RegularTracker ADC1_RegularTracker = { .length = 0, .index = 0 };
-ADC_InjectTracker ADC1_InjectTracker = { .length = 0, .index = 0 };
+static ADC_RegularTracker ADC1_RegularTracker = { .length = 0, .index = 0 };
+static ADC_InjectTracker ADC1_InjectTracker = { .length = 0, .index = 0 };
 
 /* channel result vectors (you already declared these) */
-static volatile uint16_t ADC1_Regular_Channel[19];
-static volatile uint16_t ADC1_Injected_Channel[19];
+static volatile uint16_t ADC1_Regular_Channel[19] = {0};
+static volatile uint16_t ADC1_Injected_Channel[19] = {0};
 
 /*** File Procedure & Function Header ***/
 /*** ADC1 ***/
@@ -39,6 +39,7 @@ void ADC1_Nvic(uint8_t state) {
 /* helpers for tracking & stepping regular sequence */
 static inline uint8_t adc_get_current_channel(ADC_RegularTracker *tracker)
 {
+	(void)ADC1_RegularTracker;
     if (tracker->length == 0) return 0xFF;
     return tracker->sequence[tracker->index];
 }
@@ -52,6 +53,7 @@ static inline void adc_next_channel(ADC_RegularTracker *tracker)
 /* injected trackers */
 static inline uint8_t adc_get_current_injected_channel(ADC_InjectTracker *tracker)
 {
+	(void)ADC1_InjectTracker;
     if (tracker->length == 0) return 0xFF;
     return tracker->sequence[tracker->index];
 }
@@ -126,7 +128,9 @@ void ADC1_Temperature_Setup(void) {
 uint16_t ADC1_Read_Temperature(void) {
 	adc_start_conversion(ADC1);
 	adc_wait_eoc(ADC1);
-    ADC1_Regular_Channel[16] = (uint16_t)(ADC1->DR & 0xFFFFU);
+	uint8_t ch = adc_get_current_channel(&ADC1_RegularTracker);
+	ADC1_Regular_Channel[ch] = (uint16_t)(ADC1->DR & 0xFFFFU);
+	adc_next_channel(&ADC1_RegularTracker);
     return ADC1_Regular_Channel[16];
 }
 
