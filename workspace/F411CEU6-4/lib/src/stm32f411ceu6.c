@@ -6,6 +6,7 @@ Hardware: STM32F411CEU6
 Date:     30092025
 **********************************************************************/
 #include "stm32f411ceu6.h"
+#include <stdarg.h>
 #include <math.h>
 
 /*******************************************************************/
@@ -216,6 +217,114 @@ inline void set_pin(GPIO_TypeDef* reg, uint8_t pin) {
 
 inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
     reg->BSRR = ((uint32_t)(1 << pin)) << 16;
+}
+
+/*******************************************************************/
+/**************************** ADC UTILS ****************************/
+/*******************************************************************/
+/* --- Regular sequence auto (0 < count <= 16) --- */
+void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t count, ...)
+{
+    if (count == 0 || count > 16) return;
+
+    va_list args;
+    va_start(args, count);
+
+    /* store tracker */
+    tracker->length = count;
+    tracker->index  = 0;
+
+    /* clear SQR registers */
+    adc->SQR1 &= ~ADC_SQR1_L;         /* clear L first */
+    adc->SQR1 &= ~0x000FFFFFU;
+    adc->SQR2 = 0;
+    adc->SQR3 = 0;
+
+    /* set length L = count - 1 */
+    set_reg_Msk(&adc->SQR1, ADC_SQR1_L, (uint32_t)((count - 1) & 0x0F));
+
+    for (uint8_t i = 0; i < count; ++i) {
+        uint8_t ch = (uint8_t)va_arg(args, int);
+        tracker->sequence[i] = ch;
+
+        /* internal channels handling */
+        if (ch == 16 || ch == 17) {
+            set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);     /* enable temp + vref */
+        } else if (ch == 18) {
+            set_reg_Msk(&ADC->CCR, ADC_CCR_VBATE, 1);       /* enable VBAT */
+        }
+
+        /* sampling time: 3 bits per channel.
+           use long (7) for internal channels, default medium (3) for externals */
+        uint32_t smp = (ch >= 16) ? 7U : 3U;
+        if (ch <= 9) {
+            /* SMPR2: SMP0..SMP9, pos = 3 * ch */
+            set_reg_block(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
+        } else {
+            /* SMPR1: SMP10..SMP17, pos = 3 * (ch - 10) */
+            set_reg_block(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
+        }
+
+        /* write channel into SQRx: 5 bits per slot */
+        uint8_t pos_bit;
+        if (i < 6) {
+            pos_bit = 5 * i;                 /* SQR3, SQ1..SQ6 */
+            set_reg_block(&adc->SQR3, 5, pos_bit, ch);
+        } else if (i < 12) {
+            pos_bit = 5 * (i - 6);           /* SQR2, SQ7..SQ12 */
+            set_reg_block(&adc->SQR2, 5, pos_bit, ch);
+        } else {
+            pos_bit = 5 * (i - 12);          /* SQR1, SQ13..SQ16 */
+            set_reg_block(&adc->SQR1, 5, pos_bit, ch);
+        }
+    }
+
+    va_end(args);
+}
+
+/* --- Injected sequence auto (0 < count <= 4) --- */
+void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t count, ...)
+{
+    if (count == 0 || count > 4) return;
+
+    va_list args;
+    va_start(args, count);
+
+    tracker->length = count;
+    tracker->index  = 0;
+
+    /* clear JSQR */
+    adc->JSQR = 0;
+
+    /* set JL = count - 1 in JSQR */
+    set_reg_block(&adc->JSQR, 2, 20, (uint32_t)((count - 1) & 0x3)); /* JL is 2 bits at pos 20 */
+
+    for (uint8_t i = 0; i < count; ++i) {
+        uint8_t ch = (uint8_t)va_arg(args, int);
+        tracker->sequence[i] = ch;
+
+        /* internal channels handling */
+        if (ch == 16 || ch == 17) {
+            set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);
+        } else if (ch == 18) {
+            set_reg_Msk(&ADC->CCR, ADC_CCR_VBATE, 1);
+        }
+
+        /* sampling time */
+        uint32_t smp = (ch >= 16) ? 7U : 3U;
+        if (ch <= 9) {
+            set_reg_block(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
+        } else {
+            set_reg_block(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
+        }
+
+        /* JSQR: JSQ4..JSQ1 fields are 5 bits each; hardware expects reversed order:
+           position: JSQ1 is highest of those bits; easiest is to place at bit pos = 5*(3 - i) */
+        uint8_t pos_bit = 5 * (3 - i);
+        set_reg_block(&adc->JSQR, 5, pos_bit, ch);
+    }
+
+    va_end(args);
 }
 
 /*******************************************************************/
