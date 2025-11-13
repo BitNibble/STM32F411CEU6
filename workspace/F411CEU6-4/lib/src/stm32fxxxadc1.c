@@ -124,12 +124,41 @@ void ADC1_Mode_Scan_Cont(uint8_t enable) {
 	}
 }
 
-void ADC1_Mode_Discen(uint8_t enable, uint8_t num) {
+void ADC1_Mode_Discen(uint8_t enable) {
+	if(enable) {
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+	}else{
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+	}
+}
+
+void ADC1_Mode_Discen_Scan(uint8_t enable) {
+	if(enable) {
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+	}else{
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+	}
+}
+
+void ADC1_Mode_Discen_Discnum(uint8_t enable, uint8_t num) {
 	if(enable) {
 		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
 		write_reg_block(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
 	}else{
 		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+	}
+}
+
+void ADC1_Mode_Discen_Discnum_Scan(uint8_t enable, uint8_t num) {
+	if(enable) {
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+		write_reg_block(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
+	}else{
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
 	}
 }
 
@@ -147,6 +176,7 @@ void ADC1_Temperature_Setup(void) {
     ADC1->CR1 = 0;
     adc_set_regular_auto(ADC1, &ADC1_RegularTracker, 1, 16);
     ADC1_Start();
+    ADC1_Mode_Discen_Scan(ONE);
 }
 
 uint16_t ADC1_Read_Temperature(void) {
