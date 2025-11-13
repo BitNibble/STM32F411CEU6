@@ -90,15 +90,15 @@ static inline void adc_update_injected_result(ADC_TypeDef *adc, ADC_InjectTracke
 }
 
 /* simple start/wait helpers using CMSIS flags */
-static inline void adc_start_conversion(ADC_TypeDef *adc) { adc->CR2 |= ADC_CR2_SWSTART; }
+static inline void adc_start_conversion(ADC_TypeDef *adc) { set_reg(&adc->CR2, ADC_CR2_SWSTART); /* cleared by hardware */ }
 static inline void adc_wait_eoc(ADC_TypeDef *adc) {
     for (volatile uint32_t timeout = ADC_EOC_TIMEOUT; !get_reg_Msk(adc->SR, ADC_SR_EOC) && timeout; timeout--);
-    clear_reg(&adc->SR, ADC_SR_EOC);
+    //clear_reg(&adc->SR, ADC_SR_EOC); /* cleared by hardware */
 }
 static inline void adc_start_injected(ADC_TypeDef *adc) { adc->CR2 |= ADC_CR2_JSWSTART; }
 static inline void adc_wait_jeoc(ADC_TypeDef *adc) {
     for (volatile uint32_t timeout = ADC_JEOC_TIMEOUT; !get_reg_Msk(adc->SR, ADC_SR_JEOC) && timeout; timeout--);
-    clear_reg(&adc->SR, ADC_SR_JEOC);
+    //clear_reg(&adc->SR, ADC_SR_JEOC); /* cleared by hardware */
 }
 
 void ADC1_Start_Conversion(void) {
@@ -107,6 +107,30 @@ void ADC1_Start_Conversion(void) {
 
 void ADC1_Wait_End_Of_Conversion(void) {
 	adc_wait_eoc(ADC1);
+}
+
+void ADC1_Mode_Scan(uint8_t enable) {
+	if(enable) write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+	else write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+}
+
+void ADC1_Mode_Scan_Cont(uint8_t enable) {
+	if(enable) {
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+		write_reg_block(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ONE);
+	}else{
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+		write_reg_block(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ZERO);
+	}
+}
+
+void ADC1_Mode_Discen(uint8_t enable, uint8_t num) {
+	if(enable) {
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		write_reg_block(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
+	}else{
+		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+	}
 }
 
 void ADC1_Start(void) {
