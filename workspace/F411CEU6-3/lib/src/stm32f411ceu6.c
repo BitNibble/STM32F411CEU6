@@ -220,6 +220,56 @@ inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
 }
 
 /*******************************************************************/
+/************************** I2C UTILS *****************************/
+/*******************************************************************/
+void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
+{
+	// --- Software reset ---
+	set_reg_Msk(&i2c->CR1, I2C_CR1_SWRST, 1);
+	set_reg_Msk(&i2c->CR1, I2C_CR1_SWRST, 0);
+
+	// --- Get peripheral clock ---
+	uint32_t pclk1     = get_pclk1();        // Hz
+	uint32_t freq_mhz  = pclk1 / 1000000;    // MHz
+
+	// --- CR2.FREQ (must be MHz) ---
+	write_reg_block(&i2c->CR2, 6, 0, (freq_mhz & 0x3F));
+
+	// --- Standard or Fast mode ---
+	uint32_t ccr = 0;
+
+	if (scl_hz <= 100000) {
+		// ---------- STANDARD MODE ----------
+		clear_reg(&i2c->CCR, I2C_CCR_FS);     // FS = 0 → standard mode
+
+		ccr = pclk1 / (2 * scl_hz);
+		if (ccr < 4) ccr = 4;
+
+		write_reg_block(&i2c->CCR, 12, 0, ccr);
+
+		// TRISE = freq_mhz + 1
+		write_reg_block(&i2c->TRISE, 6, 0, freq_mhz + 1);
+
+	} else {
+		// ---------- FAST MODE ----------
+		set_reg_Msk(&i2c->CCR, I2C_CCR_FS, 1); // FS = 1 → fast mode
+
+		// Duty = 0 → Tlow/Thigh = 2
+		ccr = pclk1 / (3 * scl_hz);
+		if (ccr < 1) ccr = 1;
+
+		write_reg_block(&i2c->CCR, 12, 0, ccr);
+
+		// TRISE = freq_mhz * 300ns + 1
+		uint32_t trise = ((freq_mhz * 300) / 1000) + 1;
+		write_reg_block(&i2c->TRISE, 6, 0, trise);
+	}
+
+	// --- Enable peripheral ---
+	set_reg_Msk(&i2c->CR1, I2C_CR1_PE, 1);
+}
+
+/*******************************************************************/
 /**************************** ADC UTILS ****************************/
 /*******************************************************************/
 /* --- Regular sequence auto (0 < count <= 16) --- */

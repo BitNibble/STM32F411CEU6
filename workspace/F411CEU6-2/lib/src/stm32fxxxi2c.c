@@ -11,24 +11,6 @@ Hardware: STM32-XXX
 #define START_TIME_OUT 1000
 
 /*** I2C Procedure & Function Definition ***/
-// COMMON
-void I2C_SclClock(I2C_TypeDef* instance, uint32_t sclclock) {
-    // Software reset
-    instance->CR1 |= I2C_CR1_SWRST;  // Set SWRST bit
-    instance->CR1 &= ~I2C_CR1_SWRST; // Clear SWRST bit to release the reset
-    // Set SCL frequency
-    uint32_t pclk1 = get_pclk1(); // Get APB1 clock frequency in Hz
-    uint32_t freq = pclk1 / 1000000; // Frequency in MHz
-    instance->CR2 &= ~I2C_CR2_FREQ; // Clear the FREQ bits
-    instance->CR2 |= (freq & I2C_CR2_FREQ); // Set the FREQ field in CR2
-    // Set CCR for the clock control register
-    uint32_t ccr_value = pclk1 / (2 * sclclock); // Calculate CCR value
-    instance->CCR = (ccr_value & I2C_CCR_CCR); // Set CCR, ensure it fits in the register
-    // Set TRISE (maximum rise time in ns)
-    instance->TRISE = (sclclock / 1000000) + 1; // TRISE calculation
-    // Enable I2C peripheral
-    instance->CR1 |= I2C_CR1_PE; // Set PE bit to enable I2C
-}
 static inline void I2C_EnableEventInterrupt(I2C_TypeDef *I2Cx)
 {
     /* Enable the event interrupt (SB, ADDR, TXE, RXNE, STOPF) */

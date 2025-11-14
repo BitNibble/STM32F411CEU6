@@ -195,6 +195,8 @@ void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);
 void clear_pin(GPIO_TypeDef* reg, uint8_t pin);
 
+void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz);
+
 void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t count, ...);
 void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t count, ...);
 
