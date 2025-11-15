@@ -59,12 +59,11 @@ void I2C1_Start(void) {
 	for ( time_out = START_TIME_OUT; !(I2C1->SR1 & I2C_SR1_SB) && time_out; time_out-- ); // Wait for start condition
 }
 void I2C1_Connect(uint16_t address, uint8_t rw) {
-	if (rw) {
-		address |= 1; // Read
-	} else {
-		address &= ~1; // Write
-	}
-	I2C1->DR = address; // Send address
+	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
+
+	/* Write DR */
+	write_reg_block(&I2C1->DR, 8, 0, (uint32_t)addr_byte);
+
 	while (!(I2C1->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C1->SR2; // Clear ADDR flag
 }
@@ -75,7 +74,7 @@ void I2C1_Master_Write(uint8_t data) {
 uint8_t I2C1_Master_Read(uint8_t ack_nack) {
 	if (ack_nack) {
 		I2C1->CR1 |= I2C_CR1_ACK; // Send ACK
-		} else {
+	} else {
 			I2C1->CR1 &= ~I2C_CR1_ACK; // Send NACK
 	}
 	while (!(I2C1->SR1 & I2C_SR1_RXNE)); // Wait for data received
@@ -118,12 +117,11 @@ void I2C2_Start(void) {
 	while (!(I2C2->SR1 & I2C_SR1_SB)); // Wait for start condition
 }
 void I2C2_Connect(uint16_t address, uint8_t rw) {
-	if (rw) {
-		address |= 1; // Read
-		} else {
-		address &= ~1; // Write
-	}
-	I2C2->DR = address; // Send address
+	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
+
+	/* Write DR */
+	write_reg_block(&I2C2->DR, 8, 0, (uint32_t)addr_byte);
+
 	while (!(I2C2->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C2->SR2; // Clear ADDR flag
 }
@@ -177,12 +175,11 @@ void I2C3_Start(void) {
 	while (!(I2C3->SR1 & I2C_SR1_SB)); // Wait for start condition
 }
 void I2C3_Connect(uint16_t address, uint8_t rw) {
-	if (rw) {
-		address |= 1; // Read
-		} else {
-		address &= ~1; // Write
-	}
-	I2C3->DR = address; // Send address
+	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
+
+	/* Write DR */
+	write_reg_block(&I2C3->DR, 8, 0, (uint32_t)addr_byte);
+
 	while (!(I2C3->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C3->SR2; // Clear ADDR flag
 }
