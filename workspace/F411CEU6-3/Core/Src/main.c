@@ -1,8 +1,8 @@
 /******************************************************************************
-Author: Sergio Santos
-<sergio.salazar.santos@gmail.com>
-License: GNU General Public License
-Hardware: STM32
+Author:   <sergio.salazar.santos@gmail.com>
+License:  GNU General Public License
+Software: STM32CubeIDE v1.16.0 Build: 21983_20240628_1741 (UTC)
+Hardware: STM32F411CEU6 by DevBox
 Date: 28052023
 	Comment:
 LCD

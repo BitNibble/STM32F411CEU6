@@ -2,9 +2,9 @@
 Title:    A simple Clock
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
-File:     main.c 22/09/2024
 Software: STM32CubeIDE v1.16.0 Build: 21983_20240628_1741 (UTC)
 Hardware: STM32F411CEU6 by DevBox
+Date: 28052023
 Comment:
 	Button K0:
 GPIO PA0 - Button
