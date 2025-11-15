@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32F411CEU6
-Date:     30092025
+Date:     15112025
 **********************************************************************/
 #include "stm32f411ceu6.h"
 #include <stdarg.h>
@@ -220,7 +220,7 @@ inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
 }
 
 /*******************************************************************/
-/************************** I2C UTILS *****************************/
+/************************** I2C UTILS ******************************/
 /*******************************************************************/
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 {

@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
-Update:   21/10/2025
+Update:   15/11/2025
 ****************************************************/
 #pragma once
 
@@ -24,6 +24,7 @@ Update:   21/10/2025
 /*******************************************************************/
 /****************************** Tools ******************************/
 /*******************************************************************/
+uint32_t _get_pos(uint32_t size_block, uint32_t block_n);
 void set_reg(volatile uint32_t* reg, uint32_t hbits);
 void clear_reg(volatile uint32_t* reg, uint32_t hbits);
 uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos);

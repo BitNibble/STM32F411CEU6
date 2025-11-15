@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32F411CEU6
-Date:     30092025
+Date:     15112025
 **********************************************************************/
 #ifndef STM32F411CEU6_H
 #define STM32F411CEU6_H

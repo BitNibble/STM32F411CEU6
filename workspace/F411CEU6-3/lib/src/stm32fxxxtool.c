@@ -3,7 +3,7 @@
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
 Hardware: STM32FXXX
-Update:   21/10/2025
+Update:   15/11/2025
 *****************************************/
 #include "stm32fxxxtool.h"
 #include <stdarg.h>
@@ -19,7 +19,6 @@ uint32_t _var_imask(uint32_t var, uint32_t Msk);
 uint32_t _size_to_block(uint32_t size_block);
 uint32_t _block_to_size(uint32_t block);
 uint32_t _get_mask(uint32_t size_block, uint32_t Pos);
-uint32_t _get_pos(uint32_t size_block, uint32_t block_n);
 uint32_t _mask_pos(uint32_t Msk);
 uint32_t _mask_data(uint32_t Msk, uint32_t data);
 /*** SUB Tools ***/
