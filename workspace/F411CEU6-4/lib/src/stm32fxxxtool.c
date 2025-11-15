@@ -22,6 +22,9 @@ uint32_t _get_mask(uint32_t size_block, uint32_t Pos);
 uint32_t _mask_pos(uint32_t Msk);
 uint32_t _mask_data(uint32_t Msk, uint32_t data);
 /*** SUB Tools ***/
+inline uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
+	return size_block * block_n;
+}
 inline uint32_t _var_mask(uint32_t var, uint32_t Msk){
 	return (var & Msk);
 }
@@ -36,9 +39,6 @@ inline uint32_t _block_to_size(uint32_t block) {
 }
 inline uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
 	return _size_to_block(size_block) << Pos;
-}
-inline uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
-	return size_block * block_n;
 }
 inline uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
