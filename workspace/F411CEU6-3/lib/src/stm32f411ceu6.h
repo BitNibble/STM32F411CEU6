@@ -8,7 +8,6 @@ Date:     15112025
 #ifndef STM32F411CEU6_H
 #define STM32F411CEU6_H
 
-#include "stm32f4xx.h"
 #include "stm32fxxxtool.h"
 
 /*** Clock sources ***/
@@ -161,10 +160,6 @@ typedef const struct {
 
 STM32F411CEU6_Instance* dev(void);
 
-/* trackers */
-typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
-typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
-
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/
 /*******************************************************************/
@@ -190,6 +185,10 @@ uint32_t get_pclk2(void);
 /*******************************************************************/
 /************************* Peripheral ******************************/
 /*******************************************************************/
+/* trackers */
+typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
+typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
+
 void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);

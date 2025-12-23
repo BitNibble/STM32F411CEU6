@@ -31,7 +31,7 @@ void blink(void);
 int main(void)
 {
 	rcc()->inic();
-	systick_start();
+	systick_inic();
 	gpiob()->clock(1);
 	gpioc()->clock(1);
 	gpioc()->moder(13,1);

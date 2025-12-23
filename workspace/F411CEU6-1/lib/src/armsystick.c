@@ -92,7 +92,7 @@ void _delay_ms(uint32_t ms)
 	for( DelayCounter_0 = 0, SysTick->CTRL |= SYSTICK_ENABLE; DelayCounter_0 < ms; );
 }
 /******/
-void systick_start(void)
+void systick_inic(void)
 {
 	delay_Configure( );
 	/******/

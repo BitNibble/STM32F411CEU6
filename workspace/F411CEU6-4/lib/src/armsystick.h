@@ -23,7 +23,7 @@ void delayAsmMicroseconds(unsigned int us);
 void _delay_us(uint32_t us);
 void _delay_10us(uint32_t dez_us);
 void _delay_ms(uint32_t ms);
-void systick_start(void);
+void systick_inic(void);
 /*****/
 void SysTick_Inc(void);
 /*****/
