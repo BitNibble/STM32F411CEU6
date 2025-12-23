@@ -11,13 +11,13 @@ Hardware: STM32-XXX
 #define START_TIME_OUT 1000
 
 /*** I2C Procedure & Function Definition ***/
-static inline void I2C_EnableEventInterrupt(I2C_TypeDef *I2Cx)
+static inline void I2C_Enable_Event_Interrupt(I2C_TypeDef *I2Cx)
 {
     /* Enable the event interrupt (SB, ADDR, TXE, RXNE, STOPF) */
     I2Cx->CR2 |= I2C_CR2_ITEVTEN;
 }
 
-static inline void I2C_EnableErrorInterrupt(I2C_TypeDef *I2Cx)
+static inline void I2C_Enable_Error_Interrupt(I2C_TypeDef *I2Cx)
 {
     /* Enable error interrupts (BERR, ARLO, OVR) */
     I2Cx->CR2 |= I2C_CR2_ITERREN;
