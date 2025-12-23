@@ -23,7 +23,7 @@ void TIM1_Clock(uint8_t state)
 		set_reg_Msk(&RCC->APB2ENR , RCC_APB2ENR_TIM1EN_Msk, 0);
 	}
 }
-void TIM1_Nvic(uint8_t value)
+void TIM1_Nvic_Int(uint8_t value)
 { // 24, 25, 26, 27
 	switch(value){
 		case 0b1000:
@@ -84,7 +84,7 @@ static tim1and8_callback tim1_callback_setup = {0};
 
 static STM32FXXX_TIM1_Handler stm32fxxx_tim1_setup = {
 	.clock = TIM1_Clock,
-	.nvic = TIM1_Nvic,
+	.nvic = TIM1_Nvic_Int,
 	.start = TIM1_start,
 	.stop = TIM1_stop,
 	.callback = &tim1_callback_setup,

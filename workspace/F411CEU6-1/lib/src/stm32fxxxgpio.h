@@ -42,9 +42,9 @@ typedef const struct
 	void (*clock)( uint8_t state );
 	/*** Device ***/
 #if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Handler* (*dev)(void);
+	STM32F411CEU6_Instance* (*dev)(void);
 #elif defined(STM32F446RE_H)
-	STM32F446RE_Handler* (*dev)(void);
+	STM32F446RE_Instance* (*dev)(void);
 #else
 	void* (*dev)(void);
 #endif

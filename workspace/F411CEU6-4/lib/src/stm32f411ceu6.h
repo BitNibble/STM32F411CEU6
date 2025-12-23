@@ -87,10 +87,10 @@ typedef struct {
     MPU_Type* const mpu;
     FPU_Type* const fpu;
     CoreDebug_Type* const coredebug;
-} STM32F411CEU6_CORE_Handler;
+} STM32F411CEU6_CORE_Instance;
 
 typedef const struct {
-    STM32F411CEU6_CORE_Handler* core;
+    STM32F411CEU6_CORE_Instance* core;
 
     ADC_TypeDef* const adc1;
     ADC_Common_TypeDef* const adc1_common;
@@ -157,9 +157,9 @@ typedef const struct {
     USB_OTG_HostTypeDef* const usb_otg_host;
     USB_OTG_HostChannelTypeDef* const usb_otg_hostchannel;
 
-} STM32F411CEU6_Handler;
+} STM32F411CEU6_Instance;
 
-STM32F411CEU6_Handler* dev(void);
+STM32F411CEU6_Instance* dev(void);
 
 /* trackers */
 typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
@@ -194,6 +194,11 @@ void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);
 void clear_pin(GPIO_TypeDef* reg, uint8_t pin);
+
+inline void TIM_Int(TIM_TypeDef* tim, uint32_t Int_Msk, uint8_t enable)
+{
+	if(enable){ set_reg_Msk(&tim->DIER, Int_Msk, 1);}else{ set_reg_Msk(&tim->DIER, Int_Msk, 0);}
+}
 
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz);
 
