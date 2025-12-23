@@ -201,8 +201,9 @@ uint32_t get_pclk2(void) {
 }
 
 /*******************************************************************/
-/************************** GPIO UTILS *****************************/
+/************************* Peripheral ******************************/
 /*******************************************************************/
+/************************** GPIO UTILS *****************************/
 inline void set_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
     reg->BSRR = hpins;
 }
@@ -219,9 +220,7 @@ inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
     reg->BSRR = ((uint32_t)(1 << pin)) << 16;
 }
 
-/*******************************************************************/
 /************************** I2C UTILS ******************************/
-/*******************************************************************/
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 {
 	// --- Software reset ---
@@ -269,9 +268,7 @@ void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 	set_reg_Msk(&i2c->CR1, I2C_CR1_PE, 1);
 }
 
-/*******************************************************************/
 /**************************** ADC UTILS ****************************/
-/*******************************************************************/
 /* --- Regular sequence auto (0 < count <= 16) --- */
 void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t count, ...)
 {
@@ -377,9 +374,7 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
     va_end(args);
 }
 
-/*******************************************************************/
 /************************** USART UTILS ***************************/
-/*******************************************************************/
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength) {
     if(wordlength == 9) usart->CR1 |= (1 << 12);
     else usart->CR1 &= ~(1 << 12);
@@ -414,9 +409,7 @@ void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t bau
     usart->BRR = brr;
 }
 
-/*******************************************************************/
 /************************** FPU ENABLE *****************************/
-/*******************************************************************/
 void fpu_enable(void) {
     dev()->core->scb->CPACR |= (0xF << 20);
 }
