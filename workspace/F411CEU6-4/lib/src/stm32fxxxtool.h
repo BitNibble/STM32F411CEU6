@@ -7,7 +7,6 @@ Update:   15/11/2025
 ****************************************************/
 #pragma once
 
-#include "stm32f4xx.h"
 #include <stdint.h>
 #include <inttypes.h>
 #include <stddef.h>
