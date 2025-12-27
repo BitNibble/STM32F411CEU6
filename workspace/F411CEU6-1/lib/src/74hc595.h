@@ -32,7 +32,9 @@ typedef struct
 {
 	hc595_par par;
 	/******/
-	void (*bit)(hc595_par* par, uint8_t bool);
+	void (*shift_bit)(hc595_par* par, uint8_t state);
+	void (*shift_ibyte)(hc595_par* par, uint8_t byte);
+	void (*shift_byte)(hc595_par* par, uint8_t byte);
 	void (*ibyte)(hc595_par* par, uint8_t byte);
 	void (*byte)(hc595_par* par, uint8_t byte);
 	void (*out)(hc595_par* par);
