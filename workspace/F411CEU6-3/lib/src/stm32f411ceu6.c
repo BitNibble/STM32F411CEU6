@@ -220,6 +220,12 @@ inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
     reg->BSRR = ((uint32_t)(1 << pin)) << 16;
 }
 
+/************************** TIMER UTILS ******************************/
+void TIM_Int(TIM_TypeDef* tim, uint32_t Int_Msk, uint8_t enable)
+{
+	if(enable){ set_reg_Msk(&tim->DIER, Int_Msk, 1);}else{ set_reg_Msk(&tim->DIER, Int_Msk, 0);}
+}
+
 /************************** I2C UTILS ******************************/
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 {

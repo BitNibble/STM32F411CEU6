@@ -51,24 +51,24 @@ typedef union{
 
 typedef union{
 	struct UN16byte{
-		_UN8_var b0;
-		_UN8_var b1;
+		uint8_t b0;
+		uint8_t b1;
 	}par;
 	uint16_t var;
 }_UN16_var;
 
 typedef union{
 	struct UN32word{
-		_UN16_var w0;
-		_UN16_var w1;
+		uint16_t w0;
+		uint16_t w1;
 	}par;
 	uint32_t var;
 }_UN32_var;
 
 typedef union{
 	struct UN64dword{
-		_UN32_var dw0;
-		_UN32_var dw1;
+		uint32_t dw0;
+		uint32_t dw1;
 	}par;
 	uint64_t var;
 }_UN64_var;
@@ -190,28 +190,30 @@ uint32_t get_pclk2(void);
 typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
 typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
 
+/************************** GPIO UTILS *****************************/
 void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);
 void clear_pin(GPIO_TypeDef* reg, uint8_t pin);
 
-inline void TIM_Int(TIM_TypeDef* tim, uint32_t Int_Msk, uint8_t enable)
-{
-	if(enable){ set_reg_Msk(&tim->DIER, Int_Msk, 1);}else{ set_reg_Msk(&tim->DIER, Int_Msk, 0);}
-}
+/************************** TIMER UTILS ******************************/
+void TIM_Int(TIM_TypeDef* tim, uint32_t Int_Msk, uint8_t enable);
 
+/************************** I2C UTILS ******************************/
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz);
 
+/**************************** ADC UTILS ****************************/
 void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t count, ...);
 void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t count, ...);
 
+/************************** USART UTILS ***************************/
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength);
 void Usart_StopBits(USART_TypeDef* usart, double stopbits);
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate);
 
+/************************** FPU ENABLE *****************************/
 void fpu_enable(void);
 
 #endif
-
 /*** EOF ***/
 
