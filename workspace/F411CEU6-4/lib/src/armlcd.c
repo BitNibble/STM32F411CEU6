@@ -61,7 +61,6 @@ void ARMLCD0_delayMicroseconds(unsigned int us);
 ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg)
 {
 	ireg = reg;
-	delay_Configure();
 
 	if(reg == (GPIO_TypeDef*)GPIOA_BASE) RCC->AHB1ENR |= (1 << 0);
 	if(reg == (GPIO_TypeDef*)GPIOB_BASE) RCC->AHB1ENR |= (1 << 1);
@@ -86,6 +85,7 @@ ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg)
 	setup_armlcd0.gotoxy = ARMLCD0_gotoxy;
 	setup_armlcd0.reboot = ARMLCD0_reboot;
 
+	systick_inic();
 	ARMLCD0_inic();
 	
 	return setup_armlcd0;

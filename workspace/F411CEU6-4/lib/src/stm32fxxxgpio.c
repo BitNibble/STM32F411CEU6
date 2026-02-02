@@ -848,6 +848,7 @@ static STM32FXXX_GPIOG_Handler stm32fxxx_gpiog_setup = {
 
 STM32FXXX_GPIOG_Handler* gpiog(void) { return &stm32fxxx_gpiog_setup; }
 
+#endif
 /*** GPIOH ***/
 void GPIOH_clock(uint8_t enable)
 {
@@ -952,25 +953,6 @@ static STM32FXXX_GPIOH_Handler stm32fxxx_gpioh_setup = {
 };
 
 STM32FXXX_GPIOH_Handler* gpioh(void) { return &stm32fxxx_gpioh_setup; }
-
-#endif
-
-/*
- * More Interested in finding the best work flow, then coding itself. Because that will become redundant after
- * achieving the objective.
- * bit_n = bit_n % DWORD_BITS; is the same as bit_n = bit_n & (DWORD_BITS - 1);, for power of two numbers.
- * **/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 
 /**** EOF ****/
 

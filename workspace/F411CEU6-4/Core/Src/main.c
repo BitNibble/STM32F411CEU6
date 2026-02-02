@@ -38,6 +38,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #include "stm32fxxxadc1.h"
 #include "stm32fxxxusart1.h"
 #include "stm32fxxxtim1and8.h"
+#include "st7789.h"
 /******/
 #include "BT_Commands.h"
 #include "ESP8266_Commands.h"
@@ -83,9 +84,9 @@ setup_usart1();
 
 PA = EXPLODE_enable();
 
-_UN8_var Menu;
+U_byte Menu;
 Menu.var = 8;
-_UN16_var adc_value;
+U_word adc_value;
 adc_value.var = 0;
 uint8_t count_1 = ADC_DELAY;
 uint8_t n_sample = ADC_SAMPLE;

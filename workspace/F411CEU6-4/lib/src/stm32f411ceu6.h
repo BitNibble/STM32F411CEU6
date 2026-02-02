@@ -9,6 +9,7 @@ Date:     15112025
 #define STM32F411CEU6_H
 
 #include "stm32f4xx.h"
+//#include "stm32fxxxgpio.h"
 #include "stm32fxxxtool.h"
 
 /*** Clock sources ***/
@@ -47,31 +48,31 @@ typedef union{
 		uint8_t bit7:1;
 	}par;
 	uint8_t var;
-}_UN8_var;
+}U_byte;
 
 typedef union{
 	struct UN16byte{
-		uint8_t b0;
-		uint8_t b1;
+		uint8_t l;
+		uint8_t h;
 	}par;
 	uint16_t var;
-}_UN16_var;
+}U_word;
 
 typedef union{
 	struct UN32word{
-		uint16_t w0;
-		uint16_t w1;
+		uint16_t l;
+		uint16_t h;
 	}par;
 	uint32_t var;
-}_UN32_var;
+}U_dword;
 
 typedef union{
 	struct UN64dword{
-		uint32_t dw0;
-		uint32_t dw1;
+		uint32_t l;
+		uint32_t h;
 	}par;
 	uint64_t var;
-}_UN64_var;
+}U_qword;
 
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
@@ -189,6 +190,9 @@ uint32_t get_pclk2(void);
 /* trackers */
 typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
 typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
+
+/************************* Generic UTILS ***************************/
+U_word writeHLbyte(uint16_t v);
 
 /************************** GPIO UTILS *****************************/
 void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
