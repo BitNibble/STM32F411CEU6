@@ -33,7 +33,6 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 /******/
 #include "stm32fxxxrcc.h"
 #include "armsystick.h"
-#include "stm32fxxxgpio.h"
 #include "stm32fxxxrtc.h"
 #include "stm32fxxxadc1.h"
 #include "stm32fxxxusart1.h"
@@ -42,7 +41,6 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 /******/
 #include "BT_Commands.h"
 #include "ESP8266_Commands.h"
-#include "armlcd.h"
 #include "armfunction.h"
 #include "explode.h"
 #include "webpages.h"
@@ -51,10 +49,10 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #include <string.h>
 
 #define JMP_menu_repeat 5
-#define ADC_DELAY 20
-#define ADC_SAMPLE 8
-#define STEP_DELAY 16
-#define MAIN_MENU_DELAY 32
+#define ADC_DELAY 8
+#define ADC_SAMPLE 4
+#define STEP_DELAY 10
+#define MAIN_MENU_DELAY 20
 #define MAX_TOKENS 10
 #define MAIN_BAUD 38400
 #define PARSE_SIZE 2049
@@ -100,13 +98,11 @@ uint8_t link_ID = 0;
 char parse[PARSE_SIZE + 1] = {0};
 char sub_parse[SUBPARSE_SIZE + 1] = {0};
 
-const char unit = (char)0xDF;
+//const char unit = (char)0xDF; // degrees
 char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 
 ST7789 lcd1 = st7789_enable(dev()->spi1, 2, 3, 4, NULL);
-
-ARMLCD0_enable(dev()->gpiob);
 
 gpioc()->moder(13,1);
 gpioa()->moder(0,0);
@@ -146,11 +142,9 @@ while (1) {
 			usart1()->rx_purge();
 	}
 
-   lcd0()->gotoxy(1, 0); lcd0()->string_size( tokens[0], 20 ); //3
    lcd1.start(&lcd1.par);
    lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 20);
    lcd1.stop(&lcd1.par);
-
    //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
 
    if (!tm_getstep()) { // avoid simultaneous calls
@@ -382,10 +376,9 @@ while (1) {
 				n_sample = ADC_SAMPLE;
 				adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
 				//temperature = CalculateTemperature(adc_value);
-				snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.var), unit);
-				lcd0()->string_size(str, 8);
+				snprintf(str, 8, "%.1f C", CalculateTemperature(adc_value.var));
 				lcd1.start(&lcd1.par);
-				lcd1.drawstring16x24_size(&lcd1.par,str,10,80,ST77XX_BLACK,ST77XX_GREEN, 8);
+				lcd1.drawstring16x24_size(&lcd1.par,str,10,80,ST77XX_MAGENTA,ST77XX_GREEN, 8);
 				lcd1.stop(&lcd1.par);
 				adc_value.var = 0;  // Reset adc_value after use
 			}
@@ -413,20 +406,13 @@ while (1) {
 	lcd1.start(&lcd1.par);
 	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,ST77XX_GREEN, 12);
 
-	lcd0()->gotoxy(2, 0);
 	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
-	lcd0()->string_size(str, 10);
 
 	lcd1.drawstring16x24(&lcd1.par,str,10,120,ST77XX_BLACK,ST77XX_GREEN);
 
-	lcd0()->gotoxy(2, 11);
-	lcd0()->string_size((char*)WeekDay_String(vecD[2]), 7);
+	lcd1.drawstring12x16(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,160,ST77XX_BLACK,ST77XX_GREEN);
 
-	lcd1.drawstring16x24(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,160,ST77XX_BLACK,ST77XX_GREEN);
-
-	lcd0()->gotoxy(3, 11);
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
-	lcd0()->string_size(str, 8);
 
 	lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
 	lcd1.stop(&lcd1.par);
