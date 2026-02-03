@@ -53,8 +53,8 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #define JMP_menu_repeat 5
 #define ADC_DELAY 20
 #define ADC_SAMPLE 8
-#define STEP_DELAY 300
-#define MAIN_MENU_DELAY 600
+#define STEP_DELAY 16
+#define MAIN_MENU_DELAY 32
 #define MAX_TOKENS 10
 #define MAIN_BAUD 38400
 #define PARSE_SIZE 2049
@@ -74,6 +74,7 @@ rtc()->inic();
 
 _delay_ms(1);
 HAL_Init();
+char state[12];
 
 adc1()->clock(1);
 gpioa()->clock(1);
@@ -103,6 +104,8 @@ const char unit = (char)0xDF;
 char *tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 char *sub_tokens[MAX_TOKENS] = {NULL}; // Array of pointers to hold token addresses
 
+ST7789 lcd1 = st7789_enable(dev()->spi1, 2, 3, 4, NULL);
+
 ARMLCD0_enable(dev()->gpiob);
 
 gpioc()->moder(13,1);
@@ -117,6 +120,11 @@ char vecT[8]; // for calendar time
 PA.update(&PA.par, dev()->gpioa->IDR);
 
 dev()->gpioc->BSRR = GPIO_BSRR_BS13;
+
+lcd1.start(&lcd1.par);
+lcd1.draw_circle(&lcd1.par,200,80,15,ST77XX_BLACK);
+lcd1.draw_star5(&lcd1.par,200,80,15,5,ST77XX_GOLD);
+lcd1.stop(&lcd1.par);
 
 Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
 tm_jumpstep( 0, 22 );
@@ -139,6 +147,10 @@ while (1) {
 	}
 
    lcd0()->gotoxy(1, 0); lcd0()->string_size( tokens[0], 20 ); //3
+   lcd1.start(&lcd1.par);
+   lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 20);
+   lcd1.stop(&lcd1.par);
+
    //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
 
    if (!tm_getstep()) { // avoid simultaneous calls
@@ -199,8 +211,7 @@ while (1) {
 	switch (Menu.var) {
 
 	case 0:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("BLE", 12);
+		strcpy(state,"BLE");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -218,8 +229,7 @@ while (1) {
 		break;
 
 	case 1:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Hour", 12);
+		strcpy(state,"Set Hour");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -239,8 +249,7 @@ while (1) {
 		break;
 
 	case 2:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Minute", 12);
+		strcpy(state,"Set Minute");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -260,8 +269,7 @@ while (1) {
 		break;
 
 	case 3:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Second", 12);
+		strcpy(state,"Set Second");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -281,8 +289,7 @@ while (1) {
 		break;
 
 	case 4:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Year", 12);
+		strcpy(state,"Set Year");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -302,8 +309,7 @@ while (1) {
 		break;
 
 	case 5:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Month", 12);
+		strcpy(state,"Set Month");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -323,8 +329,7 @@ while (1) {
 		break;
 
 	case 6:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set WeekDay", 12);
+		strcpy(state,"Set WeekDay");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -344,8 +349,7 @@ while (1) {
 		break;
 
 	case 7:
-		lcd0()->gotoxy(0, 0);
-		lcd0()->string_size("Set Day", 12);
+		strcpy(state,"Set Day");
 
 		if (PA.par.LH & 1) {
 			ftdelayReset(1);
@@ -366,9 +370,8 @@ while (1) {
 		break;
 
 	case 8:
-		lcd0()->gotoxy(0, 0);
-		//lcd0()->gotoxy(0, 12);
-		lcd0()->string_size("Clock", 12);
+		strcpy(state,"Clock");
+
 		count_1--;
 		if (!count_1) {
 			count_1 = ADC_DELAY;
@@ -381,6 +384,9 @@ while (1) {
 				//temperature = CalculateTemperature(adc_value);
 				snprintf(str, 8, "%.1f %cC", CalculateTemperature(adc_value.var), unit);
 				lcd0()->string_size(str, 8);
+				lcd1.start(&lcd1.par);
+				lcd1.drawstring16x24_size(&lcd1.par,str,10,80,ST77XX_BLACK,ST77XX_GREEN, 8);
+				lcd1.stop(&lcd1.par);
 				adc_value.var = 0;  // Reset adc_value after use
 			}
 		}
@@ -404,16 +410,26 @@ while (1) {
 	rtc()->dr2vec(vecD);
 	rtc()->tr2vec(vecT);
 
+	lcd1.start(&lcd1.par);
+	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,ST77XX_GREEN, 12);
+
 	lcd0()->gotoxy(2, 0);
 	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
 	lcd0()->string_size(str, 10);
 
+	lcd1.drawstring16x24(&lcd1.par,str,10,120,ST77XX_BLACK,ST77XX_GREEN);
+
 	lcd0()->gotoxy(2, 11);
 	lcd0()->string_size((char*)WeekDay_String(vecD[2]), 7);
+
+	lcd1.drawstring16x24(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,160,ST77XX_BLACK,ST77XX_GREEN);
 
 	lcd0()->gotoxy(3, 11);
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 	lcd0()->string_size(str, 8);
+
+	lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
+	lcd1.stop(&lcd1.par);
 
 	/***/
 	if(!strcmp(sub_tokens[3],"s01.")){

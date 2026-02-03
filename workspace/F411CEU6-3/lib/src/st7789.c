@@ -323,6 +323,17 @@ void st7789_drawstring8x12(ST7789_par* par, const char* str, uint16_t x, uint16_
 	}
 }
 
+void st7789_drawstring8x12_size(ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg, uint16_t size)
+{
+	uint16_t cursorX = x; char c;
+	while (size) {
+		if(*str){ c = *str++; }else{ c = ' '; } size--;
+		st7789_drawfont8x12(par, c, cursorX, y, fg, bg);
+		cursorX += 8;
+		if (cursorX + 8 > par->width) break;
+	}
+}
+
 void st7789_drawfont12x16(ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg)
 {
     const uint8_t first  = 32;
@@ -362,6 +373,17 @@ void st7789_drawstring12x16(ST7789_par* par, const char* str, uint16_t x, uint16
 	}
 }
 
+void st7789_drawstring12x16_size(ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg, uint16_t size)
+{
+	uint16_t cursorX = x; char c;
+	while(size) {
+		if(*str){ c = *str++; }else{ c = ' '; } size--;
+		st7789_drawfont12x16(par, c, cursorX, y, fg, bg);
+		cursorX += 12;
+		if(cursorX + 12 > par->width) break;
+	}
+}
+
 void st7789_drawfont16x24( ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
 	const uint8_t first = 32;
 	const uint8_t glyph_w = 16;
@@ -388,10 +410,22 @@ void st7789_drawfont16x24( ST7789_par* par, char c, uint16_t x, uint16_t y, uint
 	st7789_spi_flush(par);
 }
 
-void st7789_drawstring16x24( ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
+void st7789_drawstring16x24( ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg )
+{
 	uint16_t cursorX = x;
 	while(*str){
 		char c = *str++;
+		st7789_drawfont16x24(par, c, cursorX, y, fg, bg);
+		cursorX += 16;
+		if(cursorX + 16 > par->width) break;
+	}
+}
+
+void st7789_drawstring16x24_size( ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg, uint16_t size )
+{
+	uint16_t cursorX = x;  char c;
+	while(size){
+		if(*str){ c = *str++; }else{ c = ' '; } size--;
 		st7789_drawfont16x24(par, c, cursorX, y, fg, bg);
 		cursorX += 16;
 		if(cursorX + 16 > par->width) break;
@@ -692,17 +726,17 @@ void st7789_setup_gpio(ST7789_par* par)
         GPIO_moder(par->scl_gpio, par->cs_pin, MODE_OUTPUT);
         GPIO_moder(par->scl_gpio, par->dc_pin, MODE_OUTPUT);
         GPIO_moder(par->scl_gpio, par->rst_pin, MODE_OUTPUT);
-        GPIO_moder(par->scl_gpio, 6, MODE_INPUT);
+        GPIO_moder(par->scl_gpio, par->miso, MODE_INPUT);
 
         GPIO_otype(par->scl_gpio, par->cs_pin, 0);
         GPIO_otype(par->scl_gpio, par->dc_pin, 0);
         GPIO_otype(par->scl_gpio, par->rst_pin, 0);
-        GPIO_otype(par->scl_gpio, 6, 1);
+        GPIO_otype(par->scl_gpio, par->miso, 1);
 
         GPIO_pupd(par->scl_gpio, par->cs_pin, 0);
         GPIO_pupd(par->scl_gpio, par->dc_pin, 0);
         GPIO_pupd(par->scl_gpio, par->rst_pin, 0);
-        GPIO_pupd(par->scl_gpio, 6, 1);
+        GPIO_pupd(par->scl_gpio, par->miso, 1);
     }
 
     // SPI pins -> Alternate Function
@@ -748,6 +782,7 @@ void st7789_setup_spi(ST7789_par* par)
     // Master mode, software slave management, internal slave select
     spi->CR1 = SPI_CR1_MSTR_Msk | SPI_CR1_SSM_Msk | SPI_CR1_SSI_Msk;
 
+    // Fast
     spi->CR1 &= ~SPI_CR1_BR_Msk;
 
     // Clock polarity & phase = 0, baudrate = fPCLK/2
@@ -775,6 +810,12 @@ void boot_screen(ST7789_par* par){
 	clear_cs(par);
 }
 
+void welcome_screen(ST7789_par* par){
+    set_cs(par);
+    st7789_drawstring16x24(par,"Welcome",60,90,ST77XX_GOLD,ST77XX_GREEN);
+    clear_cs(par);
+}
+
 /***** Enable ST7789 handler *****/
 ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t rst_pin, uint16_t *fb) {
     ST7789 st;
@@ -797,18 +838,21 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 		st.par.sda_gpio = GPIOA;  // MOSI
 		st.par.scl_gpio = GPIOA;  // SCK
 		st.par.sda_pin  = 7;      // PA7 = SPI1_MOSI
+		st.par.miso  = 6;
 		st.par.scl_pin  = 5;      // PA5 = SPI1_SCK
 	}
 	else if (spi == SPI2) {
 		st.par.sda_gpio = GPIOB;
 		st.par.scl_gpio = GPIOB;
 		st.par.sda_pin  = 15;     // PB15 = SPI2_MOSI
+		st.par.miso  = 14;
 		st.par.scl_pin  = 13;     // PB13 = SPI2_SCK
 	}
 	else if (spi == SPI3) {
 		st.par.sda_gpio = GPIOC;
 		st.par.scl_gpio = GPIOC;
 		st.par.sda_pin  = 12;     // PC12 = SPI3_MOSI
+		st.par.miso  = 11;
 		st.par.scl_pin  = 10;     // PC10 = SPI3_SCK
 	}
 	else {
@@ -827,16 +871,17 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     st.reset           = st7789_reset;
     st.start           = set_cs;
     st.stop            = clear_cs;
-    st.cmd             = st7789_cmd;
-    st.data            = st7789_data;
     st.draw_pixel      = st7789_draw_pixel;
     st.fill_screen     = st7789_fill_screen;
     st.drawfont8x12    = st7789_drawfont8x12;
     st.drawstring8x12  = st7789_drawstring8x12;
+    st.drawstring8x12_size  = st7789_drawstring8x12_size;
     st.drawfont12x16   = st7789_drawfont12x16;
     st.drawstring12x16 = st7789_drawstring12x16;
+    st.drawstring12x16_size = st7789_drawstring12x16_size;
     st.drawfont16x24   = st7789_drawfont16x24;
     st.drawstring16x24 = st7789_drawstring16x24;
+    st.drawstring16x24_size = st7789_drawstring16x24_size;
     st.draw_line       = st7789_draw_line;
     st.draw_line_eq    = st7789_draw_line_eq;
     st.draw_circle     = st7789_draw_circle;
@@ -863,9 +908,7 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 
     boot_screen(&st.par);
 
-    set_cs(&st.par);
-    st7789_drawstring16x24(&st.par,"Welcome",60,90,ST77XX_GOLD,ST77XX_GREEN);
-    clear_cs(&st.par);
+    //welcome_screen(&st.par);
 
     return st;
 }
