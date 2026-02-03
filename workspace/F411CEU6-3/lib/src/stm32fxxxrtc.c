@@ -429,7 +429,7 @@ void RTC_Set_day(uint8_t day) {
     RTC_PWR_clock(0);
 }
 
-void RTC_dr2vec(char* rtc_vect)
+void RTC_dr2vec_v1(char* rtc_vect)
 {
 	if(RTC->ISR & (1 << RTC_ISR_RSF_Pos)){ // RSF: Registers synchronisation flag
 		uint32_t dr = RTC->DR;
@@ -460,7 +460,27 @@ void RTC_dr2vec(char* rtc_vect)
 	}
 }
 
-void RTC_tr2vec(char* rtc_vect)
+void RTC_dr2vec(char* rtc_vect)
+{
+    uint32_t dr = RTC->DR;   // read date register directly
+
+    // YT
+    rtc_vect[0] = _rtc_bcd2dec((dr >> RTC_DR_YT_Pos) & 0x0F);
+    // YU
+    rtc_vect[1] = _rtc_bcd2dec((dr >> RTC_DR_YU_Pos) & 0x0F);
+    // WDU
+    rtc_vect[2] = _rtc_bcd2dec((dr >> RTC_DR_WDU_Pos) & 0x07);
+    // MT
+    rtc_vect[3] = _rtc_bcd2dec((dr >> RTC_DR_MT_Pos) & 0x01);
+    // MU
+    rtc_vect[4] = _rtc_bcd2dec((dr >> RTC_DR_MU_Pos) & 0x0F);
+    // DT
+    rtc_vect[5] = _rtc_bcd2dec((dr >> RTC_DR_DT_Pos) & 0x03);
+    // DU
+    rtc_vect[6] = _rtc_bcd2dec(dr & RTC_DR_DU);
+}
+
+void RTC_tr2vec_v1(char* rtc_vect)
 {
 	if(RTC->ISR & (1 << RTC_ISR_RSF_Pos)){ // RSF: Registers synchronisation flag
 		uint32_t tr = RTC->TR;
@@ -486,6 +506,24 @@ void RTC_tr2vec(char* rtc_vect)
 		// Clear Registers synchronisation flag
 		RTC->ISR &= (uint32_t) ~(1 << RTC_ISR_RSF_Pos);
 	}
+}
+
+void RTC_tr2vec(char* rtc_vect)
+{
+    uint32_t tr = RTC->TR;   // read TR unconditionally
+
+    // ht
+    rtc_vect[0] = _rtc_bcd2dec((tr >> RTC_TR_HT_Pos) & 0x03);
+    // hu
+    rtc_vect[1] = _rtc_bcd2dec((tr >> RTC_TR_HU_Pos) & 0x0F);
+    // mnt
+    rtc_vect[2] = _rtc_bcd2dec((tr >> RTC_TR_MNT_Pos) & 0x07);
+    // mnu
+    rtc_vect[3] = _rtc_bcd2dec((tr >> RTC_TR_MNU_Pos) & 0x0F);
+    // st
+    rtc_vect[4] = _rtc_bcd2dec((tr >> RTC_TR_ST_Pos) & 0x07);
+    // su
+    rtc_vect[5] = _rtc_bcd2dec(tr & RTC_TR_SU);
 }
 
 uint8_t RTC_Get_year(void){

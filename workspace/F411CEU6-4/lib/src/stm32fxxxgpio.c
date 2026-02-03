@@ -213,8 +213,8 @@ static STM32FXXX_GPIOA_Handler stm32fxxx_gpioa_setup = {
     .set_hpins = GPIOA_set_hpins,
     .clear_hpins = GPIOA_clear_hpins,
     .lck = GPIOA_lck,
-    .af = GPIOA_af,
-	.dev = dev
+    .af = GPIOA_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOA_Handler* gpioa(void) { return &stm32fxxx_gpioa_setup; }
@@ -317,8 +317,8 @@ static STM32FXXX_GPIOB_Handler stm32fxxx_gpiob_setup = {
     .set_hpins = GPIOB_set_hpins,
     .clear_hpins = GPIOB_clear_hpins,
     .lck = GPIOB_lck,
-    .af = GPIOB_af,
-	.dev = dev
+    .af = GPIOB_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOB_Handler* gpiob(void) { return &stm32fxxx_gpiob_setup; }
@@ -422,8 +422,8 @@ static STM32FXXX_GPIOC_Handler stm32fxxx_gpioc_setup = {
     .set_hpins = GPIOC_set_hpins,
     .clear_hpins = GPIOC_clear_hpins,
     .lck = GPIOC_lck,
-    .af = GPIOC_af,
-	.dev = dev
+    .af = GPIOC_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOC_Handler* gpioc(void) { return &stm32fxxx_gpioc_setup; }
@@ -526,8 +526,8 @@ static STM32FXXX_GPIOD_Handler stm32fxxx_gpiod_setup = {
     .set_hpins = GPIOD_set_hpins,
     .clear_hpins = GPIOD_clear_hpins,
     .lck = GPIOD_lck,
-    .af = GPIOD_af,
-	.dev = dev
+    .af = GPIOD_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOD_Handler* gpiod(void) { return &stm32fxxx_gpiod_setup; }
@@ -631,8 +631,8 @@ static STM32FXXX_GPIOE_Handler stm32fxxx_gpioe_setup = {
     .set_hpins = GPIOE_set_hpins,
     .clear_hpins = GPIOE_clear_hpins,
     .lck = GPIOE_lck,
-    .af = GPIOE_af,
-	.dev = dev
+    .af = GPIOE_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOE_Handler* gpioe(void) { return &stm32fxxx_gpioe_setup; }
@@ -737,8 +737,8 @@ static STM32FXXX_GPIOF_Handler stm32fxxx_gpiof_setup = {
     .set_hpins = GPIOF_set_hpins,
     .clear_hpins = GPIOF_clear_hpins,
     .lck = GPIOF_lck,
-    .af = GPIOF_af,
-	.dev = dev
+    .af = GPIOF_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOF_Handler* gpiof(void) { return &stm32fxxx_gpiof_setup; }
@@ -842,8 +842,8 @@ static STM32FXXX_GPIOG_Handler stm32fxxx_gpiog_setup = {
     .set_hpins = GPIOG_set_hpins,
     .clear_hpins = GPIOG_clear_hpins,
     .lck = GPIOG_lck,
-    .af = GPIOG_af,
-	.dev = dev
+    .af = GPIOG_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOG_Handler* gpiog(void) { return &stm32fxxx_gpiog_setup; }
@@ -948,8 +948,8 @@ static STM32FXXX_GPIOH_Handler stm32fxxx_gpioh_setup = {
     .set_hpins = GPIOH_set_hpins,
     .clear_hpins = GPIOH_clear_hpins,
     .lck = GPIOH_lck,
-    .af = GPIOH_af,
-	.dev = dev
+    .af = GPIOH_af
+	//.dev = dev
 };
 
 STM32FXXX_GPIOH_Handler* gpioh(void) { return &stm32fxxx_gpioh_setup; }

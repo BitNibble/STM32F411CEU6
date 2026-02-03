@@ -12,7 +12,6 @@ Update:   16012024
 #include <stdint.h>
 #include <inttypes.h>
 /*** Function Identity ***/
-void delay_Configure(void);
 uint32_t get_systick_us(void);
 uint32_t get_systick_10us(void);
 uint32_t get_systick_ms(void);

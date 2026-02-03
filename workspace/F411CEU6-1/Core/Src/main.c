@@ -73,7 +73,7 @@ int main(void)
 
 void tim1_u_callback(void){
 	dev()->gpioc->ODR ^= GPIO_ODR_ODR_13;
-	gpioa()->dev()->gpioa->ODR ^= GPIO_ODR_ODR_5;
+	dev()->gpioa->ODR ^= GPIO_ODR_ODR_5;
 }
 
 void Error_Handler(void)

@@ -14,7 +14,6 @@ Comment:
 #include <string.h>
 #include <stdarg.h>
 #include "stm32fxxxusart1.h"
-#include "armlcd.h"
 #include "armfunction.h"
 #include "armsystick.h"
 #include "stm32fxxxgpio.h"
@@ -1101,18 +1100,9 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 		}
 		// Only shows in power on.
 		usart1()->receive_rxstring( str, CMD_BUFFER_SIZE, "\r\n" );
-		lcd0()->gotoxy( 0, 0 );
-		lcd0()->string_size( str + i_connect, 20 );
-		lcd0()->gotoxy( 1, 0 );
-		lcd0()->string_size( str + i_connect + 20, 20 );
-		lcd0()->gotoxy( 2, 0 );
-		lcd0()->string_size( str + i_connect + 40, 20 );
-		lcd0()->gotoxy( 3, 0 );
-		lcd0()->string_size( str + i_connect + 60, 20 );
 	}
 	//tm_atpurge();
 	//usart1()->rx_purge();
-	lcd0()->clear();
 	tm_setstep( TM_END );
 }
 

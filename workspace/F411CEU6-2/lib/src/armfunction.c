@@ -33,8 +33,7 @@ Comment:
 static FUNC_Handler func_setup;
 static ARM_FUNC arm_func_setup;
 
-static char FUNCstr[FUNCSTRSIZE] = {0};
-const uint32_t funcstrsize = FUNCSTRSIZE - 1;
+static char FUNCstr[FUNCSTRSIZE + 1] = {0};
 static uint32_t mem[4];
 static uint32_t nen[4];
 static char* function_token_default = ":";

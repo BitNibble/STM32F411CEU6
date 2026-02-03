@@ -9,7 +9,7 @@ Date:     15112025
 #define STM32F411CEU6_H
 
 #include "stm32f4xx.h"
-//#include "stm32fxxxgpio.h"
+#include "stm32fxxxgpio.h"
 #include "stm32fxxxtool.h"
 
 /*** Clock sources ***/

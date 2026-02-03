@@ -19,13 +19,6 @@ Comment:
 #else
 	void* dev(void){ return NULL; }
 #endif
-/*** Define and Macro ***/
-#if !defined (MODE_INPUT) || !defined (MODE_OUTPUT) || !defined (MODE_AF) || !defined (MODE_ANALOG)
-	#define MODE_INPUT 0x0UL
-	#define MODE_OUTPUT 0x1UL
-	#define MODE_AF 0x2UL
-	#define MODE_ANALOG 0x3UL
-#endif
 /*** GPIO -> GPIO ***/
 typedef const struct
 {
@@ -41,13 +34,13 @@ typedef const struct
 	/*************/
 	void (*clock)( uint8_t state );
 	/*** Device ***/
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
+//#if defined(STM32F411CEU6_H)
+//	STM32F411CEU6_Instance* (*dev)(void);
+//#elif defined(STM32F446RE_H)
+//	STM32F446RE_Instance* (*dev)(void);
+//#else
+//	void* (*dev)(void);
+//#endif
 }STM32FXXX_GPIOA_Handler, STM32FXXX_GPIOB_Handler, STM32FXXX_GPIOC_Handler, \
  STM32FXXX_GPIOD_Handler, STM32FXXX_GPIOE_Handler, STM32FXXX_GPIOF_Handler, \
  STM32FXXX_GPIOG_Handler, STM32FXXX_GPIOH_Handler;
@@ -61,18 +54,17 @@ STM32FXXX_GPIOF_Handler* gpiof(void);
 STM32FXXX_GPIOG_Handler* gpiog(void);
 STM32FXXX_GPIOH_Handler* gpioh(void);
 
+/*** GPIO Procedure & Function Definition ***/
+void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable );
+void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
+void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype );
+void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed );
+void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd );
+void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af );
+
 #endif
-
 /*** EOF ***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

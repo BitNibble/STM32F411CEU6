@@ -93,7 +93,7 @@ static STM32F411CEU6_Instance stm32f411ceu6_setup = {
     .usb_otg_hostchannel = ((USB_OTG_HostChannelTypeDef*) USB_OTG_HOST_CHANNEL_BASE)
 };
 
-STM32F411CEU6_Instance* dev(void){ return &stm32f411ceu6_setup; }
+STM32F411CEU6_Instance* dev(void){ return (STM32F411CEU6_Instance*) &stm32f411ceu6_setup; }
 
 /*******************************************************************/
 /************************** LOOKUP TABLES **************************/
@@ -203,6 +203,15 @@ uint32_t get_pclk2(void) {
 /*******************************************************************/
 /************************* Peripheral ******************************/
 /*******************************************************************/
+/************************* Generic UTILS ***************************/
+U_word writeHLbyte(uint16_t v)
+{
+    U_word w;
+    w.par.h = v >> 8;
+    w.par.l = v & 0xFF;
+    return w;
+}
+
 /************************** GPIO UTILS *****************************/
 inline void set_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
     reg->BSRR = hpins;
