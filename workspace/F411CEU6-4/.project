@@ -29,4 +29,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Core</name>
+			<type>2</type>
+			<location>D:/Embedded/STM32F411CEU6/workspace/F411CEU6-4/Core</location>
+		</link>
+	</linkedResources>
 </projectDescription>
