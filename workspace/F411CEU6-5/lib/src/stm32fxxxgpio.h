@@ -52,17 +52,6 @@ STM32FXXX_GPIOF_Handler* gpiof(void);
 STM32FXXX_GPIOG_Handler* gpiog(void);
 STM32FXXX_GPIOH_Handler* gpioh(void);
 
-/*** GPIO Procedure & Function Definition ***/
-void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable );
-void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
-void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype );
-void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed );
-void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd );
-void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
-void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
-void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins );
-void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af );
-
 #endif
 /*** EOF ***/
 

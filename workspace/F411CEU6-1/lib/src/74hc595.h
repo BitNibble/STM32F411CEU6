@@ -14,6 +14,7 @@ Comment:
 #include <inttypes.h>
 /*** Global Constant & Macro ***/
 #define STM32F4XXX
+
 #ifdef STM32F4XXX
 	#define IO_var uint32_t
 #else

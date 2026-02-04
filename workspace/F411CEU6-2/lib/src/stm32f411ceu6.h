@@ -198,6 +198,15 @@ typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_Inje
 U_word writeHLbyte(uint16_t v);
 
 /************************** GPIO UTILS *****************************/
+void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable );
+void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
+void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype );
+void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed );
+void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd );
+void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af );
 void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);
