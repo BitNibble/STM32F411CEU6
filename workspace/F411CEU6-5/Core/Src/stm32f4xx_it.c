@@ -19,8 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+
 #include "stm32f4xx_hal.h"
 #include "armsystick.h"
 /* USER CODE END Includes */
