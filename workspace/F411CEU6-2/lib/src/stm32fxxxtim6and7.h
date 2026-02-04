@@ -11,13 +11,13 @@ Comment:
 	#define _STM32FXXXTIM6AND7_H_
 
 /*** Library ***/
-#if defined (STM32F411xE)
+//#if defined (STM32F411xE)
 	#include "stm32f411ceu6.h"
-#elif defined(STM32F446xx)
-	#include "stm32f446re.h"
-#else
-	void* dev(void){ return NULL; }
-#endif
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /*** TIMER TypeDef***/
 typedef struct{
 	void (*b)(void);

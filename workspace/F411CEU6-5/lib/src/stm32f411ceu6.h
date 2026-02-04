@@ -12,10 +12,8 @@ Date:     15112025
 #include "stm32f4xx_hal.h"
 #include "stm32fxxxgpio.h"
 #include "stm32fxxxtool.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <inttypes.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
 /*** Clock sources ***/
 #ifndef HSI_RC

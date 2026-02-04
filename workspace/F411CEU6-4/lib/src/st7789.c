@@ -12,6 +12,16 @@ Date:     23/01/2026
 #include <stdlib.h>
 #include <math.h>
 
+#ifndef MODE_OUTPUT
+#define MODE_OUTPUT 0
+#endif
+#ifndef MODE_INPUT
+#define MODE_INPUT 1
+#endif
+#ifndef MODE_AF
+#define MODE_AF 2
+#endif
+
 /*** Define & Macros ***/
 // Optional X/Y offsets for 240x240 modules
 #define ST7789_X_OFFSET 0
@@ -125,7 +135,7 @@ static inline void st7789_spi_tx_fast(ST7789_par* par, uint8_t d)
 {
     SPI_TypeDef *spi = par->spi;
     _spi_wait_txe(spi, 1000);
-    *(__IO uint8_t*)&spi->DR = d;
+    *(uint8_t*)&spi->DR = d;
 }
 
 // Flush SPI after a burst

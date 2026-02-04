@@ -13,8 +13,8 @@ Comment:
 /*** File Library ***/
 #include <inttypes.h>
 /*** Global Constant & Macro ***/
-#define STM32F4
-#ifdef STM32F4
+#define STM32F4XXX
+#ifdef STM32F4XXX
 	#define IO_var uint32_t
 #else
 	#define IO_var uint8_t

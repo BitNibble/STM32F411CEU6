@@ -12,13 +12,11 @@ Comment:
 	#define _STM32FXXXGPIO_H_
 
 /*** File Library ***/
-#if defined (STM32F411xE)
+//#if defined (STM32F411xE)
 	#include "stm32f411ceu6.h"
-#elif defined(STM32F446xx)
-	#include "stm32f446re.h"
-#else
-	void* dev(void){ return NULL; }
-#endif
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** GPIO -> GPIO ***/
 typedef const struct
 {

@@ -9,6 +9,7 @@ Comment:
 *******************************************************************************/
 /*** File Library ***/
 #include "stm32fxxxdma.h"
+#include <stdint.h>
 
 /*** File Variables ***/
 // DMA1

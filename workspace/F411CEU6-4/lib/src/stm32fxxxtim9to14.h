@@ -9,13 +9,13 @@ Date:     22062023
 	#define _STM32FXXXTIM9TO14_H_
 
 /*** Library ***/
-#if defined (STM32F411xE)
+//#if defined (STM32F411xE)
 	#include "stm32f411ceu6.h"
-#elif defined(STM32F446xx)
-	#include "stm32f446re.h"
-#else
-	void* dev(void){ return NULL; }
-#endif
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /*** TIMER 9 TO 14 TypeDef***/
 typedef struct{
 	void (*b)(void);
