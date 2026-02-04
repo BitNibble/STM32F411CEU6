@@ -48,10 +48,10 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #include <string.h>
 
 #define JMP_menu_repeat 5
-#define ADC_DELAY 8
-#define ADC_SAMPLE 4
-#define STEP_DELAY 10
-#define MAIN_MENU_DELAY 20
+#define ADC_DELAY 24
+#define ADC_SAMPLE 8
+#define STEP_DELAY 400
+#define MAIN_MENU_DELAY 500
 #define MAX_TOKENS 10
 #define MAIN_BAUD 38400
 #define PARSE_SIZE 2049
@@ -59,6 +59,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 
 EXPLODE_Handler PA;
 char str[32];
+char oneshot[5][15];
 
 void setup_usart1(void);
 
@@ -121,6 +122,8 @@ lcd1.draw_circle(&lcd1.par,200,80,15,ST77XX_BLACK);
 lcd1.draw_star5(&lcd1.par,200,80,15,5,ST77XX_GOLD);
 lcd1.stop(&lcd1.par);
 
+//uint16_t counter_1 = 0;
+
 Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
 tm_jumpstep( 0, 22 );
 /*****************************************************************************/
@@ -142,7 +145,11 @@ while (1) {
 	}
 
    lcd1.start(&lcd1.par);
-   lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 20);
+   if(strcmp(oneshot[4],tokens[0])){
+	   lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 14);
+   		//lcd1.drawstring16x24( &lcd1.par, "12345678901234567890", 0, 160, ST77XX_BLACK,ST77XX_GREEN );
+   		strcpy(oneshot[4],tokens[0]);
+   	}
    lcd1.stop(&lcd1.par);
    //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
 
@@ -403,17 +410,31 @@ while (1) {
 	rtc()->tr2vec(vecT);
 
 	lcd1.start(&lcd1.par);
-	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,ST77XX_GREEN, 12);
 
-	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
-
-	lcd1.drawstring16x24(&lcd1.par,str,10,120,ST77XX_BLACK,ST77XX_GREEN);
-
-	lcd1.drawstring12x16(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,160,ST77XX_BLACK,ST77XX_GREEN);
+	if(strcmp(oneshot[3],state)){
+		lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,ST77XX_GREEN, 12);
+		strcpy(oneshot[3],state);
+	}
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
+	if(strcmp(oneshot[1],str)){
+		lcd1.drawstring16x24(&lcd1.par,str,10,120,ST77XX_BLACK,ST77XX_GREEN);
+		//lcd1.drawstring12x16( &lcd1.par, func()->ui16toa(counter_1++), 160, 120, ST77XX_BLACK,ST77XX_GREEN );
+		strcpy(oneshot[1],str);
+	}
 
-	lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
+	if(strcmp( oneshot[2], (char*)WeekDay_String(vecD[2]) )){
+		lcd1.drawstring12x16( &lcd1.par, (char*)WeekDay_String(vecD[2]), 10, 160, ST77XX_BLACK,ST77XX_GREEN );
+		strcpy( oneshot[2], (char*)WeekDay_String(vecD[2]) );
+	}
+
+	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
+	if(strcmp(oneshot[0],str)){
+		lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
+		//lcd1.drawstring12x16( &lcd1.par, func()->ui16toa(counter_1++), 160, 120, ST77XX_BLACK,ST77XX_GREEN );
+		strcpy(oneshot[0],str);
+	}
+
 	lcd1.stop(&lcd1.par);
 
 	/***/
