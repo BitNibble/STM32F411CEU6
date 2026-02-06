@@ -1038,7 +1038,7 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 	//ssid; WIFI NAME (string)
 	//password: WIFI PASSWORD (Router) (string)
 	tm_par[STEP] = 1; tm_par[DELAY] = 0;
-	char str[CMD_BUFFER_SIZE] = {0};
+	//char str[CMD_BUFFER_SIZE] = {0};
 	uint8_t i_connect = 0;
 	if( mode & 3 ) { // Filter par
 		mode &= 0x03;
@@ -1050,20 +1050,20 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 		switch( tm_par[STEP] ) {
 			case 1:
 				//tm_step( esp8266_cmd_setuart_def( TM_BAUD, 8, 1, 0, 0), 3000 ); // 3000
-				tm_step( esp8266_cmd_setuart_cur( TM_BAUD, 8, 1, 0, 0), 3000 ); // 3000
+				tm_step( esp8266_cmd_setuart_cur( TM_BAUD, 8, 1, 0, 0), 4000 ); // 3000
 				//tm_step( esp8266_cmd_version(), 2400 );
 				i_connect = 3; // 3
 			break;
 			case 2:
-				tm_step( esp8266_cmd_setwmode_cur(mode), 3000 ); // 3000
+				tm_step( esp8266_cmd_setwmode_cur(mode), 4000 ); // 3000
 				i_connect = 5; // 5
 			break;
 			case 3:
-				tm_step( esp8266_cmd_setwdhcp_cur( 1, 0 ), 3000 ); // 1 : set ESP8266 station 0 : Disable DHCP 3000
+				tm_step( esp8266_cmd_setwdhcp_cur( 1, 0 ), 4000 ); // 1 : set ESP8266 station 0 : Disable DHCP 3000
 				i_connect = 5; // 5
 			break;
 			case 4:
-				tm_step( esp8266_cmd_setipsta_cur("192.168.1.53", "192.168.1.1", "255.255.255.0"), 3000 ); // static IP 3000
+				tm_step( esp8266_cmd_setipsta_cur("192.168.1.53", "192.168.1.1", "255.255.255.0"), 4000 ); // static IP 3000
 				i_connect = 4; // 4
 			break;
 			case 5:
@@ -1099,7 +1099,7 @@ void Turingi1to11_Wifi_Connect( uint8_t mode, const char* ssid, const char* pass
 			break;
 		}
 		// Only shows in power on.
-		usart1()->receive_rxstring( str, CMD_BUFFER_SIZE, "\r\n" );
+		//usart1()->receive_rxstring( str, CMD_BUFFER_SIZE, "\r\n" );
 	}
 	//tm_atpurge();
 	//usart1()->rx_purge();

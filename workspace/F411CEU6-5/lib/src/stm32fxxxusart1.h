@@ -27,6 +27,7 @@ typedef struct {
 	void (*tc)(void);
 	void (*rxne)(void);
 	void (*idle)(void);
+	void (*error)(void);
 	void (*ore)(void);
 	void (*ne)(void);
 	void (*fe)(void);
@@ -49,6 +50,7 @@ typedef const struct {
 	uint32_t (*is_rx_idle)( void );
 	void (*tx)( uint8_t state );
 	void (*rx)( uint8_t state );
+	uint32_t (*rx_index)( void );
 	void (*tx_einterrupt)( uint8_t state );
 	void (*rx_neinterrupt)( uint8_t state );
 	void (*transmit_char)(char c);
@@ -61,13 +63,6 @@ typedef const struct {
 	void (*start)(void);
 	void (*stop)(void);
 
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_USART1_Handler;
 
 STM32FXXX_USART1_Handler*  usart1(void);
