@@ -763,8 +763,7 @@ static STM32FXXX_RTC_Handler stm32fxxx_rtc_setup = {
 	.nvic = RTC_NVIC,
 	.irq_enable = RTC_IRQ_enable,
 	.irq_disable = RTC_IRQ_disable,
-	.callback = &RTC_callback_setup,
-	.dev = dev
+	.callback = &RTC_callback_setup
 };
 
 STM32FXXX_RTC_Handler* rtc(void){ return (STM32FXXX_RTC_Handler*) &stm32fxxx_rtc_setup; }
@@ -830,15 +829,4 @@ void RTC_IRQHandler(void)
 }
 
 /*** EOF ***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

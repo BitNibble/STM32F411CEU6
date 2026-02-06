@@ -20,6 +20,40 @@ static char usart1_tx_buffer[USART1_TX_BUFFER_SIZE + 1] = {0};
 volatile uint16_t usart1_tx_index = 0;
 static uint8_t usart1_flag = 0;
 /*** USART Procedure & Function Definition ***/
+/*** Default Init ***/
+void USART1_defualt_init(void)
+{
+    usart1()->clock(1);
+
+    // GPIO config
+    GPIO_moder(dev()->gpioa, 9, MODE_AF);
+    GPIO_moder(dev()->gpioa,10, MODE_AF);
+
+    GPIO_af(dev()->gpioa, 9, 7);
+    GPIO_af(dev()->gpioa, 10, 7);
+
+    GPIO_ospeed(dev()->gpioa, 9, 3);
+    GPIO_ospeed(dev()->gpioa, 10, 3);
+
+    GPIO_otype(dev()->gpioa, 9, 0);
+    GPIO_otype(dev()->gpioa, 10, 0);
+
+    GPIO_pupd(dev()->gpioa, 9, 0);   // TX no pull
+    GPIO_pupd(dev()->gpioa, 10, 2);  // RX pull-up (REQUIRED)
+
+    // Baud rate / sampling
+    usart1()->samplingmode(0, 38400);
+
+    // Enable USART core FIRST
+    usart1()->tx(1);
+    usart1()->rx(1);
+    usart1()->start();     // clears SR internally
+
+    // THEN enable interrupts
+    usart1()->tx_einterrupt(1);
+    usart1()->rx_neinterrupt(1);
+    usart1()->nvic(1);
+}
 /*** USART1 ***/
 void USART1_Clock( uint8_t state )
 {
@@ -314,6 +348,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
 	// Config
+	.inic = USART1_defualt_init,
 	.wordlength = USART1_WordLength,
 	.stopbits = USART1_StopBits,
 	.samplingmode = USART1_SamplingMode,

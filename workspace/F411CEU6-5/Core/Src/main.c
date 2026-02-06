@@ -25,10 +25,9 @@ GPIOA9 and GPIOA10 usart1
 #include <stdlib.h>
 #include <string.h>
 
-#define MAIN_BAUD 38400
 #define ADC_SAMPLE 8
 #define TASK_ADC   0
-#define TASK_WIFI  1
+#define TASK_BT    1
 #define TASK_LCD   2
 #define TASK_MAX   3
 
@@ -39,8 +38,6 @@ static char rx_snapshot[USART1_RX_BUFFER_SIZE];
 char str[32];
 char oneshot[5][15];
 
-void setup_usart1(void);
-
 int main(void)
 {
     // --- Initialization ---
@@ -49,8 +46,8 @@ int main(void)
     fpu_enable();
     rtc()->inic();
     FUNC_enable();
-    setup_usart1();
     adc1()->clock(1);
+    usart1()->inic();
 
 
     adc1()->temperature_setup();
@@ -85,7 +82,7 @@ int main(void)
                 }
                 break;
 
-            case TASK_WIFI:
+            case TASK_BT:
                 // Snapshot USART buffer safely
                 __disable_irq();
                 size_t rx_len = usart1()->rx_index();
@@ -101,6 +98,8 @@ int main(void)
                 // Process Wi-Fi / commands
                 if(rx_len && strstr(rx_snapshot, "\r\n")) {
                     // tokenize and handle command
+
+
                     usart1()->rx_purge();
                 }
                 break;
@@ -125,40 +124,6 @@ int main(void)
         // Round-robin
         if(++current_task >= TASK_MAX) current_task = 0;
     }
-}
-
-void setup_usart1(void)
-{
-    usart1()->clock(1);
-
-    // GPIO config
-    gpioa()->moder(9, MODE_AF);
-    gpioa()->moder(10, MODE_AF);
-
-    gpioa()->af(9, 7);
-    gpioa()->af(10, 7);
-
-    gpioa()->ospeed(9, 3);
-    gpioa()->ospeed(10, 3);
-
-    gpioa()->otype(9, 0);
-    gpioa()->otype(10, 0);
-
-    gpioa()->pupd(9, 0);   // TX no pull
-    gpioa()->pupd(10, 2);  // RX pull-up (REQUIRED)
-
-    // Baud rate / sampling
-    usart1()->samplingmode(0, MAIN_BAUD);
-
-    // Enable USART core FIRST
-    usart1()->tx(1);
-    usart1()->rx(1);
-    usart1()->start();     // clears SR internally
-
-    // THEN enable interrupts
-    usart1()->tx_einterrupt(1);
-    usart1()->rx_neinterrupt(1);
-    usart1()->nvic(1);
 }
 
 void Error_Handler(void)

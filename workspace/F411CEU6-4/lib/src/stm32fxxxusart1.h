@@ -42,6 +42,7 @@ typedef const struct {
 	void (*clock)(uint8_t state);
 	void (*nvic)(uint8_t state);
 	/*** Other ***/
+	void (*inic)(void);
 	void (*wordlength)(uint8_t wordlength);
 	void (*stopbits)(double stopbits);
 	void (*samplingmode)(uint8_t samplingmode, uint32_t baudrate);

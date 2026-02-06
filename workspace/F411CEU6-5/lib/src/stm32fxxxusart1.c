@@ -20,6 +20,40 @@ static char usart1_tx_buffer[USART1_TX_BUFFER_SIZE + 1] = {0};
 volatile size_t usart1_tx_index = 0;
 static uint8_t usart1_flag = 0;
 /*** USART Procedure & Function Definition ***/
+/*** Default Init ***/
+void USART1_defualt_init(void)
+{
+    usart1()->clock(1);
+
+    // GPIO config
+    GPIO_moder(dev()->gpioa, 9, MODE_AF);
+    GPIO_moder(dev()->gpioa,10, MODE_AF);
+
+    GPIO_af(dev()->gpioa, 9, 7);
+    GPIO_af(dev()->gpioa, 10, 7);
+
+    GPIO_ospeed(dev()->gpioa, 9, 3);
+    GPIO_ospeed(dev()->gpioa, 10, 3);
+
+    GPIO_otype(dev()->gpioa, 9, 0);
+    GPIO_otype(dev()->gpioa, 10, 0);
+
+    GPIO_pupd(dev()->gpioa, 9, 0);   // TX no pull
+    GPIO_pupd(dev()->gpioa, 10, 2);  // RX pull-up (REQUIRED)
+
+    // Baud rate / sampling
+    usart1()->samplingmode(0, 38400);
+
+    // Enable USART core FIRST
+    usart1()->tx(1);
+    usart1()->rx(1);
+    usart1()->start();     // clears SR internally
+
+    // THEN enable interrupts
+    usart1()->tx_einterrupt(1);
+    usart1()->rx_neinterrupt(1);
+    usart1()->nvic(1);
+}
 /*** USART1 ***/
 void USART1_Clock( uint8_t state )
 {
@@ -92,38 +126,38 @@ void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
     // 5) Write BRR
     USART1->BRR = brr;
 }
-void USART1_Tx_Enable( uint8_t state ) {
+void USART1_TX_enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TE;
 	else
 		USART1->CR1 &= ~USART_CR1_TE;
 }
-void USART1_Rx_Enable( uint8_t state ) {
+void USART1_RX_enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_RE;
 	else
 		USART1->CR1 &= ~USART_CR1_RE;
 }
-void USART1_Tx_EInterrupt( uint8_t state ) {
+void USART1_TXEI_enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TXEIE;
 	else
 		USART1->CR1 &= ~USART_CR1_TXEIE;
 }
-void USART1_Tx_CInterrupt( uint8_t state ) {
+void USART1_TCI_enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TCIE;
 	else
 		USART1->CR1 &= ~USART_CR1_TCIE;
 }
-void USART1_Rx_NEInterrupt( uint8_t state) {
+void USART1_RXNEI_enable( uint8_t state) {
 	if ( state )
 		USART1->CR1 |= USART_CR1_RXNEIE;
 	else
 		USART1->CR1 &= ~USART_CR1_RXNEIE;
 }
 /*****************************************************************************/
-uint32_t USART1_rx_index( void )
+uint32_t USART1_RX_index( void )
 {
 	return usart1_rx_index;
 }
@@ -173,7 +207,7 @@ uint32_t is_USART1_SR_FE(void){
 uint32_t is_USART1_SR_PE(void){
 	return USART1->SR & USART_SR_PE;
 }
-void _clear_SR(void){
+void _USART1_clear_SR(void){
 	volatile uint32_t tmp;
 	tmp = USART1->SR;
 	tmp = USART1->DR;
@@ -208,20 +242,18 @@ void USART1_RxPurge(void) {
 void USART1_TxFlush(void) {
 	usart1_tx_index = 0;
 	usart1_tx_buffer[0] = 0;
-	//memset( usart1_tx_buffer, 0, USART1_TX_BUFFER_SIZE );
 }
 void USART1_TransmitString(const char *str) {
 	USART1_TxFlush();
     // Copy the string into the transmit buffer
     strncpy( (char *)usart1_tx_buffer, str, USART1_TX_BUFFER_SIZE ); // Ensure tx_buffer is big enough
     // Enable the TXE interrupt to start sending data
-    USART1_Tx_EInterrupt(1);
+    USART1_TXEI_enable(1);
 }
 void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl) {
 	const uint32_t buff_size = size - 1;
 	if(usart1_flag) { memset(oneshot, 0, size); usart1_flag = 0; }
 	char *ptr = usart1_rx_buffer;
-	//size_t ptr_length = strlen((char*)ptr);
 	size_t ptr_length = usart1_rx_index;
 	if( ptr_length < USART1_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
@@ -243,7 +275,6 @@ void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl
 void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
 	const uint32_t buff_size = size - 1;
 	char *ptr = usart1_rx_buffer;
-	//size_t ptr_length = strlen((char*)ptr);
 	size_t ptr_length = usart1_rx_index;
 	if( ptr_length < USART1_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
@@ -260,15 +291,13 @@ void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
 	}else { USART1_RxFlush( ); }
 }
 
-//void USART1_start_V1(void) { USART1->CR1 |= USART_CR1_UE; }
-
 void USART1_start(void)
 {
     // Disable USART
     USART1->CR1 &= ~USART_CR1_UE;
 
     // Clear pending flags
-    _clear_SR();
+    _USART1_clear_SR();
 
     // Reset indexes
     usart1_rx_index = 0;
@@ -283,7 +312,7 @@ void USART1_stop(void) { USART1->CR1 &= ~USART_CR1_UE; }
 void USART1_hard_reset(void)
 {
     USART1_stop();
-    _clear_SR();
+    _USART1_clear_SR();
     USART1_RxFlush();
     USART1_start();
 }
@@ -291,7 +320,7 @@ void USART1_hard_reset(void)
 // CALLBACK
 void USART1_CallBack_ERROR(void){
 	// Overrun error: Clear ORE by reading DR
-	_clear_SR();
+	_USART1_clear_SR();
 	// Handle overrun error (e.g., discard data)
 }
 void USART1_CallBack_CTS(void){
@@ -302,7 +331,7 @@ void USART1_CallBack_CTS(void){
 }
 void USART1_CallBack_LBD(void){
 	// Clear LBD flag by writing a 0
-	_clear_SR();
+	_USART1_clear_SR();
 	// Handle LIN break detection (e.g., reset communication)
 }
 void USART1_CallBack_TXE(void){
@@ -328,7 +357,7 @@ void USART1_CallBack_RXNE(void){
 }
 void USART1_CallBack_IDLE(void){
 	// Clear IDLE flag by reading SR and DR
-	_clear_SR();
+	_USART1_clear_SR();
 	// Handle idle condition (e.g., mark end of transmission)
 }
 
@@ -352,18 +381,19 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
 	// Config
+	.inic = USART1_defualt_init,
 	.wordlength = USART1_WordLength,
 	.stopbits = USART1_StopBits,
 	.samplingmode = USART1_SamplingMode,
 	.is_tx_complete = is_USART1_SR_TC,
 	.is_rx_idle = is_USART1_SR_IDLE,
 	// Enable
-	.tx = USART1_Tx_Enable,
-	.rx = USART1_Rx_Enable,
-	.rx_index = USART1_rx_index,
+	.tx = USART1_TX_enable,
+	.rx = USART1_RX_enable,
+	.rx_index = USART1_RX_index,
 	// Interrupt
-	.tx_einterrupt = USART1_Tx_EInterrupt,
-	.rx_neinterrupt = USART1_Rx_NEInterrupt,
+	.tx_einterrupt = USART1_TXEI_enable,
+	.rx_neinterrupt = USART1_RXNEI_enable,
 	// Control
 	.transmit_char = USART1_TransmitChar,
 	.receive_char = USART1_ReceiveChar,
@@ -382,97 +412,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 
 STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }
 
-/*** Interrupt handler for USART1 ***
-void USART1_IRQHandler_V1(void) {
-	STM32FXXX_USART1_CallBack* cb = &USART1_callback_setup;
-	// Check for CTS flag (if hardware flow control is enabled)
-	if (is_USART1_SR_CTS()) {
-		if(cb->cts){ cb->cts(); }
-	}
-	// Check for LIN Break Detection (if LIN mode is enabled)
-	if (is_USART1_SR_LBD()) {
-		if(cb->lbd){ cb->lbd(); }
-	}
-
-	if(is_USART1_CR1_TXEIE()) {
-		if(is_USART1_SR_TXE()) {
-			if(cb->txe){ cb->txe(); }
-		}
-	}
-
-	if(is_USART1_CR1_TCIE()) {
-		// Check if the TC (Transmission Complete) flag is set
-		if (is_USART1_SR_TC()) {
-			if(cb->tc){ cb->tc(); }
-		}
-	}
-
-	if (is_USART1_CR1_RXNEIE() && is_USART1_SR_RXNE()) {
-	    if (cb->rxne) cb->rxne();
-	}
-    // Check for IDLE line detection
-	if (is_USART1_CR1_IDLEIE() && is_USART1_SR_IDLE()) {
-	    if (cb->idle) cb->idle();
-	}
-    // Error handling (Overrun, Noise, Framing, Parity)
-    if (is_USART1_SR_ORE()) {
-    	if(cb->ore){ cb->ore(); }
-    }
-    if (is_USART1_SR_NE()) {
-    	// Noise error: Handle noise (e.g., log or recover from error)
-    	_clear_SR();
-    	if (cb->ne) { cb->ne(); }
-    }
-    if (is_USART1_SR_FE()) {
-    	// Framing error: Handle framing issues (e.g., re-sync communication)
-    	_clear_SR();
-    	if (cb->fe) { cb->fe(); }
-    }
-    if (is_USART1_SR_PE()) {
-    	// Parity error: Handle parity mismatch (e.g., request retransmission)
-    	_clear_SR();
-    	if (cb->pe) { cb->pe(); }
-    }
-    // Optionally reset USART or take corrective action based on error type
-
-    // Wakeup from STOP mode (if enabled and used)
-    //if (sr & USART_SR_WU) {
-        // Clear wakeup flag by writing a 0
-        //USART1->SR &= ~USART_SR_WU;
-        // Handle wakeup event (e.g., resume communication)
-    //}
-}
-
-void USART1_IRQHandler_V2(void)
-{
-    STM32FXXX_USART1_CallBack* cb = &USART1_callback_setup;
-
-    if (is_USART1_CR1_TXEIE() && is_USART1_SR_TXE()) {
-        if (cb->txe) cb->txe();
-    }
-
-    if (is_USART1_CR1_TCIE() && is_USART1_SR_TC()) {
-        if (cb->tc) cb->tc();
-    }
-
-    if (is_USART1_SR_ORE()) {
-    	_clear_SR();
-        if (cb->ore) cb->ore();
-    }
-
-    if (is_USART1_CR1_RXNEIE() && is_USART1_SR_RXNE()) {
-        if (cb->rxne) cb->rxne();
-    }
-
-    if (is_USART1_CR1_IDLEIE() && is_USART1_SR_IDLE()) {
-    	_clear_SR();
-        if (cb->idle) cb->idle();
-    }
-
-
-}
-***/
-
+/*** Interrupt handler for USART1 ***/
 void USART1_IRQHandler(void)
 {
     STM32FXXX_USART1_CallBack* cb = &USART1_callback_setup;

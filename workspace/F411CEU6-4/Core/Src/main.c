@@ -61,8 +61,6 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 EXPLODE_Handler PA;
 char str[32];
 
-void setup_usart1(void);
-
 int main(void)
 {
 rcc()->inic();
@@ -79,7 +77,7 @@ gpioa()->clock(1);
 gpiob()->clock(1); // lcd0
 gpioc()->clock(1); // gpioc13
 
-setup_usart1();
+usart1()->inic();
 
 PA = EXPLODE_enable();
 
@@ -432,33 +430,6 @@ while (1) {
    }
 	/***/
 }}
-
-void setup_usart1(void){
-	usart1()->clock(1);
-
-	// Set PA9 and PA10 to alternate function mode
-	gpioa()->moder(9,MODE_AF); gpioa()->moder(10,MODE_AF);
-
-	// Set alternate function type to AF7 (USART1) for PA9 and PA10
-	gpioa()->af(9,7); gpioa()->af(10,7); // Set AF7 for PA9 and PA10
-
-	// Set PA9 as push-pull output, high speed
-	gpioa()->ospeed(9,3); gpioa()->ospeed(10,3); // High speed for PA9, PA10
-	gpioa()->otype(9,0); gpioa()->otype(10,0);  // Set to push-pull
-	gpioa()->pupd(9,1); gpioa()->pupd(10,1); // No pull-up, no pull-down
-
-	// Set USART1 baud rate
-	usart1()->samplingmode( 0, MAIN_BAUD );
-
-	// Interrupt handler setup
-	usart1()->tx_einterrupt(1);
-	usart1()->rx_neinterrupt(1);
-	usart1()->nvic(1);
-
-	// Enable USART1, TX, RX
-	usart1()->tx(1); usart1()->rx(1); // Enable transmitter and receiver
-	usart1()->start(); // Enable USART1
-}
 
 void Error_Handler(void)
 {
