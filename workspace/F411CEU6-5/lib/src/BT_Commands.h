@@ -92,6 +92,5 @@ const char* BT_AT_SetInq0(void);
 const char* BT_AT_SetInq1(void);
 
 #endif
-
 /*** EOF ***/
 

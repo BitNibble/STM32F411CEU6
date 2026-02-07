@@ -12,6 +12,7 @@ Comment:
 
 /*** File Library ***/
 #include <inttypes.h>
+
 /*** Global Constant & Macro ***/
 #define STM32F4XXX
 
@@ -44,17 +45,5 @@ typedef struct
 HC595_Handler hc595_enable(volatile IO_var *ddr, volatile IO_var *port, uint8_t datapin, uint8_t clkpin, uint8_t outpin);
 
 #endif
-
 /***EOF***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

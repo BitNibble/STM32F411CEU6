@@ -44,14 +44,5 @@ STM32FXXX_SRAM_Handler* sram(void){ return (STM32FXXX_SRAM_Handler*) &stm32fxxx_
 
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 

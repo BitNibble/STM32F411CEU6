@@ -11,11 +11,8 @@ Comment:
 	#define STM32FXXXNVIC_H
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** NVIC TypeDef ***/
 typedef const struct
 {
@@ -42,17 +39,7 @@ typedef const struct
 STM32FXXX_NVIC_Handler* nvic(void);
 
 #endif
-
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 

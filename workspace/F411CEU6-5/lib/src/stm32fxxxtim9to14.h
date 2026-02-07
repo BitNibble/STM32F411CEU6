@@ -9,13 +9,8 @@ Date:     22062023
 	#define _STM32FXXXTIM9TO14_H_
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#else
-//	void* dev(void){ return NULL; }
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** TIMER 9 TO 14 TypeDef***/
 typedef struct{
 	void (*b)(void);
@@ -73,17 +68,5 @@ STM32FXXX_TIM13_Handler* tim13(void);
 STM32FXXX_TIM14_Handler* tim14(void);
 
 #endif
-
 /*** EOF ***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

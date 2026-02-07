@@ -12,7 +12,7 @@ GPIO PA0 - Button
 GPIO PC13 - D2
 
 GPIOA9 and GPIOA10 usart1
-***************************************************************/
+****************************************************************/
 #include "stm32fxxxrcc.h"
 #include "armsystick.h"
 #include "stm32fxxxrtc.h"

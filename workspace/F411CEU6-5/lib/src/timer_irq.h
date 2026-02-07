@@ -82,6 +82,5 @@ void tim14_u_callback(void) __attribute__((weak));
 void tim14_t_callback(void) __attribute__((weak));
 
 #endif // TIMER_IRQ_H
-
 /*** EOF ***/
 

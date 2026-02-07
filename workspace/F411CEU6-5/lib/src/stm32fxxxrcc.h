@@ -8,11 +8,8 @@ Date: 21102025
 #ifndef STM32FXXXRCC_H
 	#define STM32FXXXRCC_H
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** RCC_Common TypeDef ***/
 // RCC -> PLL
 typedef struct
@@ -79,17 +76,7 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 void RCC_IRQHandler(void);
 
 #endif
-
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 

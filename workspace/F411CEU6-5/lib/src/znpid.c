@@ -231,7 +231,5 @@ void znpid_set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t bit
 	*(reg + n ) |= (data << bit_n);
 }
 
-/***File Interrupt***/
-
 /***EOF***/
 

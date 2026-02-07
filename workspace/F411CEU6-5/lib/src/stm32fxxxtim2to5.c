@@ -125,14 +125,3 @@ STM32FXXX_TIM5_Handler* tim5(void){ return (STM32FXXX_TIM5_Handler*) &stm32fxxx_
 
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
-

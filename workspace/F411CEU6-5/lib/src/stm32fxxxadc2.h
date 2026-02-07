@@ -11,11 +11,8 @@ Comment:
 	#define _STM32FXXXADC2_H_
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** ADC TypeDef ***/
 typedef struct {
     void (*on_conversion_complete)(uint16_t value);
@@ -34,21 +31,12 @@ typedef const struct
 	void (*stop)(void);
 
 	ADC2_Callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_ADC2_Handler;
 
 // INIC
 STM32FXXX_ADC2_Handler* adc2(void);
 
 #endif
-
 /*** EOF ***/
 
 /******

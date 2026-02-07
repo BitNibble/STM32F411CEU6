@@ -11,11 +11,8 @@ Comment:
 	#define _STM32FXXXPWR_H_
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** PWR Bit Mapping TypeDef ***/
 // CR
 typedef struct
@@ -77,17 +74,5 @@ typedef const struct
 STM32FXXX_PWR_Handler* pwr(void);
 
 #endif
-
 /*** EOF ***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

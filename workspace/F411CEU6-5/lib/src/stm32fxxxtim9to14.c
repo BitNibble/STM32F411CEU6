@@ -184,16 +184,5 @@ STM32FXXX_TIM14_Handler* tim14(void){ return (STM32FXXX_TIM14_Handler*) &stm32fx
 
 #endif
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
-
 /*** EOF ***/
 

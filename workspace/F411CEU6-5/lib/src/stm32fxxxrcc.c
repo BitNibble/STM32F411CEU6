@@ -378,16 +378,5 @@ static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 
 STM32FXXX_RCC_HANDLER* rcc(void){ return &stm32fxxx_rcc_setup; };
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
-
 /*** EOF ***/
 

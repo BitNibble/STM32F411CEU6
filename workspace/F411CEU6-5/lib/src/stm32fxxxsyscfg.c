@@ -207,8 +207,7 @@ static STM32FXXX_SYSCFG_Handler stm32fxxx_syscfg_setup = {
 	.cmpcr = &SYSCFG_cmpcr_setup,
 	.cfgr = &SYSCFG_cfgr_setup,
 	/*** Clock and Nvic ***/
-	.clock = SYSCFG_Clock,
-	.dev = dev
+	.clock = SYSCFG_Clock
 };
 
 STM32FXXX_SYSCFG_Handler* syscfg(void){ return (STM32FXXX_SYSCFG_Handler*) &stm32fxxx_syscfg_setup; }

@@ -11,11 +11,8 @@ Comment:
 	#define STM32FXXXDMA_H
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** DMA Bit Mapping TypeDef ***/
 // SR
 typedef struct
@@ -123,17 +120,7 @@ void DMA2_Stream6_IRQHandler(void);
 void DMA2_Stream7_IRQHandler(void);
 
 #endif
-
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 

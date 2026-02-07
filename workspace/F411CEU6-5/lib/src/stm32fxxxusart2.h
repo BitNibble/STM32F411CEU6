@@ -9,13 +9,8 @@ Date:     24022024
 	#define _STM32FXXXUSART2_H_
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#else
-//	void* dev(void){ return NULL; }
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** Define and Macros ***/
 #define USART2_RX_BUFFER_SIZE 2049
 #define USART2_TX_BUFFER_SIZE 2049
@@ -73,17 +68,5 @@ typedef const struct {
 STM32FXXX_USART2_Handler*  usart2(void);
 
 #endif
-
 /*** EOF ***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

@@ -12,6 +12,7 @@ Comment:
 
 /*** File Library ***/
 #include <inttypes.h>
+
 /*** File Constant & Macro ***/
 #define BUFF_var char
 /*** File TypeDef ***/
@@ -34,17 +35,5 @@ typedef struct buffer BUFF_Handler;
 BUFF_Handler BUFF_enable(uint8_t size_buff, BUFF_var* buff);
 
 #endif
-
 /***EOF***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

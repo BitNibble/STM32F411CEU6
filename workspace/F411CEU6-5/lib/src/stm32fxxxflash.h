@@ -11,11 +11,8 @@ Comment:
 	#define _STM32FXXXFLASH_H_
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
+
 /*** Macros ***/
 #ifndef FLASH_KEY1
 	#define FLASH_KEY1  0x45670123
@@ -121,17 +118,7 @@ STM32FXXX_FLASH_Handler* flash(void);
 void FLASH_IRQHandler(void);
 
 #endif
-
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 

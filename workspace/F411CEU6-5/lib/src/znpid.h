@@ -13,6 +13,7 @@ Comment:
 /*** File Library ***/
 #include <inttypes.h>
 /*** File TypeDef ***/
+
 typedef struct {
 	double c; // constant p
 	double i; // constant i
@@ -48,17 +49,5 @@ typedef struct znpid ZNPID_Handler;
 ZNPID_Handler ZNPIDenable(void);
 
 #endif
-
 /***EOF***/
-
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
 

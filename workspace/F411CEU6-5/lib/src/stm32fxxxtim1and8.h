@@ -11,13 +11,8 @@ Comment:
 	#define STM32FXXXTIM1AND8_H
 
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#else
-//	void* dev(void){ return NULL; }
-//#endif
+#include "stm32f411ceu6.h"
+
 /*************************/
 /*** TIMER1and8 TypeDef***/
 /*************************/
@@ -52,17 +47,7 @@ STM32FXXX_TIM1_Handler* tim1(void);
 STM32FXXX_TIM8_Handler* tim8(void);
 
 #endif
-
 /*** EOF ***/
 
-/******
-1º Sequence
-2º Scope
-	- Library Scope
-	- File Scope
-	- Function Scope
-	- Precedence Scope
-3º Pointer and Variable
-4º Casting
-******/
+
 
