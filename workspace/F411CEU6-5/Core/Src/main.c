@@ -45,7 +45,6 @@ int main(void)
     systick_inic();
     fpu_enable();
     rtc()->inic();
-    FUNC_enable();
     adc1()->clock(1);
     usart1()->inic();
 

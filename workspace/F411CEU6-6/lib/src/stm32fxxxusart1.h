@@ -1,0 +1,70 @@
+/******************************************************************************
+	STM32 XXX USART1
+Author:   <sergio.salazar.santos@gmail.com>
+License:  GNU General Public License
+Hardware: STM32-XXX
+Date:     24022024
+*******************************************************************************/
+#ifndef _STM32FXXXUSART1_H_
+	#define _STM32FXXXUSART1_H_
+
+/*** Library ***/
+#include "stm32f411ceu6.h"
+
+/*** Define and Macros ***/
+#define USART1_RX_BUFFER_SIZE 2049
+#define USART1_TX_BUFFER_SIZE 2049
+/*** USART 1 Callback TypeDef ***/
+typedef struct {
+	void (*cts)(void);
+	void (*lbd)(void);
+	void (*txe)(void);
+	void (*tc)(void);
+	void (*rxne)(void);
+	void (*idle)(void);
+	void (*error)(void);
+	void (*ore)(void);
+	void (*ne)(void);
+	void (*fe)(void);
+	void (*pe)(void);
+}STM32FXXX_USART1_CallBack;
+/*** USART 1 Handler TypeDef ***/
+typedef const struct {
+	char* rxbuff;
+	char* txbuff;
+	/*** Callback ***/
+	STM32FXXX_USART1_CallBack* callback;
+	/*** Clock and Nvic ***/
+	void (*clock)(uint8_t state);
+	void (*nvic)(uint8_t state);
+	/*** Other ***/
+	void (*inic)(void);
+	void (*wordlength)(uint8_t wordlength);
+	void (*stopbits)(double stopbits);
+	void (*samplingmode)(uint8_t samplingmode, uint32_t baudrate);
+	uint32_t (*is_tx_complete)( void );
+	uint32_t (*is_rx_idle)( void );
+	void (*tx)( uint8_t state );
+	void (*rx)( uint8_t state );
+	uint32_t (*rx_index)( void );
+	void (*tx_einterrupt)( uint8_t state );
+	void (*rx_neinterrupt)( uint8_t state );
+	void (*transmit_char)(char c);
+	char (*receive_char)(void);
+	void (*rx_flush)(void);
+	void (*rx_purge)(void);
+	void (*transmit_string)(const char *str);
+	void (*receive_string)(char* oneshot, char* rx, size_t size, const char* endl);
+	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
+	void (*start)(void);
+	void (*stop)(void);
+
+}STM32FXXX_USART1_Handler;
+
+STM32FXXX_USART1_Handler*  usart1(void);
+
+#endif
+/*** EOF ***/
+
+
+
