@@ -63,7 +63,7 @@ main-build: F411CEU6-6.elf secondary-outputs
 
 # Tool invocations
 F411CEU6-6.elf F411CEU6-6.map: $(OBJS) $(USER_OBJS) D:\Embedded\STM32F411CEU6\workspace\F411CEU6-6\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "F411CEU6-6.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Embedded\STM32F411CEU6\workspace\F411CEU6-6\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F411CEU6-6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "F411CEU6-6.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Embedded\STM32F411CEU6\workspace\F411CEU6-6\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F411CEU6-6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

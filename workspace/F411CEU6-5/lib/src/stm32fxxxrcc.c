@@ -371,9 +371,7 @@ static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 	.lenable = STM32FXXX_Rcc_LEnable,
 	.lselect = STM32FXXX_Rcc_LSelect,
 	/*** NVIC ***/
-	.nvic = STM32FXXX_RCC_nvic,
-	/*** Device ***/
-	.dev = dev
+	.nvic = STM32FXXX_RCC_nvic
 };
 
 STM32FXXX_RCC_HANDLER* rcc(void){ return &stm32fxxx_rcc_setup; };

@@ -274,14 +274,6 @@ void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd )
 		GPIO->PUPDR |= ( pupd << Pos );
 	}
 }
-void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins )
-{
-	GPIO->BSRR = (uint32_t)hpins;
-}
-void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins )
-{
-	GPIO->BSRR = (uint32_t)(hpins << WORD_BITS);
-}
 void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins ){
 	GPIO->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
@@ -317,13 +309,13 @@ inline void set_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
     reg->BSRR = hpins;
 }
 inline void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
-    reg->BSRR = ((uint32_t)hpins) << 16;
+    reg->BSRR = (uint32_t)(hpins << WORD_BITS);
 }
 inline void set_pin(GPIO_TypeDef* reg, uint8_t pin) {
     reg->BSRR = (1 << pin);
 }
 inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
-    reg->BSRR = ((uint32_t)(1 << pin)) << 16;
+    reg->BSRR = ((uint32_t)(1 << pin)) << WORD_BITS;
 }
 
 /************************** TIMER UTILS ******************************/

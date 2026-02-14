@@ -709,9 +709,7 @@ void RTC_L_select(uint8_t lclock) {
     }
 
     // Clear previous RTC selection
-    RTC_Write_enable();
-    set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, 0);
-    RTC_Write_disable();
+    set_rtc_clock_source(0);
 
     // Set the selected clock source
     switch (lclock) {

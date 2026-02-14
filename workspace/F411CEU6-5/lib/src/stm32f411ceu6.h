@@ -6,7 +6,7 @@ Hardware: STM32F411CEU6
 Date:     15112025
 **********************************************************************/
 #ifndef STM32F411CEU6_H
-#define STM32F411CEU6_H
+	#define STM32F411CEU6_H
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
@@ -203,8 +203,6 @@ void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
 void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype );
 void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed );
 void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd );
-void GPIO_set_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
-void GPIO_clear_hpins( GPIO_TypeDef* GPIO, uint16_t hpins );
 void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins );
 void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af );
 void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);

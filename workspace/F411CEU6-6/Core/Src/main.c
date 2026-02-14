@@ -17,19 +17,10 @@
  */
 #include "stm32fxxxrcc.h"
 #include "armsystick.h"
-#include "stm32fxxxrtc.h"
-#include "stm32fxxxusart1.h"
-#include "stm32fxxxadc1.h"
-#include "st7789.h"
-/******/
-#include "armfunction.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
 
 int main(void)
 {
     /* Loop forever */
 	for(;;);
 }
+
