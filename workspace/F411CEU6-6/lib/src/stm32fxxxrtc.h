@@ -19,12 +19,6 @@ Comment:
 #ifndef RTC_KEY2
 	#define RTC_KEY2 0x53
 #endif
-#ifndef DATA_BITS
-	#define DATA_BITS 31
-#endif
-#ifndef DATA_SIZE
-	#define DATA_SIZE 32
-#endif
 /*** RTC Interrupt Enum ***/
 typedef enum {
     RTC_ENABLE_WAKEUP = 0b01,

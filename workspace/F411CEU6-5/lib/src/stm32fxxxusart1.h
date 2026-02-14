@@ -58,7 +58,6 @@ typedef const struct {
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
-
 }STM32FXXX_USART1_Handler;
 
 STM32FXXX_USART1_Handler*  usart1(void);

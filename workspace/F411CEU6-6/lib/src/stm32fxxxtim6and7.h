@@ -33,14 +33,6 @@ typedef const struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim6and7_callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_TIM6_Handler, STM32FXXX_TIM7_Handler;
 
 STM32FXXX_TIM6_Handler* tim6(void);

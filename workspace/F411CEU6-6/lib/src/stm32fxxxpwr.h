@@ -61,14 +61,6 @@ typedef const struct
 	STM32FXXX_PWR_csr* csr;
 	/*** Clock and Nvic ***/
 	void (*clock)(uint8_t state);
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_PWR_Handler;
 
 STM32FXXX_PWR_Handler* pwr(void);

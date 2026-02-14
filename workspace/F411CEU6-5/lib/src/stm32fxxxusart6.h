@@ -55,14 +55,6 @@ typedef const struct {
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_USART6_Handler;
 
 STM32FXXX_USART6_Handler*  usart6(void);

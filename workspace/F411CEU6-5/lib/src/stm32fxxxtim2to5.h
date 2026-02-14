@@ -35,14 +35,6 @@ typedef const struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim2to5_callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_TIM2_Handler, STM32FXXX_TIM5_Handler;
 // ( 3 and 4 ) TIM
 typedef const struct
@@ -54,14 +46,6 @@ typedef const struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim2to5_callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_TIM3_Handler, STM32FXXX_TIM4_Handler;
 
 STM32FXXX_TIM2_Handler* tim2(void);

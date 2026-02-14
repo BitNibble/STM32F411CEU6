@@ -338,8 +338,7 @@ static STM32FXXX_USART2_Handler stm32fxxx_usart2_setup = {
 	.start = USART2_start,
 	.stop = USART2_stop,
 	// Callback
-	.callback = &USART2_callback_setup,
-	.dev = dev
+	.callback = &USART2_callback_setup
 };
 
 STM32FXXX_USART2_Handler*  usart2(void){ return (STM32FXXX_USART2_Handler*) &stm32fxxx_usart2_setup; }

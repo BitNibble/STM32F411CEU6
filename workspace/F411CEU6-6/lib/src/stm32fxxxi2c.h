@@ -48,14 +48,6 @@ typedef const struct
 
 	/* Callback */
 	STM32FXXX_I2C_Callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 
 /*** I2C Procedure and Function Declarations ***/
