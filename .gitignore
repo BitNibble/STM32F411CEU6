@@ -1,0 +1,27 @@
+# STM32 build output
+/build/
+/*.elf
+/*.bin
+/*.hex
+
+# IDE / editor files
+*.project
+*.cproject
+*.launch
+*.vscode/
+*.idea/
+*.swp
+*.swo
+
+# Backup / temp
+*.bak
+*.tmp
+*.o
+*.map
+*.lst
+
+# Generated files
+*.d
+*.dep
+*.bin
+*.hex
