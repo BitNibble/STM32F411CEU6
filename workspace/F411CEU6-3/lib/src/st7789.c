@@ -768,8 +768,8 @@ void st7789_setup_gpio(ST7789_par* par)
 
     // Initial pin states
     if(par->scl_gpio) {
-        GPIO_set_hpins(par->scl_gpio, (1 << par->cs_pin) | (1 << par->rst_pin)); // CS & RST high
-        GPIO_clear_hpins(par->scl_gpio, (1 << par->dc_pin));                     // DC low
+        set_hpins(par->scl_gpio, (1 << par->cs_pin) | (1 << par->rst_pin)); // CS & RST high
+        clear_hpins(par->scl_gpio, (1 << par->dc_pin));                     // DC low
     }
 }
 

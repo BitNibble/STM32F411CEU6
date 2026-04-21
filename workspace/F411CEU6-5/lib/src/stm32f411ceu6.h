@@ -163,7 +163,7 @@ typedef const struct {
 
 } STM32F411CEU6_Instance;
 
-STM32F411CEU6_Instance* dev(void);
+const STM32F411CEU6_Instance* dev(void);
 
 /*******************************************************************/
 /************************** CLOCK GETTERS **************************/

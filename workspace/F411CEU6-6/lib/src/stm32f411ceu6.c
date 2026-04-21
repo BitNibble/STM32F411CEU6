@@ -93,7 +93,7 @@ static STM32F411CEU6_Instance stm32f411ceu6_setup = {
     .usb_otg_hostchannel = ((USB_OTG_HostChannelTypeDef*) USB_OTG_HOST_CHANNEL_BASE)
 };
 
-STM32F411CEU6_Instance* dev(void){ return (STM32F411CEU6_Instance*) &stm32f411ceu6_setup; }
+const STM32F411CEU6_Instance* dev(void){ return &stm32f411ceu6_setup; }
 
 /*******************************************************************/
 /************************** LOOKUP TABLES **************************/
