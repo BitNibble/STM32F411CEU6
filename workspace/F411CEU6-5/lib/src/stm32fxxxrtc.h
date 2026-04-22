@@ -11,13 +11,24 @@ Comment:
 	#define _STM32FXXXRTC_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//#endif
 /*** Define & Macro ***/
 #ifndef RTC_KEY1
 	#define RTC_KEY1 0xCA
 #endif
 #ifndef RTC_KEY2
 	#define RTC_KEY2 0x53
+#endif
+#ifndef DATA_BITS
+	#define DATA_BITS 31
+#endif
+#ifndef DATA_SIZE
+	#define DATA_SIZE 32
 #endif
 /*** RTC Interrupt Enum ***/
 typedef enum {
@@ -71,6 +82,14 @@ typedef const struct
 	void (*irq_enable)(uint8_t type);
 	void (*irq_disable)(uint8_t type);
 	RTC_callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32F411CEU6_Instance* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_RTC_Handler;
 
 /*** Global ***/
@@ -83,5 +102,17 @@ void RTC_WKUP_IRQHandler(void);
 void RTC_Alarm_IRQHandler(void);
 
 #endif
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
+
 /*** EOF ***/
 

@@ -31,7 +31,7 @@ GPIOA9 and GPIOA10 usart1
 #define TASK_LCD   2
 #define TASK_MAX   3
 
-uint8_t current_task = 0;
+uint8_t current_task = TASK_ADC;
 
 // Snapshot RX buffer
 static char rx_snapshot[USART1_RX_BUFFER_SIZE];
@@ -51,16 +51,20 @@ int main(void)
 
     adc1()->temperature_setup();
     ST7789 lcd1 = st7789_enable(dev()->spi1, 2, 3, 4, NULL);
+
+
+    // Variables
+    char vecD[8], vecT[8];
+    uint16_t adc_acc = 0;
+    uint8_t adc_count = 0;
+
+    rtc()->dr2vec(vecD);
+    rtc()->tr2vec(vecT);
+
     lcd1.start(&lcd1.par);
     lcd1.draw_circle(&lcd1.par,200,80,15,ST77XX_BLACK);
     lcd1.draw_star5(&lcd1.par,200,80,15,5,ST77XX_GOLD);
     lcd1.stop(&lcd1.par);
-
-    // Variables
-    char vecD[8], vecT[8];
-    char str[32];
-    uint16_t adc_acc = 0;
-    uint8_t adc_count = 0;
 
     while(1)
     {
@@ -108,13 +112,14 @@ int main(void)
                 rtc()->tr2vec(vecT);
 
                 lcd1.start(&lcd1.par); // only one CS toggle
-                func()->format_string(str, sizeof(str), "%d%d:%d%d:%d%d", vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
+                //func()->format_string(str, sizeof(str), "%d%d:%d%d:%d%d", vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
+                snprintf(str, sizeof(str),  "%d%d:%d%d:%d%d", vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
                 lcd1.drawstring16x24(&lcd1.par, str, 10, 120, ST77XX_BLACK, ST77XX_GREEN);
 
                 lcd1.drawstring12x16(&lcd1.par, (char*)WeekDay_String(vecD[2]), 10, 160, ST77XX_BLACK, ST77XX_GREEN);
 
-                func()->format_string(str, sizeof(str), "%d%d-%d%d-20%d%d",
-                                      vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
+                //func()->format_string(str, sizeof(str), "%d%d-%d%d-20%d%d", vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
+                snprintf(str, sizeof(str), "%d%d-%d%d-20%d%d", vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
                 lcd1.drawstring16x24(&lcd1.par, str, 10, 200, ST77XX_RED, ST77XX_GREEN);
                 lcd1.stop(&lcd1.par);
                 break;
