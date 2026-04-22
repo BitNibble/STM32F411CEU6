@@ -9,6 +9,7 @@ Date: 21102025
 #include <stm32fxxxrcc.h>
 
 /*** File Procedure & Function Header ***/
+static void RCC_Flash_SetLatency(uint32_t sysclk);
 void STM32FXXX_Rcc_Pwr_Clock(uint8_t state);
 void STM32FXXX_Rcc_Write_Enable(void);
 void STM32FXXX_Rcc_Write_Disable(void);
@@ -25,7 +26,7 @@ uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock);
 #endif
 /****************************************/
 
-/*** RCC Procedure & Function Definition ***/
+/*** RCC Procedure & Function Definition ***
 void rcc_start(void)
 {	// Configure -> Enable -> Select
     // AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
@@ -35,7 +36,9 @@ void rcc_start(void)
 	STM32FXXX_Rcc_PLL_Select(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
 	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
 	STM32FXXX_PLL_Division((uint32_t)get_pllsclk()/1000000, 240, 2, 4);
+
 	if(PLL_ON_OFF){
+		RCC_Flash_SetLatency(get_sysclk_target(2));
 		STM32FXXX_Rcc_PLL_CLK_Enable();
 		// System Clock Switch
 		STM32FXXX_Rcc_HSelect(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
@@ -43,6 +46,67 @@ void rcc_start(void)
 		// System Clock Switch
 		STM32FXXX_Rcc_HSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
 	}
+}
+******/
+void rcc_start(void)
+{
+    // Configure prescalers first (safe before increasing SYSCLK)
+    STM32FXXX_Prescaler(1, 1, 1, 0);
+
+    // Enable selected clock source (HSI/HSE) and wait ready inside
+    STM32FXXX_Rcc_HEnable(H_Clock_Source);
+
+    // Select PLL source
+    STM32FXXX_Rcc_PLL_Select(H_Clock_Source);
+
+    // Derive PLL input and parameters
+    uint32_t input = get_pllsclk();
+    uint8_t  pllm  = input / 1000000;   // assumes integer MHz source
+
+    // Configure PLL (must be disabled inside)
+    STM32FXXX_PLL_Division(pllm, 240, 2, 4);
+
+    if (PLL_ON_OFF)
+    {
+        // Compute target SYSCLK deterministically
+        uint32_t target = (input / pllm) * 240 / 2;
+
+        // Set FLASH latency BEFORE increasing clock
+        RCC_Flash_SetLatency(target);
+
+        // Enable PLL
+        STM32FXXX_Rcc_PLL_CLK_Enable();
+
+        // Ensure PLL is ready (defensive)
+        while (!(dev()->rcc->CR & (1 << 25))); // PLLRDY
+
+        // Switch SYSCLK to PLL
+        STM32FXXX_Rcc_HSelect(2);
+
+        // Confirm switch completed
+        while (get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != 2);
+    }
+    else
+    {
+        // Direct switch to selected HSI/HSE
+        STM32FXXX_Rcc_HSelect(H_Clock_Source);
+
+        // Confirm switch completed
+        while (get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != H_Clock_Source);
+    }
+}
+// Latency
+static void RCC_Flash_SetLatency(uint32_t sysclk)
+{
+    uint32_t ws;
+
+    if (sysclk <= 30000000) ws = 0;
+    else if (sysclk <= 60000000) ws = 1;
+    else if (sysclk <= 90000000) ws = 2;
+    else ws = 3;
+
+    dev()->flash->ACR = (dev()->flash->ACR & ~0x7) | ws;
+    dev()->flash->ACR |= (1 << 8) | (1 << 9);
 }
 // RCC
 void STM32FXXX_Rcc_HEnable(uint8_t hclock)
@@ -280,7 +344,10 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 // PLL
 void STM32FXXX_PLL_Division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
+	// disable PLL
 	set_reg_block(&dev()->rcc->CR, 1, 24, 0);
+	while (get_reg_block(dev()->rcc->CR, 1, 25));
+
 	set_reg_block(&dev()->rcc->PLLCFGR,4,24,pllq);
 	switch(pllp){
 		case 2:
@@ -371,10 +438,23 @@ static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 	.lenable = STM32FXXX_Rcc_LEnable,
 	.lselect = STM32FXXX_Rcc_LSelect,
 	/*** NVIC ***/
-	.nvic = STM32FXXX_RCC_nvic
+	.nvic = STM32FXXX_RCC_nvic,
+	/*** Device ***/
+	.dev = dev
 };
 
 STM32FXXX_RCC_HANDLER* rcc(void){ return &stm32fxxx_rcc_setup; };
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 
 /*** EOF ***/
 
