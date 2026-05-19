@@ -77,9 +77,6 @@ void rcc_start(void)
         // Enable PLL
         STM32FXXX_Rcc_PLL_CLK_Enable();
 
-        // Ensure PLL is ready (defensive)
-        while (!(dev()->rcc->CR & (1 << 25))); // PLLRDY
-
         // Switch SYSCLK to PLL
         STM32FXXX_Rcc_HSelect(2);
 
