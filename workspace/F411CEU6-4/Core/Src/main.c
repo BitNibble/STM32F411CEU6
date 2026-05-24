@@ -20,6 +20,13 @@ GPIO PB8 - D6
 GPIO PB9 - D7
 	BLE or ESP8266
 GPIOA9 and GPIOA10 usart1
+	SPI LCD
+PA7 - SDA
+PA5 - SCL
+PA4 - RST
+PA3 - DC
+PA2 - CS
+3.3V - BL
 ***************************************************************
 This program can run bluetooth module BLE05 or Z040, and it also can run
 ESP8266 as replacement, after reset. In ESP8266 it is a server that gives a webpage
