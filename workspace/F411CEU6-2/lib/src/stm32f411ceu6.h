@@ -178,7 +178,9 @@ uint8_t get_pllm(void);
 uint16_t get_plln(void);
 uint8_t get_pllp(void);
 uint8_t get_pllq(void);
-uint8_t get_pllr(void); // F446 only
+#ifdef STM32F446xx
+	uint8_t get_pllr(void);
+#endif
 
 uint32_t get_pllsclk(void);
 uint32_t get_pllclk(void);
@@ -186,6 +188,8 @@ uint32_t get_sysclk(void);
 uint32_t get_hclk(void);
 uint32_t get_pclk1(void);
 uint32_t get_pclk2(void);
+uint32_t get_timclk1(void);
+uint32_t get_timclk2(void);
 
 /*******************************************************************/
 /************************* Peripheral ******************************/
@@ -223,6 +227,7 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
 /************************** USART UTILS ***************************/
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength);
 void Usart_StopBits(USART_TypeDef* usart, double stopbits);
+//void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stopbits);
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate);
 
 /************************** FPU ENABLE *****************************/

@@ -9,6 +9,13 @@ Date:     15112025
 #include <stdarg.h>
 #include <math.h>
 
+typedef enum {
+    USART_STOP_1   = 0,
+    USART_STOP_0_5,
+    USART_STOP_2,
+    USART_STOP_1_5
+} USART_StopBits_t;
+
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
 /*******************************************************************/
@@ -171,11 +178,20 @@ uint32_t get_pllsclk(void) {
     return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
 }
 
+/*
 uint32_t get_pllclk(void) {
     uint32_t clk = get_pllsclk() / get_pllm();
     clk /= get_pllp();
     clk *= get_plln();
     return clk;
+}
+*/
+
+uint32_t get_pllclk(void)
+{
+    uint32_t vco_in  = get_pllsclk() / get_pllm();
+    uint32_t vco_out = vco_in * get_plln();
+    return vco_out / get_pllp();
 }
 
 uint32_t get_sysclk(void) {
@@ -198,6 +214,18 @@ uint32_t get_pclk1(void) {
 
 uint32_t get_pclk2(void) {
     return get_hclk() / get_hppre2();
+}
+
+uint32_t get_timclk1(void)
+{
+    uint32_t pclk = get_pclk1();
+    return (get_hppre1() == 1) ? pclk : (pclk * 2U);
+}
+
+uint32_t get_timclk2(void)
+{
+    uint32_t pclk = get_pclk2();
+    return (get_hppre2() == 1) ? pclk : (pclk * 2U);
 }
 
 /*******************************************************************/
@@ -229,9 +257,11 @@ void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable )
 	else { return; }
 
     if (enable) {
-        RCC->AHB1ENR |= (1 << Pos);
+        //RCC->AHB1ENR |= (1 << Pos);
+        dev()->rcc->AHB1ENR |= (1 << Pos);
     } else {
-        RCC->AHB1ENR &= ~(1 << Pos);
+        //RCC->AHB1ENR &= ~(1 << Pos);
+        dev()->rcc->AHB1ENR &= ~(1 << Pos);
     }
 }
 void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode )
@@ -274,6 +304,7 @@ void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd )
 		GPIO->PUPDR |= ( pupd << Pos );
 	}
 }
+/*
 void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins ){
 	GPIO->LCKR = hpins;
 	for(uint8_t status = TWO; status; ) {
@@ -288,6 +319,21 @@ void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins ){
 		}
 	}
 
+}
+*/
+void GPIO_lck(GPIO_TypeDef* GPIO, uint16_t hpins)
+{
+    uint32_t tmp;
+
+    GPIO->LCKR = hpins | (1U << 16);
+    GPIO->LCKR = hpins;
+    GPIO->LCKR = hpins | (1U << 16);
+
+    tmp = GPIO->LCKR;
+    (void)tmp;
+
+    tmp = GPIO->LCKR;
+    (void)tmp;
 }
 void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af )
 {
@@ -456,9 +502,11 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
 
         /* internal channels handling */
         if (ch == 16 || ch == 17) {
-            set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);
+            //set_reg_Msk(&ADC->CCR, ADC_CCR_TSVREFE, 1);
+            set_reg_Msk(&dev()->adc1_common->CCR, ADC_CCR_TSVREFE, 1);
         } else if (ch == 18) {
-            set_reg_Msk(&ADC->CCR, ADC_CCR_VBATE, 1);
+            //set_reg_Msk(&ADC->CCR, ADC_CCR_VBATE, 1);
+            set_reg_Msk(&dev()->adc1_common->CCR, ADC_CCR_VBATE, 1);
         }
 
         /* sampling time */
@@ -490,6 +538,14 @@ void Usart_StopBits(USART_TypeDef* usart, double stopbits) {
     else if(fabs(stopbits-1.5)<1e-6) usart->CR2 |= (1<<13)|(1<<12);
     else if(fabs(stopbits-2.0)<1e-6) usart->CR2 |= (1 << 13);
 }
+
+/*
+void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stop)
+{
+    usart->CR2 &= ~(3U << 12);
+    usart->CR2 |= ((uint32_t)stop << 12);
+}
+*/
 
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate) {
     if(samplingmode==8) usart->CR1 |= (1 << 15);
