@@ -26,20 +26,22 @@ static uint32_t systick_100us = 0;
 static uint32_t systick_ms = 0;
 volatile uint32_t DelayCounter_0 = 0;
 /******/
+static inline uint32_t get_systick_clk(void)
+{
+    return (SysTick->CTRL & SysTick_CTRL_CLKSOURCE_Msk) ? get_hclk() : (get_hclk() / 8U);
+}
+static inline uint32_t calc_tick(uint32_t systick_clock, uint32_t div)
+{
+    uint32_t tmp = systick_clock / div;
+    return (tmp > 0U) ? (tmp - 1U) : 70U;
+}
 void delay_Configure(void)
 {
-    uint32_t DelayCounter_top;
-    // Calculate DelayCounter_top once for both STM32 families
-    DelayCounter_top = get_sysclk() / get_hpre(); // Assuming get_hpre() returns a valid pre-scaler
-    // Calculate the SysTick values for different delay intervals
-    systick_us 		= DelayCounter_top / 1000000 - 1 ; // 1 microsecond
-    systick_10us 	= DelayCounter_top / 100000 - 1 ;  // 10 microseconds
-    systick_100us 	= DelayCounter_top / 10000 - 1 ;   // 100 microseconds
-    systick_ms 		= DelayCounter_top / 1000 - 1 ;    // 1 millisecond
-    if(systick_us > 0);else systick_us = 70;
-    if(systick_10us > 0);else systick_10us = 70;
-    if(systick_100us > 0);else systick_100us = 70;
-    if(systick_ms > 0);else systick_ms = 70;
+	uint32_t systick_clock = get_systick_clk();
+    systick_us    = calc_tick(systick_clock, 1000000U);
+    systick_10us  = calc_tick(systick_clock, 100000U);
+    systick_100us = calc_tick(systick_clock, 10000U);
+    systick_ms    = calc_tick(systick_clock, 1000U);
 }
 inline uint32_t get_systick_us(void)
 {
