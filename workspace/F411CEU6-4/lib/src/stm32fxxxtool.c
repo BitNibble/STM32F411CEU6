@@ -53,13 +53,6 @@ inline uint32_t _mask_pos(uint32_t Msk){
 inline uint32_t _mask_data(uint32_t Msk, uint32_t data){
 	return _mask_var(data << _mask_pos(Msk), Msk);
 }
-// --- Generic helpers ---
-inline uint32_t reg_get(uint32_t reg, uint32_t Msk){
-    return _mask_var(reg, Msk) >> _mask_pos(Msk);
-}
-inline void reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t data){
-	*reg = _imask_var(*reg, Msk) | _mask_data(Msk, data);
-}
 inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
 {
 	return _mask_var(reg, Msk) >> Pos;
@@ -107,7 +100,13 @@ void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint
 	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
 	set_reg_Msk_Pos((reg + n), _block_mask(size_block, Pos), Pos, data);
 }
-
+// --- Generic helpers ---
+inline uint32_t reg_get(uint32_t reg, uint32_t Msk){
+    return _mask_var(reg, Msk) >> _mask_pos(Msk);
+}
+inline void reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t data){
+	*reg = _imask_var(*reg, Msk) | _mask_data(Msk, data);
+}
 /****************************************/
 // UNUSED
 void STM32446SetRegBits( uint32_t* reg, uint8_t n_bits, ... )
