@@ -14,21 +14,18 @@ Update:   15/11/2025
 unsigned int ft_Delay_Lock[FTDELAY_SIZE] = {0};
 volatile unsigned int ftCounter[FTDELAY_SIZE] = {0};
 /*** Local ***/
-uint32_t _var_mask(uint32_t var, uint32_t Msk);
-uint32_t _var_imask(uint32_t var, uint32_t Msk);
+uint32_t _mask_var(uint32_t var, uint32_t Msk);
+uint32_t _imask_var(uint32_t var, uint32_t Msk);
 uint32_t _size_to_block(uint32_t size_block);
 uint32_t _block_to_size(uint32_t block);
-uint32_t _get_mask(uint32_t size_block, uint32_t Pos);
+uint32_t _block_mask(uint32_t size_block, uint32_t Pos);
 uint32_t _mask_pos(uint32_t Msk);
 uint32_t _mask_data(uint32_t Msk, uint32_t data);
 /*** SUB Tools ***/
-inline uint32_t _get_pos(uint32_t size_block, uint32_t block_n){
-	return size_block * block_n;
-}
-inline uint32_t _var_mask(uint32_t var, uint32_t Msk){
+inline uint32_t _mask_var(uint32_t var, uint32_t Msk){
 	return (var & Msk);
 }
-inline uint32_t _var_imask(uint32_t var, uint32_t Msk){
+inline uint32_t _imask_var(uint32_t var, uint32_t Msk){
 	return (var & ~Msk);
 }
 inline uint32_t _size_to_block(uint32_t size_block){
@@ -37,22 +34,25 @@ inline uint32_t _size_to_block(uint32_t size_block){
 inline uint32_t _block_to_size(uint32_t block) {
     return block ? ((unsigned int)DWORD_BITS - __builtin_clz(block)) : 0U;
 }
-inline uint32_t _get_mask(uint32_t size_block, uint32_t Pos){
+inline uint32_t _block_pos(uint32_t size_block, uint32_t block_n){
+	return size_block * block_n;
+}
+inline uint32_t _block_mask(uint32_t size_block, uint32_t Pos){
 	return _size_to_block(size_block) << Pos;
 }
 inline uint32_t _mask_pos(uint32_t Msk){
 	return Msk ? (unsigned int)__builtin_ctz(Msk) : 0U;
 }
 inline uint32_t _mask_data(uint32_t Msk, uint32_t data){
-	return _var_mask(data << _mask_pos(Msk), Msk);
+	return _mask_var(data << _mask_pos(Msk), Msk);
 }
 // --- Generic helpers ---
 inline uint32_t reg_get(uint32_t reg, uint32_t Msk){
-    return _var_mask(reg, Msk) >> _mask_pos(Msk);
+    return _mask_var(reg, Msk) >> _mask_pos(Msk);
 }
 
 inline void reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t data){
-	*reg = _var_imask(*reg, Msk) | _mask_data(Msk, data);
+	*reg = _imask_var(*reg, Msk) | _mask_data(Msk, data);
 }
 /*** Tools ***/
 void set_reg(volatile uint32_t* reg, uint32_t hbits){
@@ -63,16 +63,16 @@ void clear_reg(volatile uint32_t* reg, uint32_t hbits){
 }
 inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
 {
-	return _var_mask(reg, Msk) >> Pos;
+	return _mask_var(reg, Msk) >> Pos;
 }
 inline void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
 {
-	uint32_t value = _var_imask(*reg, Msk);
-	data = _var_mask((data << Pos), Msk); value |= data; *reg = value;
+	uint32_t value = _imask_var(*reg, Msk);
+	data = _mask_var((data << Pos), Msk); value |= data; *reg = value;
 }
 inline void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
 {
-	data = _var_mask((data << Pos), Msk); clear_reg(reg, Msk); set_reg(reg, data);
+	data = _mask_var((data << Pos), Msk); clear_reg(reg, Msk); set_reg(reg, data);
 }
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk)
 {
@@ -88,25 +88,25 @@ void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data)
 }
 uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t Pos)
 {
-	return get_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos);
+	return get_reg_Msk_Pos(reg, _block_mask(size_block, Pos), Pos);
 }
 void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	write_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
+	write_reg_Msk_Pos(reg, _block_mask(size_block, Pos), Pos, data);
 }
 void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
-	set_reg_Msk_Pos(reg, _get_mask(size_block, Pos), Pos, data);
+	set_reg_Msk_Pos(reg, _block_mask(size_block, Pos), Pos, data);
 }
 uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos)
 {
 	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
-	return get_reg_Msk_Pos((uint32_t)*(reg + n), _get_mask(size_block, Pos), Pos);
+	return get_reg_Msk_Pos((uint32_t)*(reg + n), _block_mask(size_block, Pos), Pos);
 }
 void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data)
 {
 	uint32_t n = Pos / DWORD_BITS; Pos = Pos % DWORD_BITS;
-	set_reg_Msk_Pos((reg + n), _get_mask(size_block, Pos), Pos, data);
+	set_reg_Msk_Pos((reg + n), _block_mask(size_block, Pos), Pos, data);
 }
 
 /****************************************/
@@ -140,10 +140,10 @@ void STM32446VecSetup( volatile uint32_t vec[], unsigned int size_block, unsigne
 	const unsigned int n_bits = sizeof(data) * BYTE_BITS;
 	if(size_block > n_bits){ size_block = n_bits; }
 	const unsigned int block = _size_to_block(size_block);
-	unsigned int index = _get_pos(size_block, block_n) / n_bits;
+	unsigned int index = _block_pos(size_block, block_n) / n_bits;
 	data &= block;
-	vec[index] &= ~( block << (_get_pos(size_block, block_n) - (index * n_bits)) );
-	vec[index] |= ( data << (_get_pos(size_block, block_n) - (index * n_bits)) );
+	vec[index] &= ~( block << (_block_pos(size_block, block_n) - (index * n_bits)) );
+	vec[index] |= ( data << (_block_pos(size_block, block_n) - (index * n_bits)) );
 }
 
 /****************************************/
