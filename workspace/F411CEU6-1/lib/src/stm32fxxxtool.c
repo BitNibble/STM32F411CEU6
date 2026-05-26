@@ -21,6 +21,13 @@ uint32_t _block_to_size(uint32_t block);
 uint32_t _block_mask(uint32_t size_block, uint32_t Pos);
 uint32_t _mask_pos(uint32_t Msk);
 uint32_t _mask_data(uint32_t Msk, uint32_t data);
+/*** Tools ***/
+void set_reg(volatile uint32_t* reg, uint32_t hbits){
+	*reg |= hbits;
+}
+void clear_reg(volatile uint32_t* reg, uint32_t hbits){
+	*reg &= ~hbits;
+}
 /*** SUB Tools ***/
 inline uint32_t _mask_var(uint32_t var, uint32_t Msk){
 	return (var & Msk);
@@ -50,16 +57,8 @@ inline uint32_t _mask_data(uint32_t Msk, uint32_t data){
 inline uint32_t reg_get(uint32_t reg, uint32_t Msk){
     return _mask_var(reg, Msk) >> _mask_pos(Msk);
 }
-
 inline void reg_set(volatile uint32_t *reg, uint32_t Msk, uint32_t data){
 	*reg = _imask_var(*reg, Msk) | _mask_data(Msk, data);
-}
-/*** Tools ***/
-void set_reg(volatile uint32_t* reg, uint32_t hbits){
-	*reg |= hbits;
-}
-void clear_reg(volatile uint32_t* reg, uint32_t hbits){
-	*reg &= ~hbits;
 }
 inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
 {
