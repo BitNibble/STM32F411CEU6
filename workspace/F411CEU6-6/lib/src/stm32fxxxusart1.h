@@ -9,8 +9,13 @@ Date:     24022024
 	#define _STM32FXXXUSART1_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /*** Define and Macros ***/
 #define USART1_RX_BUFFER_SIZE 2049
 #define USART1_TX_BUFFER_SIZE 2049
@@ -22,7 +27,6 @@ typedef struct {
 	void (*tc)(void);
 	void (*rxne)(void);
 	void (*idle)(void);
-	void (*error)(void);
 	void (*ore)(void);
 	void (*ne)(void);
 	void (*fe)(void);
@@ -40,13 +44,13 @@ typedef const struct {
 	/*** Other ***/
 	void (*inic)(void);
 	void (*wordlength)(uint8_t wordlength);
-	void (*stopbits)(double stopbits);
+	//void (*stopbits)(double stopbits);
+	void (*stopbits)(USART_StopBits_t stop);
 	void (*samplingmode)(uint8_t samplingmode, uint32_t baudrate);
 	uint32_t (*is_tx_complete)( void );
 	uint32_t (*is_rx_idle)( void );
 	void (*tx)( uint8_t state );
 	void (*rx)( uint8_t state );
-	uint32_t (*rx_index)( void );
 	void (*tx_einterrupt)( uint8_t state );
 	void (*rx_neinterrupt)( uint8_t state );
 	void (*transmit_char)(char c);
@@ -63,7 +67,17 @@ typedef const struct {
 STM32FXXX_USART1_Handler*  usart1(void);
 
 #endif
+
 /*** EOF ***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

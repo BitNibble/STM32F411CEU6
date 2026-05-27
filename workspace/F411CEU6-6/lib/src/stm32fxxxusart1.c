@@ -15,9 +15,9 @@ Date:     24022024
 /*** File Variable ***/
 // Buffer for received and transmit data
 static char usart1_rx_buffer[USART1_RX_BUFFER_SIZE + 1] = {0};
-volatile size_t usart1_rx_index = 0;
+volatile uint16_t usart1_rx_index = 0;
 static char usart1_tx_buffer[USART1_TX_BUFFER_SIZE + 1] = {0};
-volatile size_t usart1_tx_index = 0;
+volatile uint16_t usart1_tx_index = 0;
 static uint8_t usart1_flag = 0;
 /*** USART Procedure & Function Definition ***/
 /*** Default Init ***/
@@ -57,13 +57,11 @@ void USART1_defualt_init(void)
 /*** USART1 ***/
 void USART1_Clock( uint8_t state )
 {
-	if(state){ RCC->APB2ENR |= (1 << RCC_APB2ENR_USART1EN_Pos); }
-	else{ RCC->APB2ENR &= ~(1 << RCC_APB2ENR_USART1EN_Pos); }
+	if(state){ RCC->APB2ENR |= (1 << RCC_APB2ENR_USART1EN_Pos); }else{ RCC->APB2ENR &= ~(1 << RCC_APB2ENR_USART1EN_Pos); }
 }
 void USART1_Nvic( uint8_t state )
 {
-	if(state){ set_bit_block(NVIC->ISER, 1, USART1_IRQn, 1); }
-	else{ set_bit_block(NVIC->ICER, 1, USART1_IRQn, 1); }
+	if(state){ set_bit_block(NVIC->ISER, 1, USART1_IRQn, 1); }else{ set_bit_block(NVIC->ICER, 1, USART1_IRQn, 1); }
 }
 void USART1_WordLength(uint8_t wordlength) {
     // Clear the M bit to reset word length
@@ -74,6 +72,7 @@ void USART1_WordLength(uint8_t wordlength) {
     }
     // If wordlength is 8 or any other value, do nothing (remains 8-bit)
 }
+/*
 void USART1_StopBits(double stopbits) {
     // Reset stop bits configuration
 	USART1->CR2 &= (uint32_t) ~(USART_CR2_STOP_1 | USART_CR2_STOP_0);
@@ -87,6 +86,12 @@ void USART1_StopBits(double stopbits) {
     } else if (fabs(stopbits - 2.0) < 0.00001) { // 2 Stop bits
     	USART1->CR2 |= USART_CR2_STOP_1; // Set bit 13
     }
+}
+*/
+void USART1_StopBits( USART_StopBits_t stop)
+{
+    USART1->CR2 &= ~(3U << 12);
+    USART1->CR2 |= ((uint32_t)stop << 12);
 }
 void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
 {
@@ -126,41 +131,37 @@ void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
     // 5) Write BRR
     USART1->BRR = brr;
 }
-void USART1_TX_enable( uint8_t state ) {
+void USART1_Tx_Enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TE;
 	else
 		USART1->CR1 &= ~USART_CR1_TE;
 }
-void USART1_RX_enable( uint8_t state ) {
+void USART1_Rx_Enable( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_RE;
 	else
 		USART1->CR1 &= ~USART_CR1_RE;
 }
-void USART1_TXEI_enable( uint8_t state ) {
+void USART1_Tx_EInterrupt( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TXEIE;
 	else
 		USART1->CR1 &= ~USART_CR1_TXEIE;
 }
-void USART1_TCI_enable( uint8_t state ) {
+void USART1_Tx_CInterrupt( uint8_t state ) {
 	if( state )
 		USART1->CR1 |= USART_CR1_TCIE;
 	else
 		USART1->CR1 &= ~USART_CR1_TCIE;
 }
-void USART1_RXNEI_enable( uint8_t state) {
+void USART1_Rx_NEInterrupt( uint8_t state) {
 	if ( state )
 		USART1->CR1 |= USART_CR1_RXNEIE;
 	else
 		USART1->CR1 &= ~USART_CR1_RXNEIE;
 }
 /*****************************************************************************/
-uint32_t USART1_RX_index( void )
-{
-	return usart1_rx_index;
-}
 uint32_t is_USART1_CR1_PEIE(void){
 	return USART1->CR1 & USART_CR1_PEIE;
 }
@@ -207,13 +208,6 @@ uint32_t is_USART1_SR_FE(void){
 uint32_t is_USART1_SR_PE(void){
 	return USART1->SR & USART_SR_PE;
 }
-void _USART1_clear_SR(void){
-	volatile uint32_t tmp;
-	tmp = USART1->SR;
-	tmp = USART1->DR;
-	(void)tmp;
-}
-
 /*****************************************************************************/
 void USART1_PutChar(char c) {
     USART1->DR = c;	// Send the character
@@ -222,14 +216,14 @@ char USART1_GetChar(void) {
     return USART1->DR;	// Return the character
 }
 void USART1_TransmitChar(char c) {
-    if (USART1->CR1 & USART_CR1_TXEIE) return; // protect IRQ TX
-    while (!(USART1->SR & USART_SR_TXE));
-    USART1_PutChar(c);
+    while (!(USART1->SR & USART_SR_TXE)); // Wait until TX is empty
+    USART1_PutChar(c);	// Send the character
+    USART1->CR1 &= ~USART_CR1_TXEIE;
 }
 char USART1_ReceiveChar(void) {
     while (!(USART1->SR & USART_SR_RXNE)); // Wait until RX is ready
     return USART1_GetChar();	// Return the received character
-    //USART1->CR1 &= ~USART_CR1_RXNEIE;
+    USART1->CR1 &= ~USART_CR1_RXNEIE;
 }
 void USART1_RxFlush(void) {
 	usart1_rx_index = 0;
@@ -242,19 +236,20 @@ void USART1_RxPurge(void) {
 void USART1_TxFlush(void) {
 	usart1_tx_index = 0;
 	usart1_tx_buffer[0] = 0;
+	//memset( usart1_tx_buffer, 0, USART1_TX_BUFFER_SIZE );
 }
 void USART1_TransmitString(const char *str) {
 	USART1_TxFlush();
     // Copy the string into the transmit buffer
     strncpy( (char *)usart1_tx_buffer, str, USART1_TX_BUFFER_SIZE ); // Ensure tx_buffer is big enough
     // Enable the TXE interrupt to start sending data
-    USART1_TXEI_enable(1);
+    USART1_Tx_EInterrupt(1);
 }
 void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl) {
 	const uint32_t buff_size = size - 1;
 	if(usart1_flag) { memset(oneshot, 0, size); usart1_flag = 0; }
 	char *ptr = usart1_rx_buffer;
-	size_t ptr_length = usart1_rx_index;
+	size_t ptr_length = strlen((char*)ptr);
 	if( ptr_length < USART1_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
@@ -275,7 +270,7 @@ void USART1_ReceiveString(char* oneshot, char* rx, size_t size, const char* endl
 void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
 	const uint32_t buff_size = size - 1;
 	char *ptr = usart1_rx_buffer;
-	size_t ptr_length = usart1_rx_index;
+	size_t ptr_length = strlen((char*)ptr);
 	if( ptr_length < USART1_RX_BUFFER_SIZE ) {
 		size_t endl_length = strlen(endl);
 		int32_t diff_length = ptr_length - endl_length;
@@ -290,48 +285,19 @@ void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
 		}
 	}else { USART1_RxFlush( ); }
 }
-
-void USART1_start(void)
-{
-    // Disable USART
-    USART1->CR1 &= ~USART_CR1_UE;
-
-    // Clear pending flags
-    _USART1_clear_SR();
-
-    // Reset indexes
-    usart1_rx_index = 0;
-    usart1_tx_index = 0;
-
-    // Enable USART
-    USART1->CR1 |= USART_CR1_UE;
-}
-
+void USART1_start(void) { USART1->CR1 |= USART_CR1_UE; }
 void USART1_stop(void) { USART1->CR1 &= ~USART_CR1_UE; }
 
-void USART1_hard_reset(void)
-{
-    USART1_stop();
-    _USART1_clear_SR();
-    USART1_RxFlush();
-    USART1_start();
-}
-
 // CALLBACK
-void USART1_CallBack_ERROR(void){
-	// Overrun error: Clear ORE by reading DR
-	_USART1_clear_SR();
-	// Handle overrun error (e.g., discard data)
-}
 void USART1_CallBack_CTS(void){
 	// Clear CTS flag by reading SR
-	volatile uint32_t dummy = USART1->SR;
+	volatile uint8_t dummy = USART1->SR;
 	(void)dummy;
 	// Handle CTS change (e.g., pause/resume transmission)
 }
 void USART1_CallBack_LBD(void){
 	// Clear LBD flag by writing a 0
-	_USART1_clear_SR();
+	USART1->SR &= ~USART_SR_LBD;
 	// Handle LIN break detection (e.g., reset communication)
 }
 void USART1_CallBack_TXE(void){
@@ -343,22 +309,31 @@ void USART1_CallBack_TXE(void){
 }
 void USART1_CallBack_TC(void){
 	// Transmission complete
-	//USART1->DR = 0; // Write to DR to clear TC flag
+	USART1->DR = 0; // Write to DR to clear TC flag
 	// Optionally disable TC interrupt if no further action is needed
 	USART1->CR1 &= ~USART_CR1_TCIE;
 }
 void USART1_CallBack_RXNE(void){
 	char rx = USART1_GetChar();
 	// Check if the RXNE (Receive Not Empty) flag is set
+	if( rx ) {
 		if (usart1_rx_index < USART1_RX_BUFFER_SIZE) {
 			usart1_rx_buffer[usart1_rx_index++] = rx;
 			usart1_rx_buffer[usart1_rx_index] = 0;
 		}
+	}
 }
 void USART1_CallBack_IDLE(void){
 	// Clear IDLE flag by reading SR and DR
-	_USART1_clear_SR();
+	volatile uint8_t dummy = USART1_GetChar();
+	(void)dummy;  // Prevent unused variable warning
 	// Handle idle condition (e.g., mark end of transmission)
+}
+void USART1_CallBack_ORE(void){
+	// Overrun error: Clear ORE by reading DR
+	volatile uint8_t dummy = USART1_GetChar();
+	(void)dummy;
+	// Handle overrun error (e.g., discard data)
 }
 
 /*** USART1 INIC Procedure & Function Definition ***/
@@ -369,8 +344,7 @@ static STM32FXXX_USART1_CallBack USART1_callback_setup = {
 		.tc = USART1_CallBack_TC,
 		.rxne = USART1_CallBack_RXNE,
 		.idle = USART1_CallBack_IDLE,
-		.error = USART1_CallBack_ERROR,
-		.ore = NULL,
+		.ore = USART1_CallBack_ORE,
 		.ne = NULL,
 		.fe = NULL,
 		.pe = NULL
@@ -388,12 +362,11 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.is_tx_complete = is_USART1_SR_TC,
 	.is_rx_idle = is_USART1_SR_IDLE,
 	// Enable
-	.tx = USART1_TX_enable,
-	.rx = USART1_RX_enable,
-	.rx_index = USART1_RX_index,
+	.tx = USART1_Tx_Enable,
+	.rx = USART1_Rx_Enable,
 	// Interrupt
-	.tx_einterrupt = USART1_TXEI_enable,
-	.rx_neinterrupt = USART1_RXNEI_enable,
+	.tx_einterrupt = USART1_Tx_EInterrupt,
+	.rx_neinterrupt = USART1_Rx_NEInterrupt,
 	// Control
 	.transmit_char = USART1_TransmitChar,
 	.receive_char = USART1_ReceiveChar,
@@ -407,41 +380,70 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback
-	.callback = &USART1_callback_setup,
+	.callback = &USART1_callback_setup
 };
 
 STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }
 
 /*** Interrupt handler for USART1 ***/
-void USART1_IRQHandler(void)
-{
-    STM32FXXX_USART1_CallBack* cb = &USART1_callback_setup;
+void USART1_IRQHandler(void) {
+	STM32FXXX_USART1_CallBack* cb = &USART1_callback_setup;
+	// Check for CTS flag (if hardware flow control is enabled)
+	if (is_USART1_SR_CTS()) {
+		if(cb->cts){ cb->cts(); }
+	}
+	// Check for LIN Break Detection (if LIN mode is enabled)
+	if (is_USART1_SR_LBD()) {
+		if(cb->lbd){ cb->lbd(); }
+	}
 
-    // 1️⃣ ERROR FIRST — ALWAYS
-    if (is_USART1_SR_ORE() || is_USART1_SR_NE() ||
-        is_USART1_SR_FE()  || is_USART1_SR_PE())
-    {
-        if (cb->error) cb->error();
-        return; // STOP processing this IRQ
-    }
-    // 2️⃣ RX
-    if (is_USART1_CR1_RXNEIE() && is_USART1_SR_RXNE()) {
-        if (cb->rxne) cb->rxne();
-    }
+	if(is_USART1_CR1_TXEIE()) {
+		if(is_USART1_SR_TXE()) {
+			if(cb->txe){ cb->txe(); }
+		}
+	}
 
-    // 3️⃣ IDLE
-    if (is_USART1_CR1_IDLEIE() && is_USART1_SR_IDLE()) {
-        if (cb->idle) cb->idle();
-    }
+	if(is_USART1_CR1_TCIE()) {
+		// Check if the TC (Transmission Complete) flag is set
+		if (is_USART1_SR_TC()) {
+			if(cb->tc){ cb->tc(); }
+		}
+	}
 
-    // 4️⃣ TX
-    if (is_USART1_CR1_TXEIE() && is_USART1_SR_TXE()) {
-        if (cb->txe) cb->txe();
+	if(is_USART1_SR_RXNE()) {
+		if(cb->rxne){ cb->rxne(); }
+	}
+    // Check for IDLE line detection
+    if (is_USART1_SR_IDLE()) {
+        if(cb->idle){ cb->idle(); }
     }
-
-    if (is_USART1_CR1_TCIE() && is_USART1_SR_TC()) {
-        if (cb->tc) cb->tc();
+    // Error handling (Overrun, Noise, Framing, Parity)
+    if (is_USART1_SR_ORE()) {
+    	if(cb->ore){ cb->ore(); }
     }
+    if (is_USART1_SR_NE()) {
+    	// Noise error: Handle noise (e.g., log or recover from error)
+    	USART1->SR &= ~USART_SR_NE;
+    	if (cb->ne) { cb->ne(); }
+    }
+    if (is_USART1_SR_FE()) {
+    	// Framing error: Handle framing issues (e.g., re-sync communication)
+    	USART1->SR &= ~USART_SR_FE;
+    	if (cb->fe) { cb->fe(); }
+    }
+    if (is_USART1_SR_PE()) {
+    	// Parity error: Handle parity mismatch (e.g., request retransmission)
+    	USART1->SR &= ~USART_SR_PE;
+    	if (cb->pe) { cb->pe(); }
+    }
+    // Optionally reset USART or take corrective action based on error type
+	/***/
+    // Wakeup from STOP mode (if enabled and used)
+    //if (sr & USART_SR_WU) {
+        // Clear wakeup flag by writing a 0
+        //USART1->SR &= ~USART_SR_WU;
+        // Handle wakeup event (e.g., resume communication)
+    //}
 }
 
 /*** EOF ***/

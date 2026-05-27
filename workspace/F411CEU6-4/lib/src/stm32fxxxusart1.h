@@ -44,7 +44,8 @@ typedef const struct {
 	/*** Other ***/
 	void (*inic)(void);
 	void (*wordlength)(uint8_t wordlength);
-	void (*stopbits)(double stopbits);
+	//void (*stopbits)(double stopbits);
+	void (*stopbits)(USART_StopBits_t stop);
 	void (*samplingmode)(uint8_t samplingmode, uint32_t baudrate);
 	uint32_t (*is_tx_complete)( void );
 	uint32_t (*is_rx_idle)( void );
@@ -61,14 +62,6 @@ typedef const struct {
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
-
-#if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_USART1_Handler;
 
 STM32FXXX_USART1_Handler*  usart1(void);

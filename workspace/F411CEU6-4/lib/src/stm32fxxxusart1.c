@@ -72,6 +72,7 @@ void USART1_WordLength(uint8_t wordlength) {
     }
     // If wordlength is 8 or any other value, do nothing (remains 8-bit)
 }
+/*
 void USART1_StopBits(double stopbits) {
     // Reset stop bits configuration
 	USART1->CR2 &= (uint32_t) ~(USART_CR2_STOP_1 | USART_CR2_STOP_0);
@@ -85,6 +86,12 @@ void USART1_StopBits(double stopbits) {
     } else if (fabs(stopbits - 2.0) < 0.00001) { // 2 Stop bits
     	USART1->CR2 |= USART_CR2_STOP_1; // Set bit 13
     }
+}
+*/
+void USART1_StopBits( USART_StopBits_t stop)
+{
+    USART1->CR2 &= ~(3U << 12);
+    USART1->CR2 |= ((uint32_t)stop << 12);
 }
 void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
 {
@@ -373,8 +380,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback
-	.callback = &USART1_callback_setup,
-	.dev = dev
+	.callback = &USART1_callback_setup
 };
 
 STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }

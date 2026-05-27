@@ -20,6 +20,40 @@ static char usart1_tx_buffer[USART1_TX_BUFFER_SIZE + 1] = {0};
 volatile uint16_t usart1_tx_index = 0;
 static uint8_t usart1_flag = 0;
 /*** USART Procedure & Function Definition ***/
+/*** Default Init ***/
+void USART1_defualt_init(void)
+{
+    usart1()->clock(1);
+
+    // GPIO config
+    GPIO_moder(dev()->gpioa, 9, MODE_AF);
+    GPIO_moder(dev()->gpioa,10, MODE_AF);
+
+    GPIO_af(dev()->gpioa, 9, 7);
+    GPIO_af(dev()->gpioa, 10, 7);
+
+    GPIO_ospeed(dev()->gpioa, 9, 3);
+    GPIO_ospeed(dev()->gpioa, 10, 3);
+
+    GPIO_otype(dev()->gpioa, 9, 0);
+    GPIO_otype(dev()->gpioa, 10, 0);
+
+    GPIO_pupd(dev()->gpioa, 9, 0);   // TX no pull
+    GPIO_pupd(dev()->gpioa, 10, 2);  // RX pull-up (REQUIRED)
+
+    // Baud rate / sampling
+    usart1()->samplingmode(0, 38400);
+
+    // Enable USART core FIRST
+    usart1()->tx(1);
+    usart1()->rx(1);
+    usart1()->start();     // clears SR internally
+
+    // THEN enable interrupts
+    usart1()->tx_einterrupt(1);
+    usart1()->rx_neinterrupt(1);
+    usart1()->nvic(1);
+}
 /*** USART1 ***/
 void USART1_Clock( uint8_t state )
 {
@@ -38,6 +72,7 @@ void USART1_WordLength(uint8_t wordlength) {
     }
     // If wordlength is 8 or any other value, do nothing (remains 8-bit)
 }
+/*
 void USART1_StopBits(double stopbits) {
     // Reset stop bits configuration
 	USART1->CR2 &= (uint32_t) ~(USART_CR2_STOP_1 | USART_CR2_STOP_0);
@@ -51,6 +86,12 @@ void USART1_StopBits(double stopbits) {
     } else if (fabs(stopbits - 2.0) < 0.00001) { // 2 Stop bits
     	USART1->CR2 |= USART_CR2_STOP_1; // Set bit 13
     }
+}
+*/
+void USART1_StopBits( USART_StopBits_t stop)
+{
+    USART1->CR2 &= ~(3U << 12);
+    USART1->CR2 |= ((uint32_t)stop << 12);
 }
 void USART1_SamplingMode(uint8_t samplingmode, uint32_t baudrate)
 {
@@ -314,6 +355,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.clock = USART1_Clock,
 	.nvic = USART1_Nvic,
 	// Config
+	.inic = USART1_defualt_init,
 	.wordlength = USART1_WordLength,
 	.stopbits = USART1_StopBits,
 	.samplingmode = USART1_SamplingMode,
@@ -338,8 +380,7 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback
-	.callback = &USART1_callback_setup,
-	.dev = dev
+	.callback = &USART1_callback_setup
 };
 
 STM32FXXX_USART1_Handler*  usart1(void){ return (STM32FXXX_USART1_Handler*) &stm32fxxx_usart1_setup; }
