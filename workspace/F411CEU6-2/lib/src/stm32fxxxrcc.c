@@ -50,6 +50,7 @@ void rcc_start(void)
 ******/
 void rcc_start(void)
 {
+	uint32_t timeout;
     // Configure prescalers first (safe before increasing SYSCLK)
     STM32FXXX_Prescaler(1, 1, 1, 0);
 
@@ -61,7 +62,10 @@ void rcc_start(void)
 
     // Derive PLL input and parameters
     uint32_t input = get_pllsclk();
-    uint8_t  pllm  = input / 1000000;   // assumes integer MHz source
+    uint32_t pllm = input / 1000000UL;
+
+    if(pllm < 2)  pllm = 2;
+    if(pllm > 63) pllm = 63;
 
     // Configure PLL (must be disabled inside)
     STM32FXXX_PLL_Division(pllm, 240, 2, 4);
@@ -78,13 +82,15 @@ void rcc_start(void)
         STM32FXXX_Rcc_PLL_CLK_Enable();
 
         // Ensure PLL is ready (defensive)
-        while (!(dev()->rcc->CR & (1 << 25))); // PLLRDY
+        timeout = 0xFFFFFF;
+        while(!(dev()->rcc->CR & (1 << 25)) && timeout--); // PLLRDY
 
         // Switch SYSCLK to PLL
         STM32FXXX_Rcc_HSelect(2);
 
         // Confirm switch completed
-        while (get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != 2);
+        timeout = 0xFFFFFF;
+        while ((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != 2) && timeout--);
     }
     else
     {
@@ -115,7 +121,8 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
     uint8_t rdy = 1;
 
     // Enable CSSON
-    set_reg_block(&dev()->rcc->CR, 1, 19, 1); // Clock security system enable
+    if(hclock == 1 || hclock == 2)
+        set_reg_block(&dev()->rcc->CR, 1, 19, 1); // Clock security system enable
 
     while(rdy)
     {
@@ -183,7 +190,12 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 }
 uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled
-	set_reg_block(&dev()->rcc->CR, 1, 24, 0); set_reg_block(&dev()->rcc->CR, 1, 26, 0);
+	set_reg_block(&dev()->rcc->CR, 1, 24, 0);
+	while(get_reg_block(dev()->rcc->CR, 1, 25));
+
+	set_reg_block(&dev()->rcc->CR, 1, 26, 0);
+	while(get_reg_block(dev()->rcc->CR, 1, 27));
+
 	switch(hclock){
 		case 0: // HSI
 			set_reg_block(&dev()->rcc->PLLCFGR, 1, 22, 0);
@@ -398,9 +410,19 @@ void STM32FXXX_Rcc_Pwr_Clock(uint8_t state)
 {
 	set_reg_block(&dev()->rcc->APB1ENR, 1, 28, state); // Power interface clock enable
 }
-void STM32FXXX_Rcc_Write_Enable(void)
+/*
+ * void STM32FXXX_Rcc_Write_Enable(void)
 {
 	dev()->pwr->CR |= (1 << 8); // Disable protection
+}
+*/
+void STM32FXXX_Rcc_Write_Enable(void)
+{
+    STM32FXXX_Rcc_Pwr_Clock(1);
+
+    dev()->pwr->CR |= (1 << 8);
+
+    while(!(dev()->pwr->CR & (1 << 8)));
 }
 void STM32FXXX_Rcc_Write_Disable(void)
 {
@@ -440,7 +462,7 @@ static STM32FXXX_RCC_HANDLER stm32fxxx_rcc_setup = {
 	/*** NVIC ***/
 	.nvic = STM32FXXX_RCC_nvic,
 	/*** Device ***/
-	.dev = dev
+	//.dev = dev
 };
 
 STM32FXXX_RCC_HANDLER* rcc(void){ return &stm32fxxx_rcc_setup; };
