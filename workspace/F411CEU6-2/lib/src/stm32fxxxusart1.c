@@ -209,6 +209,15 @@ uint32_t is_USART1_SR_PE(void){
 	return USART1->SR & USART_SR_PE;
 }
 /*****************************************************************************/
+uint16_t USART1_rx_index(void)
+{
+	return usart1_rx_index;
+}
+uint16_t USART1_tx_index(void)
+{
+	return usart1_tx_index;
+}
+/*****************************************************************************/
 void USART1_PutChar(char c) {
     USART1->DR = c;	// Send the character
 }
@@ -288,7 +297,9 @@ void USART1_ReceiveRxString(char* rx, size_t size, const char* endl) {
 void USART1_start(void) { USART1->CR1 |= USART_CR1_UE; }
 void USART1_stop(void) { USART1->CR1 &= ~USART_CR1_UE; }
 
-// CALLBACK
+/************************/
+/*** DEFAULT CALLBACK ***/
+/************************/
 void USART1_CallBack_CTS(void){
 	// Clear CTS flag by reading SR
 	volatile uint8_t dummy = USART1->SR;
@@ -350,6 +361,9 @@ static STM32FXXX_USART1_CallBack USART1_callback_setup = {
 		.pe = NULL
 };
 
+/************************/
+/**** USART1 HANDLER ****/
+/************************/
 static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	// V-table
 	.clock = USART1_Clock,
@@ -376,7 +390,9 @@ static STM32FXXX_USART1_Handler stm32fxxx_usart1_setup = {
 	.receive_string = USART1_ReceiveString,
 	.receive_rxstring = USART1_ReceiveRxString,
 	.rxbuff = usart1_rx_buffer,
+	.rx_index = USART1_rx_index,
 	.txbuff = usart1_tx_buffer,
+	.tx_index = USART1_tx_index,
 	.start = USART1_start,
 	.stop = USART1_stop,
 	// Callback

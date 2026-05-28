@@ -9,13 +9,6 @@ Date:     15112025
 #include <stdarg.h>
 #include <math.h>
 
-typedef enum {
-    USART_STOP_1   = 0,
-    USART_STOP_0_5,
-    USART_STOP_2,
-    USART_STOP_1_5
-} USART_StopBits_t;
-
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
 /*******************************************************************/
@@ -532,20 +525,20 @@ void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength) {
     else usart->CR1 &= ~(1 << 12);
 }
 
+/*
 void Usart_StopBits(USART_TypeDef* usart, double stopbits) {
     usart->CR2 &= ~((1 << 12) | (1 << 13));
     if(fabs(stopbits-0.5)<1e-6) usart->CR2 |= (1 << 12);
     else if(fabs(stopbits-1.5)<1e-6) usart->CR2 |= (1<<13)|(1<<12);
     else if(fabs(stopbits-2.0)<1e-6) usart->CR2 |= (1 << 13);
 }
+*/
 
-/*
 void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stop)
 {
     usart->CR2 &= ~(3U << 12);
     usart->CR2 |= ((uint32_t)stop << 12);
 }
-*/
 
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate) {
     if(samplingmode==8) usart->CR1 |= (1 << 15);

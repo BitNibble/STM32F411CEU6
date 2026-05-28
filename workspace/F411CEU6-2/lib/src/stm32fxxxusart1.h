@@ -51,6 +51,8 @@ typedef const struct {
 	uint32_t (*is_rx_idle)( void );
 	void (*tx)( uint8_t state );
 	void (*rx)( uint8_t state );
+	uint16_t (*rx_index)(void);
+	uint16_t (*tx_index)(void);
 	void (*tx_einterrupt)( uint8_t state );
 	void (*rx_neinterrupt)( uint8_t state );
 	void (*transmit_char)(char c);

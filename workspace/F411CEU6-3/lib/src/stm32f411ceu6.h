@@ -77,6 +77,13 @@ typedef union{
 	uint64_t var;
 }U_qword;
 
+typedef enum {
+    USART_STOP_1   = 0,
+    USART_STOP_0_5,
+    USART_STOP_2,
+    USART_STOP_1_5
+} USART_StopBits_t;
+
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
 /*******************************************************************/
@@ -226,8 +233,8 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
 
 /************************** USART UTILS ***************************/
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength);
-void Usart_StopBits(USART_TypeDef* usart, double stopbits);
-//void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stopbits);
+//void Usart_StopBits(USART_TypeDef* usart, double stopbits);
+void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stopbits);
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate);
 
 /************************** FPU ENABLE *****************************/
