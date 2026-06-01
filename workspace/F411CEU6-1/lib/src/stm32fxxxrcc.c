@@ -81,10 +81,6 @@ void rcc_start(void)
         // Enable PLL
         STM32FXXX_Rcc_PLL_CLK_Enable();
 
-        // Ensure PLL is ready (defensive)
-        timeout = 0xFFFFFF;
-        while(!(dev()->rcc->CR & (1 << 25)) && timeout--); // PLLRDY
-
         // Switch SYSCLK to PLL
         STM32FXXX_Rcc_HSelect(2);
 
@@ -114,6 +110,37 @@ static void RCC_Flash_SetLatency(uint32_t sysclk)
     dev()->flash->ACR = (dev()->flash->ACR & ~0x7) | ws;
     dev()->flash->ACR |= (1 << 8) | (1 << 9);
 }
+void STM32FXXX_Rcc_PLL_CLK_Enable(void)
+{
+	volatile uint32_t rcc_time_out;
+	for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= RCC_CR_PLLON ; !(dev()->rcc->CR & RCC_CR_PLLRDY) && rcc_time_out; rcc_time_out-- ); // PLLON: Main PLL (PLL) enable
+}
+void STM32FXXX_Rcc_PLL_I2S_Enable(void)
+{
+	volatile uint32_t rcc_time_out;
+	for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= RCC_CR_PLLI2SON ; !(dev()->rcc->CR & RCC_CR_PLLI2SRDY) && rcc_time_out; rcc_time_out-- ); // PLLI2SON: PLLI2S enable
+}
+void STM32FXXX_Rcc_PLL_SAI_Enable(void)
+{
+	volatile uint32_t rcc_time_out;
+	for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 28) ; !(dev()->rcc->CR & (1 << 29)) && rcc_time_out; rcc_time_out-- ); // PLLSAION: PLLSAI enable
+}
+void STM32FXXX_Rcc_Pwr_Clock(uint8_t state)
+{
+	set_reg_block(&dev()->rcc->APB1ENR, 1, RCC_APB1ENR_PWREN_Pos, state); // Power interface clock enable
+}
+void STM32FXXX_Rcc_Write_Enable(void)
+{
+    STM32FXXX_Rcc_Pwr_Clock(1);
+
+    dev()->pwr->CR |= PWR_CR_DBP;
+
+    while(!(dev()->pwr->CR & PWR_CR_DBP)); // Confirm state
+}
+void STM32FXXX_Rcc_Write_Disable(void)
+{
+	dev()->pwr->CR &= (uint32_t) ~PWR_CR_DBP; // Enable protection
+}
 // RCC
 void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 {
@@ -122,7 +149,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 
     // Enable CSSON
     if(hclock == 1 || hclock == 2)
-        set_reg_block(&dev()->rcc->CR, 1, 19, 1); // Clock security system enable
+        set_reg_block(&dev()->rcc->CR, 1, RCC_CR_CSSON_Pos, 1); // Clock security system enable
 
     while(rdy)
     {
@@ -130,25 +157,25 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
         {
             case 0: // HSION: Internal high-speed clock enable
                 if(set) {
-                    dev()->rcc->CR |= (1 << 0); // Enable HSI
+                    dev()->rcc->CR |= RCC_CR_HSION; // Enable HSI
                     set = 0;
                 }
-                else if(dev()->rcc->CR & (1 << 1)) // Wait for HSIRDY
+                else if(dev()->rcc->CR & RCC_CR_HSIRDY) // Wait for HSIRDY
                     rdy = 0;
                 break;
 
             case 1: // HSEON: External high-speed clock enable
                 if(set) {
-                    dev()->rcc->CR |= (1 << 16); // Enable HSE
+                    dev()->rcc->CR |= RCC_CR_HSEON; // Enable HSE
                     set = 0;
                 }
-                else if(dev()->rcc->CR & (1 << 17)) // Wait for HSERDY
+                else if(dev()->rcc->CR & RCC_CR_HSERDY) // Wait for HSERDY
                     rdy = 0;
                 break;
 
             case 2: // HSEBYP: HSE clock bypass
                 if(set) {
-                    dev()->rcc->CR |= (1 << 18); // Enable HSE bypass
+                    dev()->rcc->CR |= RCC_CR_HSEBYP; // Enable HSE bypass
                     set = 0;
                 }
                 hclock = 1; // Switch to enabling HSE
@@ -164,50 +191,50 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
     switch(hclock){
         case 0: // HSI selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, 0, 0);
+            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
             break;
 
         case 1: // HSE oscillator selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, 0, 1);
+            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 1);
             break;
 
         case 2: // PLL_P selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, 0, 2);
+            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
             break;
 
         case 3: // PLL_R selected as system clock (only on STM32F446xx)
             #ifdef STM32F446xx
-                set_reg_block(&dev()->rcc->CFGR, 2, 0, 3);
+                set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
             #else
-                set_reg_block(&dev()->rcc->CFGR, 2, 0, 0); // Default to HSI if not STM32F446
+                set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0); // Default to HSI if not STM32F446
             #endif
             break;
 
         default: // Default to HSI (00) if an invalid value is passed
-            set_reg_block(&dev()->rcc->CFGR, 2, 0, 0);
+            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
             break;
     }
 }
 uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled
-	set_reg_block(&dev()->rcc->CR, 1, 24, 0);
-	while(get_reg_block(dev()->rcc->CR, 1, 25));
+	set_reg_block(&dev()->rcc->CR, 1, RCC_CR_PLLON_Pos, 0);
+	while(get_reg_block(dev()->rcc->CR, 1, RCC_CR_PLLRDY_Pos));
 
-	set_reg_block(&dev()->rcc->CR, 1, 26, 0);
-	while(get_reg_block(dev()->rcc->CR, 1, 27));
+	set_reg_block(&dev()->rcc->CR, 1, RCC_CR_PLLI2SON_Pos, 0);
+	while(get_reg_block(dev()->rcc->CR, 1, RCC_CR_PLLI2SRDY_Pos));
 
 	switch(hclock){
 		case 0: // HSI
-			set_reg_block(&dev()->rcc->PLLCFGR, 1, 22, 0);
+			set_reg_block(&dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 0);
 		break;
 		case 1: // HSE
-			set_reg_block(&dev()->rcc->PLLCFGR, 1, 22, 1);
+			set_reg_block(&dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 1);
 		break;
 		default: // HSI
-			set_reg_block(&dev()->rcc->PLLCFGR, 1, 22, 0);
+			set_reg_block(&dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 0);
 		break;
 	}
-	return get_reg_block(dev()->rcc->PLLCFGR, 1, 22);
+	return get_reg_block(dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos);
 }
 void STM32FXXX_Rcc_LEnable(uint8_t lclock)
 {
@@ -221,10 +248,10 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
             case 0: // LSION: Internal low-speed oscillator enable
                 if(set)
                 {
-                    dev()->rcc->CSR |= (1 << 0); // Enable LSI
+                    dev()->rcc->CSR |= RCC_CSR_LSION; // Enable LSI
                     set = 0;
                 }
-                else if(dev()->rcc->CSR & (1 << 1)) // Wait for LSIRDY
+                else if(dev()->rcc->CSR & RCC_CSR_LSIRDY) // Wait for LSIRDY
                 {
                     rdy = 0; // LSI ready
                 }
@@ -234,11 +261,11 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 if(set)
                 {
                     STM32FXXX_Rcc_Write_Enable();
-                    dev()->rcc->BDCR |= (1 << 0); // Enable LSE
+                    dev()->rcc->BDCR |= RCC_BDCR_LSEON; // Enable LSE
                     STM32FXXX_Rcc_Write_Disable();
                     set = 0;
                 }
-                else if(dev()->rcc->BDCR & (1 << 1)) // Wait for LSERDY
+                else if(dev()->rcc->BDCR & RCC_BDCR_LSERDY) // Wait for LSERDY
                 {
                     rdy = 0; // LSE ready
                 }
@@ -248,7 +275,7 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 if(set)
                 {
                     STM32FXXX_Rcc_Write_Enable();
-                    dev()->rcc->BDCR |= (1 << 2); // Enable LSE bypass
+                    dev()->rcc->BDCR |= RCC_BDCR_LSEBYP; // Enable LSE bypass
                     STM32FXXX_Rcc_Write_Disable();
                     set = 0;
                 }
@@ -268,19 +295,19 @@ void STM32FXXX_Rcc_LSelect(uint8_t lclock)
 	switch(lclock)
 	{
 		case 0: // LSI oscillator clock used as the RTC clock
-			set_reg_block(&dev()->rcc->BDCR, 2, 8, 2);
+			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 2);
 			break;
 
 		case 1: // LSE oscillator clock used as the RTC clock
-			set_reg_block(&dev()->rcc->BDCR, 2, 8, 1);
+			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 1);
 			break;
 
 		case 2: // HSE oscillator clock divided by a programmable prescaler
-			set_reg_block(&dev()->rcc->BDCR, 2, 8, 3);
+			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 3);
 			break;
 
 		default: // Default to LSE oscillator clock
-			set_reg_block(&dev()->rcc->BDCR, 2, 8, 1);
+			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 1);
 			break;
 	}
 
@@ -290,19 +317,19 @@ void _STM32FXXX_ppre2(uint8_t ppre2)
 {
 	switch(ppre2){ // 13
 		case 2:
-			set_reg_block(&dev()->rcc->CFGR, 3, 13, 4);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE2_Pos, 4);
 		break;
 		case 4:
-			set_reg_block(&dev()->rcc->CFGR, 3, 13, 5);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE2_Pos, 5);
 		break;
 		case 8:
-			set_reg_block(&dev()->rcc->CFGR, 3, 13, 6);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE2_Pos, 6);
 		break;
 		case 16:
-			set_reg_block(&dev()->rcc->CFGR, 3, 13, 7);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE2_Pos, 7);
 		break;
 		default:
-			set_reg_block(&dev()->rcc->CFGR, 3, 13, 0);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE2_Pos, 0);
 		break;
 	}
 }
@@ -310,19 +337,19 @@ void _STM32FXXX_ppre1(uint8_t ppre1)
 {
 	switch(ppre1){ // 10
 		case 2:
-			set_reg_block(&dev()->rcc->CFGR, 3, 10, 4);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE1_Pos, 4);
 		break;
 		case 4:
-			set_reg_block(&dev()->rcc->CFGR, 3, 10, 5);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE1_Pos, 5);
 		break;
 		case 8:
-			set_reg_block(&dev()->rcc->CFGR, 3, 10, 6);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE1_Pos, 6);
 		break;
 		case 16:
-			set_reg_block(&dev()->rcc->CFGR, 3, 10, 7);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE1_Pos, 7);
 		break;
 		default:
-			set_reg_block(&dev()->rcc->CFGR, 3, 10, 0);
+			set_reg_block(&dev()->rcc->CFGR, 3, RCC_CFGR_PPRE1_Pos, 0);
 		break;
 	}
 }
@@ -330,37 +357,37 @@ void _STM32FXXX_ahbpre(uint16_t ahbpre)
 {
 	switch(ahbpre){ // 4
 		case 2:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 8);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 8);
 		break;
 		case 4:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 9);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 9);
 		break;
 		case 8:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 10);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 10);
 		break;
 		case 16:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 11);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 11);
 		break;
 		case 64:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 12);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 12);
 		break;
 		case 128:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 13);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 13);
 		break;
 		case 256:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 14);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 14);
 			break;
 		case 512:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 15);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 15);
 			break;
 		default:
-			set_reg_block(&dev()->rcc->CFGR, 4, 4, 0);
+			set_reg_block(&dev()->rcc->CFGR, 4, RCC_CFGR_HPRE_Pos, 0);
 		break;
 	}
 }
 void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
 {
-	set_reg_block(&dev()->rcc->CFGR, 5, 16, rtcpre);
+	set_reg_block(&dev()->rcc->CFGR, 5, RCC_CFGR_RTCPRE_Pos, rtcpre);
 
 	_STM32FXXX_ppre2(ppre2);
 
@@ -372,19 +399,19 @@ void _STM32FXXX_pllp(uint8_t pllp)
 {
 	switch(pllp){
 			case 2:
-				set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
+				set_reg_block(&dev()->rcc->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,0);
 			break;
 			case 4:
-				set_reg_block(&dev()->rcc->PLLCFGR,2,16,1);
+				set_reg_block(&dev()->rcc->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,1);
 			break;
 			case 6:
-				set_reg_block(&dev()->rcc->PLLCFGR,2,16,2);
+				set_reg_block(&dev()->rcc->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,2);
 			break;
 			case 8:
-				set_reg_block(&dev()->rcc->PLLCFGR,2,16,3);
+				set_reg_block(&dev()->rcc->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,3);
 			break;
 			default: // 2
-				set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
+				set_reg_block(&dev()->rcc->PLLCFGR,2,RCC_PLLCFGR_PLLP_Pos,0);
 			break;
 		}
 }
@@ -392,62 +419,15 @@ void _STM32FXXX_pllp(uint8_t pllp)
 void STM32FXXX_PLL_Division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
 	// disable PLL
-	set_reg_block(&dev()->rcc->CR, 1, 24, 0);
-	while (get_reg_block(dev()->rcc->CR, 1, 25));
+	set_reg_block(&dev()->rcc->CR, 1, RCC_CR_PLLON_Pos, 0);
+	while (get_reg_block(dev()->rcc->CR, 1, RCC_CR_PLLRDY_Pos));
 
-	set_reg_block(&dev()->rcc->PLLCFGR,4,24,pllq);
+	set_reg_block(&dev()->rcc->PLLCFGR,4,RCC_PLLCFGR_PLLQ_Pos,pllq);
 
 	_STM32FXXX_pllp(pllp);
 
-	set_reg_block(&dev()->rcc->PLLCFGR,9,6,plln);
-	set_reg_block(&dev()->rcc->PLLCFGR,6,0,pllm);
-}
-void STM32FXXX_Rcc_PLL_CLK_Enable(void)
-{
-	volatile uint32_t rcc_time_out;
-	//if(onoff){
-		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 24) ; !(dev()->rcc->CR & (1 << 25)) && rcc_time_out; rcc_time_out-- ); // PLLON: Main PLL (PLL) enable
-	//}else{
-		//dev()->rcc->CR &= (unsigned int) ~(1 << 24);
-	//}
-}
-void STM32FXXX_Rcc_PLL_I2S_Enable(void)
-{
-	volatile uint32_t rcc_time_out;
-	//if(onoff)
-		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 26) ; !(dev()->rcc->CR & (1 << 27)) && rcc_time_out; rcc_time_out-- ); // PLLI2SON: PLLI2S enable
-	//else
-		//dev()->rcc->CR &= (unsigned int) ~(1 << 26);
-}
-void STM32FXXX_Rcc_PLL_SAI_Enable(void)
-{
-	volatile uint32_t rcc_time_out;
-	//if(onoff)
-		for( rcc_time_out = 0xFFFFFF, dev()->rcc->CR |= (1 << 28) ; !(dev()->rcc->CR & (1 << 29)) && rcc_time_out; rcc_time_out-- ); // PLLSAION: PLLSAI enable
-	//else
-		//dev()->rcc->CR &= (unsigned int) ~(1 << 28);
-}
-void STM32FXXX_Rcc_Pwr_Clock(uint8_t state)
-{
-	set_reg_block(&dev()->rcc->APB1ENR, 1, 28, state); // Power interface clock enable
-}
-/*
- * void STM32FXXX_Rcc_Write_Enable(void)
-{
-	dev()->pwr->CR |= (1 << 8); // Disable protection
-}
-*/
-void STM32FXXX_Rcc_Write_Enable(void)
-{
-    STM32FXXX_Rcc_Pwr_Clock(1);
-
-    dev()->pwr->CR |= (1 << 8);
-
-    while(!(dev()->pwr->CR & (1 << 8)));
-}
-void STM32FXXX_Rcc_Write_Disable(void)
-{
-	dev()->pwr->CR &= (uint32_t) ~(1 << 8); // Enable protection
+	set_reg_block(&dev()->rcc->PLLCFGR,9,RCC_PLLCFGR_PLLN_Pos,plln);
+	set_reg_block(&dev()->rcc->PLLCFGR,6,RCC_PLLCFGR_PLLM_Pos,pllm);
 }
 /*** RCC Bit Mapping Definition ***/
 /*** Other ***/
