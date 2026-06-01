@@ -286,9 +286,8 @@ void STM32FXXX_Rcc_LSelect(uint8_t lclock)
 
 	STM32FXXX_Rcc_Write_Disable(); // Disable write access to the backup domain
 }
-void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
+void _STM32FXXX_ppre2(uint8_t ppre2)
 {
-	set_reg_block(&dev()->rcc->CFGR, 5, 16, rtcpre);
 	switch(ppre2){ // 13
 		case 2:
 			set_reg_block(&dev()->rcc->CFGR, 3, 13, 4);
@@ -306,6 +305,9 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 			set_reg_block(&dev()->rcc->CFGR, 3, 13, 0);
 		break;
 	}
+}
+void _STM32FXXX_ppre1(uint8_t ppre1)
+{
 	switch(ppre1){ // 10
 		case 2:
 			set_reg_block(&dev()->rcc->CFGR, 3, 10, 4);
@@ -323,6 +325,9 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 			set_reg_block(&dev()->rcc->CFGR, 3, 10, 0);
 		break;
 	}
+}
+void _STM32FXXX_ahbpre(uint16_t ahbpre)
+{
 	switch(ahbpre){ // 4
 		case 2:
 			set_reg_block(&dev()->rcc->CFGR, 4, 4, 8);
@@ -353,6 +358,36 @@ void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t 
 		break;
 	}
 }
+void STM32FXXX_Prescaler(uint16_t ahbpre, uint8_t ppre1, uint8_t ppre2, uint8_t rtcpre)
+{
+	set_reg_block(&dev()->rcc->CFGR, 5, 16, rtcpre);
+
+	_STM32FXXX_ppre2(ppre2);
+
+	_STM32FXXX_ppre1(ppre1);
+
+	_STM32FXXX_ahbpre(ahbpre);
+}
+void _STM32FXXX_pllp(uint8_t pllp)
+{
+	switch(pllp){
+			case 2:
+				set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
+			break;
+			case 4:
+				set_reg_block(&dev()->rcc->PLLCFGR,2,16,1);
+			break;
+			case 6:
+				set_reg_block(&dev()->rcc->PLLCFGR,2,16,2);
+			break;
+			case 8:
+				set_reg_block(&dev()->rcc->PLLCFGR,2,16,3);
+			break;
+			default: // 2
+				set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
+			break;
+		}
+}
 // PLL
 void STM32FXXX_PLL_Division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t pllq)
 {
@@ -361,23 +396,9 @@ void STM32FXXX_PLL_Division(uint8_t pllm, uint16_t plln, uint8_t pllp, uint8_t p
 	while (get_reg_block(dev()->rcc->CR, 1, 25));
 
 	set_reg_block(&dev()->rcc->PLLCFGR,4,24,pllq);
-	switch(pllp){
-		case 2:
-			set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
-		break;
-		case 4:
-			set_reg_block(&dev()->rcc->PLLCFGR,2,16,1);
-		break;
-		case 6:
-			set_reg_block(&dev()->rcc->PLLCFGR,2,16,2);
-		break;
-		case 8:
-			set_reg_block(&dev()->rcc->PLLCFGR,2,16,3);
-		break;
-		default: // 2
-			set_reg_block(&dev()->rcc->PLLCFGR,2,16,0);
-		break;
-	}
+
+	_STM32FXXX_pllp(pllp);
+
 	set_reg_block(&dev()->rcc->PLLCFGR,9,6,plln);
 	set_reg_block(&dev()->rcc->PLLCFGR,6,0,pllm);
 }
