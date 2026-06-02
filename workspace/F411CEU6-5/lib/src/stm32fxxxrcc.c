@@ -50,7 +50,6 @@ void rcc_start(void)
 ******/
 void rcc_start(void)
 {
-	uint32_t timeout;
     // Configure prescalers first (safe before increasing SYSCLK)
     STM32FXXX_Prescaler(1, 1, 1, 0);
 
@@ -83,18 +82,11 @@ void rcc_start(void)
 
         // Switch SYSCLK to PLL
         STM32FXXX_Rcc_HSelect(2);
-
-        // Confirm switch completed
-        timeout = 0xFFFFFF;
-        while ((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != 2) && timeout--);
     }
     else
     {
         // Direct switch to selected HSI/HSE
         STM32FXXX_Rcc_HSelect(H_Clock_Source);
-
-        // Confirm switch completed
-        while (get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != H_Clock_Source);
     }
 }
 // Latency
@@ -189,31 +181,35 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 }
 void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
-    switch(hclock){
-        case 0: // HSI selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
-            break;
+	uint8_t verify = 0; uint32_t timeout = 0xFFFFFF;
+		switch(hclock){
+			case 0: // HSI selected as system clock
+				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
+				verify = 1;
+				break;
 
-        case 1: // HSE oscillator selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 1);
-            break;
+			case 1: // HSE oscillator selected as system clock
+				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 1);
+				verify = 1;
+				break;
 
-        case 2: // PLL_P selected as system clock
-            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
-            break;
+			case 2: // PLL_P selected as system clock
+				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
+				verify = 1;
+				break;
 
-        case 3: // PLL_R selected as system clock (only on STM32F446xx)
-            #ifdef STM32F446xx
-                set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
-            #else
-                set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0); // Default to HSI if not STM32F446
-            #endif
-            break;
-
-        default: // Default to HSI (00) if an invalid value is passed
-            set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
-            break;
-    }
+			case 3: // PLL_R selected as system clock (only on STM32F446xx)
+				#ifdef STM32F446xx
+					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
+				#else
+					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0); // Default to HSI if not STM32F446
+				#endif
+					verify = 1;
+				break;
+			default:
+				break;
+		}
+	if(verify) { while((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != hclock) && timeout){timeout--;} }
 }
 uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled

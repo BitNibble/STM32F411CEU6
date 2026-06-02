@@ -76,7 +76,7 @@ typedef const struct
 	/*** Clock and Nvic ***/
 	void (*pwr_clock)(uint8_t state);
 	void (*bkp_sram_clock)(uint8_t state);
-	void (*clock)(uint8_t isEnabled);
+	void (*clock)(uint8_t state);
 	void (*inic)(void);
 	void (*nvic)(uint8_t config);
 	void (*irq_enable)(uint8_t type);

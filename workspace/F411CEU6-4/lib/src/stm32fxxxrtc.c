@@ -48,10 +48,10 @@ static void set_rtc_clock_source(uint8_t clock_source);
 void RTC_L_select(uint8_t lclock);
 
 /*** Procedure & Function Definition ***/
-void RTC_Clock(uint8_t isEnabled) {
+void RTC_Clock(uint8_t state) {
     RTC_Write_enable();
 
-    if (isEnabled) {
+    if (state) {
         RCC->BDCR |= (1 << RCC_BDCR_RTCEN_Pos);  // Enable RTC clock
     } else {
         RCC->BDCR &= ~(1 << RCC_BDCR_RTCEN_Pos); // Disable RTC clock
