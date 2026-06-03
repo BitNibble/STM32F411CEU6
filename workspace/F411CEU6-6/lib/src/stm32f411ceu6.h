@@ -190,6 +190,10 @@ uint8_t get_pllq(void);
 #endif
 
 uint32_t get_pllsclk(void);
+uint32_t get_pll_vco_in(void);
+uint32_t get_plli2s_vco_in(void);
+uint32_t get_pllsai_vco_in(void);
+uint32_t get_pll_vco_out(void);
 uint32_t get_pllclk(void);
 uint32_t get_sysclk(void);
 uint32_t get_hclk(void);
