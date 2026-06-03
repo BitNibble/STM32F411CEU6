@@ -96,7 +96,7 @@ static STM32F411CEU6_Instance stm32f411ceu6_setup = {
 const STM32F411CEU6_Instance* dev(void){ return &stm32f411ceu6_setup; }
 
 /*******************************************************************/
-/************************** LOOKUP TABLES **************************/
+/*********************** CLOCK LOOKUP TABLES ***********************/
 /*******************************************************************/
 static const uint16_t hpre_table[16] = {
     1,1,1,1,1,1,1,1,2,4,8,16,64,128,256,512
@@ -107,7 +107,7 @@ static const uint8_t ppre_table[8] = {1,1,1,1,2,4,8,16};
 static const uint8_t mco_table[8] = {1,1,1,1,2,3,4,5};
 
 /*******************************************************************/
-/************************** CLOCK GETTERS **************************/
+/*************************** CLOCK Query ***************************/
 /*******************************************************************/
 uint16_t get_hpre(void) {
     uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_HPRE);
@@ -235,9 +235,6 @@ uint32_t get_timclk2(void)
     return (get_hppre2() == 1) ? pclk : (pclk * 2U);
 }
 
-/*******************************************************************/
-/************************* Peripheral ******************************/
-/*******************************************************************/
 /************************* Generic UTILS ***************************/
 U_word writeHLbyte(uint16_t v)
 {
@@ -247,6 +244,8 @@ U_word writeHLbyte(uint16_t v)
     return w;
 }
 
+/*******************************************************************/
+/************************* Peripheral ******************************/
 /************************** GPIO UTILS *****************************/
 void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable )
 {
@@ -535,28 +534,28 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
 
 /************************** USART UTILS ***************************/
 void Usart_WordLength(USART_TypeDef* usart, uint8_t wordlength) {
-    if(wordlength == 9) usart->CR1 |= (1 << 12);
-    else usart->CR1 &= ~(1 << 12);
+    if(wordlength == 9) usart->CR1 |= (1 << USART_CR1_M_Pos);
+    else usart->CR1 &= ~(1 << USART_CR1_M_Pos);
 }
 
 /*
 void Usart_StopBits(USART_TypeDef* usart, double stopbits) {
-    usart->CR2 &= ~((1 << 12) | (1 << 13));
-    if(fabs(stopbits-0.5)<1e-6) usart->CR2 |= (1 << 12);
-    else if(fabs(stopbits-1.5)<1e-6) usart->CR2 |= (1<<13)|(1<<12);
-    else if(fabs(stopbits-2.0)<1e-6) usart->CR2 |= (1 << 13);
+    usart->CR2 &= ~USART_CR2_STOP;
+    if(fabs(stopbits-0.5)<1e-6) usart->CR2 |= USART_CR2_STOP_0;
+    else if(fabs(stopbits-1.5)<1e-6) usart->CR2 |= USART_CR2_STOP;
+    else if(fabs(stopbits-2.0)<1e-6) usart->CR2 |= USART_CR2_STOP_1;
 }
 */
 
 void Usart_StopBits(USART_TypeDef* usart, USART_StopBits_t stop)
 {
-    usart->CR2 &= ~(3U << 12);
-    usart->CR2 |= ((uint32_t)stop << 12);
+    usart->CR2 &= ~USART_CR2_STOP;
+    usart->CR2 |= ((uint32_t)stop << USART_CR2_STOP_Pos);
 }
 
 void Usart_SamplingMode(USART_TypeDef* usart, uint8_t samplingmode, uint32_t baudrate) {
-    if(samplingmode==8) usart->CR1 |= (1 << 15);
-    else { usart->CR1 &= ~(1<<15); samplingmode=16; }
+    if(samplingmode==8) usart->CR1 |= USART_CR1_OVER8;
+    else { usart->CR1 &= ~USART_CR1_OVER8; samplingmode=16; }
 
     uint32_t pclk = (usart==USART1 || usart==USART6)? get_pclk2() : get_pclk1();
     double usartdiv = (double)pclk / (samplingmode * baudrate);

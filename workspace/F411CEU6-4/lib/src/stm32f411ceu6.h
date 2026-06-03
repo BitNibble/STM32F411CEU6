@@ -84,6 +84,10 @@ typedef enum {
     USART_STOP_1_5
 } USART_StopBits_t;
 
+/* trackers */
+typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
+typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
+
 /*******************************************************************/
 /********************* MAIN HARDWARE LAYER *************************/
 /*******************************************************************/
@@ -173,7 +177,7 @@ typedef const struct {
 const STM32F411CEU6_Instance* dev(void);
 
 /*******************************************************************/
-/************************** CLOCK GETTERS **************************/
+/*************************** CLOCK Query ***************************/
 /*******************************************************************/
 uint16_t get_hpre(void);
 uint8_t get_hppre1(void);
@@ -202,16 +206,11 @@ uint32_t get_pclk2(void);
 uint32_t get_timclk1(void);
 uint32_t get_timclk2(void);
 
-/*******************************************************************/
-/************************* Peripheral ******************************/
-/*******************************************************************/
-/* trackers */
-typedef struct { uint8_t sequence[16]; uint8_t length; uint8_t index; } ADC_RegularTracker;
-typedef struct { uint8_t sequence[4];  uint8_t length; uint8_t index; } ADC_InjectTracker;
-
 /************************* Generic UTILS ***************************/
 U_word writeHLbyte(uint16_t v);
 
+/*******************************************************************/
+/************************* Peripheral ******************************/
 /************************** GPIO UTILS *****************************/
 void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable );
 void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
