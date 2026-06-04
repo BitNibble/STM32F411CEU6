@@ -1,11 +1,11 @@
 /*****************************************
-	STM32FXXX TOOL
+	STM32 TOOL
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
-Hardware: STM32FXXX
+Hardware: STM32
 Update:   15/11/2025
 *****************************************/
-#include "stm32fxxxtool.h"
+#include "stm32xtool.h"
 #include <stdarg.h>
 #include <math.h>
 
@@ -53,10 +53,21 @@ inline uint32_t _mask_pos(uint32_t Msk){
 inline uint32_t _mask_data(uint32_t Msk, uint32_t data){
 	return _mask_var(data << _mask_pos(Msk), Msk);
 }
+
+
 inline uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos)
 {
-	return _mask_var(reg, Msk) >> Pos;
+	return (reg & Msk) >> Pos;
 }
+inline void set_reg_Msk_Shifted(volatile uint32_t* reg, uint32_t Msk, uint32_t Value)
+{
+    uint32_t tmp = *reg;
+    tmp &= ~Msk;
+    tmp |= (Value & Msk);
+    *reg = tmp;
+}
+
+
 inline void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data)
 {
 	uint32_t value = _imask_var(*reg, Msk);

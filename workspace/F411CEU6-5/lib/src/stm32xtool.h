@@ -1,8 +1,8 @@
 /***************************************************
-	STM32FXXX TOOL
+	STM32 TOOL
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
-Hardware: STM32FXXX
+Hardware: STM32
 Update:   15/11/2025
 ****************************************************/
 #pragma once
@@ -28,6 +28,7 @@ uint32_t _block_pos(uint32_t size_block, uint32_t block_n);
 void set_reg(volatile uint32_t* reg, uint32_t hbits);
 void clear_reg(volatile uint32_t* reg, uint32_t hbits);
 uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos);
+void set_reg_Msk_Shifted(volatile uint32_t* reg, uint32_t Msk, uint32_t Value);
 void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
 void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk);

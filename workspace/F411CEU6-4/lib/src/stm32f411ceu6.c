@@ -170,17 +170,8 @@ uint8_t get_pllr(void) {
 uint32_t get_pllsclk(void) {
     return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
 }
-
 uint32_t get_pll_vco_in(void) {
     return (get_pllsclk() / get_pllm());
-}
-
-uint32_t get_plli2s_vco_in(void) {
-    return get_pll_vco_in();
-}
-
-uint32_t get_pllsai_vco_in(void) {
-    return get_pll_vco_in();
 }
 
 uint32_t get_pll_vco_out(void) {
@@ -191,6 +182,16 @@ uint32_t get_pllclk(void)
 {
     return (get_pll_vco_out() / get_pllp());
 }
+
+uint32_t get_plli2s_vco_in(void) {
+    return get_pll_vco_in();
+}
+
+uint32_t get_pllsai_vco_in(void) {
+    return get_pll_vco_in();
+}
+
+
 
 /*
 uint32_t get_pllclk(void) {
