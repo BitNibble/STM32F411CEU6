@@ -7,11 +7,7 @@ Update:   16012024
 *******************************************************************************/
 #include "armsystick.h"
 
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
 
 #include <stdio.h>
 #include <string.h>

@@ -76,7 +76,7 @@ typedef const struct
 	/*** Clock and Nvic ***/
 	void (*pwr_clock)(uint8_t state);
 	void (*bkp_sram_clock)(uint8_t state);
-	void (*clock)(uint8_t isEnabled);
+	void (*clock)(uint8_t state);
 	void (*inic)(void);
 	void (*nvic)(uint8_t config);
 	void (*irq_enable)(uint8_t type);
@@ -84,7 +84,7 @@ typedef const struct
 	RTC_callback* callback;
 
 #if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
+	STM32_DEVICE* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Instance* (*dev)(void);
 #else

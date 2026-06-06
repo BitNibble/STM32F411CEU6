@@ -9,8 +9,13 @@ Date:     22062023
 	#define _STM32FXXXTIM9TO14_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /*** TIMER 9 TO 14 TypeDef***/
 typedef struct{
 	void (*b)(void);
@@ -31,6 +36,14 @@ typedef const struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim9to14_callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_TIM9_Handler, STM32FXXX_TIM12_Handler;
 // ( 10/11/13/14 ) TIM
 typedef const struct
@@ -42,6 +55,14 @@ typedef const struct
 	void (*start)(void);
 	void (*stop)(void);
 	tim9to14_callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_TIM10_Handler, STM32FXXX_TIM11_Handler, STM32FXXX_TIM13_Handler, STM32FXXX_TIM14_Handler;
 
 STM32FXXX_TIM9_Handler* tim9(void);
@@ -52,5 +73,17 @@ STM32FXXX_TIM13_Handler* tim13(void);
 STM32FXXX_TIM14_Handler* tim14(void);
 
 #endif
+
 /*** EOF ***/
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

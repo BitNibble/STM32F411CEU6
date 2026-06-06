@@ -200,7 +200,8 @@ static STM32FXXX_ADC1_Handler stm32fxxx_adc1_setup = {
 	.stop = ADC1_Stop,
 	.temperature_setup = ADC1_Temperature_Setup,
 	.read_temperature = ADC1_Read_Temperature,
-	.callback = &ADC1_callback_setup
+	.callback = &ADC1_callback_setup,
+	.dev = dev
 };
 
 STM32FXXX_ADC1_Handler* adc1(void){ return (STM32FXXX_ADC1_Handler*) &stm32fxxx_adc1_setup; }

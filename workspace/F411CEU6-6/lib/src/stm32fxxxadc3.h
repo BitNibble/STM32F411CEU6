@@ -11,8 +11,11 @@ Comment:
 	#define _STM32FXXXADC3_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** ADC TypeDef ***/
 typedef struct {
     void (*on_conversion_complete)(uint16_t value);
@@ -31,13 +34,31 @@ typedef const struct
 	void (*stop)(void);
 
 	ADC3_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_ADC3_Handler;
 
 // INIC
 STM32FXXX_ADC3_Handler* adc3(void);
 
 #endif
+
 /*** EOF ***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

@@ -10,6 +10,7 @@ Date:     23/01/2026
 
 /*** Library ***/
 #include "stm32f411ceu6.h"
+#include "armsystick.h"
 #include "st7789_fonts.h"
 
 /*** Define & Macro ***/
@@ -25,7 +26,7 @@ typedef struct
 	uint8_t dc_pin;
 	uint8_t rst_pin;
 	uint8_t sda_pin;
-	uint8_t miso;
+	uint8_t af;
 	uint8_t scl_pin;
 	uint16_t width;
 	uint16_t height;

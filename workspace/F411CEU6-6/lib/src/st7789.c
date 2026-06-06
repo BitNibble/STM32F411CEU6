@@ -8,7 +8,6 @@ Date:     23/01/2026
 
 /*** Library ***/
 #include "st7789.h"
-#include "armsystick.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -66,6 +65,11 @@ Date:     23/01/2026
 #define ST77XX_RDID4 0xDD
 
 /*** Procedure and Function Definition ***/
+static inline void st7789_delay_ms(uint32_t ms)
+{
+    // bind to your stm32xtool or system delay
+    _delay_ms(ms);
+}
 // Returns the next multiple of 8 >= width
 uint16_t _pad_width8(uint16_t width){
 	return (width + 7) & ~7;
@@ -75,35 +79,42 @@ uint16_t _glyph_size_bytes(uint16_t width, uint16_t height){
 	return ((width + 7) / 8) * height;
 }
 
-static inline void set_cs(ST7789_par* par) {
+static inline void st7789_cs_low(ST7789_par* par) {
 	clear_pin(par->scl_gpio, par->cs_pin);
 }
 
-static inline void clear_cs(ST7789_par* par) {
+static inline void st7789_cs_high(ST7789_par* par) {
 	set_pin(par->scl_gpio, par->cs_pin);
 }
 
-static inline void set_data(ST7789_par* par) {
+static inline void st7789_dc_data(ST7789_par* par) {
 	set_pin(par->scl_gpio, par->dc_pin);
 }
 
-static inline void set_cmd(ST7789_par* par) {
+static inline void st7789_dc_cmd(ST7789_par* par) {
 	clear_pin(par->scl_gpio, par->dc_pin);
 }
 
 
-static inline void set_rst(ST7789_par* par) {
+static inline void st7789_rst_low(ST7789_par* par) {
 	clear_pin(par->scl_gpio, par->rst_pin);
 }
 
-static inline void clear_rst(ST7789_par* par) {
+static inline void st7789_rst_high(ST7789_par* par) {
 	set_pin(par->scl_gpio, par->rst_pin);
 }
 
 // Reset the display
-static inline void st7789_reset(ST7789_par* par) {
-	set_rst(par); _delay_ms(10); clear_rst(par);
-	_delay_ms(120);
+static inline void st7789_reset(ST7789_par* par)
+{
+    st7789_rst_high(par);
+    st7789_delay_ms(10);
+
+    st7789_rst_low(par);
+    st7789_delay_ms(20);
+
+    st7789_rst_high(par);
+    st7789_delay_ms(120);
 }
 
 static inline void _spi_wait_txe(SPI_TypeDef *spi, uint32_t timeout)
@@ -138,6 +149,28 @@ static inline void st7789_spi_tx_fast(ST7789_par* par, uint8_t d)
     *(uint8_t*)&spi->DR = d;
 }
 
+/**
+static inline void st7789_spi_tx(ST7789_par* par, uint8_t d)
+{
+    SPI_TypeDef *spi = par->spi;
+
+    while(!(spi->SR & SPI_SR_TXE));
+    *(__IO uint8_t*)&spi->DR = d;
+
+    while(spi->SR & SPI_SR_BSY);
+
+    (void)spi->DR;
+    (void)spi->SR;
+}
+
+static inline void st7789_spi_tx_fast(ST7789_par* par, uint8_t d)
+{
+    SPI_TypeDef *spi = par->spi;
+    while(!(spi->SR & SPI_SR_TXE));
+    *(__IO uint8_t*)&spi->DR = d;
+}
+**/
+
 // Flush SPI after a burst
 static inline void st7789_spi_flush(ST7789_par* par)
 {
@@ -147,15 +180,24 @@ static inline void st7789_spi_flush(ST7789_par* par)
     (void)spi->SR;
 }
 
+/**
+static inline void st7789_spi_flush(ST7789_par* par)
+{
+    SPI_TypeDef *spi = par->spi;
+    while(spi->SR & SPI_SR_BSY);
+    (void)spi->DR;
+}
+**/
+
 // Send a command byte
 static inline void st7789_cmd(ST7789_par* par, uint8_t c) {
-	set_cmd(par);
+	st7789_dc_cmd(par);
 	st7789_spi_tx_fast(par, c);
 }
 
 // Send a data byte
 static inline void st7789_data(ST7789_par* par, uint8_t d) {
-	set_data(par);
+	st7789_dc_data(par);
 	st7789_spi_tx_fast(par, d);
 }
 
@@ -180,37 +222,39 @@ void st7789_set_raset(ST7789_par* par, uint16_t y0, uint16_t y1)
 }
 
 // Initialization sequence
+/**/
 void st7789_init_seq(ST7789_par* par) {
-	set_cs(par);
-	/***/
+	st7789_cs_low(par);
 	//st7789_start(par);
 	st7789_cmd(par, ST77XX_SWRESET); // SWRESET
 	st7789_spi_flush(par);
-	clear_cs(par);
+	st7789_cs_high(par);
 	
-	_delay_ms(150);
+	//_delay_ms(150);
+	st7789_delay_ms(150);
 	
-	set_cs(par);
+	st7789_cs_low(par);
 	st7789_cmd(par, ST77XX_SLPOUT); // SLPOUT
 	st7789_spi_flush(par);
-	clear_cs(par);
+	st7789_cs_high(par);
 	
-	_delay_ms(120);
+	//_delay_ms(120);
+	st7789_delay_ms(120);
 	
-	set_cs(par);
+	st7789_cs_low(par);
 	st7789_cmd(par, ST77XX_COLMOD); // COLMOD
 	st7789_data(par, 0x55); // 0x55, 0x05
 	st7789_spi_flush(par);
 	//st7789_stop(par);
 
-	set_cs(par);
+	st7789_cs_low(par);
 	st7789_cmd(par, 0x36); // MADCTL
 	st7789_data(par, 0x00); // 0x00, 0x08, 0xC0, 0x60
 	st7789_spi_flush(par);
-	clear_cs(par);
+	st7789_cs_high(par);
 
 	// CASET
-	set_cs(par);
+	st7789_cs_low(par);
 	st7789_set_caset(par, 0x0000, 0x00EF);
 	//st7789_stop(par);
 	
@@ -224,25 +268,25 @@ void st7789_init_seq(ST7789_par* par) {
 	st7789_spi_flush(par);
 	//st7789_stop(par);
 
-	_delay_ms(10);
+	//_delay_ms(10);
+	st7789_delay_ms(10);
 
 	//st7789_start(par);
 	st7789_cmd(par, ST77XX_NORON); // NORON
 	st7789_spi_flush(par);
 	//st7789_stop(par);
 	
-	_delay_ms(10);
+	//_delay_ms(10);
+	st7789_delay_ms(10);
 	
-	/***/
 	//st7789_start(par);
 	st7789_cmd(par, ST77XX_DISPON); // DISPON
 	st7789_spi_flush(par);
 	//st7789_stop(par);
-	/***/
 	
-	_delay_ms(20);
-	/***/
-	clear_cs(par);
+	//_delay_ms(20);
+	st7789_delay_ms(20);
+	st7789_cs_high(par);
 }
 
 void st7789_set_window(ST7789_par* par, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
@@ -736,17 +780,17 @@ void st7789_setup_gpio(ST7789_par* par)
         GPIO_moder(par->scl_gpio, par->cs_pin, MODE_OUTPUT);
         GPIO_moder(par->scl_gpio, par->dc_pin, MODE_OUTPUT);
         GPIO_moder(par->scl_gpio, par->rst_pin, MODE_OUTPUT);
-        GPIO_moder(par->scl_gpio, par->miso, MODE_INPUT);
+        //GPIO_moder(par->scl_gpio, par->miso, MODE_INPUT);
 
         GPIO_otype(par->scl_gpio, par->cs_pin, 0);
         GPIO_otype(par->scl_gpio, par->dc_pin, 0);
         GPIO_otype(par->scl_gpio, par->rst_pin, 0);
-        GPIO_otype(par->scl_gpio, par->miso, 1);
+        //GPIO_otype(par->scl_gpio, par->miso, 1);
 
         GPIO_pupd(par->scl_gpio, par->cs_pin, 0);
         GPIO_pupd(par->scl_gpio, par->dc_pin, 0);
         GPIO_pupd(par->scl_gpio, par->rst_pin, 0);
-        GPIO_pupd(par->scl_gpio, par->miso, 1);
+        //GPIO_pupd(par->scl_gpio, par->miso, 1);
     }
 
     // SPI pins -> Alternate Function
@@ -755,7 +799,7 @@ void st7789_setup_gpio(ST7789_par* par)
         GPIO_otype(par->sda_gpio, par->sda_pin, 0);
         GPIO_ospeed(par->sda_gpio, par->sda_pin, 3);
         GPIO_pupd(par->sda_gpio, par->sda_pin, 0);
-        GPIO_af(par->sda_gpio, par->sda_pin, 5); // AF5 = SPI
+        GPIO_af(par->sda_gpio, par->sda_pin, par->af);
     }
 
     if(par->scl_gpio) {
@@ -763,7 +807,7 @@ void st7789_setup_gpio(ST7789_par* par)
         GPIO_otype(par->scl_gpio, par->scl_pin, 0);
         GPIO_ospeed(par->scl_gpio, par->scl_pin, 3);
         GPIO_pupd(par->scl_gpio, par->scl_pin, 0);
-        GPIO_af(par->scl_gpio, par->scl_pin, 5); // AF5 = SPI
+        GPIO_af(par->scl_gpio, par->scl_pin, par->af);
     }
 
     // Initial pin states
@@ -774,11 +818,12 @@ void st7789_setup_gpio(ST7789_par* par)
 }
 
 /*** SPI Setup ***/
+/**
 void st7789_setup_spi(ST7789_par* par)
 {
     if(!par->spi) return;
 
-    STM32F411CEU6_Instance* device = dev();
+    const STM32_DEVICE* device = dev();
     SPI_TypeDef* spi = par->spi;
 
     // Enable SPI clock
@@ -804,26 +849,76 @@ void st7789_setup_spi(ST7789_par* par)
     // Enable SPI
     spi->CR1 |= SPI_CR1_SPE_Msk;
 }
+**/
+
+void st7789_setup_spi(ST7789_par* par)
+{
+    if(!par->spi) return;
+
+    const STM32_DEVICE* device = dev();
+    SPI_TypeDef* spi = par->spi;
+
+    // F4 - Enable clock
+    if(spi == SPI1) device->rcc->APB2ENR |= RCC_APB2ENR_SPI1EN_Msk;
+    else if(spi == SPI2) device->rcc->APB1ENR |= RCC_APB1ENR_SPI2EN_Msk;
+    else if(spi == SPI3) device->rcc->APB1ENR |= RCC_APB1ENR_SPI3EN_Msk;
+
+    // G4
+    //if(spi == SPI1)
+    	//device->rcc->APB2ENR |= RCC_APB2ENR_SPI1EN_Msk;
+    //else if(spi == SPI2)
+    	//device->rcc->APB1ENR1 |= RCC_APB1ENR1_SPI2EN_Msk;
+    //else if(spi == SPI3)
+    	//device->rcc->APB1ENR1 |= RCC_APB1ENR1_SPI3EN_Msk;
+
+
+
+    spi->CR1 &= ~SPI_CR1_SPE_Msk;
+
+    // G4 - FULL RESET of CR1 (important on G4 to avoid inherited state)
+    //spi->CR1 = 0;
+
+    spi->CR1 =
+        SPI_CR1_MSTR_Msk |   // master
+        SPI_CR1_SSM_Msk  |   // software slave
+        SPI_CR1_SSI_Msk;     // internal NSS high
+
+    // fastest safe default (adjust later if needed)
+    spi->CR1 &= ~SPI_CR1_BR_Msk;  // fPCLK / 2
+
+    // F4 - 8-bit, MSB first, 2-line full duplex
+    spi->CR1 &= ~(SPI_CR1_DFF_Msk | SPI_CR1_LSBFIRST_Msk | SPI_CR1_BIDIMODE_Msk);
+
+    // G4
+    //spi->CR1 &= ~(SPI_CR1_LSBFIRST_Msk | SPI_CR1_BIDIMODE_Msk);
+    //spi->CR2 &= ~SPI_CR2_DS_Msk;
+    //spi->CR2 |= (7U << SPI_CR2_DS_Pos);
+
+    // mode 0 (safe default for ST7789)
+    spi->CR1 &= ~(SPI_CR1_CPOL_Msk | SPI_CR1_CPHA_Msk);
+
+    spi->CR1 |= SPI_CR1_SPE_Msk;
+}
 
 /*** Initial Screen ***/
 void boot_screen(ST7789_par* par){
 	//U_word color = { .var = 0x0340 };
 	U_word color = { .var = ST77XX_GREEN };
 	//U_word color = { .var = ST77XX_WHITE };
-	set_cs(par);
+	st7789_cs_low(par);
 	st7789_set_window(par, 0, 0, 239, 239);
 	for (uint32_t i = 0; i < 240UL * 240; i++) {
 		st7789_data(par, color.par.h);
 		st7789_data(par, color.par.l);
 	}
 	st7789_spi_flush(par);
-	clear_cs(par);
+	st7789_cs_high(par);
 }
 
 void welcome_screen(ST7789_par* par){
-    set_cs(par);
+    st7789_cs_low(par);
     st7789_drawstring16x24(par,"Welcome",60,90,ST77XX_GOLD,ST77XX_GREEN);
-    clear_cs(par);
+    st7789_cs_high(par);
 }
 
 /***** Enable ST7789 handler *****/
@@ -844,26 +939,26 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     // -------------------------
     // Auto-detect GPIOs/pins
     // -------------------------
-    if (spi == SPI1) {
-		st.par.sda_gpio = GPIOA;  // MOSI
-		st.par.scl_gpio = GPIOA;  // SCK
-		st.par.sda_pin  = 7;      // PA7 = SPI1_MOSI
-		st.par.miso  = 6;
-		st.par.scl_pin  = 5;      // PA5 = SPI1_SCK
+    if (spi == SPI1) { // AF5
+		st.par.sda_gpio = GPIOA; // MOSI
+		st.par.scl_gpio = GPIOA; // SCK
+		st.par.sda_pin  = 7;     // PA7 = SPI1_MOSI
+		st.par.af  = 5;
+		st.par.scl_pin  = 5;     // PA5 = SPI1_SCK
 	}
-	else if (spi == SPI2) {
-		st.par.sda_gpio = GPIOB;
-		st.par.scl_gpio = GPIOB;
-		st.par.sda_pin  = 15;     // PB15 = SPI2_MOSI
-		st.par.miso  = 14;
+	else if (spi == SPI2) { // AF5
+		st.par.sda_gpio = GPIOB; // MOSI
+		st.par.scl_gpio = GPIOB; // SCK
+		st.par.sda_pin  = 15;    // PB15 = SPI2_MOSI
+		st.par.af  = 5;
 		st.par.scl_pin  = 13;     // PB13 = SPI2_SCK
 	}
-	else if (spi == SPI3) {
-		st.par.sda_gpio = GPIOC;
-		st.par.scl_gpio = GPIOC;
-		st.par.sda_pin  = 12;     // PC12 = SPI3_MOSI
-		st.par.miso  = 11;
-		st.par.scl_pin  = 10;     // PC10 = SPI3_SCK
+	else if (spi == SPI3) { // AF5
+		st.par.sda_gpio = GPIOC; // MOSI
+		st.par.scl_gpio = GPIOC; // SCK
+		st.par.sda_pin  = 12;    // PC12 = SPI3_MOSI
+		st.par.af  = 5;
+		st.par.scl_pin  = 10;    // PC10 = SPI3_SCK
 	}
 	else {
 		st.par.sda_gpio = NULL;
@@ -879,8 +974,8 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     // Assign V-table functions
     // -------------------------
     st.reset           = st7789_reset;
-    st.start           = set_cs;
-    st.stop            = clear_cs;
+    st.start           = st7789_cs_low;
+    st.stop            = st7789_cs_high;
     st.draw_pixel      = st7789_draw_pixel;
     st.fill_screen     = st7789_fill_screen;
     st.drawfont8x12    = st7789_drawfont8x12;
@@ -909,8 +1004,6 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 
     if (st.setup.gpio) st.setup.gpio(&st.par);
     if (st.setup.spi)  st.setup.spi(&st.par);
-
-	systick_inic();
 
 	st7789_reset(&st.par);
 

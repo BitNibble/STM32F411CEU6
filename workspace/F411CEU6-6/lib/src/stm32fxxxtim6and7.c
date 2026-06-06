@@ -34,7 +34,8 @@ static STM32FXXX_TIM6_Handler stm32fxxx_tim6_setup = {
 	.nvic = TIM6_Nvic,
 	.start = TIM6_start,
 	.stop = TIM6_stop,
-	.callback = &tim6_callback_setup
+	.callback = &tim6_callback_setup,
+	.dev = dev
 };
 
 STM32FXXX_TIM6_Handler* tim6(void){ return (STM32FXXX_TIM6_Handler*) &stm32fxxx_tim6_setup;}
@@ -61,11 +62,24 @@ static STM32FXXX_TIM7_Handler stm32fxxx_tim7_setup = {
 	.nvic = TIM7_Nvic,
 	.start = TIM7_start,
 	.stop = TIM7_stop,
-	.callback = &tim7_callback_setup
+	.callback = &tim7_callback_setup,
+	.dev = dev
 };
 
 STM32FXXX_TIM7_Handler* tim7(void){ return (STM32FXXX_TIM7_Handler*) &stm32fxxx_tim7_setup;}
 
 #endif
+
 /*** EOF ***/
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

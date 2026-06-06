@@ -11,8 +11,11 @@ Comment:
 	#define _STM32FXXXFLASH_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** Macros ***/
 #ifndef FLASH_KEY1
 	#define FLASH_KEY1  0x45670123
@@ -104,7 +107,7 @@ typedef const struct
 	void (*nvic)(uint8_t state);
 
 #if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
+	STM32_DEVICE* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Instance* (*dev)(void);
 #else
@@ -118,7 +121,17 @@ STM32FXXX_FLASH_Handler* flash(void);
 void FLASH_IRQHandler(void);
 
 #endif
+
 /*** EOF ***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

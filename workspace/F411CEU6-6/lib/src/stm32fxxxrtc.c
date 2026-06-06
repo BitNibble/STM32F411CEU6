@@ -48,10 +48,10 @@ static void set_rtc_clock_source(uint8_t clock_source);
 void RTC_L_select(uint8_t lclock);
 
 /*** Procedure & Function Definition ***/
-void RTC_Clock(uint8_t isEnabled) {
+void RTC_Clock(uint8_t state) {
     RTC_Write_enable();
 
-    if (isEnabled) {
+    if (state) {
         RCC->BDCR |= (1 << RCC_BDCR_RTCEN_Pos);  // Enable RTC clock
     } else {
         RCC->BDCR &= ~(1 << RCC_BDCR_RTCEN_Pos); // Disable RTC clock
@@ -709,7 +709,9 @@ void RTC_L_select(uint8_t lclock) {
     }
 
     // Clear previous RTC selection
-    set_rtc_clock_source(0);
+    RTC_Write_enable();
+    set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, 0);
+    RTC_Write_disable();
 
     // Set the selected clock source
     switch (lclock) {
@@ -761,7 +763,8 @@ static STM32FXXX_RTC_Handler stm32fxxx_rtc_setup = {
 	.nvic = RTC_NVIC,
 	.irq_enable = RTC_IRQ_enable,
 	.irq_disable = RTC_IRQ_disable,
-	.callback = &RTC_callback_setup
+	.callback = &RTC_callback_setup,
+	.dev = dev
 };
 
 STM32FXXX_RTC_Handler* rtc(void){ return (STM32FXXX_RTC_Handler*) &stm32fxxx_rtc_setup; }
@@ -827,4 +830,15 @@ void RTC_IRQHandler(void)
 }
 
 /*** EOF ***/
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

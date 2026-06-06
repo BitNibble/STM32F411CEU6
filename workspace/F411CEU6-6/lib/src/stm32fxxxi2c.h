@@ -8,8 +8,13 @@ Hardware: STM32-XXX
 	#define STM32FXXXI2C_H
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /***********/
 //#define I2C_SCL_CLOCK 100000UL
 #define I2C_ACK 1
@@ -48,6 +53,14 @@ typedef const struct
 
 	/* Callback */
 	STM32FXXX_I2C_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_I2C1_Handler, STM32FXXX_I2C2_Handler, STM32FXXX_I2C3_Handler;
 
 /*** I2C Procedure and Function Declarations ***/
@@ -56,5 +69,6 @@ STM32FXXX_I2C2_Handler* i2c2(void);
 STM32FXXX_I2C3_Handler* i2c3(void);
 
 #endif
+
 /*** EOF ***/
 

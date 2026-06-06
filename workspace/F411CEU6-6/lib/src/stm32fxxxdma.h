@@ -11,8 +11,11 @@ Comment:
 	#define STM32FXXXDMA_H
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** DMA Bit Mapping TypeDef ***/
 // SR
 typedef struct
@@ -89,7 +92,7 @@ typedef struct
 	STM32FXXX_DMA_func* func;
 
 #if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
+	STM32_DEVICE* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Instance* (*dev)(void);
 #else
@@ -120,7 +123,17 @@ void DMA2_Stream6_IRQHandler(void);
 void DMA2_Stream7_IRQHandler(void);
 
 #endif
+
 /*** EOF ***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

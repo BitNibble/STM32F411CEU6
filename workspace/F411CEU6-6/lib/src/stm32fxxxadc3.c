@@ -44,11 +44,24 @@ static STM32FXXX_ADC3_Handler stm32fxxx_adc3_setup = {
 	.nvic = ADC3_Nvic,
 	.start = ADC3_start,
 	.stop = ADC3_stop,
-	.callback = &ADC3_callback_setup
+	.callback = &ADC3_callback_setup,
+	.dev = dev
 };
 
 STM32FXXX_ADC3_Handler* adc3(void){ return (STM32FXXX_ADC3_Handler*) &stm32fxxx_adc3_setup; }
 
 #endif
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
+
 /*** EOF ***/
 

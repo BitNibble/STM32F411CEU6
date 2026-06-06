@@ -3429,5 +3429,16 @@ void dma2_enable(void)
 
 STM32FXXX_DMA2_Handler* dma2(void){ return &stm32fxxx_dma2; }
 
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
+
 /*** EOF ***/
 

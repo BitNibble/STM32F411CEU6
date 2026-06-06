@@ -487,15 +487,26 @@ int function_twocomptointnbit(int twoscomp, uint8_t nbits) {
     return twoscomp;
 }
 /******/
-int format_string(char *buf, size_t size, const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    int ret = vsnprintf(buf, size, fmt, args);
-    va_end(args);
-    return ret;
-}
+int function_format_string(char *buffer, size_t size, const char *format, ...) {
+    // Check for valid buffer and size
+    if (buffer == NULL || size == 0) {
+        return ERROR_INVALID_BUFFER; // Buffer is invalid
+    }
 
+    va_list args;
+    va_start(args, format);
+
+    // Use vsnprintf to format the string and get the number of characters that would be written
+    int written = vsnprintf(buffer, (size - 1), format, args);
+
+    va_end(args);
+
+    // Check for errors
+    if (written < 0)
+        return ERROR_FORMATTING; // Formatting error
+
+    return SUCCESS; // Successful formatting
+}
 /******/
 char* function_i16toa(int16_t n) {
     uint8_t i = 0;

@@ -9,8 +9,13 @@ Date:     24022024
 	#define _STM32FXXXUSART6_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#else
+//	void* dev(void){ return NULL; }
+//#endif
 /*** Define and Macros ***/
 #define USART6_RX_BUFFER_SIZE 2049
 #define USART6_TX_BUFFER_SIZE 2049
@@ -55,10 +60,30 @@ typedef const struct {
 	void (*receive_rxstring)(char* rx, size_t size, const char* endl);
 	void (*start)(void);
 	void (*stop)(void);
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_USART6_Handler;
 
 STM32FXXX_USART6_Handler*  usart6(void);
 
 #endif
+
 /*** EOF ***/
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

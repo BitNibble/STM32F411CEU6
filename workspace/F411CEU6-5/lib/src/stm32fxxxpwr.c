@@ -182,12 +182,22 @@ static STM32FXXX_PWR_Handler stm32fxxx_pwr_setup = {
 	.cr = &stm32fxxx_pwr_cr_setup,
 	.csr = &stm32fxxx_pwr_csr_setup,
 	/*** Clock and Nvic ***/
-	.clock = PWR_clock
+	.clock = PWR_clock,
+	.dev = dev
 };
 
 STM32FXXX_PWR_Handler* pwr(void){ return (STM32FXXX_PWR_Handler*) &stm32fxxx_pwr_setup; }
 
 /*** EOF ***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

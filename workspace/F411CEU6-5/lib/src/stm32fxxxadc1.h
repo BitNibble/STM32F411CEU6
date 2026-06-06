@@ -11,8 +11,11 @@ Comment:
 	#define _STM32FXXXADC1_H_
 
 /*** Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** ADC TypeDef ***/
 typedef struct {
     void (*on_conversion_complete)(uint16_t value);
@@ -36,11 +39,31 @@ typedef const struct
 	uint16_t (*read_temperature)(void);
 
 	ADC1_Callback* callback;
+
+#if defined(STM32F411CEU6_H)
+	STM32_DEVICE* (*dev)(void);
+#elif defined(STM32F446RE_H)
+	STM32F446RE_Instance* (*dev)(void);
+#else
+	void* (*dev)(void);
+#endif
 }STM32FXXX_ADC1_Handler;
 
 // INIC
 STM32FXXX_ADC1_Handler* adc1(void);
 
 #endif
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
+
 /*** EOF ***/
 

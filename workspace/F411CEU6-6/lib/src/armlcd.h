@@ -11,8 +11,11 @@ Comment:
 	#define _ARMLCD_H_
 
 /*** Global Library ***/
-#include "stm32f411ceu6.h"
-
+//#if defined (STM32F411xE)
+	#include "stm32f411ceu6.h"
+//#elif defined(STM32F446xx)
+//	#include "stm32f446re.h"
+//#endif
 /*** Global Constant & Macro ***/
 // ASIGN PORT PINS TO LCD (can be setup in any way)
 #ifdef STM32F411xE
@@ -57,7 +60,17 @@ ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg);
 ARMLCD0_Handler* lcd0(void);
 
 #endif
+
 /***EOF***/
 
-
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

@@ -44,10 +44,22 @@ static STM32FXXX_CRC_Handler stm32fxxx_crc_setup = {
 	.idr = CRC_idr,
 	.get_idr = CRC_get_idr,
 	.reset = CRC_reset,
-	.clock = CRC_clock
+	.clock = CRC_clock,
+	.dev = dev
 };
 
 STM32FXXX_CRC_Handler* crc(void){ return (STM32FXXX_CRC_Handler*) &stm32fxxx_crc_setup; }
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 
 /*** EOF ***/
 

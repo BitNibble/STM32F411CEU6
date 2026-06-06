@@ -172,9 +172,9 @@ typedef const struct {
     USB_OTG_HostTypeDef* const usb_otg_host;
     USB_OTG_HostChannelTypeDef* const usb_otg_hostchannel;
 
-} STM32F411CEU6_Instance;
+} STM32_DEVICE;
 
-const STM32F411CEU6_Instance* dev(void);
+const STM32_DEVICE* dev(void);
 
 /*******************************************************************/
 /*************************** CLOCK Query ***************************/

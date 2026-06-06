@@ -92,7 +92,7 @@ typedef struct
 	STM32FXXX_DMA_func* func;
 
 #if defined(STM32F411CEU6_H)
-	STM32F411CEU6_Instance* (*dev)(void);
+	STM32_DEVICE* (*dev)(void);
 #elif defined(STM32F446RE_H)
 	STM32F446RE_Instance* (*dev)(void);
 #else

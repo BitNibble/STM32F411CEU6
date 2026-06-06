@@ -15,7 +15,6 @@ Comment:
 /*** Global Library ***/
 #include <inttypes.h>
 #include "armlcd.h"
-
 /*** Global Define & Macro ***/
 #define FUNCSTRSIZE 33
 /*** Typedef ***/
@@ -89,8 +88,21 @@ typedef struct
 	uint32_t (*value)(void);
 }FUNC_Handler;
 
+FUNC_Handler FUNC_enable(void);
 FUNC_Handler* func(void);
 
 #endif
+
 /***EOF***/
+
+/******
+1º Sequence
+2º Scope
+	- Library Scope
+	- File Scope
+	- Function Scope
+	- Precedence Scope
+3º Pointer and Variable
+4º Casting
+******/
 

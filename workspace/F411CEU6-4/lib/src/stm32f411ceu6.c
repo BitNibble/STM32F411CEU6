@@ -25,7 +25,7 @@ static STM32F411CEU6_CORE_Instance stm32f411ceu6_core_setup = {
     .coredebug = ((CoreDebug_Type*) CoreDebug_BASE)
 };
 
-static STM32F411CEU6_Instance stm32f411ceu6_setup = {
+static STM32_DEVICE stm32f411ceu6_setup = {
     .core = &stm32f411ceu6_core_setup,
     .adc1 = ((ADC_TypeDef *) ADC1_BASE),
     .adc1_common = ((ADC_Common_TypeDef *) ADC1_COMMON_BASE),
@@ -93,7 +93,7 @@ static STM32F411CEU6_Instance stm32f411ceu6_setup = {
     .usb_otg_hostchannel = ((USB_OTG_HostChannelTypeDef*) USB_OTG_HOST_CHANNEL_BASE)
 };
 
-const STM32F411CEU6_Instance* dev(void){ return &stm32f411ceu6_setup; }
+const STM32_DEVICE* dev(void){ return &stm32f411ceu6_setup; }
 
 /*******************************************************************/
 /*********************** CLOCK LOOKUP TABLES ***********************/
