@@ -129,6 +129,8 @@ lcd1.stop(&lcd1.par);
 
 Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
 tm_jumpstep( 0, 22 );
+
+EXPLODE_Handler seconds = EXPLODE_enable();
 /*****************************************************************************/
 /*****************************************************************************/
 while (1) {
@@ -408,6 +410,8 @@ while (1) {
 	rtc()->dr2vec(vecD);
 	rtc()->tr2vec(vecT);
 
+	if(seconds.update(&seconds.par,vecT[5])){
+
 	lcd1.start(&lcd1.par);
 	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,ST77XX_GREEN, 12);
 
@@ -421,6 +425,8 @@ while (1) {
 
 	lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
 	lcd1.stop(&lcd1.par);
+
+	}
 
 	/***/
 	if(!strcmp(sub_tokens[3],"s01.")){
