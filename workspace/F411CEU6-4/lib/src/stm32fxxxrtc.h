@@ -82,14 +82,6 @@ typedef const struct
 	void (*irq_enable)(uint8_t type);
 	void (*irq_disable)(uint8_t type);
 	RTC_callback* callback;
-
-#if defined(STM32F411CEU6_H)
-	STM32_DEVICE* (*dev)(void);
-#elif defined(STM32F446RE_H)
-	STM32F446RE_Instance* (*dev)(void);
-#else
-	void* (*dev)(void);
-#endif
 }STM32FXXX_RTC_Handler;
 
 /*** Global ***/

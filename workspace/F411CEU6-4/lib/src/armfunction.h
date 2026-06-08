@@ -38,7 +38,7 @@ typedef struct
 {
 	// PROTOTYPES VTABLE
 	/*** ARM ***/
-	ARM_FUNC* arm;
+	const ARM_FUNC* arm;
 	/******/
 	uint16_t (*SwapByte)(uint16_t num);
 	/******/
@@ -88,8 +88,7 @@ typedef struct
 	uint32_t (*value)(void);
 }FUNC_Handler;
 
-FUNC_Handler FUNC_enable(void);
-FUNC_Handler* func(void);
+const FUNC_Handler* func(void);
 
 #endif
 

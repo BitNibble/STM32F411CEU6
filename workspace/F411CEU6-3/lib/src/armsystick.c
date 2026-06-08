@@ -6,11 +6,8 @@ Hardware: STM32-XXX
 Update:   16012024
 *******************************************************************************/
 #include "armsystick.h"
-
 #include "stm32f411ceu6.h"
 
-#include <stdio.h>
-#include <string.h>
 /******/
 #define SYSTICK_ENABLE (1 << 0)
 #define SYSTICK_TICKINT (1 << 1)
@@ -39,6 +36,7 @@ void delay_Configure(void)
     systick_100us = calc_tick(systick_clock, 10000U);
     systick_ms    = calc_tick(systick_clock, 1000U);
 }
+/*** SysTick Constants ***/
 inline uint32_t get_systick_us(void)
 {
 	return systick_us;
@@ -51,6 +49,7 @@ inline uint32_t get_systick_ms(void)
 {
 	return systick_ms;
 }
+/*** Count Polling ***/
 void delayMiliseconds(unsigned int ms) {
     volatile unsigned int count = ms * get_systick_ms( );
     while (count--);
@@ -70,7 +69,7 @@ void delayAsmMicroseconds(unsigned int us) {
         : [count] "+r" (count)     // Input/output operand
     );
 }
-/******/
+/*** SysTick Polling ***/
 void _delay_us(uint32_t us)
 {
 	SysTick->CTRL &= (uint32_t) ~SYSTICK_ENABLE;
@@ -89,7 +88,7 @@ void _delay_ms(uint32_t ms)
 	SysTick->LOAD = get_systick_ms( );
 	for( DelayCounter_0 = 0, SysTick->CTRL |= SYSTICK_ENABLE; DelayCounter_0 < ms; );
 }
-/******/
+/*** SysTick Initializer ***/
 void systick_inic(void)
 {
 	delay_Configure( );
@@ -99,17 +98,20 @@ void systick_inic(void)
 	SysTick->CTRL |= (SYSTICK_TICKINT | SYSTICK_CLKSOURCE);
 	SysTick->CTRL |= SYSTICK_ENABLE;
 }
-/**** Interrupt Handler ****/
+/*** SysTick Helper ***/
 void SysTick_Inc(void)
 {
 	DelayCounter_0++;
 }
-/***************************/
-
+/**** Interrupt Handler ****
+void SysTick_Handler(void)
+{
+  DelayCounter_0++;
+}
+***/
 /******
 Load does not accept values below 70
 Note 'us' only work for high frequency clocks.
-
 ******/
 
 /*** EOF ***/

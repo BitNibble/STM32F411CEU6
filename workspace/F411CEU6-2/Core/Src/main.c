@@ -114,7 +114,6 @@ int main(void)
 	//}
 
 	ARMLCD0_enable( dev()->gpiob );
-	FUNC_enable();
 
 	//gpioc()->instance->moder.par.pin_1 = 1;
 	//set_reg_Msk(&GPIOC->MODER, GPIO_MODER_MODE13_Msk, 1);

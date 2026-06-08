@@ -113,7 +113,6 @@ gpioc()->moder(13,1);
 gpioa()->moder(0,0);
 gpioa()->pupd(0,1);
 
-FUNC_enable();
 adc1()->temperature_setup();
 
 char vecD[8]; // for calendar date

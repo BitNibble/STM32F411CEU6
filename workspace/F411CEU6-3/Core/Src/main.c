@@ -37,7 +37,6 @@ int main(void)
 	gpioc()->moder(13,1);
 
 	ARMLCD0_enable(GPIOB);
-	FUNC_enable();
 
 	while (1)
 	{

@@ -44,7 +44,6 @@ int main(void)
 	char vecT[8]; // for calendar
 
 	ARMLCD0_enable( dev()->gpiob );
-	FUNC_enable();
 
 	GPIOC->MODER |= GPIO_MODER_MODER13_0;
 	gpioa()->moder(5,1);
