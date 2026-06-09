@@ -57,7 +57,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 
 #define JMP_menu_repeat 5
 #define ADC_DELAY 8
-#define ADC_SAMPLE 4
+#define ADC_SAMPLE 8
 #define STEP_DELAY 10
 #define MAIN_MENU_DELAY 20
 #define MAX_TOKENS 10
@@ -122,8 +122,8 @@ PA.update(&PA.par, dev()->gpioa->IDR);
 dev()->gpioc->BSRR = GPIO_BSRR_BS13;
 
 lcd1.start(&lcd1.par);
-lcd1.draw_circle(&lcd1.par,200,80,15,ST77XX_BLACK);
-lcd1.draw_star5(&lcd1.par,200,80,15,5,ST77XX_GOLD);
+lcd1.draw_circle(&lcd1.par,210,210,15,ST77XX_BLACK);
+lcd1.draw_star5(&lcd1.par,210,210,15,5,ST77XX_GOLD);
 lcd1.stop(&lcd1.par);
 
 Turingi1to11_Wifi_Connect(1, "NOS-9C64", "RUSXRCKL" ); // wmode 1 and 3
@@ -148,9 +148,9 @@ while (1) {
 			usart1()->rx_purge();
 	}
 
-   lcd1.start(&lcd1.par);
-   lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 20);
-   lcd1.stop(&lcd1.par);
+   //lcd1.start(&lcd1.par);
+   //lcd1.drawstring16x24_size(&lcd1.par,tokens[0],10,40,ST77XX_YELLOW,ST77XX_GREEN, 20);
+   //lcd1.stop(&lcd1.par);
    //lcd0()->gotoxy(3, 0); lcd0()->string_size( tokens[1], 11 ); //3
 
    if (!tm_getstep()) { // avoid simultaneous calls
@@ -384,7 +384,7 @@ while (1) {
 				//temperature = CalculateTemperature(adc_value);
 				snprintf(str, 8, "%.1f C", CalculateTemperature(adc_value.var));
 				lcd1.start(&lcd1.par);
-				lcd1.drawstring16x24_size(&lcd1.par,str,10,80,ST77XX_MAGENTA,ST77XX_GREEN, 8);
+				lcd1.drawstring16x24_size(&lcd1.par,str,130,40,ST77XX_MAGENTA,ST77XX_GREEN, 8);
 				lcd1.stop(&lcd1.par);
 				adc_value.var = 0;  // Reset adc_value after use
 			}
@@ -416,13 +416,13 @@ while (1) {
 
 	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
 
-	lcd1.drawstring16x24(&lcd1.par,str,10,120,ST77XX_BLACK,ST77XX_GREEN);
+	lcd1.drawstring16x24(&lcd1.par,str,10,150,ST77XX_BLACK,ST77XX_GREEN);
 
-	lcd1.drawstring12x16(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,160,ST77XX_BLACK,ST77XX_GREEN);
+	lcd1.drawstring12x16(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_BLACK,ST77XX_GREEN);
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 
-	lcd1.drawstring16x24(&lcd1.par,str,10,200,ST77XX_RED,ST77XX_GREEN);
+	lcd1.drawstring24x48_size(&lcd1.par,str,15,70,ST77XX_RED,ST77XX_GREEN,8);
 	lcd1.stop(&lcd1.par);
 
 	}
