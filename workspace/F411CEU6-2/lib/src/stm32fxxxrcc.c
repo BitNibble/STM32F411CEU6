@@ -153,7 +153,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
             case 0: // HSION: Internal high-speed clock enable
                 if(set) {
                 	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
-                    timeout = 0xFFFFFF;
+                    timeout = 0xFFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->CR & RCC_CR_HSIRDY) { // Wait for HSIRDY
@@ -162,7 +162,8 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 else {
                 	timeout--;
                 	if(!timeout){
-                		choice = 0; set = 1;
+                		rdy = 0;
+                		//choice = 0; set = 1;
                 	}
                 }
                 break;
@@ -170,7 +171,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
             case 1: // HSEON: External high-speed clock enable
                 if(set) {
                 	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
-                    timeout = 0xFFFFFF;
+                    timeout = 0xFFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->CR & RCC_CR_HSERDY) { // Wait for HSERDY
@@ -185,9 +186,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 break;
 
             case 2: // HSEBYP: HSE clock bypass
-                if(set) {
-                	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP); // Enable HSE bypass
-                }
+                set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
                 choice = 1; // Switch to enabling HSE
                 break;
 
@@ -199,7 +198,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 }
 void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
-	uint8_t verify = 0; uint32_t timeout = 0xFFFFFF;
+	uint8_t verify = 0; uint32_t timeout = 0xFFFFF;
 		switch(hclock){
 			case 0: // HSI selected as system clock
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
@@ -211,20 +210,18 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 				verify = 1;
 				break;
 
-			case 2: // PLL_P selected as system clock
-				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
-				verify = 1;
-				break;
-
-			case 3: // PLL_R selected as system clock (only on STM32F446xx)
-				#ifdef STM32F446xx
+			case 2:
+				#ifdef STM32F446xx // PLL_R selected as system clock
 					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
-				#else
-					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0); // Default to HSI if not STM32F446
+				#else // PLL_P selected as system clock
+					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
 				#endif
 					verify = 1;
 				break;
+
 			default:
+				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
+				hclock = 0; verify = 1;
 				break;
 		}
 	if(verify) { while((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != hclock) && timeout){timeout--;} }
@@ -265,7 +262,7 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 if(set)
                 {
                     dev()->rcc->CSR |= RCC_CSR_LSION; // Enable LSI
-                    timeout = 0xFFFFFF;
+                    timeout = 0xFFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->CSR & RCC_CSR_LSIRDY) // Wait for LSIRDY
@@ -286,7 +283,7 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                     STM32FXXX_Rcc_Write_Enable();
                     dev()->rcc->BDCR |= RCC_BDCR_LSEON; // Enable LSE
                     STM32FXXX_Rcc_Write_Disable();
-                    timeout = 0xFFFFFF;
+                    timeout = 0xFFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->BDCR & RCC_BDCR_LSERDY) // Wait for LSERDY
@@ -302,12 +299,9 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 break;
 
             case 2: // LSEBYP: External low-speed oscillator bypass
-                if(set)
-                {
-                    STM32FXXX_Rcc_Write_Enable();
-                    dev()->rcc->BDCR |= RCC_BDCR_LSEBYP; // Enable LSE bypass
-                    STM32FXXX_Rcc_Write_Disable();
-                }
+                STM32FXXX_Rcc_Write_Enable();
+                dev()->rcc->BDCR |= RCC_BDCR_LSEBYP; // Enable LSE bypass
+                STM32FXXX_Rcc_Write_Disable();
                 choice = 1; // Switch to enabling LSE
                 break;
 

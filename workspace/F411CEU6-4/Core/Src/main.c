@@ -57,7 +57,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 
 #define JMP_menu_repeat 5
 #define ADC_DELAY 8
-#define ADC_SAMPLE 8
+#define ADC_SAMPLE 24
 #define STEP_DELAY 10
 #define MAIN_MENU_DELAY 20
 #define MAX_TOKENS 10
@@ -418,7 +418,7 @@ while (1) {
 
 	lcd1.drawstring16x24(&lcd1.par,str,10,150,ST77XX_BLACK,ST77XX_GREEN);
 
-	lcd1.drawstring12x16(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_BLACK,ST77XX_GREEN);
+	lcd1.drawstring12x16_size(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_BLACK,ST77XX_GREEN,7);
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 
