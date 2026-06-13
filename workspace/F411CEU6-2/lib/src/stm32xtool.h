@@ -13,35 +13,56 @@ Update:   15/11/2025
 
 /*** Define & Macro ***/
 #define ZERO 0
-#define ONE 1
-#define TWO 2
-#define NIBBLE_BITS 4
-#define BYTE_BITS 8
-#define WORD_BITS 16
-#define DWORD_BITS 32
-#define QWORD_BITS 64
+#define ONE 1UL
+#define TWO 2UL
+#define NIBBLE_BITS 4UL
+#define BYTE_BITS 8UL
+#define WORD_BITS 16UL
+#define DWORD_BITS 32UL
+#define QWORD_BITS 64UL
 
 /*******************************************************************/
 /****************************** Tools ******************************/
 /*******************************************************************/
 uint32_t _block_pos(uint32_t size_block, uint32_t block_n);
+uint32_t _mask_var(uint32_t var, uint32_t Msk);
+uint32_t _imask_var(uint32_t var, uint32_t Msk);
+uint32_t _mask(uint32_t var, uint32_t Msk);
+uint32_t _imask(uint32_t var, uint32_t Msk);
+
 void set_reg(volatile uint32_t* reg, uint32_t hbits);
 void clear_reg(volatile uint32_t* reg, uint32_t hbits);
+
 uint32_t get_reg_Msk_Pos(uint32_t reg, uint32_t Msk, uint32_t Pos);
 void set_reg_Msk_Shifted(volatile uint32_t* reg, uint32_t Msk, uint32_t Value);
 void write_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
 void set_reg_Msk_Pos(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+
 uint32_t get_reg_Msk(uint32_t reg, uint32_t Msk);
 void write_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);
 void set_reg_Msk(volatile uint32_t* reg, uint32_t Msk, uint32_t data);
+
 uint32_t get_reg_block(uint32_t reg, uint8_t size_block, uint8_t Pos);
 void write_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 void set_reg_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+
 uint32_t get_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos);
 void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 // --- Generic helpers ---
 uint32_t reg_get(uint32_t reg, uint32_t mask);
 void reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t data);
+/****************************************/
+uint32_t get_reg_field_value(uint32_t reg, uint32_t Msk, uint32_t Pos);
+void set_reg_field_encoded(volatile uint32_t* reg, uint32_t Msk, uint32_t ShiftedData);
+void write_reg_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+void set_reg_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+
+uint32_t get_reg_block_value(uint32_t reg, uint8_t size_block, uint8_t Pos);
+void write_reg_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+void set_reg_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+
+uint32_t get_bit_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos);
+void set_bit_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 /****************************************/
 /*** NULL Check ***/
 int isPtrNull(void* ptr);

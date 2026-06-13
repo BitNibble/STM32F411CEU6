@@ -64,7 +64,7 @@ Par ("192.168.1.53", "192.168.1.1", "255.255.255.0"), PORT 80.
 #define MAIN_BAUD 38400
 #define PARSE_SIZE 2049
 #define SUBPARSE_SIZE 513
-#define BG_COLOUR 0x3186
+#define BG_COLOUR 0x0000
 
 EXPLODE_Handler PA;
 char str[32];
@@ -123,7 +123,7 @@ dev()->gpioc->BSRR = GPIO_BSRR_BS13;
 
 lcd1.start(&lcd1.par);
 lcd1.boot_screen(&lcd1.par,BG_COLOUR);
-lcd1.draw_circle(&lcd1.par,210,210,15,ST77XX_BLACK);
+lcd1.draw_circle(&lcd1.par,210,210,15,ST77XX_CYAN);
 lcd1.draw_star5(&lcd1.par,210,210,15,5,ST77XX_GOLD);
 lcd1.stop(&lcd1.par);
 
@@ -413,13 +413,13 @@ while (1) {
 	if(seconds.update(&seconds.par,vecT[5])){
 
 	lcd1.start(&lcd1.par);
-	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLACK,BG_COLOUR, 12);
+	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLUE,BG_COLOUR, 12);
 
 	func()->format_string(str,32,"%d%d-%d%d-20%d%d",vecD[5], vecD[6], vecD[3], vecD[4], vecD[0], vecD[1]);
 
-	lcd1.drawstring16x24(&lcd1.par,str,10,150,ST77XX_BLACK,BG_COLOUR);
+	lcd1.drawstring16x24(&lcd1.par,str,10,150,ST77XX_GREEN,BG_COLOUR);
 
-	lcd1.drawstring12x16_size(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_BLACK,BG_COLOUR,7);
+	lcd1.drawstring12x16_size(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_GREEN,BG_COLOUR,7);
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 
