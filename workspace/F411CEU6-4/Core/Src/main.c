@@ -77,7 +77,6 @@ fpu_enable();
 rtc()->inic();
 
 _delay_ms(1);
-HAL_Init();
 char state[12];
 
 adc1()->clock(1);
