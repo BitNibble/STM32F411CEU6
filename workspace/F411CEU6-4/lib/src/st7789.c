@@ -1173,18 +1173,18 @@ void st7789_setup_spi(ST7789_par* par)
 }
 
 /*** Initial Screen ***/
-void boot_screen(ST7789_par* par){
+void boot_screen(ST7789_par* par, uint16_t colour){
 	//U_word color = { .var = 0x0340 };
-	U_word color = { .var = ST77XX_GREEN };
+	U_word color = { .var = colour };
 	//U_word color = { .var = ST77XX_WHITE };
-	st7789_cs_low(par);
+	//st7789_cs_low(par);
 	st7789_set_window(par, 0, 0, 239, 239);
 	for (uint32_t i = 0; i < 240UL * 240; i++) {
 		st7789_data(par, color.par.h);
 		st7789_data(par, color.par.l);
 	}
 	st7789_spi_flush(par);
-	st7789_cs_high(par);
+	//st7789_cs_high(par);
 }
 
 void welcome_screen(ST7789_par* par){
@@ -1282,6 +1282,7 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     st.dump_buffer     = st7789_dump_buffer;
     st.dump_image      = st7789_dump_image;
     st.test_pin        = st7789_test_pin;
+    st.boot_screen     = boot_screen;
 
     if (st.setup.gpio) st.setup.gpio(&st.par);
     if (st.setup.spi)  st.setup.spi(&st.par);
@@ -1290,7 +1291,7 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 
 	st7789_init_seq(&st.par);
 
-    boot_screen(&st.par);
+    //boot_screen(&st.par, ST77XX_GREEN);
 
     //welcome_screen(&st.par);
 

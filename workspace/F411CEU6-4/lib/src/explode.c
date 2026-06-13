@@ -16,21 +16,22 @@ IO_var EXPLODE_ll(explode_par* par);
 IO_var EXPLODE_lh(explode_par* par);
 IO_var EXPLODE_hl(explode_par* par);
 
+EXPLODE_Handler setup = {
+	.par = {
+		.XI = 0,
+		.XF = 0,
+		.DIFF =0,
+		.HH = 0,
+		.LL = 0,
+		.LH = 0,
+		.HL = 0
+	},
+	.update = EXPLODE_update
+};
+
 /*** EXPLODE Procedure & Function Definition ***/
 EXPLODE_Handler EXPLODE_enable( void )
 {
-	EXPLODE_Handler setup = {
-		.par = {
-				.XI = 0,
-				.XF = 0,
-				.DIFF =0,
-				.HH = 0,
-				.LL = 0,
-				.LH = 0,
-				.HL = 0
-			},
-		.update = EXPLODE_update
-	};
 	return setup;
 }
 // boot

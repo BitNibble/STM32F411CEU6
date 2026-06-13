@@ -28,6 +28,9 @@ Date:     23/01/2026
 #define ST77XX_YELLOW 0xFFE0
 #define ST77XX_ORANGE 0xFC00
 #define ST77XX_GOLD 0xFFD0
+#define ST77XX_GREY 0xAD55
+#define ST77XX_LIGHTGREY 0xCE99
+#define ST77XX_DARKGREY 0x3186
 
 extern const uint8_t font8x12[] PROGMEM;
 extern const uint8_t font16x16[] PROGMEM;

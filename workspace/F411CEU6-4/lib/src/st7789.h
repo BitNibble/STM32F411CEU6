@@ -84,6 +84,7 @@ typedef struct ST7789
 	void (*dump_buffer)(ST7789_par* par, const uint16_t* buf, uint16_t bw, uint16_t bh, uint16_t x0, uint16_t y0, uint16_t transparent);
 	void (*dump_image)(ST7789_par* par, uint16_t x0, uint16_t y0, const uint16_t *img, uint16_t w, uint16_t h, uint16_t transparent);
 	void (*test_pin)(ST7789_par* par, uint8_t pin);
+	void (*boot_screen)(ST7789_par* par, uint16_t colour);
 }ST7789;
 
 ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t rst_pin, uint16_t *fb);

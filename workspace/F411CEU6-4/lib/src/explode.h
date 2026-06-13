@@ -49,6 +49,8 @@ EXPLODE_Handler EXPLODE_enable(void);
 	- Function Scope
 	- Precedence Scope
 3º Pointer and Variable
+	-pointer to sigleton instance
+	-variable instantiation
 4º Casting
 ******/
 
