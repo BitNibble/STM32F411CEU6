@@ -41,7 +41,6 @@
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.121641774" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols.488413761" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
-									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
 									<listOptionValue builtIn="false" value="STM32F411xE"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.56156268" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
@@ -52,7 +51,7 @@
 									<listOptionValue builtIn="false" value="&quot;D:\Embedded\STM32F411CEU6\workspace\F411CEU6-3\Drivers\CMSIS\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\Embedded\STM32F411CEU6\workspace\F411CEU6-3\Drivers\CMSIS\Device\ST\STM32F4xx\Include&quot;"/>
 								</option>
-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.warnings.extra.1127926035" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.warnings.extra" value="true" valueType="boolean"/>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.warnings.extra.1127926035" name="Enable extra warning flags (-Wextra)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.warnings.extra" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.456928208" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.578378833" name="MCU G++ Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler">

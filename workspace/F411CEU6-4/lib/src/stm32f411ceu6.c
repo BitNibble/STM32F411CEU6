@@ -124,6 +124,11 @@ uint8_t get_hppre2(void) {
     return ppre_table[value];
 }
 
+uint8_t get_systickpre(void) {
+    uint32_t value = get_reg_field_value(dev()->core->systick->CTRL, SysTick_CTRL_CLKSOURCE_Msk, SysTick_CTRL_CLKSOURCE_Pos);
+    return value ? 8 : 1;
+}
+
 uint8_t get_hmco1pre(void) {
     uint32_t value = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_MCO1PRE);
     return mco_table[value];
@@ -191,17 +196,6 @@ uint32_t get_pllsai_vco_in(void) {
     return get_pll_vco_in();
 }
 
-
-
-/*
-uint32_t get_pllclk(void) {
-    uint32_t clk = get_pllsclk() / get_pllm();
-    clk /= get_pllp();
-    clk *= get_plln();
-    return clk;
-}
-*/
-
 uint32_t get_sysclk(void) {
     uint32_t sws = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS);
     switch(sws) {
@@ -214,6 +208,10 @@ uint32_t get_sysclk(void) {
 
 uint32_t get_hclk(void) {
     return get_sysclk() / get_hpre();
+}
+
+uint32_t get_systickclk(void) {
+    return get_hclk() / get_systickpre();
 }
 
 uint32_t get_pclk1(void) {

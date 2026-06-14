@@ -41,7 +41,7 @@ int8_t cdir;
 
 EXPLODE_Handler PA;
 
-I2C_HandleTypeDef i2c;
+//I2C_HandleTypeDef i2c;
 
 char str[33];
 

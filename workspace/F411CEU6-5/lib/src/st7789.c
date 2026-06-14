@@ -1143,25 +1143,22 @@ void st7789_setup_spi(ST7789_par* par)
 
 /*** Initial Screen ***/
 void boot_screen(ST7789_par* par, uint16_t colour){
+	//U_word color = { .var = 0x0340 };
 	U_word color = { .var = colour };
+	//U_word color = { .var = ST77XX_WHITE };
+	//st7789_cs_low(par);
 	st7789_set_window(par, 0, 0, 239, 239);
 	for (uint32_t i = 0; i < 240UL * 240; i++) {
 		st7789_data(par, color.par.h);
 		st7789_data(par, color.par.l);
 	}
 	st7789_spi_flush(par);
+	//st7789_cs_high(par);
 }
 
 void welcome_screen(ST7789_par* par){
-	U_word color = { .var = ST77XX_GREEN };
     st7789_cs_low(par);
-    st7789_set_window(par, 0, 0, 239, 239);
-    for (uint32_t i = 0; i < 240UL * 240; i++) {
-   		st7789_data(par, color.par.h);
-   		st7789_data(par, color.par.l);
-   	}
     st7789_drawstring16x24(par,"Welcome",60,90,ST77XX_GOLD,ST77XX_GREEN);
-    st7789_spi_flush(par);
     st7789_cs_high(par);
 }
 
@@ -1263,7 +1260,9 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 
 	st7789_init_seq(&st.par);
 
-    welcome_screen(&st.par);
+    //boot_screen(&st.par, ST77XX_GREEN);
+
+    //welcome_screen(&st.par);
 
     return st;
 }

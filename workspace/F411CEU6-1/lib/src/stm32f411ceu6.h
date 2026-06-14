@@ -9,31 +9,31 @@ Date:     15112025
 	#define STM32F411CEU6_H
 
 #include "stm32f4xx.h"
-#include "stm32f4xx_hal.h"
+#include "custom_hal_def.h"
 #include "stm32fxxxgpio.h"
 #include "stm32xtool.h"
 //#include <stdio.h>
 //#include <stdlib.h>
 
 /*** Clock sources ***/
-#ifndef HSI_RC
-#define HSI_RC 16000000UL
+#ifndef HSI_VALUE
+#define HSI_VALUE 16000000UL
 #endif
-#ifndef HSE_OSC
-#define HSE_OSC 25000000UL
+#ifndef HSE_VALUE
+#define HSE_VALUE 25000000UL
 #endif
-#ifndef LSI
-#define LSI 32000UL
+#ifndef LSI_VALUE
+#define LSI_VALUE 32000UL
 #endif
-#ifndef LSE
-#define LSE 32768UL
+#ifndef LSE_VALUE
+#define LSE_VALUE 32768UL
 #endif
 #ifndef HSE_RTC
 #define HSE_RTC 4000000UL
 #endif
 
 /****************************************/
-/*******   0 -> HSI    1->HSE   *********/
+/*******   1 -> HSI    2->HSE   *********/
 #define H_Clock_Source 1
 /****   PLL ON -> 1    PLL OFF = 0   ****/
 #define PLL_ON_OFF 0
