@@ -8,6 +8,34 @@ Date: 21102025
 /*** File Library ***/
 #include <stm32fxxxrcc.h>
 
+typedef enum
+{
+    RCC_CLK_HSI = 0,
+    RCC_CLK_HSE = 1,
+    RCC_CLK_HSEBYP = 2
+} mcu_enable_clk;
+
+typedef enum
+{
+    RCC_HCLK_HSI = 0,
+    RCC_HCLK_HSE = 1,
+    RCC_HCLK_PLL = 2
+} mcu_select_clk;
+
+typedef enum
+{
+    RCC_CLK_LSI = 0,
+    RCC_CLK_LSE = 1,
+	RCC_CLK_LSEBYP = 2
+} rtc_enable_clk;
+
+typedef enum
+{
+    RTC_CLK_LSI = 0,
+    RTC_CLK_LSE = 1,
+	RTC_CLK_HSE = 2
+} rtc_select_clk;
+
 /*** File Procedure & Function Header ***/
 static void RCC_Flash_SetLatency(uint32_t sysclk);
 void STM32FXXX_Rcc_Pwr_Clock(uint8_t state);
@@ -25,29 +53,6 @@ uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock);
 	#define PLL_ON_OFF 0
 #endif
 /****************************************/
-
-/*** RCC Procedure & Function Definition ***
-void rcc_start(void)
-{	// Configure -> Enable -> Select
-    // AHB 1,2,4,8,16,64,128,256,512;  APB1 1,2,4,8,16;  APB2 1,2,4,8,16;  RTC 2 to 31
-	//STM32FXXXPrescaler(8, 1, 1, 1); // (8, 1, 1, 0)
-	STM32FXXX_Prescaler(1, 1, 1, 0); // (1, 1, 1, 0)
-	STM32FXXX_Rcc_HEnable(H_Clock_Source); // 0 - HSI, 1 - HSE
-	STM32FXXX_Rcc_PLL_Select(H_Clock_Source); // 0 - HSI, 1 - HSE, H_Clock_Source
-	// M 2 to 63;  N 50 to 432;  P 2,4,6,8;  Q 2 to 15;
-	STM32FXXX_PLL_Division((uint32_t)get_pllsclk()/1000000, 240, 2, 4);
-
-	if(PLL_ON_OFF){
-		RCC_Flash_SetLatency(get_sysclk_target(2));
-		STM32FXXX_Rcc_PLL_CLK_Enable();
-		// System Clock Switch
-		STM32FXXX_Rcc_HSelect(2); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
-	}else{
-		// System Clock Switch
-		STM32FXXX_Rcc_HSelect(H_Clock_Source); // 0 - HSI, 1 - HSE, 2 - PLL_P, 3 - PLL_R pg133 (manual 2) SW[1:0]: System clock switch
-	}
-}
-******/
 void rcc_start(void)
 {
     // Configure prescalers first (safe before increasing SYSCLK)
@@ -150,7 +155,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
     {
         switch(choice)
         {
-            case 0: // HSION: Internal high-speed clock enable
+            case RCC_CLK_HSI: // HSION: Internal high-speed clock enable
                 if(set) {
                 	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
                     timeout = 0xFFFFF;
@@ -168,7 +173,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 }
                 break;
 
-            case 1: // HSEON: External high-speed clock enable
+            case RCC_CLK_HSE: // HSEON: External high-speed clock enable
                 if(set) {
                 	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
                     timeout = 0xFFFFF;
@@ -180,18 +185,18 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 else {
                 	timeout--;
                 	if(!timeout){
-                		choice = 0; set = 1;
+                		choice = RCC_CLK_HSI; set = 1;
                 	}
                 }
                 break;
 
             case 2: // HSEBYP: HSE clock bypass
                 set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
-                choice = 1; // Switch to enabling HSE
+                choice = RCC_CLK_HSE; // Switch to enabling HSE
                 break;
 
             default: // Invalid value, default to HSI
-                choice = 0;
+                choice = RCC_CLK_HSI;
                 break;
         }
     }
@@ -200,17 +205,17 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
 	uint8_t verify = 0; uint32_t timeout = 0xFFFFF;
 		switch(hclock){
-			case 0: // HSI selected as system clock
+			case RCC_HCLK_HSI: // HSI selected as system clock
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
 				verify = 1;
 				break;
 
-			case 1: // HSE oscillator selected as system clock
+			case RCC_HCLK_HSE: // HSE oscillator selected as system clock
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 1);
 				verify = 1;
 				break;
 
-			case 2:
+			case RCC_HCLK_PLL:
 				#ifdef STM32F446xx // PLL_R selected as system clock
 					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
 				#else // PLL_P selected as system clock
@@ -221,7 +226,7 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 
 			default:
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
-				hclock = 0; verify = 1;
+				hclock = RCC_HCLK_HSI; verify = 1;
 				break;
 		}
 	if(verify) { while((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != hclock) && timeout){timeout--;} }
@@ -235,10 +240,10 @@ uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 	while(get_reg_block(dev()->rcc->CR, 1, RCC_CR_PLLI2SRDY_Pos));
 
 	switch(hclock){
-		case 0: // HSI
+		case RCC_CLK_HSI: // HSI
 			set_reg_block(&dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 0);
 		break;
-		case 1: // HSE
+		case RCC_CLK_HSE: // HSE
 			set_reg_block(&dev()->rcc->PLLCFGR, 1, RCC_PLLCFGR_PLLSRC_Pos, 1);
 		break;
 		default: // HSI
@@ -258,7 +263,7 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
     {
         switch(choice)
         {
-            case 0: // LSION: Internal low-speed oscillator enable
+            case RCC_CLK_LSI: // LSION: Internal low-speed oscillator enable
                 if(set)
                 {
                     dev()->rcc->CSR |= RCC_CSR_LSION; // Enable LSI
@@ -277,7 +282,7 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 }
                 break;
 
-            case 1: // LSEON: External low-speed oscillator enable
+            case RCC_CLK_LSE: // LSEON: External low-speed oscillator enable
                 if(set)
                 {
                     STM32FXXX_Rcc_Write_Enable();
@@ -293,20 +298,20 @@ void STM32FXXX_Rcc_LEnable(uint8_t lclock)
                 else {
                 	timeout--;
                 	if(!timeout){
-                		choice = 0; set = 1;
+                		choice = RCC_CLK_LSI; set = 1;
                 	}
                 }
                 break;
 
-            case 2: // LSEBYP: External low-speed oscillator bypass
+            case RCC_CLK_LSEBYP: // LSEBYP: External low-speed oscillator bypass
                 STM32FXXX_Rcc_Write_Enable();
                 dev()->rcc->BDCR |= RCC_BDCR_LSEBYP; // Enable LSE bypass
                 STM32FXXX_Rcc_Write_Disable();
-                choice = 1; // Switch to enabling LSE
+                choice = RCC_CLK_LSE; // Switch to enabling LSE
                 break;
 
             default: // Default to enabling LSI (0)
-            	choice = 0;
+            	choice = RCC_CLK_LSI;
                 break;
         }
     }
@@ -317,15 +322,15 @@ void STM32FXXX_Rcc_LSelect(uint8_t lclock)
 
 	switch(lclock)
 	{
-		case 0: // LSI oscillator clock used as the RTC clock
-			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 2);
-			break;
-
-		case 1: // LSE oscillator clock used as the RTC clock
+		case RTC_CLK_LSE: // LSE oscillator clock used as the RTC clock
 			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 1);
 			break;
 
-		case 2: // HSE oscillator clock divided by a programmable prescaler
+		case RTC_CLK_LSI: // LSI oscillator clock used as the RTC clock
+			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 2);
+			break;
+
+		case RTC_CLK_HSE: // HSE oscillator clock divided by a programmable prescaler
 			set_reg_block(&dev()->rcc->BDCR, 2, RCC_BDCR_RTCSEL_Pos, 3);
 			break;
 

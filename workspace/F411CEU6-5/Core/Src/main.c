@@ -306,7 +306,7 @@ while (1) {
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 
-	lcd1.drawstring24x48_size(&lcd1.par,str,15,70,ST77XX_RED,BG_COLOUR,8);
+	lcd1.drawstring24x48_size(&lcd1.par,str,15,70,ST77XX_WHITE,BG_COLOUR,8);
 	lcd1.stop(&lcd1.par);
 
 	}
