@@ -168,7 +168,7 @@ uint8_t get_pllr(void) {
 #endif
 
 uint32_t get_pllsclk(void) {
-    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_OSC : HSI_RC;
+    return get_reg_Msk(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC) ? HSE_VALUE : HSI_VALUE;
 }
 uint32_t get_pll_vco_in(void) {
     return (get_pllsclk() / get_pllm());
@@ -205,10 +205,10 @@ uint32_t get_pllclk(void) {
 uint32_t get_sysclk(void) {
     uint32_t sws = get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS);
     switch(sws) {
-        case 0: return HSI_RC;
-        case 1: return HSE_OSC;
+        case 0: return HSI_VALUE;
+        case 1: return HSE_VALUE;
         case 2: return get_pllclk();
-        default: return HSI_RC;
+        default: return HSI_VALUE;
     }
 }
 

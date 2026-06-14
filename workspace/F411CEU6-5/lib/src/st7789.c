@@ -529,6 +529,53 @@ void st7789_drawstring32x32_size( ST7789_par* par, const char* str, uint16_t x, 
 	}
 }
 
+void st7789_drawfont18x32( ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
+	const uint8_t first = 32;
+	const uint8_t glyph_w = 18; // True window visual width
+	const uint8_t glyph_h = 32; // True window height
+
+	if(c < first || c > 126) return;
+
+	// Keep multiplying by 4 because font32x32 allocates 4 bytes per row block
+	uint32_t base = (uint32_t)(c - first) * glyph_h * 4;
+
+	uint16_t w = glyph_w;
+	uint16_t h = glyph_h;
+	if(x + w > par->width)  w = par->width - x;
+	if(y + h > par->height) h = par->height - y;
+
+	st7789_set_window(par, x, y, x + w - 1, y + h - 1);
+
+	for(uint32_t row = 0; row < h; row++) {
+		uint8_t byte4 = pgm_read_byte(&font32x32[base + (row * 4) + 0]); // Bits 31-24 (Pixels 1-8)
+		uint8_t byte3 = pgm_read_byte(&font32x32[base + (row * 4) + 1]); // Bits 23-16 (Pixels 9-16)
+		uint8_t byte2 = pgm_read_byte(&font32x32[base + (row * 4) + 2]); // Bits 15-8  (Pixels 17-24)
+		uint8_t byte1 = pgm_read_byte(&font32x32[base + (row * 4) + 3]); // Bits 15-8  (Pixels 17-24)
+		(void) byte1;
+		// byte1 contains bits 7-0 (Pixels 25-32), which are purely blank padding space
+
+		// EXACTLY 18 BITS TOTAL SENT:
+		st7789_draw_bits_fast( par, byte4, 8, fg, bg ); // Pushes the first 8 pixels
+		st7789_draw_bits_fast( par, byte3, 8, fg, bg ); // Pushes the next 8 pixels (16 total)
+		st7789_draw_bits_fast( par, byte2, 2, fg, bg ); // Pushes the final 2 pixels (18 total)
+
+		// The remaining 6 bits of byte2 and all 8 bits of byte1 are completely ignored.
+		// This matches your 18-pixel hardware window bounding boundary perfectly.
+	}
+	st7789_spi_flush(par);
+}
+
+void st7789_drawstring18x32_size( ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg, uint16_t size )
+{
+	uint16_t cursorX = x;  char c;
+	while(size){
+		if(*str){ c = *str++; }else{ c = ' '; } size--;
+		st7789_drawfont18x32(par, c, cursorX, y, fg, bg);
+		cursorX += 18;
+		if(cursorX + 18 > par->width) break;
+	}
+}
+
 void st7789_drawfont48x48( ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
 	const uint8_t first = 32;
 	const uint8_t glyph_w = 48;
@@ -626,6 +673,7 @@ void st7789_drawstring24x48_size( ST7789_par* par, const char* str, uint16_t x, 
 	}
 }
 
+/***
 void st7789_drawfont64x64( ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
 	const uint8_t first = 32;
 	const uint8_t glyph_w = 64;
@@ -677,53 +725,7 @@ void st7789_drawstring64x64_size( ST7789_par* par, const char* str, uint16_t x, 
 		if(cursorX + 64 > par->width) break;
 	}
 }
-
-void st7789_drawfont18x32( ST7789_par* par, char c, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg ){
-	const uint8_t first = 32;
-	const uint8_t glyph_w = 18; // True window visual width
-	const uint8_t glyph_h = 32; // True window height
-
-	if(c < first || c > 126) return;
-
-	// Keep multiplying by 4 because font32x32 allocates 4 bytes per row block
-	uint32_t base = (uint32_t)(c - first) * glyph_h * 4;
-
-	uint16_t w = glyph_w;
-	uint16_t h = glyph_h;
-	if(x + w > par->width)  w = par->width - x;
-	if(y + h > par->height) h = par->height - y;
-
-	st7789_set_window(par, x, y, x + w - 1, y + h - 1);
-
-	for(uint32_t row = 0; row < h; row++) {
-		uint8_t byte4 = pgm_read_byte(&font32x32[base + (row * 4) + 0]); // Bits 31-24 (Pixels 1-8)
-		uint8_t byte3 = pgm_read_byte(&font32x32[base + (row * 4) + 1]); // Bits 23-16 (Pixels 9-16)
-		uint8_t byte2 = pgm_read_byte(&font32x32[base + (row * 4) + 2]); // Bits 15-8  (Pixels 17-24)
-		uint8_t byte1 = pgm_read_byte(&font32x32[base + (row * 4) + 3]); // Bits 15-8  (Pixels 17-24)
-		(void) byte1;
-		// byte1 contains bits 7-0 (Pixels 25-32), which are purely blank padding space
-
-		// EXACTLY 18 BITS TOTAL SENT:
-		st7789_draw_bits_fast( par, byte4, 8, fg, bg ); // Pushes the first 8 pixels
-		st7789_draw_bits_fast( par, byte3, 8, fg, bg ); // Pushes the next 8 pixels (16 total)
-		st7789_draw_bits_fast( par, byte2, 2, fg, bg ); // Pushes the final 2 pixels (18 total)
-
-		// The remaining 6 bits of byte2 and all 8 bits of byte1 are completely ignored.
-		// This matches your 18-pixel hardware window bounding boundary perfectly.
-	}
-	st7789_spi_flush(par);
-}
-
-void st7789_drawstring18x32_size( ST7789_par* par, const char* str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg, uint16_t size )
-{
-	uint16_t cursorX = x;  char c;
-	while(size){
-		if(*str){ c = *str++; }else{ c = ' '; } size--;
-		st7789_drawfont18x32(par, c, cursorX, y, fg, bg);
-		cursorX += 18;
-		if(cursorX + 18 > par->width) break;
-	}
-}
+**/
 
 // font_array - Pass the specific font array (e.g., font16x16)
 // size - Pass the size dimension (8, 16, 24, 32, etc.)
@@ -1090,39 +1092,6 @@ void st7789_setup_gpio(ST7789_par* par)
 }
 
 /*** SPI Setup ***/
-/**
-void st7789_setup_spi(ST7789_par* par)
-{
-    if(!par->spi) return;
-
-    const STM32_DEVICE* device = dev();
-    SPI_TypeDef* spi = par->spi;
-
-    // Enable SPI clock
-    if(spi == SPI1) device->rcc->APB2ENR |= RCC_APB2ENR_SPI1EN_Msk;
-    else if(spi == SPI2) device->rcc->APB1ENR |= RCC_APB1ENR_SPI2EN_Msk;
-    else if(spi == SPI3) device->rcc->APB1ENR |= RCC_APB1ENR_SPI3EN_Msk;
-
-    // Disable SPI before configuring
-    spi->CR1 &= ~SPI_CR1_SPE_Msk;
-
-    // Master mode, software slave management, internal slave select
-    spi->CR1 = SPI_CR1_MSTR_Msk | SPI_CR1_SSM_Msk | SPI_CR1_SSI_Msk;
-
-    // Fast
-    spi->CR1 &= ~SPI_CR1_BR_Msk;
-
-    // Clock polarity & phase = 0, baudrate = fPCLK/2
-    spi->CR1 &= ~(SPI_CR1_CPOL_Msk | SPI_CR1_CPHA_Msk | SPI_CR1_BR_Msk);
-
-    // Full duplex, 8-bit, MSB first
-    spi->CR1 &= ~(SPI_CR1_BIDIMODE_Msk | SPI_CR1_DFF_Msk | SPI_CR1_LSBFIRST_Msk);
-
-    // Enable SPI
-    spi->CR1 |= SPI_CR1_SPE_Msk;
-}
-**/
-
 void st7789_setup_spi(ST7789_par* par)
 {
     if(!par->spi) return;
@@ -1173,23 +1142,26 @@ void st7789_setup_spi(ST7789_par* par)
 }
 
 /*** Initial Screen ***/
-void boot_screen(ST7789_par* par){
-	//U_word color = { .var = 0x0340 };
-	U_word color = { .var = ST77XX_GREEN };
-	//U_word color = { .var = ST77XX_WHITE };
-	st7789_cs_low(par);
+void boot_screen(ST7789_par* par, uint16_t colour){
+	U_word color = { .var = colour };
 	st7789_set_window(par, 0, 0, 239, 239);
 	for (uint32_t i = 0; i < 240UL * 240; i++) {
 		st7789_data(par, color.par.h);
 		st7789_data(par, color.par.l);
 	}
 	st7789_spi_flush(par);
-	st7789_cs_high(par);
 }
 
 void welcome_screen(ST7789_par* par){
+	U_word color = { .var = ST77XX_GREEN };
     st7789_cs_low(par);
+    st7789_set_window(par, 0, 0, 239, 239);
+    for (uint32_t i = 0; i < 240UL * 240; i++) {
+   		st7789_data(par, color.par.h);
+   		st7789_data(par, color.par.l);
+   	}
     st7789_drawstring16x24(par,"Welcome",60,90,ST77XX_GOLD,ST77XX_GREEN);
+    st7789_spi_flush(par);
     st7789_cs_high(par);
 }
 
@@ -1267,8 +1239,8 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     st.drawstring48x48_size = st7789_drawstring48x48_size;
     st.drawfont24x48   = st7789_drawfont24x48;
     st.drawstring24x48_size = st7789_drawstring24x48_size;
-    st.drawfont64x64   = st7789_drawfont64x64;
-    st.drawstring64x64_size = st7789_drawstring64x64_size;
+    //st.drawfont64x64   = st7789_drawfont64x64;
+    //st.drawstring64x64_size = st7789_drawstring64x64_size;
     st.draw_line       = st7789_draw_line;
     st.draw_line_eq    = st7789_draw_line_eq;
     st.draw_circle     = st7789_draw_circle;
@@ -1282,6 +1254,7 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
     st.dump_buffer     = st7789_dump_buffer;
     st.dump_image      = st7789_dump_image;
     st.test_pin        = st7789_test_pin;
+    st.boot_screen     = boot_screen;
 
     if (st.setup.gpio) st.setup.gpio(&st.par);
     if (st.setup.spi)  st.setup.spi(&st.par);
@@ -1290,9 +1263,7 @@ ST7789 st7789_enable(SPI_TypeDef* spi, uint8_t cs_pin, uint8_t dc_pin, uint8_t r
 
 	st7789_init_seq(&st.par);
 
-    boot_screen(&st.par);
-
-    //welcome_screen(&st.par);
+    welcome_screen(&st.par);
 
     return st;
 }

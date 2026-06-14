@@ -1,0 +1,297 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+# Toolchain: GNU Tools for STM32 (14.3.rel1)
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
+../_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.c 
+
+OBJS += \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.o \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o 
+
+C_DEPS += \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.d \
+./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+_lib/STM32F4xx_HAL_Driver/Src/%.o _lib/STM32F4xx_HAL_Driver/Src/%.su _lib/STM32F4xx_HAL_Driver/Src/%.cyclo: ../_lib/STM32F4xx_HAL_Driver/Src/%.c _lib/STM32F4xx_HAL_Driver/Src/subdir.mk
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F411CEUx -c -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/Drivers/CMSIS/Include" -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/Drivers/STM32F4xx_HAL_Driver/Inc" -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/lib/src" -I"D:/Embedded/STM32F411CEU6/workspace/F411CEU6-5/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -Wextra -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+
+clean: clean-_lib-2f-STM32F4xx_HAL_Driver-2f-Src
+
+clean-_lib-2f-STM32F4xx_HAL_Driver-2f-Src:
+	-$(RM) ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.o
+	-$(RM) ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpsmbus_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.su
+	-$(RM) ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smbus.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmpi2c.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.o
+	-$(RM) ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.su ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.cyclo ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.d ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.o ./_lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.su
+
+.PHONY: clean-_lib-2f-STM32F4xx_HAL_Driver-2f-Src
+
