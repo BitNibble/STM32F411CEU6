@@ -52,14 +52,14 @@ void set_bit_block(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint
 uint32_t reg_get(uint32_t reg, uint32_t mask);
 void reg_set(volatile uint32_t *reg, uint32_t mask, uint32_t data);
 /****************************************/
-uint32_t get_reg_field_value(uint32_t reg, uint32_t Msk, uint32_t Pos);
-void set_reg_field_encoded(volatile uint32_t* reg, uint32_t Msk, uint32_t ShiftedData);
-void write_reg_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
-void set_reg_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+uint32_t get_field_value(uint32_t reg, uint32_t Msk, uint32_t Pos);
+void set_field_encoded(volatile uint32_t* reg, uint32_t Msk, uint32_t ShiftedData);
+void write_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
+void set_field_value(volatile uint32_t* reg, uint32_t Msk, uint32_t Pos, uint32_t data);
 
-uint32_t get_reg_block_value(uint32_t reg, uint8_t size_block, uint8_t Pos);
-void write_reg_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
-void set_reg_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+uint32_t get_block_value(uint32_t reg, uint8_t size_block, uint8_t Pos);
+void write_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
+void set_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);
 
 uint32_t get_bit_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos);
 void set_bit_block_value(volatile uint32_t* reg, uint8_t size_block, uint8_t Pos, uint32_t data);

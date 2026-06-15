@@ -158,7 +158,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
         switch(choice) {
             case RCC_CLK_HSI: // HSION: Internal high-speed clock enable
                 if(set) {
-                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
+                	set_field_encoded(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
                     timeout = 1000;
                     set = 0;
                 }
@@ -176,12 +176,12 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 
             case RCC_CLK_HSE: // HSEON: External high-speed clock enable
                 if(set) {
-                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
+                	set_field_encoded(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
                     timeout = 0x1FFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->CR & RCC_CR_HSERDY) { // Wait for HSERDY
-                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_CSSON_Msk, RCC_CR_CSSON);
+                	set_field_encoded(&dev()->rcc->CR, RCC_CR_CSSON_Msk, RCC_CR_CSSON);
                     rdy = 0;
                 }
                 else {
@@ -193,7 +193,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 break;
 
             case 2: // HSEBYP: HSE clock bypass
-            	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
+            	set_field_encoded(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
                 choice = RCC_CLK_HSE; // Switch to enabling HSE
                 break;
 
@@ -224,7 +224,7 @@ void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 				hclock = RCC_HCLK_HSI;
 				break;
 		}
-	while((get_reg_field_value(dev()->rcc->CFGR, RCC_CFGR_SWS_Msk, RCC_CFGR_SWS_Pos) != hclock) && timeout){timeout--;}
+	while((get_field_value(dev()->rcc->CFGR, RCC_CFGR_SWS_Msk, RCC_CFGR_SWS_Pos) != hclock) && timeout){timeout--;}
 }
 uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled

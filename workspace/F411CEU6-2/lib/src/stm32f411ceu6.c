@@ -125,7 +125,7 @@ uint8_t get_hppre2(void) {
 }
 
 uint8_t get_systickpre(void) {
-    uint32_t value = get_reg_field_value(dev()->core->systick->CTRL, SysTick_CTRL_CLKSOURCE_Msk, SysTick_CTRL_CLKSOURCE_Pos);
+    uint32_t value = get_field_value(dev()->core->systick->CTRL, SysTick_CTRL_CLKSOURCE_Msk, SysTick_CTRL_CLKSOURCE_Pos);
     return value ? 8 : 1;
 }
 
