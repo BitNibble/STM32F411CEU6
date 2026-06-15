@@ -48,7 +48,7 @@ systick_inic();
 fpu_enable();
 rtc()->inic();
 
-_delay_ms(1);
+//_delay_ms(1);
 char state[12];
 
 adc1()->clock(1);
@@ -303,6 +303,7 @@ while (1) {
 	lcd1.drawstring16x24(&lcd1.par,str,10,150,ST77XX_GREEN,BG_COLOUR);
 
 	lcd1.drawstring12x16_size(&lcd1.par,(char*)WeekDay_String(vecD[2]),10,200,ST77XX_GREEN,BG_COLOUR,7);
+	//lcd1.drawstring12x16_size(&lcd1.par,func()->ui32toa(get_sysclk()),10,200,ST77XX_GREEN,BG_COLOUR,10);
 
 	func()->format_string(str,32,"%d%d:%d%d:%d%d",vecT[0], vecT[1], vecT[2], vecT[3], vecT[4], vecT[5]);
 

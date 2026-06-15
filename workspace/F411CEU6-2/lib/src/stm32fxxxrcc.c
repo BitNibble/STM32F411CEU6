@@ -55,6 +55,8 @@ uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock);
 /****************************************/
 void rcc_start(void)
 {
+	uint8_t multiply = 96;
+	uint8_t devide = 2;
     // Configure prescalers first (safe before increasing SYSCLK)
     STM32FXXX_Prescaler(1, 1, 1, 0);
 
@@ -72,27 +74,33 @@ void rcc_start(void)
     if(pllm > 63) pllm = 63;
 
     // Configure PLL (must be disabled inside)
-    STM32FXXX_PLL_Division(pllm, 240, 2, 4);
+    STM32FXXX_PLL_Division(pllm, multiply, devide, 4);
 
     if (PLL_ON_OFF)
     {
-        // Compute target SYSCLK deterministically
-        uint32_t target = (input / pllm) * 240 / 2;
+        uint32_t vco = (input / pllm) * multiply;
+        uint32_t sysclk = vco / devide;
 
-        // Set FLASH latency BEFORE increasing clock
-        RCC_Flash_SetLatency(target);
+        /* Flash latency MUST match final target SYSCLK frequency BEFORE switching */
+        RCC_Flash_SetLatency(sysclk);
 
         // Enable PLL
         STM32FXXX_Rcc_PLL_CLK_Enable();
 
         // Switch SYSCLK to PLL
-        STM32FXXX_Rcc_HSelect(2);
+        STM32FXXX_Rcc_HSelect(RCC_HCLK_PLL);
     }
     else
     {
         // Direct switch to selected HSI/HSE
         STM32FXXX_Rcc_HSelect(H_Clock_Source);
     }
+}
+
+void rcc_start_test(void)
+{
+    STM32FXXX_Rcc_HEnable(1);
+    STM32FXXX_Rcc_HSelect(1);
 }
 // Latency
 static void RCC_Flash_SetLatency(uint32_t sysclk)
@@ -146,19 +154,12 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
     uint32_t timeout;
     uint8_t choice = hclock;
 
-    // Enable CSSON
-    if(hclock == 1 || hclock == 2) {
-        set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_CSSON_Msk, RCC_CR_CSSON); // Clock security system enable
-    }
-
-    while(rdy)
-    {
-        switch(choice)
-        {
+    while(rdy) {
+        switch(choice) {
             case RCC_CLK_HSI: // HSION: Internal high-speed clock enable
                 if(set) {
-                	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
-                    timeout = 0xFFFFF;
+                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSION_Msk, RCC_CR_HSION); // Enable HSI
+                    timeout = 1000;
                     set = 0;
                 }
                 else if(dev()->rcc->CR & RCC_CR_HSIRDY) { // Wait for HSIRDY
@@ -175,11 +176,12 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 
             case RCC_CLK_HSE: // HSEON: External high-speed clock enable
                 if(set) {
-                	set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
-                    timeout = 0xFFFFF;
+                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSEON_Msk, RCC_CR_HSEON); // Enable HSE
+                    timeout = 0x1FFFFF;
                     set = 0;
                 }
                 else if(dev()->rcc->CR & RCC_CR_HSERDY) { // Wait for HSERDY
+                	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_CSSON_Msk, RCC_CR_CSSON);
                     rdy = 0;
                 }
                 else {
@@ -191,7 +193,7 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
                 break;
 
             case 2: // HSEBYP: HSE clock bypass
-                set_reg_Msk_Shifted(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
+            	set_reg_field_encoded(&dev()->rcc->CR, RCC_CR_HSEBYP_Msk, RCC_CR_HSEBYP);
                 choice = RCC_CLK_HSE; // Switch to enabling HSE
                 break;
 
@@ -203,33 +205,26 @@ void STM32FXXX_Rcc_HEnable(uint8_t hclock)
 }
 void STM32FXXX_Rcc_HSelect(uint8_t hclock)
 {
-	uint8_t verify = 0; uint32_t timeout = 0xFFFFF;
+	uint32_t timeout = 5000;
 		switch(hclock){
 			case RCC_HCLK_HSI: // HSI selected as system clock
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
-				verify = 1;
 				break;
 
 			case RCC_HCLK_HSE: // HSE oscillator selected as system clock
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 1);
-				verify = 1;
 				break;
 
 			case RCC_HCLK_PLL:
-				#ifdef STM32F446xx // PLL_R selected as system clock
-					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 3);
-				#else // PLL_P selected as system clock
 					set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 2);
-				#endif
-					verify = 1;
 				break;
 
 			default:
 				set_reg_block(&dev()->rcc->CFGR, 2, RCC_CFGR_SW_Pos, 0);
-				hclock = RCC_HCLK_HSI; verify = 1;
+				hclock = RCC_HCLK_HSI;
 				break;
 		}
-	if(verify) { while((get_reg_Msk(dev()->rcc->CFGR, RCC_CFGR_SWS) != hclock) && timeout){timeout--;} }
+	while((get_reg_field_value(dev()->rcc->CFGR, RCC_CFGR_SWS_Msk, RCC_CFGR_SWS_Pos) != hclock) && timeout){timeout--;}
 }
 uint8_t STM32FXXX_Rcc_PLL_Select(uint8_t hclock)
 { // This bit can be written only when PLL and PLLI2S are disabled

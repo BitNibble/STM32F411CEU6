@@ -15,28 +15,11 @@ Date:     15112025
 //#include <stdio.h>
 //#include <stdlib.h>
 
-/*** Clock sources ***/
-#ifndef HSI_VALUE
-#define HSI_VALUE 16000000UL
-#endif
-#ifndef HSE_VALUE
-#define HSE_VALUE 25000000UL
-#endif
-#ifndef LSI_VALUE
-#define LSI_VALUE 32000UL
-#endif
-#ifndef LSE_VALUE
-#define LSE_VALUE 32768UL
-#endif
-#ifndef HSE_RTC
-#define HSE_RTC 4000000UL
-#endif
-
 /****************************************/
-/*******   1 -> HSI    2->HSE   *********/
+/*******   0 -> HSI    1->HSE   *********/
 #define H_Clock_Source 1
 /****   PLL ON -> 1    PLL OFF = 0   ****/
-#define PLL_ON_OFF 0
+#define PLL_ON_OFF 1
 /****************************************/
 /****************************************/
 typedef union{

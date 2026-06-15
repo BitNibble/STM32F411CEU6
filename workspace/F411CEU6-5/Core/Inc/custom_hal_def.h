@@ -12,7 +12,7 @@ extern "C" {
 #include <stdint.h>
 
 #if !defined  (HSE_VALUE)
-#define HSE_VALUE    25000000U /*!< Value of the External oscillator in Hz */
+#define HSE_VALUE    (25000000UL) /*!< Value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
 #if !defined  (HSE_STARTUP_TIMEOUT)
@@ -28,7 +28,7 @@ extern "C" {
 #endif /* HSI48_VALUE */
 
 #if !defined  (LSI_VALUE)
-#define LSI_VALUE  32000U      /*!< LSI Typical Value in Hz*/
+#define LSI_VALUE  (32000UL)      /*!< LSI Typical Value in Hz*/
 #endif /* LSI_VALUE */
 
 #if !defined  (LSE_VALUE)
@@ -40,7 +40,7 @@ extern "C" {
 #endif /* LSE_STARTUP_TIMEOUT */
 
 #if !defined  (EXTERNAL_CLOCK_VALUE)
-#define EXTERNAL_CLOCK_VALUE    12288000U /*!< Value of the External clock source in Hz*/
+#define EXTERNAL_CLOCK_VALUE    (12288000UL) /*!< Value of the External clock source in Hz*/
 #endif /* EXTERNAL_CLOCK_VALUE */
 
 #ifndef STM32G4xx_HAL_CONF_H

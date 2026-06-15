@@ -8,11 +8,7 @@ Date: 21102025
 #ifndef STM32FXXXRCC_H
 	#define STM32FXXXRCC_H
 /*** Library ***/
-//#if defined (STM32F411xE)
-	#include "stm32f411ceu6.h"
-//#elif defined(STM32F446xx)
-//	#include "stm32f446re.h"
-//#endif
+#include "stm32f411ceu6.h"
 /*** RCC_Common TypeDef ***/
 // RCC -> PLL
 typedef struct
