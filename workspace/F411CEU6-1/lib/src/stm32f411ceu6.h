@@ -19,7 +19,7 @@ Date:     15112025
 /*******   0 -> HSI    1->HSE   *********/
 #define H_Clock_Source 1
 /****   PLL ON -> 1    PLL OFF = 0   ****/
-#define PLL_ON_OFF 1
+#define PLL_ON_OFF 0
 /****************************************/
 /****************************************/
 typedef union{

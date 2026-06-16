@@ -33,7 +33,7 @@ void tim1_u_callback(void);
 int main(void)
 {
 	rcc()->inic(); // Clock Configuration
-	systick_inic(); // Delays
+	systick_configure(); // Delays
 	gpioa()->clock(1);
 	gpiob()->clock(1); // LCD display 4x20
 	gpioc()->clock(1); // Gpioc13

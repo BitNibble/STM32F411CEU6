@@ -85,7 +85,7 @@ ARMLCD0_Handler ARMLCD0_enable(GPIO_TypeDef* reg)
 	setup_armlcd0.gotoxy = ARMLCD0_gotoxy;
 	setup_armlcd0.reboot = ARMLCD0_reboot;
 
-	systick_inic();
+	systick_configure();
 	ARMLCD0_inic();
 	
 	return setup_armlcd0;
@@ -113,17 +113,17 @@ void ARMLCD0_inic(void)
 	armlcd0_detect = ireg->IDR & ARMLCD0_NC_Msk;
 	
 	// INICIALIZACAO LCD datasheet
-	ARMLCD0_delayMiliseconds(20); // using clock at 16Mhz
+	_delay_ms(20); // using clock at 16Mhz
 	ARMLCD0_write(0x30, ARMLCD0_INST); // 0x30 function set
-	ARMLCD0_delayMicroseconds(37);
+	_delay_us(37);
 	ARMLCD0_write(0x28, ARMLCD0_INST); // 0x28 function set
-	ARMLCD0_delayMicroseconds(37);
+	_delay_us(37);
 	ARMLCD0_write(0x28, ARMLCD0_INST); // 0x28 function set
-	ARMLCD0_delayMicroseconds(37);
+	_delay_us(37);
 	ARMLCD0_write(0x0C, ARMLCD0_INST); // 0x0C Display ON/OFF control
-	ARMLCD0_delayMicroseconds(37);
+	_delay_us(37);
 	ARMLCD0_write(0x01, ARMLCD0_INST); // 0x01 Display clear
-	ARMLCD0_delayMiliseconds(1.5);
+	_delay_ms(1.5);
 	ARMLCD0_write(0x04, ARMLCD0_INST); // 0x05 Entry mode set
 	ARMLCD0_BF();
 
@@ -252,7 +252,7 @@ void ARMLCD0_hspace(uint32_t n)
 void ARMLCD0_clear(void)
 {
 	ARMLCD0_write(0x01, ARMLCD0_INST);
-	ARMLCD0_delayMicroseconds(2000);
+	_delay_us(2000);
 }
 
 void ARMLCD0_gotoxy(unsigned int y, unsigned int x)
@@ -290,16 +290,6 @@ void ARMLCD0_reboot(void)
 	if(i)
 		ARMLCD0_inic();
 	armlcd0_detect = tmp;
-}
-
-void ARMLCD0_delayMiliseconds(unsigned int ms) {
-    volatile unsigned int count = ms * get_systick_ms( );
-    while (count--);
-}
-
-void ARMLCD0_delayMicroseconds(unsigned int us) {
-    volatile unsigned int count = us * get_systick_us( );
-    while (count--);
 }
 
 /******************************************************************************

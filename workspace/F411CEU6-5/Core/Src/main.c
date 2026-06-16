@@ -44,7 +44,7 @@ char str[32];
 int main(void)
 {
 rcc()->inic();
-systick_inic();
+systick_configure();
 fpu_enable();
 rtc()->inic();
 
