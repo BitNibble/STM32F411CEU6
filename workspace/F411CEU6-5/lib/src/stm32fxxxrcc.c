@@ -6,7 +6,8 @@ Hardware: STM32-FXXX
 Date: 21102025
 *******************************************************************************/
 /*** File Library ***/
-#include <stm32fxxxrcc.h>
+#include "stm32fxxxrcc.h"
+#include "armsystick.h"
 
 typedef enum
 {
@@ -95,6 +96,7 @@ void rcc_start(void)
         // Direct switch to selected HSI/HSE
         STM32FXXX_Rcc_HSelect(H_Clock_Source);
     }
+    systick_configure();
 }
 
 void rcc_start_test(void)
