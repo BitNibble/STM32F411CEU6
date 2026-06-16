@@ -294,6 +294,7 @@ while (1) {
 	rtc()->tr2vec(vecT);
 
 	if(seconds.update(&seconds.par,vecT[5])){
+	toggle_hpin(dev()->gpioc, (1 << 13));
 
 	lcd1.start(&lcd1.par);
 	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLUE,BG_COLOUR, 12);

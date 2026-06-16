@@ -200,10 +200,15 @@ void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode );
 void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype );
 void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed );
 void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd );
-void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins );
+void GPIO_hmoder( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t mode );
+void GPIO_hotype( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t otype );
+void GPIO_hospeed( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t ospeed );
+void GPIO_hpupd( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t pupd );
+void GPIO_lck(GPIO_TypeDef* GPIO, uint16_t hpin);
 void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af );
-void set_hpins(GPIO_TypeDef* reg, uint16_t hpins);
-void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins);
+void set_hpin(GPIO_TypeDef* reg, uint16_t hpin);
+void clear_hpin(GPIO_TypeDef* reg, uint16_t hpin);
+void toggle_hpin(GPIO_TypeDef* reg, uint16_t hpin);
 void set_pin(GPIO_TypeDef* reg, uint8_t pin);
 void clear_pin(GPIO_TypeDef* reg, uint8_t pin);
 

@@ -269,70 +269,135 @@ void GPIO_clock( GPIO_TypeDef* GPIO, uint8_t enable )
         dev()->rcc->AHB1ENR &= ~(1 << Pos);
     }
 }
+
 void GPIO_moder( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t mode )
 {
 	if(pin < WORD_BITS && mode < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
 		const uint8_t Pos = pin * BLOCK_SIZE;
-		mode &= BLOCK;
-		GPIO->MODER &= ~(BLOCK << Pos);
-		GPIO->MODER |= (mode << Pos);
+
+		uint32_t temp = GPIO->MODER;
+		temp &= ~(temp & (BLOCK << Pos));
+		temp |= ((uint32_t)mode << Pos);
+		GPIO->MODER = temp;
 	}
 }
+
 void GPIO_otype( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t otype )
 {
     if(pin < WORD_BITS && otype < TWO){
-    	GPIO->OTYPER &= ~(1 << pin);
-    	GPIO->OTYPER |= ( otype << pin );
+        uint32_t temp = GPIO->OTYPER;
+    	temp &= ~(1UL << pin);
+    	temp |= ( (uint32_t)otype << pin );
+    	GPIO->OTYPER = temp;
     }
 }
+
 void GPIO_ospeed( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t ospeed )
 {
 	if(pin < WORD_BITS && ospeed < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
-		const uint16_t Pos = (pin * BLOCK_SIZE);
-		ospeed &= BLOCK;
-		GPIO->OSPEEDR &= ~( BLOCK << Pos );
-		GPIO->OSPEEDR |= ( ospeed << Pos );
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
+		const uint8_t Pos = (pin * BLOCK_SIZE);
+
+		uint32_t temp = GPIO->OSPEEDR;
+		temp &= ~( BLOCK << Pos );
+		temp |= ( (uint32_t)ospeed << Pos );
+		GPIO->OSPEEDR = temp;
 	}
 }
+
 void GPIO_pupd( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t pupd )
 {
 	if(pin < WORD_BITS && pupd < NIBBLE_BITS){
 		const uint8_t BLOCK_SIZE = TWO;
-		const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
-		const uint16_t Pos = (pin * BLOCK_SIZE);
-		pupd &= BLOCK;
-		GPIO->PUPDR &= ~( BLOCK << Pos );
-		GPIO->PUPDR |= ( pupd << Pos );
-	}
-}
-/*
-void GPIO_lck( GPIO_TypeDef* GPIO, uint16_t hpins ){
-	GPIO->LCKR = hpins;
-	for(uint8_t status = TWO; status; ) {
-		if(GPIO->LCKR & (1 << WORD_BITS)) {
-			status = 0;
-		}else {
-			GPIO->LCKR |= 1 << WORD_BITS;
-			GPIO->LCKR &= ~(1 << WORD_BITS);
-			GPIO->LCKR |= 1 << WORD_BITS;
-			(void)GPIO->LCKR;
-			status--;
-		}
-	}
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
+		const uint8_t Pos = (pin * BLOCK_SIZE);
 
+		uint32_t temp = GPIO->PUPDR;
+		temp &= ~( BLOCK << Pos );
+		temp |= ( (uint32_t)pupd << Pos );
+		GPIO->PUPDR = temp;
+	}
 }
-*/
-void GPIO_lck(GPIO_TypeDef* GPIO, uint16_t hpins)
+
+void GPIO_hmoder( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t mode )
+{
+	if(mode < NIBBLE_BITS) {
+		uint32_t hmoder = GPIO->MODER;
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
+		for (uint8_t pin = 0; pin < WORD_BITS; pin++)
+		{
+			if (hpin & (1UL << pin)) {
+				uint8_t Pos = pin * BLOCK_SIZE;
+				hmoder &= ~(BLOCK << Pos);
+				hmoder |= ((uint32_t)mode << Pos);
+			}
+		}
+		GPIO->MODER = hmoder;
+	}
+}
+
+void GPIO_hotype( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t otype )
+{
+	if(otype < TWO) {
+		uint32_t hotype = GPIO->OTYPER;
+		for(uint8_t pin = 0; pin < WORD_BITS; pin++)
+		{
+			if(hpin & (1UL << pin)) {
+				hotype &= ~(1UL << pin);
+				hotype |= ( (uint32_t)otype << pin );
+			}
+		}
+		GPIO->OTYPER = hotype;
+	}
+}
+
+void GPIO_hospeed( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t ospeed )
+{
+	if(ospeed < NIBBLE_BITS) {
+		uint32_t hospeed = GPIO->OSPEEDR;
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
+		for(uint8_t pin = 0; pin < WORD_BITS; pin++)
+		{
+			if (hpin & (1UL << pin)) {
+				uint8_t Pos = (pin * BLOCK_SIZE);
+				hospeed &= ~( BLOCK << Pos );
+				hospeed |= ( (uint32_t)ospeed << Pos );
+			}
+		}
+		GPIO->OSPEEDR = hospeed;
+	}
+}
+
+void GPIO_hpupd( GPIO_TypeDef* GPIO, uint16_t hpin, uint8_t pupd )
+{
+	if(pupd < NIBBLE_BITS){
+		uint32_t hpupd = GPIO->PUPDR;
+		const uint8_t BLOCK_SIZE = TWO;
+		const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
+		for(uint8_t pin = 0; pin < WORD_BITS; pin++)
+		{
+			if (hpin & (1UL << pin)) {
+				const uint8_t Pos = (pin * BLOCK_SIZE);
+				hpupd &= ~( BLOCK << Pos );
+				hpupd |= ( (uint32_t)pupd << Pos );
+			}
+		}
+		GPIO->PUPDR = hpupd;
+	}
+}
+
+void GPIO_lck(GPIO_TypeDef* GPIO, uint16_t hpin)
 {
     uint32_t tmp;
 
-    GPIO->LCKR = hpins | (1U << 16);
-    GPIO->LCKR = hpins;
-    GPIO->LCKR = hpins | (1U << 16);
+    GPIO->LCKR = hpin | (1UL << 16);
+    GPIO->LCKR = hpin;
+    GPIO->LCKR = hpin | (1UL << 16);
 
     tmp = GPIO->LCKR;
     (void)tmp;
@@ -340,33 +405,41 @@ void GPIO_lck(GPIO_TypeDef* GPIO, uint16_t hpins)
     tmp = GPIO->LCKR;
     (void)tmp;
 }
+
 void GPIO_af( GPIO_TypeDef* GPIO, uint8_t pin, uint8_t af )
 {
 	if(pin < WORD_BITS && af < WORD_BITS){
 		const uint8_t BLOCK_SIZE = NIBBLE_BITS;
-    	const uint8_t BLOCK = (1 << BLOCK_SIZE) - 1;
+    	const uint8_t BLOCK = (1U << BLOCK_SIZE) - 1U;
     	const uint8_t index = (pin * BLOCK_SIZE) / DWORD_BITS;
     	const uint16_t Pos = (pin * BLOCK_SIZE) % DWORD_BITS;
 
-    	af &= BLOCK;
     	if(index < TWO){
-    		GPIO->AFR[index] &= ~( BLOCK << Pos );
-    		GPIO->AFR[index] |= ( af << Pos );
+    	    uint32_t temp = GPIO->AFR[index];
+    		temp &= ~( BLOCK << Pos );
+    		temp |= ( ((uint32_t)af & BLOCK) << Pos );
+    		GPIO->AFR[index] = temp;
     	}
 	}
 }
 
-inline void set_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
-    reg->BSRR = hpins;
+inline void set_hpin(GPIO_TypeDef* reg, uint16_t hpin) {
+    reg->BSRR = hpin;
 }
-inline void clear_hpins(GPIO_TypeDef* reg, uint16_t hpins) {
-    reg->BSRR = (uint32_t)(hpins << WORD_BITS);
+inline void clear_hpin(GPIO_TypeDef* reg, uint16_t hpin) {
+    // Cast hpin to 32-bit first, then safely shift into the upper 16 bits
+    reg->BSRR = ((uint32_t)hpin << WORD_BITS);
+}
+inline void toggle_hpin(GPIO_TypeDef* reg, uint16_t hpin) {
+    reg->ODR ^= hpin;
 }
 inline void set_pin(GPIO_TypeDef* reg, uint8_t pin) {
-    reg->BSRR = (1 << pin);
+    // 1UL guarantees safe, unsigned 32-bit shifting
+    reg->BSRR = (1UL << pin);
 }
 inline void clear_pin(GPIO_TypeDef* reg, uint8_t pin) {
-    reg->BSRR = ((uint32_t)(1 << pin)) << WORD_BITS;
+    // Directly shift 1UL to its final destination in the upper BRy half (pin + 16)
+    reg->BSRR = (1UL << (pin + WORD_BITS));
 }
 
 /************************** TIMER UTILS ******************************/
