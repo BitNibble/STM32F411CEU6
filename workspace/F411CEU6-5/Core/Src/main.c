@@ -32,11 +32,11 @@ PA2 - CS
 #include <stdlib.h>
 #include <string.h>
 
-#define JMP_menu_repeat 5
+//#define JMP_menu_repeat 500
 #define ADC_DELAY 16
 #define ADC_SAMPLE 128
-#define STEP_DELAY 10
-#define MAIN_MENU_DELAY 20
+#define STEP_DELAY 20000
+#define MAIN_MENU_DELAY 40000
 #define BG_COLOUR 0x0000
 
 char str[32];

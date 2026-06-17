@@ -55,6 +55,9 @@ F411CEU6-1.list \
 OBJCOPY_HEX += \
 F411CEU6-1.hex \
 
+OBJCOPY_BIN += \
+F411CEU6-1.bin \
+
 
 # All Target
 all: main-build
@@ -83,12 +86,17 @@ F411CEU6-1.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+F411CEU6-1.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "F411CEU6-1.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) F411CEU6-1.elf F411CEU6-1.hex F411CEU6-1.list F411CEU6-1.map default.size.stdout
+	-$(RM) F411CEU6-1.bin F411CEU6-1.elf F411CEU6-1.hex F411CEU6-1.list F411CEU6-1.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
