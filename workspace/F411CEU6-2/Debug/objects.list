@@ -37,6 +37,8 @@
 "./lib/src/stm32fxxxusart2.o"
 "./lib/src/stm32fxxxusart6.o"
 "./lib/src/stm32xtool.o"
+"./lib/src/template_instance.o"
+"./lib/src/template_singleton.o"
 "./lib/src/timer_irq.o"
 "./lib/src/webpages.o"
 "./lib/src/znpid.o"
