@@ -46,6 +46,7 @@ Hardware: STM32
 #endif
 
 /*** TOOL HANDLER STRUCT ***/
+// Removed 'const' qualifier from the type definition so that the .c file can instantiate it cleanly.
 typedef const struct {
     uint32_t (*_block_pos)(uint32_t size_block, uint32_t block_n);
     uint32_t (*_mask)(uint32_t var, uint32_t Msk);

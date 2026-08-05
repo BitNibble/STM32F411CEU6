@@ -1,11 +1,11 @@
 /**********************************************************************
-	STM32F411CEU6
+	stm32g4_dev.c
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
-Hardware: STM32F411CEU6
-Date:     15112025
+Hardware: STM32F4 Family
 **********************************************************************/
-#include "stm32f411ceu6.h"
+#include "stm32f4_dev.h"
+#include "stm32x_tool.h"
 #include <stdarg.h>
 #include <math.h>
 
