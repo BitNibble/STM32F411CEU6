@@ -41,7 +41,7 @@ int main(void)
 	{
 		func()->arm->dispar4x20(lcd0());
 
-		ftdelayCycles(1, 3, blink);
+		exe()->ftdelayCycles(1, 3, blink, NULL);
 	}
 }
 /*******************************************************************************/

@@ -138,10 +138,10 @@ while (1) {
 	PA.update(&PA.par, dev()->gpioa->IDR);
 
 	/*** Magic ***/
-	if( !isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
+	if( !exe()->isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
 			strncpy( parse, usart1()->rxbuff, PARSE_SIZE );
 			func()->tokenize_string( parse, tokens, MAX_TOKENS, "\r\n" );
-			if(tokens[0] && !isCharPtrFlush(tokens[0])) {
+			if(tokens[0] && !exe()->isCharPtrFlush(tokens[0])) {
 				strncpy( sub_parse, tokens[0], SUBPARSE_SIZE ); // 0
 				func()->tokenize_string( sub_parse, sub_tokens, MAX_TOKENS, ",:" );
 			}
@@ -214,7 +214,7 @@ while (1) {
 		strcpy(state,"BLE");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 
 			}
@@ -222,7 +222,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 1; skip_0++;
 			}
 		}
@@ -232,7 +232,7 @@ while (1) {
 		strcpy(state,"Set Hour");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_hour();
 				incr_0 = (incr_0 > 22) ? 0 : incr_0 + 1;
@@ -242,7 +242,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) { // Jump menu
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 2; skip_0 = 0;
 			}
 		}
@@ -252,7 +252,7 @@ while (1) {
 		strcpy(state,"Set Minute");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_minute();
 				incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
@@ -262,7 +262,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 3; skip_0 = 0;
 			}
 		}
@@ -272,7 +272,7 @@ while (1) {
 		strcpy(state,"Set Second");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_second();
 				incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
@@ -282,7 +282,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 4; skip_0 = 0;
 			}
 		}
@@ -292,7 +292,7 @@ while (1) {
 		strcpy(state,"Set Year");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_year();
 				incr_0 = (incr_0 > 98) ? 0 : incr_0 + 1;
@@ -302,7 +302,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 5; skip_0 = 0;
 			}
 		}
@@ -312,7 +312,7 @@ while (1) {
 		strcpy(state,"Set Month");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_month();
 				incr_0 = (incr_0 > 11) ? 1 : incr_0 + 1;
@@ -322,7 +322,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 6; skip_0 = 0;
 			}
 		}
@@ -332,7 +332,7 @@ while (1) {
 		strcpy(state,"Set WeekDay");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_weekday();
 				incr_0 = (incr_0 > 6) ? 1 : incr_0 + 1;
@@ -342,7 +342,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 7; skip_0 = 0;
 			}
 		}
@@ -352,7 +352,7 @@ while (1) {
 		strcpy(state,"Set Day");
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 > 0) { // Handle button hold logic if necessary
 				incr_0 = rtc()->get_day();
 				incr_0 = (incr_0 > 30) ? 1 : incr_0 + 1;
@@ -362,7 +362,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, STEP_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)){
 				Menu.var = 8; skip_0 = 0;
 			}
 		}
@@ -382,7 +382,7 @@ while (1) {
 				n_sample = ADC_SAMPLE;
 				adc_value.var /= ADC_SAMPLE;  // Ensure proper averaging
 				//temperature = CalculateTemperature(adc_value);
-				snprintf(str, 8, "%.1f C", CalculateTemperature(adc_value.var));
+				snprintf(str, 8, "%.1f C", exe()->calculate_temperature(adc_value.var));
 				lcd1.start(&lcd1.par);
 				lcd1.drawstring16x24_size(&lcd1.par,str,130,40,ST77XX_MAGENTA,BG_COLOUR, 8);
 				lcd1.stop(&lcd1.par);
@@ -391,7 +391,7 @@ while (1) {
 		}
 
 		if (PA.par.LH & 1) {
-			ftdelayReset(1);
+			exe()->ftdelayReset(1);
 			if (skip_0 < 1) { // Handle button hold logic if necessary
 
 			}
@@ -399,7 +399,7 @@ while (1) {
 		}
 
 		if (PA.par.LL & 1) {
-			if(ftdelayCycles(1, MAIN_MENU_DELAY, NULL)){
+			if(exe()->ftdelayCycles(1, MAIN_MENU_DELAY, NULL, NULL)){
 				Menu.var = 0;  skip_0 = 0;
 			}
 		}

@@ -89,12 +89,12 @@ int main(void) {
             case 0:
                 strcpy(state, "ble");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) { /* Button hold logic */ }
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 1;
                         skip_0 = 0;
                     }
@@ -104,7 +104,7 @@ int main(void) {
             case 1:
                 strcpy(state, "set hour");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_hour();
                         incr_0 = (incr_0 > 22) ? 0 : incr_0 + 1;
@@ -113,7 +113,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 2;
                         skip_0 = 0;
                     }
@@ -123,7 +123,7 @@ int main(void) {
             case 2:
                 strcpy(state, "Set Minute");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_minute();
                         incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
@@ -132,7 +132,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 3;
                         skip_0 = 0;
                     }
@@ -142,7 +142,7 @@ int main(void) {
             case 3:
                 strcpy(state, "Set Second");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_second();
                         incr_0 = (incr_0 > 58) ? 0 : incr_0 + 1;
@@ -151,7 +151,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 4;
                         skip_0 = 0;
                     }
@@ -161,7 +161,7 @@ int main(void) {
             case 4:
                 strcpy(state, "Set Year");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_year();
                         incr_0 = (incr_0 > 98) ? 0 : incr_0 + 1;
@@ -170,7 +170,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 5;
                         skip_0 = 0;
                     }
@@ -180,7 +180,7 @@ int main(void) {
             case 5:
                 strcpy(state, "Set Month");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_month();
                         incr_0 = (incr_0 > 11) ? 1 : incr_0 + 1;
@@ -189,7 +189,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 6;
                         skip_0 = 0;
                     }
@@ -199,7 +199,7 @@ int main(void) {
             case 6:
                 strcpy(state, "Set WeekDay");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_weekday();
                         incr_0 = (incr_0 > 6) ? 1 : incr_0 + 1;
@@ -208,7 +208,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 7;
                         skip_0 = 0;
                     }
@@ -218,7 +218,7 @@ int main(void) {
             case 7:
                 strcpy(state, "Set Day");
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     if (skip_0 > 0) {
                         incr_0 = rtc()->get_day();
                         incr_0 = (incr_0 > 30) ? 1 : incr_0 + 1;
@@ -227,7 +227,7 @@ int main(void) {
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, STEP_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, STEP_DELAY, NULL, NULL)) {
                         Menu.var = 8;
                         skip_0 = 0;
                     }
@@ -245,7 +245,7 @@ int main(void) {
                     } else {
                         n_sample = ADC_SAMPLE;
                         adc_value.var /= ADC_SAMPLE;
-                        snprintf(str, 8, "%.1f C", CalculateTemperature(adc_value.var));
+                        snprintf(str, 8, "%.1f C", exe()->calculate_temperature(adc_value.var));
                         lcd1.start(&lcd1.par);
                         lcd1.drawstring16x24_size(&lcd1.par, str, 130, 40, ST77XX_MAGENTA, BG_COLOUR, 8);
                         lcd1.stop(&lcd1.par);
@@ -253,11 +253,11 @@ int main(void) {
                     }
                 }
                 if (PA.par.LH & 1) {
-                    ftdelayReset(1);
+                    exe()->ftdelayReset(1);
                     skip_0++;
                 }
                 if (PA.par.LL & 1) {
-                    if (ftdelayCycles(1, MAIN_MENU_DELAY, NULL)) {
+                    if (exe()->ftdelayCycles(1, MAIN_MENU_DELAY, NULL, NULL)) {
                         Menu.var = 0;
                         skip_0 = 0;
                     }
@@ -294,3 +294,4 @@ void Error_Handler(void) {
 #ifdef USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line) {}
 #endif
+

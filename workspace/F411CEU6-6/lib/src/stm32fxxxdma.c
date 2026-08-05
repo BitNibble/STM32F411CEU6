@@ -179,28 +179,28 @@ uint8_t DMA1_sr_tcif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA1->LISR, 1, 5);
+			value = exe()->get_block_value(DMA1->LISR, 1, 5);
 		break;
 		case 1:
-			value = get_reg_block(DMA1->LISR, 1, 11);
+			value = exe()->get_block_value(DMA1->LISR, 1, 11);
 		break;
 		case 2:
-			value = get_reg_block(DMA1->LISR, 1, 21);
+			value = exe()->get_block_value(DMA1->LISR, 1, 21);
 		break;
 		case 3:
-			value = get_reg_block(DMA1->LISR, 1, 27);
+			value = exe()->get_block_value(DMA1->LISR, 1, 27);
 		break;
 		case 4:
-			value = get_reg_block(DMA1->HISR, 1, 5);
+			value = exe()->get_block_value(DMA1->HISR, 1, 5);
 		break;
 		case 5:
-			value = get_reg_block(DMA1->HISR, 1, 11);
+			value = exe()->get_block_value(DMA1->HISR, 1, 11);
 		break;
 		case 6:
-			value = get_reg_block(DMA1->HISR, 1, 21);
+			value = exe()->get_block_value(DMA1->HISR, 1, 21);
 		break;
 		case 7:
-			value = get_reg_block(DMA1->HISR, 1, 27);
+			value = exe()->get_block_value(DMA1->HISR, 1, 27);
 		break;
 	default: break;
 	}
@@ -210,28 +210,28 @@ void DMA1_sr_clear_tcif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA1->LIFCR, 1, 5, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 5, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA1->LIFCR, 1, 11, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 11, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA1->LIFCR, 1, 21, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 21, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA1->LIFCR, 1, 27, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 27, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA1->HIFCR, 1, 5, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 5, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA1->HIFCR, 1, 11, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 11, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA1->HIFCR, 1, 21, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 21, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA1->HIFCR, 1, 27, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 27, 1);
 		break;
 		default: break;
 	}
@@ -241,28 +241,28 @@ uint8_t DMA1_sr_htif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA1->LISR, 1, 4);
+			value = exe()->get_block_value(DMA1->LISR, 1, 4);
 		break;
 		case 1:
-			value = get_reg_block(DMA1->LISR, 1, 10);
+			value = exe()->get_block_value(DMA1->LISR, 1, 10);
 		break;
 		case 2:
-			value = get_reg_block(DMA1->LISR, 1, 20);
+			value = exe()->get_block_value(DMA1->LISR, 1, 20);
 		break;
 		case 3:
-			value = get_reg_block(DMA1->LISR, 1, 26);
+			value = exe()->get_block_value(DMA1->LISR, 1, 26);
 		break;
 		case 4:
-			value = get_reg_block(DMA1->HISR, 1, 4);
+			value = exe()->get_block_value(DMA1->HISR, 1, 4);
 		break;
 		case 5:
-			value = get_reg_block(DMA1->HISR, 1, 10);
+			value = exe()->get_block_value(DMA1->HISR, 1, 10);
 		break;
 		case 6:
-			value = get_reg_block(DMA1->HISR, 1, 20);
+			value = exe()->get_block_value(DMA1->HISR, 1, 20);
 		break;
 		case 7:
-			value = get_reg_block(DMA1->HISR, 1, 26);
+			value = exe()->get_block_value(DMA1->HISR, 1, 26);
 		break;
 	default: break;
 	}
@@ -272,28 +272,28 @@ void DMA1_sr_clear_htif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA1->LIFCR, 1, 4, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 4, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA1->LIFCR, 1, 10, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 10, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA1->LIFCR, 1, 20, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 20, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA1->LIFCR, 1, 26, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 26, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA1->HIFCR, 1, 4, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 4, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA1->HIFCR, 1, 10, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 10, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA1->HIFCR, 1, 20, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 20, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA1->HIFCR, 1, 26, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 26, 1);
 		break;
 		default: break;
 	}
@@ -303,28 +303,28 @@ uint8_t DMA1_sr_teif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA1->LISR, 1, 3);
+			value = exe()->get_block_value(DMA1->LISR, 1, 3);
 		break;
 		case 1:
-			value = get_reg_block(DMA1->LISR, 1, 9);
+			value = exe()->get_block_value(DMA1->LISR, 1, 9);
 		break;
 		case 2:
-			value = get_reg_block(DMA1->LISR, 1, 19);
+			value = exe()->get_block_value(DMA1->LISR, 1, 19);
 		break;
 		case 3:
-			value = get_reg_block(DMA1->LISR, 1, 25);
+			value = exe()->get_block_value(DMA1->LISR, 1, 25);
 		break;
 		case 4:
-			value = get_reg_block(DMA1->HISR, 1, 3);
+			value = exe()->get_block_value(DMA1->HISR, 1, 3);
 		break;
 		case 5:
-			value = get_reg_block(DMA1->HISR, 1, 9);
+			value = exe()->get_block_value(DMA1->HISR, 1, 9);
 		break;
 		case 6:
-			value = get_reg_block(DMA1->HISR, 1, 19);
+			value = exe()->get_block_value(DMA1->HISR, 1, 19);
 		break;
 		case 7:
-			value = get_reg_block(DMA1->HISR, 1, 25);
+			value = exe()->get_block_value(DMA1->HISR, 1, 25);
 		break;
 	default: break;
 	}
@@ -334,28 +334,28 @@ void DMA1_sr_clear_teif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA1->LIFCR, 1, 3, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 3, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA1->LIFCR, 1, 9, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 9, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA1->LIFCR, 1, 19, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 19, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA1->LIFCR, 1, 25, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 25, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA1->HIFCR, 1, 3, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 3, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA1->HIFCR, 1, 9, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 9, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA1->HIFCR, 1, 19, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 19, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA1->HIFCR, 1, 25, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 25, 1);
 		break;
 		default: break;
 	}
@@ -365,28 +365,28 @@ uint8_t DMA1_sr_dmeif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA1->LISR, 1, 2);
+			value = exe()->get_block_value(DMA1->LISR, 1, 2);
 		break;
 		case 1:
-			value = get_reg_block(DMA1->LISR, 1, 8);
+			value = exe()->get_block_value(DMA1->LISR, 1, 8);
 		break;
 		case 2:
-			value = get_reg_block(DMA1->LISR, 1, 18);
+			value = exe()->get_block_value(DMA1->LISR, 1, 18);
 		break;
 		case 3:
-			value = get_reg_block(DMA1->LISR, 1, 24);
+			value = exe()->get_block_value(DMA1->LISR, 1, 24);
 		break;
 		case 4:
-			value = get_reg_block(DMA1->HISR, 1, 2);
+			value = exe()->get_block_value(DMA1->HISR, 1, 2);
 		break;
 		case 5:
-			value = get_reg_block(DMA1->HISR, 1, 8);
+			value = exe()->get_block_value(DMA1->HISR, 1, 8);
 		break;
 		case 6:
-			value = get_reg_block(DMA1->HISR, 1, 18);
+			value = exe()->get_block_value(DMA1->HISR, 1, 18);
 		break;
 		case 7:
-			value = get_reg_block(DMA1->HISR, 1, 24);
+			value = exe()->get_block_value(DMA1->HISR, 1, 24);
 		break;
 	default: break;
 	}
@@ -396,28 +396,28 @@ void DMA1_sr_clear_dmeif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA1->LIFCR, 1, 2, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 2, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA1->LIFCR, 1, 8, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 8, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA1->LIFCR, 1, 18, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 18, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA1->LIFCR, 1, 24, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 24, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA1->HIFCR, 1, 2, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 2, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA1->HIFCR, 1, 8, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 8, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA1->HIFCR, 1, 18, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 18, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA1->HIFCR, 1, 24, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 24, 1);
 		break;
 		default: break;
 	}
@@ -427,28 +427,28 @@ uint8_t DMA1_sr_feif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA1->LISR, 1, 0);
+			value = exe()->get_block_value(DMA1->LISR, 1, 0);
 		break;
 		case 1:
-			value = get_reg_block(DMA1->LISR, 1, 6);
+			value = exe()->get_block_value(DMA1->LISR, 1, 6);
 		break;
 		case 2:
-			value = get_reg_block(DMA1->LISR, 1, 16);
+			value = exe()->get_block_value(DMA1->LISR, 1, 16);
 		break;
 		case 3:
-			value = get_reg_block(DMA1->LISR, 1, 22);
+			value = exe()->get_block_value(DMA1->LISR, 1, 22);
 		break;
 		case 4:
-			value = get_reg_block(DMA1->HISR, 1, 0);
+			value = exe()->get_block_value(DMA1->HISR, 1, 0);
 		break;
 		case 5:
-			value = get_reg_block(DMA1->HISR, 1, 6);
+			value = exe()->get_block_value(DMA1->HISR, 1, 6);
 		break;
 		case 6:
-			value = get_reg_block(DMA1->HISR, 1, 16);
+			value = exe()->get_block_value(DMA1->HISR, 1, 16);
 		break;
 		case 7:
-			value = get_reg_block(DMA1->HISR, 1, 22);
+			value = exe()->get_block_value(DMA1->HISR, 1, 22);
 		break;
 	default: break;
 	}
@@ -458,28 +458,28 @@ void DMA1_sr_clear_feif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA1->LIFCR, 1, 0, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 0, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA1->LIFCR, 1, 6, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 6, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA1->LIFCR, 1, 16, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 16, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA1->LIFCR, 1, 22, 1);
+			exe()->write_block_value(&DMA1->LIFCR, 1, 22, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA1->HIFCR, 1, 0, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 0, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA1->HIFCR, 1, 6, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 6, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA1->HIFCR, 1, 16, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 16, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA1->HIFCR, 1, 22, 1);
+			exe()->write_block_value(&DMA1->HIFCR, 1, 22, 1);
 		break;
 		default: break;
 	}
@@ -504,79 +504,79 @@ STM32FXXX_DMA_sr* stm32fxxx_dma1_sr_inic(void)
 // DMA1 STREAM0 CR
 void DMA1_stream0_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 3, 25, value);
 }
 void DMA1_stream0_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 23, value);
 }
 void DMA1_stream0_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 21, value);
 }
 void DMA1_stream0_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 19, state);
 }
 void DMA1_stream0_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 18, state);
 }
 void DMA1_stream0_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 16, value);
 }
 void DMA1_stream0_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 15, state);
 }
 void DMA1_stream0_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 13, value);
 }
 void DMA1_stream0_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 11, value);
 }
 void DMA1_stream0_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 10, state);
 }
 void DMA1_stream0_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 9, state);
 }
 void DMA1_stream0_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 8, state);
 }
 void DMA1_stream0_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream0->CR, 2, 7, value);
 }
 void DMA1_stream0_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 5, state);
 }
 void DMA1_stream0_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 4, state);
 }
 void DMA1_stream0_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 3, state);
 }
 void DMA1_stream0_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 2, state);
 }
 void DMA1_stream0_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 1, state);
 }
 void DMA1_stream0_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream0->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM0 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream0_cr_inic(void)
@@ -624,79 +624,79 @@ void stm32fxxx_dma1_stream0_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM1 CR
 void DMA1_stream1_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 3, 25, value);
 }
 void DMA1_stream1_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 23, value);
 }
 void DMA1_stream1_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 21, value);
 }
 void DMA1_stream1_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 19, state);
 }
 void DMA1_stream1_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 18, state);
 }
 void DMA1_stream1_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 16, value);
 }
 void DMA1_stream1_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 15, state);
 }
 void DMA1_stream1_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 13, value);
 }
 void DMA1_stream1_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 11, value);
 }
 void DMA1_stream1_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 10, state);
 }
 void DMA1_stream1_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 9, state);
 }
 void DMA1_stream1_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 8, state);
 }
 void DMA1_stream1_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream1->CR, 2, 7, value);
 }
 void DMA1_stream1_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 5, state);
 }
 void DMA1_stream1_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 4, state);
 }
 void DMA1_stream1_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 3, state);
 }
 void DMA1_stream1_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 2, state);
 }
 void DMA1_stream1_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 1, state);
 }
 void DMA1_stream1_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream1->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM1 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream1_cr_inic(void)
@@ -744,79 +744,79 @@ void stm32fxxx_dma1_stream1_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM2 CR
 void DMA1_stream2_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 3, 25, value);
 }
 void DMA1_stream2_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 23, value);
 }
 void DMA1_stream2_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 21, value);
 }
 void DMA1_stream2_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 19, state);
 }
 void DMA1_stream2_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 18, state);
 }
 void DMA1_stream2_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 16, value);
 }
 void DMA1_stream2_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 15, state);
 }
 void DMA1_stream2_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 13, value);
 }
 void DMA1_stream2_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 11, value);
 }
 void DMA1_stream2_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 10, state);
 }
 void DMA1_stream2_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 9, state);
 }
 void DMA1_stream2_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 8, state);
 }
 void DMA1_stream2_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream2->CR, 2, 7, value);
 }
 void DMA1_stream2_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 5, state);
 }
 void DMA1_stream2_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 4, state);
 }
 void DMA1_stream2_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 3, state);
 }
 void DMA1_stream2_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 2, state);
 }
 void DMA1_stream2_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 1, state);
 }
 void DMA1_stream2_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream2->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM2 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream2_cr_inic(void)
@@ -864,79 +864,79 @@ void stm32fxxx_dma1_stream2_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM3 CR
 void DMA1_stream3_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 3, 25, value);
 }
 void DMA1_stream3_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 23, value);
 }
 void DMA1_stream3_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 21, value);
 }
 void DMA1_stream3_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 19, state);
 }
 void DMA1_stream3_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 18, state);
 }
 void DMA1_stream3_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 16, value);
 }
 void DMA1_stream3_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 15, state);
 }
 void DMA1_stream3_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 13, value);
 }
 void DMA1_stream3_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 11, value);
 }
 void DMA1_stream3_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 10, state);
 }
 void DMA1_stream3_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 9, state);
 }
 void DMA1_stream3_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 8, state);
 }
 void DMA1_stream3_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream3->CR, 2, 7, value);
 }
 void DMA1_stream3_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 5, state);
 }
 void DMA1_stream3_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 4, state);
 }
 void DMA1_stream3_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 3, state);
 }
 void DMA1_stream3_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 2, state);
 }
 void DMA1_stream3_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 1, state);
 }
 void DMA1_stream3_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream3->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM3 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream3_cr_inic(void)
@@ -984,79 +984,79 @@ void stm32fxxx_dma1_stream3_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM4 CR
 void DMA1_stream4_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 3, 25, value);
 }
 void DMA1_stream4_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 23, value);
 }
 void DMA1_stream4_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 21, value);
 }
 void DMA1_stream4_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 19, state);
 }
 void DMA1_stream4_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 18, state);
 }
 void DMA1_stream4_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 16, value);
 }
 void DMA1_stream4_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 15, state);
 }
 void DMA1_stream4_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 13, value);
 }
 void DMA1_stream4_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 11, value);
 }
 void DMA1_stream4_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 10, state);
 }
 void DMA1_stream4_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 9, state);
 }
 void DMA1_stream4_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 8, state);
 }
 void DMA1_stream4_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream4->CR, 2, 7, value);
 }
 void DMA1_stream4_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 5, state);
 }
 void DMA1_stream4_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 4, state);
 }
 void DMA1_stream4_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 3, state);
 }
 void DMA1_stream4_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 2, state);
 }
 void DMA1_stream4_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 1, state);
 }
 void DMA1_stream4_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream4->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM4 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream4_cr_inic(void)
@@ -1104,79 +1104,79 @@ void stm32fxxx_dma1_stream4_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM5 CR
 void DMA1_stream5_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 3, 25, value);
 }
 void DMA1_stream5_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 23, value);
 }
 void DMA1_stream5_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 21, value);
 }
 void DMA1_stream5_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 19, state);
 }
 void DMA1_stream5_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 18, state);
 }
 void DMA1_stream5_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 16, value);
 }
 void DMA1_stream5_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 15, state);
 }
 void DMA1_stream5_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 13, value);
 }
 void DMA1_stream5_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 11, value);
 }
 void DMA1_stream5_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 10, state);
 }
 void DMA1_stream5_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 9, state);
 }
 void DMA1_stream5_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 8, state);
 }
 void DMA1_stream5_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream5->CR, 2, 7, value);
 }
 void DMA1_stream5_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 5, state);
 }
 void DMA1_stream5_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 4, state);
 }
 void DMA1_stream5_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 3, state);
 }
 void DMA1_stream5_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 2, state);
 }
 void DMA1_stream5_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 1, state);
 }
 void DMA1_stream5_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream5->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM5 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream5_cr_inic(void)
@@ -1224,79 +1224,79 @@ void stm32fxxx_dma1_stream5_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM6 CR
 void DMA1_stream6_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 3, 25, value);
 }
 void DMA1_stream6_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 23, value);
 }
 void DMA1_stream6_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 21, value);
 }
 void DMA1_stream6_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 19, state);
 }
 void DMA1_stream6_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 18, state);
 }
 void DMA1_stream6_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 16, value);
 }
 void DMA1_stream6_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 15, state);
 }
 void DMA1_stream6_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 13, value);
 }
 void DMA1_stream6_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 11, value);
 }
 void DMA1_stream6_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 10, state);
 }
 void DMA1_stream6_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 9, state);
 }
 void DMA1_stream6_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 8, state);
 }
 void DMA1_stream6_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream6->CR, 2, 7, value);
 }
 void DMA1_stream6_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 5, state);
 }
 void DMA1_stream6_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 4, state);
 }
 void DMA1_stream6_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 3, state);
 }
 void DMA1_stream6_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 2, state);
 }
 void DMA1_stream6_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 1, state);
 }
 void DMA1_stream6_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream6->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM6 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream6_cr_inic(void)
@@ -1344,79 +1344,79 @@ void stm32fxxx_dma1_stream6_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM7 CR
 void DMA1_stream7_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 3, 25, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 3, 25, value);
 }
 void DMA1_stream7_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 23, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 23, value);
 }
 void DMA1_stream7_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 21, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 21, value);
 }
 void DMA1_stream7_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 19, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 19, state);
 }
 void DMA1_stream7_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 18, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 18, state);
 }
 void DMA1_stream7_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 16, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 16, value);
 }
 void DMA1_stream7_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 15, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 15, state);
 }
 void DMA1_stream7_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 13, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 13, value);
 }
 void DMA1_stream7_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 11, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 11, value);
 }
 void DMA1_stream7_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 10, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 10, state);
 }
 void DMA1_stream7_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 9, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 9, state);
 }
 void DMA1_stream7_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 8, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 8, state);
 }
 void DMA1_stream7_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->CR, 2, 7, value);
+	exe()->write_block_value(&DMA1_Stream7->CR, 2, 7, value);
 }
 void DMA1_stream7_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 5, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 5, state);
 }
 void DMA1_stream7_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 4, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 4, state);
 }
 void DMA1_stream7_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 3, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 3, state);
 }
 void DMA1_stream7_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 2, state);
 }
 void DMA1_stream7_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 1, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 1, state);
 }
 void DMA1_stream7_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->CR, 1, 0, state);
+	exe()->write_block_value(&DMA1_Stream7->CR, 1, 0, state);
 }
 /*** Inic DMA1 STREAM7 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma1_stream7_cr_inic(void)
@@ -1464,19 +1464,19 @@ void stm32fxxx_dma1_stream7_m1a(volatile uint32_t mem1_addr)
 // DMA1 STREAM0 FCR
 void DMA1_stream0_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream0->FCR, 1, 7, state);
 }
 void DMA1_stream0_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream0->FCR, 3, 3, value);
 }
 void DMA1_stream0_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream0->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream0->FCR, 1, 2, state);
 }
 void DMA1_stream0_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream0->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream0->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM0 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream0_fcr_inic(void)
@@ -1492,19 +1492,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream0_fcr_inic(void)
 // DMA1 STREAM1 FCR
 void DMA1_stream1_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream1->FCR, 1, 7, state);
 }
 void DMA1_stream1_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream1->FCR, 3, 3, value);
 }
 void DMA1_stream1_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream1->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream1->FCR, 1, 2, state);
 }
 void DMA1_stream1_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream1->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream1->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM1 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream1_fcr_inic(void)
@@ -1520,19 +1520,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream1_fcr_inic(void)
 // DMA1 STREAM2 FCR
 void DMA1_stream2_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream2->FCR, 1, 7, state);
 }
 void DMA1_stream2_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream2->FCR, 3, 3, value);
 }
 void DMA1_stream2_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream2->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream2->FCR, 1, 2, state);
 }
 void DMA1_stream2_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream2->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream2->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM2 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream2_fcr_inic(void)
@@ -1548,19 +1548,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream2_fcr_inic(void)
 // DMA1 STREAM3 FCR
 void DMA1_stream3_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream3->FCR, 1, 7, state);
 }
 void DMA1_stream3_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream3->FCR, 3, 3, value);
 }
 void DMA1_stream3_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream3->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream3->FCR, 1, 2, state);
 }
 void DMA1_stream3_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream3->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream3->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM3 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream3_fcr_inic(void)
@@ -1576,19 +1576,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream3_fcr_inic(void)
 // DMA1 STREAM4 FCR
 void DMA1_stream4_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream4->FCR, 1, 7, state);
 }
 void DMA1_stream4_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream4->FCR, 3, 3, value);
 }
 void DMA1_stream4_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream4->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream4->FCR, 1, 2, state);
 }
 void DMA1_stream4_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream4->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream4->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM4 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream4_fcr_inic(void)
@@ -1604,19 +1604,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream4_fcr_inic(void)
 // DMA1 STREAM5 FCR
 void DMA1_stream5_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream5->FCR, 1, 7, state);
 }
 void DMA1_stream5_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream5->FCR, 3, 3, value);
 }
 void DMA1_stream5_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream5->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream5->FCR, 1, 2, state);
 }
 void DMA1_stream5_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream5->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream5->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM5 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream5_fcr_inic(void)
@@ -1632,19 +1632,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream5_fcr_inic(void)
 // DMA1 STREAM6 FCR
 void DMA1_stream6_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream6->FCR, 1, 7, state);
 }
 void DMA1_stream6_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream6->FCR, 3, 3, value);
 }
 void DMA1_stream6_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream6->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream6->FCR, 1, 2, state);
 }
 void DMA1_stream6_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream6->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream6->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM6 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream6_fcr_inic(void)
@@ -1660,19 +1660,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream6_fcr_inic(void)
 // DMA1 STREAM0 FCR
 void DMA1_stream7_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA1_Stream7->FCR, 1, 7, state);
 }
 void DMA1_stream7_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA1_Stream7->FCR, 3, 3, value);
 }
 void DMA1_stream7_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA1_Stream7->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA1_Stream7->FCR, 1, 2, state);
 }
 void DMA1_stream7_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA1_Stream7->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA1_Stream7->FCR, 2, 0, value);
 }
 /*** Inic DMA1 STREAM7 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream7_fcr_inic(void)
@@ -1688,7 +1688,7 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma1_stream7_fcr_inic(void)
 /*** FUNC ***/
 void dma1_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t stream_n, uint8_t channel_n, uint16_t quant_d, uint8_t p_size, uint8_t m_size, uint8_t priority, uint8_t dir)
 {
-	set_reg_block(&RCC->AHB1ENR, 1, 22, 1);
+	exe()->write_block_value(&RCC->AHB1ENR, 1, 22, 1);
 	// Filter to Default
 	if(stream_n > 7){ stream_n = 0;}
 	if(channel_n > 7){ channel_n = 0;}
@@ -1697,28 +1697,28 @@ void dma1_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t
 	if(priority > 3){ priority = 0;}
 	if( p_addr && m_addr ){
 		/*** Verify Ready for Parameter ***/
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 0, 0);
-		for(time_out = 200; get_reg_block((DMA1_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 0, 0);
+		for(time_out = 200; exe()->get_block_value((DMA1_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
 		/*** Parameter Configure ***/
 		(DMA1_Stream0 + stream_n)->PAR = (volatile uint32_t) p_addr;
 		(DMA1_Stream0 + stream_n)->M0AR = (volatile uint32_t) m_addr;
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
 		(DMA1_Stream0 + stream_n)->NDTR = quant_d; //
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 2, 13, m_size); // msize 2 -> 32bit
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 2, 11, p_size); // psize 1 -> 16bit
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 2, 16, priority); // priority
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 2, 13, m_size); // msize 2 -> 32bit
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 2, 11, p_size); // psize 1 -> 16bit
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 2, 16, priority); // priority
 		if(dir){
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 2, 6, 1); // DIR
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 9, 1); // PINC
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 10, 0); // MINC
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 2, 6, 1); // DIR
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 9, 1); // PINC
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 10, 0); // MINC
 		}else{
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 2, 6, 0); // DIR
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 9, 0); // PINC
-			set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 10, 1); // MINC
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 2, 6, 0); // DIR
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 9, 0); // PINC
+			exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 10, 1); // MINC
 		}
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 8, 1); // CIRC
-		set_reg_block(&(DMA1_Stream0 + stream_n)->CR, 1, 0, 1); // ENABLE
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 8, 1); // CIRC
+		exe()->write_block_value(&(DMA1_Stream0 + stream_n)->CR, 1, 0, 1); // ENABLE
 	}
 }
 /*** Inic FUNC ***/
@@ -1809,28 +1809,28 @@ uint8_t DMA2_sr_tcif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA2->LISR, 1, 5);
+			value = exe()->get_block_value(DMA2->LISR, 1, 5);
 		break;
 		case 1:
-			value = get_reg_block(DMA2->LISR, 1, 11);
+			value = exe()->get_block_value(DMA2->LISR, 1, 11);
 		break;
 		case 2:
-			value = get_reg_block(DMA2->LISR, 1, 21);
+			value = exe()->get_block_value(DMA2->LISR, 1, 21);
 		break;
 		case 3:
-			value = get_reg_block(DMA2->LISR, 1, 27);
+			value = exe()->get_block_value(DMA2->LISR, 1, 27);
 		break;
 		case 4:
-			value = get_reg_block(DMA2->HISR, 1, 5);
+			value = exe()->get_block_value(DMA2->HISR, 1, 5);
 		break;
 		case 5:
-			value = get_reg_block(DMA2->HISR, 1, 11);
+			value = exe()->get_block_value(DMA2->HISR, 1, 11);
 		break;
 		case 6:
-			value = get_reg_block(DMA2->HISR, 1, 21);
+			value = exe()->get_block_value(DMA2->HISR, 1, 21);
 		break;
 		case 7:
-			value = get_reg_block(DMA2->HISR, 1, 27);
+			value = exe()->get_block_value(DMA2->HISR, 1, 27);
 		break;
 	default: break;
 	}
@@ -1840,28 +1840,28 @@ void DMA2_sr_clear_tcif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA2->LIFCR, 1, 5, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 5, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA2->LIFCR, 1, 11, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 11, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA2->LIFCR, 1, 21, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 21, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA2->LIFCR, 1, 27, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 27, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA2->HIFCR, 1, 5, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 5, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA2->HIFCR, 1, 11, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 11, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA2->HIFCR, 1, 21, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 21, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA2->HIFCR, 1, 27, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 27, 1);
 		break;
 		default: break;
 	}
@@ -1871,28 +1871,28 @@ uint8_t DMA2_sr_htif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA2->LISR, 1, 4);
+			value = exe()->get_block_value(DMA2->LISR, 1, 4);
 		break;
 		case 1:
-			value = get_reg_block(DMA2->LISR, 1, 10);
+			value = exe()->get_block_value(DMA2->LISR, 1, 10);
 		break;
 		case 2:
-			value = get_reg_block(DMA2->LISR, 1, 20);
+			value = exe()->get_block_value(DMA2->LISR, 1, 20);
 		break;
 		case 3:
-			value = get_reg_block(DMA2->LISR, 1, 26);
+			value = exe()->get_block_value(DMA2->LISR, 1, 26);
 		break;
 		case 4:
-			value = get_reg_block(DMA2->HISR, 1, 4);
+			value = exe()->get_block_value(DMA2->HISR, 1, 4);
 		break;
 		case 5:
-			value = get_reg_block(DMA2->HISR, 1, 10);
+			value = exe()->get_block_value(DMA2->HISR, 1, 10);
 		break;
 		case 6:
-			value = get_reg_block(DMA2->HISR, 1, 20);
+			value = exe()->get_block_value(DMA2->HISR, 1, 20);
 		break;
 		case 7:
-			value = get_reg_block(DMA2->HISR, 1, 26);
+			value = exe()->get_block_value(DMA2->HISR, 1, 26);
 		break;
 	default: break;
 	}
@@ -1902,28 +1902,28 @@ void DMA2_sr_clear_htif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA2->LIFCR, 1, 4, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 4, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA2->LIFCR, 1, 10, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 10, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA2->LIFCR, 1, 20, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 20, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA2->LIFCR, 1, 26, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 26, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA2->HIFCR, 1, 4, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 4, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA2->HIFCR, 1, 10, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 10, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA2->HIFCR, 1, 20, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 20, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA2->HIFCR, 1, 26, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 26, 1);
 		break;
 		default: break;
 	}
@@ -1933,28 +1933,28 @@ uint8_t DMA2_sr_teif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA2->LISR, 1, 3);
+			value = exe()->get_block_value(DMA2->LISR, 1, 3);
 		break;
 		case 1:
-			value = get_reg_block(DMA2->LISR, 1, 9);
+			value = exe()->get_block_value(DMA2->LISR, 1, 9);
 		break;
 		case 2:
-			value = get_reg_block(DMA2->LISR, 1, 19);
+			value = exe()->get_block_value(DMA2->LISR, 1, 19);
 		break;
 		case 3:
-			value = get_reg_block(DMA2->LISR, 1, 25);
+			value = exe()->get_block_value(DMA2->LISR, 1, 25);
 		break;
 		case 4:
-			value = get_reg_block(DMA2->HISR, 1, 3);
+			value = exe()->get_block_value(DMA2->HISR, 1, 3);
 		break;
 		case 5:
-			value = get_reg_block(DMA2->HISR, 1, 9);
+			value = exe()->get_block_value(DMA2->HISR, 1, 9);
 		break;
 		case 6:
-			value = get_reg_block(DMA2->HISR, 1, 19);
+			value = exe()->get_block_value(DMA2->HISR, 1, 19);
 		break;
 		case 7:
-			value = get_reg_block(DMA2->HISR, 1, 25);
+			value = exe()->get_block_value(DMA2->HISR, 1, 25);
 		break;
 	default: break;
 	}
@@ -1964,28 +1964,28 @@ void DMA2_sr_clear_teif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA2->LIFCR, 1, 3, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 3, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA2->LIFCR, 1, 9, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 9, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA2->LIFCR, 1, 19, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 19, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA2->LIFCR, 1, 25, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 25, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA2->HIFCR, 1, 3, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 3, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA2->HIFCR, 1, 9, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 9, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA2->HIFCR, 1, 19, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 19, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA2->HIFCR, 1, 25, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 25, 1);
 		break;
 		default: break;
 	}
@@ -1995,28 +1995,28 @@ uint8_t DMA2_sr_dmeif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA2->LISR, 1, 2);
+			value = exe()->get_block_value(DMA2->LISR, 1, 2);
 		break;
 		case 1:
-			value = get_reg_block(DMA2->LISR, 1, 8);
+			value = exe()->get_block_value(DMA2->LISR, 1, 8);
 		break;
 		case 2:
-			value = get_reg_block(DMA2->LISR, 1, 18);
+			value = exe()->get_block_value(DMA2->LISR, 1, 18);
 		break;
 		case 3:
-			value = get_reg_block(DMA2->LISR, 1, 24);
+			value = exe()->get_block_value(DMA2->LISR, 1, 24);
 		break;
 		case 4:
-			value = get_reg_block(DMA2->HISR, 1, 2);
+			value = exe()->get_block_value(DMA2->HISR, 1, 2);
 		break;
 		case 5:
-			value = get_reg_block(DMA2->HISR, 1, 8);
+			value = exe()->get_block_value(DMA2->HISR, 1, 8);
 		break;
 		case 6:
-			value = get_reg_block(DMA2->HISR, 1, 18);
+			value = exe()->get_block_value(DMA2->HISR, 1, 18);
 		break;
 		case 7:
-			value = get_reg_block(DMA2->HISR, 1, 24);
+			value = exe()->get_block_value(DMA2->HISR, 1, 24);
 		break;
 	default: break;
 	}
@@ -2026,28 +2026,28 @@ void DMA2_sr_clear_dmeif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA2->LIFCR, 1, 2, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 2, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA2->LIFCR, 1, 8, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 8, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA2->LIFCR, 1, 18, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 18, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA2->LIFCR, 1, 24, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 24, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA2->HIFCR, 1, 2, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 2, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA2->HIFCR, 1, 8, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 8, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA2->HIFCR, 1, 18, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 18, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA2->HIFCR, 1, 24, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 24, 1);
 		break;
 		default: break;
 	}
@@ -2057,28 +2057,28 @@ uint8_t DMA2_sr_feif(uint8_t stream_n)
 	uint8_t value = 0;
 	switch(stream_n){
 		case 0:
-			value = get_reg_block(DMA2->LISR, 1, 0);
+			value = exe()->get_block_value(DMA2->LISR, 1, 0);
 		break;
 		case 1:
-			value = get_reg_block(DMA2->LISR, 1, 6);
+			value = exe()->get_block_value(DMA2->LISR, 1, 6);
 		break;
 		case 2:
-			value = get_reg_block(DMA2->LISR, 1, 16);
+			value = exe()->get_block_value(DMA2->LISR, 1, 16);
 		break;
 		case 3:
-			value = get_reg_block(DMA2->LISR, 1, 22);
+			value = exe()->get_block_value(DMA2->LISR, 1, 22);
 		break;
 		case 4:
-			value = get_reg_block(DMA2->HISR, 1, 0);
+			value = exe()->get_block_value(DMA2->HISR, 1, 0);
 		break;
 		case 5:
-			value = get_reg_block(DMA2->HISR, 1, 6);
+			value = exe()->get_block_value(DMA2->HISR, 1, 6);
 		break;
 		case 6:
-			value = get_reg_block(DMA2->HISR, 1, 16);
+			value = exe()->get_block_value(DMA2->HISR, 1, 16);
 		break;
 		case 7:
-			value = get_reg_block(DMA2->HISR, 1, 22);
+			value = exe()->get_block_value(DMA2->HISR, 1, 22);
 		break;
 	default: break;
 	}
@@ -2088,28 +2088,28 @@ void DMA2_sr_clear_feif(uint8_t stream_n)
 {
 	switch(stream_n){
 		case 0:
-			set_reg_block(&DMA2->LIFCR, 1, 0, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 0, 1);
 		break;
 		case 1:
-			set_reg_block(&DMA2->LIFCR, 1, 6, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 6, 1);
 		break;
 		case 2:
-			set_reg_block(&DMA2->LIFCR, 1, 16, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 16, 1);
 		break;
 		case 3:
-			set_reg_block(&DMA2->LIFCR, 1, 22, 1);
+			exe()->write_block_value(&DMA2->LIFCR, 1, 22, 1);
 		break;
 		case 4:
-			set_reg_block(&DMA2->HIFCR, 1, 0, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 0, 1);
 		break;
 		case 5:
-			set_reg_block(&DMA2->HIFCR, 1, 6, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 6, 1);
 		break;
 		case 6:
-			set_reg_block(&DMA2->HIFCR, 1, 16, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 16, 1);
 		break;
 		case 7:
-			set_reg_block(&DMA2->HIFCR, 1, 22, 1);
+			exe()->write_block_value(&DMA2->HIFCR, 1, 22, 1);
 		break;
 		default: break;
 	}
@@ -2134,79 +2134,79 @@ STM32FXXX_DMA_sr* stm32fxxx_dma2_sr_inic(void)
 // DMA2 STREAM0 CR
 void DMA2_stream0_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 3, 25, value);
 }
 void DMA2_stream0_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 23, value);
 }
 void DMA2_stream0_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 21, value);
 }
 void DMA2_stream0_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 19, state);
 }
 void DMA2_stream0_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 18, state);
 }
 void DMA2_stream0_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 16, value);
 }
 void DMA2_stream0_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 15, state);
 }
 void DMA2_stream0_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 13, value);
 }
 void DMA2_stream0_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 11, value);
 }
 void DMA2_stream0_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 10, state);
 }
 void DMA2_stream0_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 9, state);
 }
 void DMA2_stream0_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 8, state);
 }
 void DMA2_stream0_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream0->CR, 2, 7, value);
 }
 void DMA2_stream0_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 5, state);
 }
 void DMA2_stream0_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 4, state);
 }
 void DMA2_stream0_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 3, state);
 }
 void DMA2_stream0_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 2, state);
 }
 void DMA2_stream0_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 1, state);
 }
 void DMA2_stream0_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream0->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM0 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream0_cr_inic(void)
@@ -2254,79 +2254,79 @@ void stm32fxxx_dma2_stream0_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM1 CR
 void DMA2_stream1_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 3, 25, value);
 }
 void DMA2_stream1_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 23, value);
 }
 void DMA2_stream1_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 21, value);
 }
 void DMA2_stream1_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 19, state);
 }
 void DMA2_stream1_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 18, state);
 }
 void DMA2_stream1_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 16, value);
 }
 void DMA2_stream1_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 15, state);
 }
 void DMA2_stream1_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 13, value);
 }
 void DMA2_stream1_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 11, value);
 }
 void DMA2_stream1_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 10, state);
 }
 void DMA2_stream1_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 9, state);
 }
 void DMA2_stream1_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 8, state);
 }
 void DMA2_stream1_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream1->CR, 2, 7, value);
 }
 void DMA2_stream1_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 5, state);
 }
 void DMA2_stream1_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 4, state);
 }
 void DMA2_stream1_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 3, state);
 }
 void DMA2_stream1_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 2, state);
 }
 void DMA2_stream1_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 1, state);
 }
 void DMA2_stream1_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream1->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM1 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream1_cr_inic(void)
@@ -2374,79 +2374,79 @@ void stm32fxxx_dma2_stream1_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM2 CR
 void DMA2_stream2_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 3, 25, value);
 }
 void DMA2_stream2_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 23, value);
 }
 void DMA2_stream2_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 21, value);
 }
 void DMA2_stream2_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 19, state);
 }
 void DMA2_stream2_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 18, state);
 }
 void DMA2_stream2_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 16, value);
 }
 void DMA2_stream2_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 15, state);
 }
 void DMA2_stream2_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 13, value);
 }
 void DMA2_stream2_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 11, value);
 }
 void DMA2_stream2_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 10, state);
 }
 void DMA2_stream2_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 9, state);
 }
 void DMA2_stream2_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 8, state);
 }
 void DMA2_stream2_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream2->CR, 2, 7, value);
 }
 void DMA2_stream2_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 5, state);
 }
 void DMA2_stream2_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 4, state);
 }
 void DMA2_stream2_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 3, state);
 }
 void DMA2_stream2_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 2, state);
 }
 void DMA2_stream2_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 1, state);
 }
 void DMA2_stream2_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream2->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM2 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream2_cr_inic(void)
@@ -2494,79 +2494,79 @@ void stm32fxxx_dma2_stream2_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM3 CR
 void DMA2_stream3_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 3, 25, value);
 }
 void DMA2_stream3_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 23, value);
 }
 void DMA2_stream3_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 21, value);
 }
 void DMA2_stream3_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 19, state);
 }
 void DMA2_stream3_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 18, state);
 }
 void DMA2_stream3_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 16, value);
 }
 void DMA2_stream3_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 15, state);
 }
 void DMA2_stream3_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 13, value);
 }
 void DMA2_stream3_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 11, value);
 }
 void DMA2_stream3_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 10, state);
 }
 void DMA2_stream3_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 9, state);
 }
 void DMA2_stream3_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 8, state);
 }
 void DMA2_stream3_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream3->CR, 2, 7, value);
 }
 void DMA2_stream3_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 5, state);
 }
 void DMA2_stream3_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 4, state);
 }
 void DMA2_stream3_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 3, state);
 }
 void DMA2_stream3_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 2, state);
 }
 void DMA2_stream3_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 1, state);
 }
 void DMA2_stream3_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream3->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM3 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream3_cr_inic(void)
@@ -2614,79 +2614,79 @@ void stm32fxxx_dma2_stream3_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM4 CR
 void DMA2_stream4_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 3, 25, value);
 }
 void DMA2_stream4_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 23, value);
 }
 void DMA2_stream4_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 21, value);
 }
 void DMA2_stream4_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 19, state);
 }
 void DMA2_stream4_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 18, state);
 }
 void DMA2_stream4_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 16, value);
 }
 void DMA2_stream4_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 15, state);
 }
 void DMA2_stream4_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 13, value);
 }
 void DMA2_stream4_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 11, value);
 }
 void DMA2_stream4_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 10, state);
 }
 void DMA2_stream4_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 9, state);
 }
 void DMA2_stream4_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 8, state);
 }
 void DMA2_stream4_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream4->CR, 2, 7, value);
 }
 void DMA2_stream4_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 5, state);
 }
 void DMA2_stream4_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 4, state);
 }
 void DMA2_stream4_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 3, state);
 }
 void DMA2_stream4_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 2, state);
 }
 void DMA2_stream4_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 1, state);
 }
 void DMA2_stream4_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream4->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM4 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream4_cr_inic(void)
@@ -2734,79 +2734,79 @@ void stm32fxxx_dma2_stream4_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM5 CR
 void DMA2_stream5_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 3, 25, value);
 }
 void DMA2_stream5_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 23, value);
 }
 void DMA2_stream5_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 21, value);
 }
 void DMA2_stream5_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 19, state);
 }
 void DMA2_stream5_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 18, state);
 }
 void DMA2_stream5_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 16, value);
 }
 void DMA2_stream5_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 15, state);
 }
 void DMA2_stream5_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 13, value);
 }
 void DMA2_stream5_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 11, value);
 }
 void DMA2_stream5_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 10, state);
 }
 void DMA2_stream5_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 9, state);
 }
 void DMA2_stream5_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 8, state);
 }
 void DMA2_stream5_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream5->CR, 2, 7, value);
 }
 void DMA2_stream5_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 5, state);
 }
 void DMA2_stream5_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 4, state);
 }
 void DMA2_stream5_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 3, state);
 }
 void DMA2_stream5_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 2, state);
 }
 void DMA2_stream5_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 1, state);
 }
 void DMA2_stream5_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream5->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM5 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream5_cr_inic(void)
@@ -2854,79 +2854,79 @@ void stm32fxxx_dma2_stream5_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM6 CR
 void DMA2_stream6_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 3, 25, value);
 }
 void DMA2_stream6_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 23, value);
 }
 void DMA2_stream6_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 21, value);
 }
 void DMA2_stream6_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 19, state);
 }
 void DMA2_stream6_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 18, state);
 }
 void DMA2_stream6_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 16, value);
 }
 void DMA2_stream6_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 15, state);
 }
 void DMA2_stream6_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 13, value);
 }
 void DMA2_stream6_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 11, value);
 }
 void DMA2_stream6_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 10, state);
 }
 void DMA2_stream6_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 9, state);
 }
 void DMA2_stream6_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 8, state);
 }
 void DMA2_stream6_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream6->CR, 2, 7, value);
 }
 void DMA2_stream6_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 5, state);
 }
 void DMA2_stream6_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 4, state);
 }
 void DMA2_stream6_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 3, state);
 }
 void DMA2_stream6_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 2, state);
 }
 void DMA2_stream6_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 1, state);
 }
 void DMA2_stream6_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream6->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM6 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream6_cr_inic(void)
@@ -2974,79 +2974,79 @@ void stm32fxxx_dma2_stream6_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM7 CR
 void DMA2_stream7_cr_chsel(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 3, 25, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 3, 25, value);
 }
 void DMA2_stream7_cr_mburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 23, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 23, value);
 }
 void DMA2_stream7_cr_pburst(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 21, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 21, value);
 }
 void DMA2_stream7_cr_ct(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 19, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 19, state);
 }
 void DMA2_stream7_cr_dbm(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 18, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 18, state);
 }
 void DMA2_stream7_cr_pl(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 16, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 16, value);
 }
 void DMA2_stream7_cr_pincos(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 15, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 15, state);
 }
 void DMA2_stream7_cr_msize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 13, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 13, value);
 }
 void DMA2_stream7_cr_psize(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 11, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 11, value);
 }
 void DMA2_stream7_cr_minc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 10, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 10, state);
 }
 void DMA2_stream7_cr_pinc(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 9, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 9, state);
 }
 void DMA2_stream7_cr_circ(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 8, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 8, state);
 }
 void DMA2_stream7_cr_dir(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->CR, 2, 7, value);
+	exe()->write_block_value(&DMA2_Stream7->CR, 2, 7, value);
 }
 void DMA2_stream7_cr_pfctrl(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 5, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 5, state);
 }
 void DMA2_stream7_cr_tcie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 4, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 4, state);
 }
 void DMA2_stream7_cr_htie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 3, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 3, state);
 }
 void DMA2_stream7_cr_teie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 2, state);
 }
 void DMA2_stream7_cr_dmeie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 1, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 1, state);
 }
 void DMA2_stream7_cr_en(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->CR, 1, 0, state);
+	exe()->write_block_value(&DMA2_Stream7->CR, 1, 0, state);
 }
 /*** Inic DMA2 STREAM7 CR ***/
 STM32FXXX_DMA_STREAM_cr* stm32fxxx_dma2_stream7_cr_inic(void)
@@ -3094,19 +3094,19 @@ void stm32fxxx_dma2_stream7_m1a(volatile uint32_t mem1_addr)
 // DMA2 STREAM0 FCR
 void DMA2_stream0_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream0->FCR, 1, 7, state);
 }
 void DMA2_stream0_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream0->FCR, 3, 3, value);
 }
 void DMA2_stream0_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream0->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream0->FCR, 1, 2, state);
 }
 void DMA2_stream0_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream0->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream0->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM0 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream0_fcr_inic(void)
@@ -3122,19 +3122,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream0_fcr_inic(void)
 // DMA2 STREAM1 FCR
 void DMA2_stream1_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream1->FCR, 1, 7, state);
 }
 void DMA2_stream1_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream1->FCR, 3, 3, value);
 }
 void DMA2_stream1_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream1->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream1->FCR, 1, 2, state);
 }
 void DMA2_stream1_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream1->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream1->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM1 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream1_fcr_inic(void)
@@ -3150,19 +3150,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream1_fcr_inic(void)
 // DMA2 STREAM2 FCR
 void DMA2_stream2_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream2->FCR, 1, 7, state);
 }
 void DMA2_stream2_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream2->FCR, 3, 3, value);
 }
 void DMA2_stream2_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream2->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream2->FCR, 1, 2, state);
 }
 void DMA2_stream2_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream2->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream2->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM2 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream2_fcr_inic(void)
@@ -3178,19 +3178,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream2_fcr_inic(void)
 // DMA2 STREAM3 FCR
 void DMA2_stream3_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream3->FCR, 1, 7, state);
 }
 void DMA2_stream3_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream3->FCR, 3, 3, value);
 }
 void DMA2_stream3_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream3->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream3->FCR, 1, 2, state);
 }
 void DMA2_stream3_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream3->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream3->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM3 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream3_fcr_inic(void)
@@ -3206,19 +3206,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream3_fcr_inic(void)
 // DMA1 STREAM4 FCR
 void DMA2_stream4_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream4->FCR, 1, 7, state);
 }
 void DMA2_stream4_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream4->FCR, 3, 3, value);
 }
 void DMA2_stream4_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream4->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream4->FCR, 1, 2, state);
 }
 void DMA2_stream4_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream4->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream4->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM4 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream4_fcr_inic(void)
@@ -3234,19 +3234,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream4_fcr_inic(void)
 // DMA1 STREAM5 FCR
 void DMA2_stream5_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream5->FCR, 1, 7, state);
 }
 void DMA2_stream5_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream5->FCR, 3, 3, value);
 }
 void DMA2_stream5_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream5->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream5->FCR, 1, 2, state);
 }
 void DMA2_stream5_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream5->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream5->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM5 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream5_fcr_inic(void)
@@ -3262,19 +3262,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream5_fcr_inic(void)
 // DMA1 STREAM6 FCR
 void DMA2_stream6_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream6->FCR, 1, 7, state);
 }
 void DMA2_stream6_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream6->FCR, 3, 3, value);
 }
 void DMA2_stream6_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream6->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream6->FCR, 1, 2, state);
 }
 void DMA2_stream6_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream6->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream6->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM6 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream6_fcr_inic(void)
@@ -3290,19 +3290,19 @@ STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream6_fcr_inic(void)
 // DMA2 STREAM0 FCR
 void DMA2_stream7_fcr_feie(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->FCR, 1, 7, state);
+	exe()->write_block_value(&DMA2_Stream7->FCR, 1, 7, state);
 }
 void DMA2_stream7_fcr_fs(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->FCR, 3, 3, value);
+	exe()->write_block_value(&DMA2_Stream7->FCR, 3, 3, value);
 }
 void DMA2_stream7_fcr_dmdis(uint8_t state)
 {
-	set_reg_block(&DMA2_Stream7->FCR, 1, 2, state);
+	exe()->write_block_value(&DMA2_Stream7->FCR, 1, 2, state);
 }
 void DMA2_stream7_fcr_fth(uint8_t value)
 {
-	set_reg_block(&DMA2_Stream7->FCR, 2, 0, value);
+	exe()->write_block_value(&DMA2_Stream7->FCR, 2, 0, value);
 }
 /*** Inic DMA2 STREAM7 FCR ***/
 STM32FXXX_DMA_STREAM_fcr* stm32fxxx_dma2_stream7_fcr_inic(void)
@@ -3326,28 +3326,28 @@ void dma2_circ_cfg(volatile uint32_t* p_addr, volatile uint32_t* m_addr, uint8_t
 	if(priority > 3){ priority = 0;}
 	if( p_addr && m_addr ){
 		/*** Verify Ready for Parameter ***/
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 0, 0);
-		for(time_out = 200; get_reg_block((DMA2_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 0, 0);
+		for(time_out = 200; exe()->get_block_value((DMA2_Stream0 + stream_n)->CR, 1, 0) && time_out; time_out--);
 		/*** Parameter Configure ***/
 		(DMA2_Stream0 + stream_n)->PAR = (volatile uint32_t) p_addr;
 		(DMA2_Stream0 + stream_n)->M0AR = (volatile uint32_t) m_addr;
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 5, 0); // 0 -> dma, 1 -> peri
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 3, 25, channel_n); // channel
 		(DMA2_Stream0 + stream_n)->NDTR = quant_d; //
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 2, 13, m_size); // msize 2 -> 32bit
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 2, 11, p_size); // psize 1 -> 16bit
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 2, 16, priority); // priority
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 2, 13, m_size); // msize 2 -> 32bit
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 2, 11, p_size); // psize 1 -> 16bit
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 2, 16, priority); // priority
 		if(dir){
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 2, 6, 1); // DIR
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 9, 1); // PINC
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 10, 0); // MINC
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 2, 6, 1); // DIR
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 9, 1); // PINC
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 10, 0); // MINC
 		}else{
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 2, 6, 0); // DIR
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 9, 0); // PINC
-			set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 10, 1); // MINC
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 2, 6, 0); // DIR
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 9, 0); // PINC
+			exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 10, 1); // MINC
 		}
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 8, 1); // CIRC
-		set_reg_block(&(DMA2_Stream0 + stream_n)->CR, 1, 0, 1); // ENABLE
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 8, 1); // CIRC
+		exe()->write_block_value(&(DMA2_Stream0 + stream_n)->CR, 1, 0, 1); // ENABLE
 	}
 }
 /*** Inic FUNC ***/

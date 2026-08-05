@@ -16,115 +16,115 @@ Comment:
 // memrmp
 void SYSCFG_memrmp_swp_fmc(uint8_t value)
 {
-	set_reg_block(&SYSCFG->MEMRMP, 2, 10, value);
+	exe()->write_block_value(&SYSCFG->MEMRMP, 2, 10, value);
 }
 void SYSCFG_memrmp_mem_mode(uint8_t value)
 {
-	set_reg_block(&SYSCFG->MEMRMP, 3, 0, value);
+	exe()->write_block_value(&SYSCFG->MEMRMP, 3, 0, value);
 }
 // pmc
 void SYSCFG_pmc_adcxdc2(uint8_t value)
 {
-	set_reg_block(&SYSCFG->PMC, 3, 16, value);
+	exe()->write_block_value(&SYSCFG->PMC, 3, 16, value);
 }
 void SYSCFG_pmc_adc1dc2(uint8_t state)
 {
-	set_reg_block(&SYSCFG->PMC, 1, 16, state);
+	exe()->write_block_value(&SYSCFG->PMC, 1, 16, state);
 }
 void SYSCFG_pmc_adc2dc2(uint8_t state)
 {
-	set_reg_block(&SYSCFG->PMC, 1, 17, state);
+	exe()->write_block_value(&SYSCFG->PMC, 1, 17, state);
 }
 void SYSCFG_pmc_adc3dc2(uint8_t state)
 {
-	set_reg_block(&SYSCFG->PMC, 1, 18, state);
+	exe()->write_block_value(&SYSCFG->PMC, 1, 18, state);
 }
 // exticr1
 void SYSCFG_exticr1_exti3(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[0], 4, 12, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[0], 4, 12, value);
 }
 void SYSCFG_exticr1_exti2(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[0], 4, 8, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[0], 4, 8, value);
 }
 void SYSCFG_exticr1_exti1(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[0], 4, 4, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[0], 4, 4, value);
 }
 void SYSCFG_exticr1_exti0(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[0], 4, 0, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[0], 4, 0, value);
 }
 // exticr2
 void SYSCFG_exticr2_exti7(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[1], 4, 12, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[1], 4, 12, value);
 }
 void SYSCFG_exticr2_exti6(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[1], 4, 8, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[1], 4, 8, value);
 }
 void SYSCFG_exticr2_exti5(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[1], 4, 4, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[1], 4, 4, value);
 }
 void SYSCFG_exticr2_exti4(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[1], 4, 0, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[1], 4, 0, value);
 }
 // exticr3
 void SYSCFG_exticr3_exti11(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[2], 4, 12, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[2], 4, 12, value);
 }
 void SYSCFG_exticr3_exti10(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[2], 4, 8, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[2], 4, 8, value);
 }
 void SYSCFG_exticr3_exti9(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[2], 4, 4, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[2], 4, 4, value);
 }
 void SYSCFG_exticr3_exti8(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[2], 4, 0, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[2], 4, 0, value);
 }
 // exticr4
 void SYSCFG_exticr4_exti15(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[3], 4, 12, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[3], 4, 12, value);
 }
 void SYSCFG_exticr4_exti14(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[3], 4, 8, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[3], 4, 8, value);
 }
 void SYSCFG_exticr4_exti13(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[3], 4, 4, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[3], 4, 4, value);
 }
 void SYSCFG_exticr4_exti12(uint8_t value)
 {
-	set_reg_block(&SYSCFG->EXTICR[3], 4, 0, value);
+	exe()->write_block_value(&SYSCFG->EXTICR[3], 4, 0, value);
 }
 // cmpcr
 uint8_t SYSCFG_cmpcr_ready(void)
 {
-	return get_reg_block(SYSCFG->CMPCR, 1, 8);
+	return exe()->get_block_value(SYSCFG->CMPCR, 1, 8);
 }
 void SYSCFG_cmpcr_cmp_pd(uint8_t state)
 {
-	set_reg_block(&SYSCFG->CMPCR, 1, 0, state);
+	exe()->write_block_value(&SYSCFG->CMPCR, 1, 0, state);
 }
 // cfgr
 #ifdef STM32F446xx
 void SYSCFG_cfgr_fmpi2c1_sda(uint8_t state)
 {
-	set_reg_block(&SYSCFG->CFGR, 1, 1, state);
+	exe()->write_block_value(&SYSCFG->CFGR, 1, 1, state);
 }
 void SYSCFG_cfgr_fmpi2c1_scl(uint8_t state)
 {
-	set_reg_block(&SYSCFG->CFGR, 1, 0, state);
+	exe()->write_block_value(&SYSCFG->CFGR, 1, 0, state);
 }
 #endif
 /***********************************************/

@@ -28,12 +28,12 @@ static volatile uint16_t ADC1_Injected_Channel[19] = {0};
 /*** ADC1 ***/
 void ADC1_Clock(uint8_t state)
 {
-	if(state){ set_reg_Msk(&RCC->APB2ENR , RCC_APB2ENR_ADC1EN_Msk, 1); }
-	else{ set_reg_Msk(&RCC->APB2ENR , RCC_APB2ENR_ADC1EN_Msk, 0); }
+	if(state){ exe()->write_field_value(&RCC->APB2ENR , RCC_APB2ENR_ADC1EN_Msk, RCC_APB2ENR_ADC1EN_Pos,1); }
+	else{ exe()->write_field_value(&RCC->APB2ENR , RCC_APB2ENR_ADC1EN_Msk, RCC_APB2ENR_ADC1EN_Pos,0); }
 
 }
 void ADC1_Nvic(uint8_t state) {
-	if(state){ set_bit_block(NVIC->ISER, 1, ADC_IRQn, 1); } else{ set_bit_block(NVIC->ICER, 1, ADC_IRQn, 1); }
+	if(state){ exe()->write_bit_block_value(NVIC->ISER, 1, ADC_IRQn, 1); } else{ exe()->write_bit_block_value(NVIC->ICER, 1, ADC_IRQn, 1); }
 }
 
 /* helpers for tracking & stepping regular sequence */
@@ -90,15 +90,15 @@ static inline void adc_update_injected_result(ADC_TypeDef *adc, ADC_InjectTracke
 }
 
 /* simple start/wait helpers using CMSIS flags */
-static inline void adc_start_conversion(ADC_TypeDef *adc) { set_reg(&adc->CR2, ADC_CR2_SWSTART); /* cleared by hardware */ }
+static inline void adc_start_conversion(ADC_TypeDef *adc) { SET_BIT(adc->CR2, ADC_CR2_SWSTART); /* cleared by hardware */ }
 static inline void adc_wait_eoc(ADC_TypeDef *adc) {
-    for (volatile uint32_t timeout = ADC_EOC_TIMEOUT; !get_reg_Msk(adc->SR, ADC_SR_EOC) && timeout; timeout--);
-    //clear_reg(&adc->SR, ADC_SR_EOC); /* cleared by hardware */
+    for (volatile uint32_t timeout = ADC_EOC_TIMEOUT; !exe()->get_field_value(adc->SR, ADC_SR_EOC, ADC_SR_EOC_Pos) && timeout; timeout--);
+    //CLEAR_BIT(adc->SR, ADC_SR_EOC); /* cleared by hardware */
 }
 static inline void adc_start_injected(ADC_TypeDef *adc) { adc->CR2 |= ADC_CR2_JSWSTART; }
 static inline void adc_wait_jeoc(ADC_TypeDef *adc) {
-    for (volatile uint32_t timeout = ADC_JEOC_TIMEOUT; !get_reg_Msk(adc->SR, ADC_SR_JEOC) && timeout; timeout--);
-    //clear_reg(&adc->SR, ADC_SR_JEOC); /* cleared by hardware */
+    for (volatile uint32_t timeout = ADC_JEOC_TIMEOUT; !exe()->get_field_value(adc->SR, ADC_SR_JEOC, ADC_SR_JEOC_Pos) && timeout; timeout--);
+    //CLEAR_BIT(adc->SR, ADC_SR_JEOC); /* cleared by hardware */
 }
 
 void ADC1_Start_Conversion(void) {
@@ -110,65 +110,65 @@ void ADC1_Wait_End_Of_Conversion(void) {
 }
 
 void ADC1_Mode_Scan(uint8_t enable) {
-	if(enable) write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
-	else write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+	if(enable) exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+	else exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
 }
 
 void ADC1_Mode_Scan_Cont(uint8_t enable) {
 	if(enable) {
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
-		write_reg_block(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ONE);
 	}else{
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
-		write_reg_block(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR2, ONE, ADC_CR2_CONT_Pos, ZERO);
 	}
 }
 
 void ADC1_Mode_Discen(uint8_t enable) {
 	if(enable) {
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
 	}else{
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
 	}
 }
 
 void ADC1_Mode_Discen_Scan(uint8_t enable) {
 	if(enable) {
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
 	}else{
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
 	}
 }
 
 void ADC1_Mode_Discen_Discnum(uint8_t enable, uint8_t num) {
 	if(enable) {
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
-		write_reg_block(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
 	}else{
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
 	}
 }
 
 void ADC1_Mode_Discen_Discnum_Scan(uint8_t enable, uint8_t num) {
 	if(enable) {
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
-		write_reg_block(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ONE);
+		exe()->write_block_value(&ADC1->CR1, 3, ADC_CR1_DISCNUM_Pos, num & 0x07);
 	}else{
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
-		write_reg_block(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_DISCEN_Pos, ZERO);
+		exe()->write_block_value(&ADC1->CR1, ONE, ADC_CR1_SCAN_Pos, ZERO);
 	}
 }
 
 void ADC1_Start(void) {
-    set_reg_Msk(&ADC1->CR2, ADC_CR2_ADON, 1);
+    exe()->write_field_value(&ADC1->CR2, ADC_CR2_ADON, ADC_CR2_ADON_Pos,1);
     for (volatile uint8_t i = ADC_STAB_DELAY; i; i--);  // stabilization wait
 }
 
 void ADC1_Stop(void) {
-    clear_reg(&ADC1->CR2, ADC_CR2_ADON);
+    CLEAR_BIT(ADC1->CR2, ADC_CR2_ADON);
 }
 
 void ADC1_Temperature_Setup(void) {

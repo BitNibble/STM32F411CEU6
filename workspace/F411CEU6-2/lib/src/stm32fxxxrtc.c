@@ -63,16 +63,16 @@ void RTC_Clock(uint8_t state) {
 void RTC_NVIC(RTC_NVIC_config type) {
     switch(type) {
         case RTC_ENABLE_WAKEUP:
-            set_bit_block(NVIC->ISER, 1, RTC_WKUP_IRQn, 1);
+            exe()->write_bit_block_value(NVIC->ISER, 1, RTC_WKUP_IRQn, 1);
             break;
         case RTC_ENABLE_ALARM:
-            set_bit_block(NVIC->ISER, 1, RTC_Alarm_IRQn, 1);
+            exe()->write_bit_block_value(NVIC->ISER, 1, RTC_Alarm_IRQn, 1);
             break;
         case RTC_DISABLE_WAKEUP:
-            set_bit_block(NVIC->ICER, 1, RTC_WKUP_IRQn, 1);
+            exe()->write_bit_block_value(NVIC->ICER, 1, RTC_WKUP_IRQn, 1);
             break;
         case RTC_DISABLE_ALARM:
-            set_bit_block(NVIC->ICER, 1, RTC_Alarm_IRQn, 1);
+            exe()->write_bit_block_value(NVIC->ICER, 1, RTC_Alarm_IRQn, 1);
             break;
         default:
             // Optional: handle unexpected config value
@@ -162,7 +162,7 @@ void RTC_Bkp_write(uint8_t registerIndex, uint8_t data) {
     RTC_Write_enable();
 
     // Write data to the specified backup register
-    set_bit_block(&RTC->BKP0R, BYTE_BITS, (registerIndex * BYTE_BITS), data);
+    exe()->write_bit_block_value(&RTC->BKP0R, BYTE_BITS, (registerIndex * BYTE_BITS), data);
 
     RTC_Write_disable();
 }
@@ -172,7 +172,7 @@ uint8_t RTC_Bkp_read(uint8_t registerIndex) {
 
     // Validate the register index
     if (registerIndex < MAX_BACKUP_REGISTERS) {
-        value = get_bit_block(&RTC->BKP0R, BYTE_BITS, (registerIndex * BYTE_BITS));
+        value = exe()->get_bit_block_value(&RTC->BKP0R, BYTE_BITS, (registerIndex * BYTE_BITS));
     }
 
     return value;  // Returns 0 if the index is out of bounds
@@ -572,14 +572,14 @@ uint8_t RTC_Get_second(void){
 /*** AUX Procedure & Function Definition ***/
 void RTC_PWR_clock(uint8_t state)
 {
-	set_reg_block(&RCC->APB1ENR, 1, RCC_APB1ENR_PWREN_Pos, state); // Power interface clock enable
+	exe()->write_block_value(&RCC->APB1ENR, 1, RCC_APB1ENR_PWREN_Pos, state); // Power interface clock enable
 }
 void RTC_BkpSram_clock(uint8_t state)
 {
 	#ifdef STM32F446xx
-		set_reg_block(&RCC->AHB1ENR, 1, RCC_AHB1ENR_BKPSRAMEN_Pos, state); // Backup SRAM interface clock enable
+		exe()->write_block_value(&RCC->AHB1ENR, 1, RCC_AHB1ENR_BKPSRAMEN_Pos, state); // Backup SRAM interface clock enable
 	#endif
-	set_reg_block(&RCC->AHB1LPENR, 1, RCC_AHB1LPENR_SRAM1LPEN_Pos, state); // Backup SRAM interface clock enable
+	exe()->write_block_value(&RCC->AHB1LPENR, 1, RCC_AHB1LPENR_SRAM1LPEN_Pos, state); // Backup SRAM interface clock enable
 }
 void RTC_Write_enable(void)
 {
@@ -698,7 +698,7 @@ void RTC_L_enable(unsigned int lclock) {
 }
 static void set_rtc_clock_source(uint8_t clock_source) {
     RTC_Write_enable();
-    set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, clock_source);
+    exe()->write_field_value(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, RCC_BDCR_RTCSEL_Pos,clock_source);
     RTC_Write_disable();
 }
 void RTC_L_select(uint8_t lclock) {
@@ -710,7 +710,7 @@ void RTC_L_select(uint8_t lclock) {
 
     // Clear previous RTC selection
     RTC_Write_enable();
-    set_reg_Msk(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, 0);
+    exe()->write_field_value(&RCC->BDCR, RCC_BDCR_RTCSEL_Msk, RCC_BDCR_RTCSEL_Pos,0);
     RTC_Write_disable();
 
     // Set the selected clock source

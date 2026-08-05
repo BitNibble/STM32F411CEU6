@@ -30,25 +30,25 @@ static inline uint8_t _wait_flag(volatile uint32_t *reg, uint32_t mask, volatile
 /*** I2C1 ***/
 void I2C1_Clock( uint8_t state ) {
     if(state){
-        set_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C1EN);
+        SET_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C1EN);
     } else {
-        clear_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C1EN);
+        CLEAR_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C1EN);
     }
 }
 void I2C1_EvNvic( uint8_t state ){
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C1_EV_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C1_EV_IRQn, 1);
         //NVIC_EnableIRQ(I2C1_EV_IRQn);  // Direct NVIC API for enabling interrupts
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C1_EV_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C1_EV_IRQn, 0);
         //NVIC_DisableIRQ(I2C1_EV_IRQn);  // Direct NVIC API for disabling interrupts
     }
 }
 void I2C1_ErNvic( uint8_t state ) {
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C1_ER_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C1_ER_IRQn, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C1_ER_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C1_ER_IRQn, 0);
     }
 }
 void I2C1_SclClock(uint32_t sclclock){I2C_SclClock(I2C1, sclclock);}
@@ -62,7 +62,7 @@ void I2C1_Connect(uint16_t address, uint8_t rw) {
 	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
 
 	/* Write DR */
-	write_reg_block(&I2C1->DR, 8, 0, (uint32_t)addr_byte);
+	exe()->write_block_value(&I2C1->DR, 8, 0, (uint32_t)addr_byte);
 
 	while (!(I2C1->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C1->SR2; // Clear ADDR flag
@@ -91,23 +91,23 @@ uint8_t I2C1_Status(void) {
 /*** I2C2 ***/
 void I2C2_Clock( uint8_t state ){
     if(state){
-        set_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C2EN);
+        SET_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C2EN);
     } else {
-        clear_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C2EN);
+        CLEAR_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C2EN);
     }
 }
 void I2C2_EvNvic( uint8_t state ){
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C2_EV_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C2_EV_IRQn, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C2_EV_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C2_EV_IRQn, 0);
     }
 }
 void I2C2_ErNvic( uint8_t state ){
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C2_ER_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C2_ER_IRQn, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C2_ER_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C2_ER_IRQn, 0);
     }
 }
 void I2C2_SclClock(uint32_t sclclock){I2C_SclClock(I2C2, sclclock);}
@@ -120,7 +120,7 @@ void I2C2_Connect(uint16_t address, uint8_t rw) {
 	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
 
 	/* Write DR */
-	write_reg_block(&I2C2->DR, 8, 0, (uint32_t)addr_byte);
+	exe()->write_block_value(&I2C2->DR, 8, 0, (uint32_t)addr_byte);
 
 	while (!(I2C2->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C2->SR2; // Clear ADDR flag
@@ -149,23 +149,23 @@ uint8_t I2C2_Status(void) {
 /*** I2C3 ***/
 void I2C3_Clock( uint8_t state ){
     if(state){
-        set_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C3EN);
+        SET_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C3EN);
     } else {
-        clear_reg(&RCC->APB1ENR, RCC_APB1ENR_I2C3EN);
+        CLEAR_BIT(RCC->APB1ENR, RCC_APB1ENR_I2C3EN);
     }
 }
 void I2C3_EvNvic( uint8_t state ){
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C3_EV_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C3_EV_IRQn, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C3_EV_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C3_EV_IRQn, 0);
     }
 }
 void I2C3_ErNvic( uint8_t state ){
     if(state){
-        set_bit_block(NVIC->ISER, 1, I2C3_ER_IRQn, 1);
+        exe()->write_bit_block_value(NVIC->ISER, 1, I2C3_ER_IRQn, 1);
     } else {
-        set_bit_block(NVIC->ICER, 1, I2C3_ER_IRQn, 0);
+        exe()->write_bit_block_value(NVIC->ICER, 1, I2C3_ER_IRQn, 0);
     }
 }
 void I2C3_SclClock(uint32_t sclclock){I2C_SclClock(I2C3, sclclock);}
@@ -178,7 +178,7 @@ void I2C3_Connect(uint16_t address, uint8_t rw) {
 	uint8_t addr_byte = (uint8_t)((address << 1) | (rw & 0x01U));
 
 	/* Write DR */
-	write_reg_block(&I2C3->DR, 8, 0, (uint32_t)addr_byte);
+	exe()->write_block_value(&I2C3->DR, 8, 0, (uint32_t)addr_byte);
 
 	while (!(I2C3->SR1 & I2C_SR1_ADDR)); // Wait for address sent
 	(void)I2C3->SR2; // Clear ADDR flag

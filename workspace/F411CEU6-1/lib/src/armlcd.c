@@ -134,8 +134,8 @@ void ARMLCD0_inic(void)
 void ARMLCD0_write(char c, unsigned short D_I)
 { // write to LCD
 	clear_hpin(ireg, ARMLCD0_RW_Msk); // lcd as input
-	clear_reg(&ireg->MODER, MODER_DATA_RESET_Msk);
-	set_reg(&ireg->MODER, MODER_DATA_OUTPUT_Msk); // mcu as output
+	CLEAR_BIT(ireg->MODER, MODER_DATA_RESET_Msk);
+	SET_BIT(ireg->MODER, MODER_DATA_OUTPUT_Msk); // mcu as output
 	
 	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);
 	
@@ -161,7 +161,7 @@ void ARMLCD0_write(char c, unsigned short D_I)
 char ARMLCD0_read(unsigned short D_I)
 { // Read from LCD
 	uint32_t data = 0; uint8_t c = 0;
-	clear_reg(&ireg->MODER, MODER_DATA_INPUT_Msk); // mcu as input
+	CLEAR_BIT(ireg->MODER, MODER_DATA_INPUT_Msk); // mcu as input
 	set_hpin(ireg, ARMLCD0_RW_Msk); // lcd as output
 	
 	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);

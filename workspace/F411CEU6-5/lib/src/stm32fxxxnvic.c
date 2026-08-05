@@ -11,11 +11,11 @@ Date:     19062023
 /*** NVIC Procedure & Function Definition ***/
 void NVIC_set_enable( uint8_t IRQn )
 {
-	set_bit_block(NVIC->ISER, 1, IRQn, 1);
+	exe()->write_bit_block_value(NVIC->ISER, 1, IRQn, 1);
 }
 void NVIC_clear_enable( uint8_t IRQn )
 {
-	set_bit_block(NVIC->ICER, 1, IRQn, 1);
+	exe()->write_bit_block_value(NVIC->ICER, 1, IRQn, 1);
 }
 void NVIC_set_clear(uint8_t IRQn, uint8_t state) {
     volatile uint32_t* reg = state ? NVIC->ISER : NVIC->ICER;
@@ -23,11 +23,11 @@ void NVIC_set_clear(uint8_t IRQn, uint8_t state) {
 }
 void NVIC_set_pending( uint8_t IRQn )
 {
-	set_bit_block(NVIC->ISPR, 1, IRQn, 1);
+	exe()->write_bit_block_value(NVIC->ISPR, 1, IRQn, 1);
 }
 void NVIC_clear_pending( uint8_t IRQn )
 {
-	set_bit_block(NVIC->ICPR, 1, IRQn, 1);
+	exe()->write_bit_block_value(NVIC->ICPR, 1, IRQn, 1);
 }
 uint8_t NVIC_active( uint8_t IRQn ) // Query
 {
@@ -35,7 +35,7 @@ uint8_t NVIC_active( uint8_t IRQn ) // Query
 	uint8_t state; uint32_t n = 0;
 	if(IRQn > 31){ n = IRQn/32; IRQn = IRQn - (n * 32); }
 	if( *(reg + n ) & (1 << IRQn) ) state = 1; else state = 0 ;
-	//return nvic_getset_bit_block(NVIC->ICPR, 1, IRQn);
+	//return nvic_getexe()->write_bit_block_value(NVIC->ICPR, 1, IRQn);
 	return state;
 }
 void NVIC_priority(uint32_t IRQn, uint32_t priority)
@@ -45,7 +45,7 @@ void NVIC_priority(uint32_t IRQn, uint32_t priority)
 }
 void NVIC_trigger(uint32_t IRQn)
 {
-	write_reg_block(&NVIC->STIR, 9, 0, IRQn);
+	exe()->write_block_value(&NVIC->STIR, 9, 0, IRQn);
 }
 /*** INIC Procedure & Function Definition ***/
 static STM32FXXX_NVIC_Handler stm32fxxx_nvic_setup = {
