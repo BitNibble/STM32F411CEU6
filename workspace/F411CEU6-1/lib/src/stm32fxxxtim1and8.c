@@ -27,43 +27,43 @@ void TIM1_Nvic_Int(uint8_t value)
 { // 24, 25, 26, 27
 	switch(value){
 		case 0b1000:
-			//set_bit_block(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos,1);
 			nvic()->set_enable(TIM1_BRK_TIM9_IRQn);
 		break;
 		case 0b0100:
-			//set_bit_block(NVIC->ISER, 1, TIM1_UP_TIM10_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_UP_TIM10_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos,1);
 			nvic()->set_enable(TIM1_UP_TIM10_IRQn);
 		break;
 		case 0b0010:
-			//set_bit_block(NVIC->ISER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos,1);
 			nvic()->set_enable(TIM1_TRG_COM_TIM11_IRQn);
 		break;
 		case 0b0001:
-			//set_bit_block(NVIC->ISER, 1, TIM1_CC_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_CC_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos,1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos,1);
 			nvic()->set_enable(TIM1_CC_IRQn);
 		break;
 		case 0b11000:
-			//set_bit_block(NVIC->ICER, 1, TIM1_BRK_TIM9_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_BRK_TIM9_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos,0);
 			nvic()->clear_enable(TIM1_BRK_TIM9_IRQn);
 		break;
 		case 0b10100:
-			//set_bit_block(NVIC->ICER, 1, TIM1_UP_TIM10_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_UP_TIM10_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos,0);
 			nvic()->clear_enable(TIM1_UP_TIM10_IRQn);
 		break;
 		case 0b10010:
-			//set_bit_block(NVIC->ICER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos,0);
 			nvic()->clear_enable(TIM1_TRG_COM_TIM11_IRQn);
 		break;
 		case 0b10001:
-			//set_bit_block(NVIC->ICER, 1, TIM1_CC_IRQn, 1);
+			//exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_CC_IRQn, 1);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos,0);
 			exe()->write_field_value(&TIM1->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos,0);
 			nvic()->clear_enable(TIM1_CC_IRQn);
@@ -105,48 +105,48 @@ void TIM8_Nvic(uint8_t value)
 { // 43, 44, 45, 46
 	switch(value){
 		case 0b1000:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 1);
-			set_bit_block(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 1);
+			exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);
 		break;
 		case 0b0100:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 1);
-			set_bit_block(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 1);
+			exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);
 		break;
 		case 0b0010:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 1);
-			set_bit_block(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 1);
+			exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
 		break;
 		case 0b0001:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 1);
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 1);
-			set_bit_block(NVIC->ISER, 1, TIM8_CC_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 1);
+			exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_CC_IRQn, 1);
 		break;
 		case 0b11000:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 0);
-			set_bit_block(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_BIE_Msk, TIM_DIER_BIE_Pos, 0);
+			exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);
 		break;
 		case 0b10100:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 0);
-			set_bit_block(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_UIE_Msk, TIM_DIER_UIE_Pos, 0);
+			exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);
 		break;
 		case 0b10010:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 0);
-			set_bit_block(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_TIE_Msk, TIM_DIER_TIE_Pos, 0);
+			exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);
 		break;
 		case 0b10001:
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 0);
-			set_reg_Msk_Pos(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 0);
-			set_bit_block(NVIC->ICER, 1, TIM8_CC_IRQn, 1);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_CC1IE_Msk, TIM_DIER_CC1IE_Pos, 0);
+			exe()->write_field_value(&TIM8->DIER, TIM_DIER_CC2IE_Msk, TIM_DIER_CC2IE_Pos, 0);
+			exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_CC_IRQn, 1);
 		break;
 	default:
 	break;
 	}
 }
 void TIM8_start(void) {
-	set_reg_Msk_Pos(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1);
+	exe()->write_field_value(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 1);
 }
 void TIM8_stop(void) {
-	set_reg_Msk_Pos(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0);
+	exe()->write_field_value(&TIM8->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, 0);
 }
 
 /*** TIM8 INIC Procedure & Function Definition ***/
