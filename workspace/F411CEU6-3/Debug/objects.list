@@ -36,6 +36,7 @@
 "./lib/src/stm32fxxxusart1.o"
 "./lib/src/stm32fxxxusart2.o"
 "./lib/src/stm32fxxxusart6.o"
+"./lib/src/stm32x_gpio.o"
 "./lib/src/stm32x_tool.o"
 "./lib/src/timer_irq.o"
 "./lib/src/webpages.o"
