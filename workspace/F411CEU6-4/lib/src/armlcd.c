@@ -133,53 +133,53 @@ void ARMLCD0_inic(void)
 
 void ARMLCD0_write(char c, unsigned short D_I)
 { // write to LCD
-	clear_hpin(ireg, ARMLCD0_RW_Msk); // lcd as input
+	gpio()->clear_hpin(ireg, ARMLCD0_RW_Msk); // lcd as input
 	CLEAR_BIT(ireg->MODER, MODER_DATA_RESET_Msk);
 	SET_BIT(ireg->MODER, MODER_DATA_OUTPUT_Msk); // mcu as output
 	
-	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);
+	if(D_I) gpio()->set_hpin(ireg, ARMLCD0_RS_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_RS_Msk);
 	
 
-	if(c & 0x80) set_hpin(ireg, ARMLCD0_DB7_Msk); else clear_hpin(ireg, ARMLCD0_DB7_Msk);
-	if(c & 0x40) set_hpin(ireg, ARMLCD0_DB6_Msk); else clear_hpin(ireg, ARMLCD0_DB6_Msk);
-	if(c & 0x20) set_hpin(ireg, ARMLCD0_DB5_Msk); else clear_hpin(ireg, ARMLCD0_DB5_Msk);
-	if(c & 0x10) set_hpin(ireg, ARMLCD0_DB4_Msk); else clear_hpin(ireg, ARMLCD0_DB4_Msk);
-	set_hpin(ireg, ARMLCD0_EN_Msk);
-	clear_hpin(ireg, ARMLCD0_EN_Msk);
+	if(c & 0x80) gpio()->set_hpin(ireg, ARMLCD0_DB7_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB7_Msk);
+	if(c & 0x40) gpio()->set_hpin(ireg, ARMLCD0_DB6_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB6_Msk);
+	if(c & 0x20) gpio()->set_hpin(ireg, ARMLCD0_DB5_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB5_Msk);
+	if(c & 0x10) gpio()->set_hpin(ireg, ARMLCD0_DB4_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB4_Msk);
+	gpio()->set_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->clear_hpin(ireg, ARMLCD0_EN_Msk);
 	
-	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);
+	if(D_I) gpio()->set_hpin(ireg, ARMLCD0_RS_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_RS_Msk);
 	
 
-	if(c & 0x08) set_hpin(ireg, ARMLCD0_DB7_Msk); else clear_hpin(ireg, ARMLCD0_DB7_Msk);
-	if(c & 0x04) set_hpin(ireg, ARMLCD0_DB6_Msk); else clear_hpin(ireg, ARMLCD0_DB6_Msk);
-	if(c & 0x02) set_hpin(ireg, ARMLCD0_DB5_Msk); else clear_hpin(ireg, ARMLCD0_DB5_Msk);
-	if(c & 0x01) set_hpin(ireg, ARMLCD0_DB4_Msk); else clear_hpin(ireg, ARMLCD0_DB4_Msk);
-	set_hpin(ireg, ARMLCD0_EN_Msk);
-	clear_hpin(ireg, ARMLCD0_EN_Msk);
+	if(c & 0x08) gpio()->set_hpin(ireg, ARMLCD0_DB7_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB7_Msk);
+	if(c & 0x04) gpio()->set_hpin(ireg, ARMLCD0_DB6_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB6_Msk);
+	if(c & 0x02) gpio()->set_hpin(ireg, ARMLCD0_DB5_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB5_Msk);
+	if(c & 0x01) gpio()->set_hpin(ireg, ARMLCD0_DB4_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_DB4_Msk);
+	gpio()->set_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->clear_hpin(ireg, ARMLCD0_EN_Msk);
 }
 
 char ARMLCD0_read(unsigned short D_I)
 { // Read from LCD
 	uint32_t data = 0; uint8_t c = 0;
 	CLEAR_BIT(ireg->MODER, MODER_DATA_INPUT_Msk); // mcu as input
-	set_hpin(ireg, ARMLCD0_RW_Msk); // lcd as output
+	gpio()->set_hpin(ireg, ARMLCD0_RW_Msk); // lcd as output
 	
-	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);
+	if(D_I) gpio()->set_hpin(ireg, ARMLCD0_RS_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_RS_Msk);
 	
-	set_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->set_hpin(ireg, ARMLCD0_EN_Msk);
 	data = ireg->IDR; // read data
-	clear_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->clear_hpin(ireg, ARMLCD0_EN_Msk);
 	
 	if(data & (ARMLCD0_DB7_Msk)) c |= 1 << 7; else c &= ~(1 << 7);
 	if(data & (ARMLCD0_DB6_Msk)) c |= 1 << 6; else c &= ~(1 << 6);
 	if(data & (ARMLCD0_DB5_Msk)) c |= 1 << 5; else c &= ~(1 << 5);
 	if(data & (ARMLCD0_DB4_Msk)) c |= 1 << 4; else c &= ~(1 << 4);
 	
-	if(D_I) set_hpin(ireg, ARMLCD0_RS_Msk); else clear_hpin(ireg, ARMLCD0_RS_Msk);
+	if(D_I) gpio()->set_hpin(ireg, ARMLCD0_RS_Msk); else gpio()->clear_hpin(ireg, ARMLCD0_RS_Msk);
 	
-	set_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->set_hpin(ireg, ARMLCD0_EN_Msk);
 	data = ireg->IDR; // read data
-	clear_hpin(ireg, ARMLCD0_EN_Msk);
+	gpio()->clear_hpin(ireg, ARMLCD0_EN_Msk);
 
 	if(data & ( ARMLCD0_DB7_Msk)) c |= 1 << 3; else c &= ~(1 << 3);
 	if(data & ( ARMLCD0_DB6_Msk)) c |= 1 << 2; else c &= ~(1 << 2);

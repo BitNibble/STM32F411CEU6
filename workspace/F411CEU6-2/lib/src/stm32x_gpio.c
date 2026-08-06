@@ -252,7 +252,7 @@ static inline void SET_hpin(GPIO_TypeDef* reg, uint16_t hpin) {
 }
 static inline void CLEAR_hpin(GPIO_TypeDef* reg, uint16_t hpin) {
 #if defined(STM32F4)
-    reg->BSRR = hpin << WORD_BITS;
+    reg->BSRR = ((uint32_t)hpin << WORD_BITS);
 #endif
 #if defined(STM32G4)
     reg->BRR = hpin;

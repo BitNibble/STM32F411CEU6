@@ -26,20 +26,20 @@ void USART1_defualt_init(void)
     usart1()->clock(1);
 
     // GPIO config
-    GPIO_moder(dev()->gpioa, 9, MODE_AF);
-    GPIO_moder(dev()->gpioa,10, MODE_AF);
+    gpio()->moder(dev()->gpioa, 9, MODE_AF);
+    gpio()->moder(dev()->gpioa,10, MODE_AF);
 
-    GPIO_af(dev()->gpioa, 9, 7);
-    GPIO_af(dev()->gpioa, 10, 7);
+    gpio()->af(dev()->gpioa, 9, 7);
+    gpio()->af(dev()->gpioa, 10, 7);
 
-    GPIO_ospeed(dev()->gpioa, 9, 3);
-    GPIO_ospeed(dev()->gpioa, 10, 3);
+    gpio()->ospeed(dev()->gpioa, 9, 3);
+    gpio()->ospeed(dev()->gpioa, 10, 3);
 
-    GPIO_otype(dev()->gpioa, 9, 0);
-    GPIO_otype(dev()->gpioa, 10, 0);
+    gpio()->otype(dev()->gpioa, 9, 0);
+    gpio()->otype(dev()->gpioa, 10, 0);
 
-    GPIO_pupd(dev()->gpioa, 9, 0);   // TX no pull
-    GPIO_pupd(dev()->gpioa, 10, 2);  // RX pull-up (REQUIRED)
+    gpio()->pupd(dev()->gpioa, 9, 0);   // TX no pull
+    gpio()->pupd(dev()->gpioa, 10, 2);  // RX pull-up (REQUIRED)
 
     // Baud rate / sampling
     usart1()->samplingmode(0, 38400);
