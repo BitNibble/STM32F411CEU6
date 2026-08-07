@@ -116,7 +116,7 @@ adc1()->temperature_setup();
 
 char vecD[8]; // for calendar date
 char vecT[8]; // for calendar time
-PA.update(&PA.par, dev()->gpioa->IDR);
+PA.run->update(&PA.par, dev()->gpioa->IDR);
 
 dev()->gpioc->BSRR = GPIO_BSRR_BS13;
 
@@ -135,7 +135,7 @@ EXPLODE_Handler seconds = EXPLODE_enable();
 while (1) {
 	Turingi22to24_Station_Mux1Server( );
 
-	PA.update(&PA.par, dev()->gpioa->IDR);
+	PA.run->update(&PA.par, dev()->gpioa->IDR);
 
 	/*** Magic ***/
 	if( !exe()->isCharPtrFlush(usart1()->rxbuff) && usart1()->is_rx_idle() ){
@@ -409,7 +409,7 @@ while (1) {
 	rtc()->dr2vec(vecD);
 	rtc()->tr2vec(vecT);
 
-	if(seconds.update(&seconds.par,vecT[5])) {
+	if(seconds.run->update(&seconds.par,vecT[5])) {
 
 	lcd1.start(&lcd1.par);
 	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLUE,BG_COLOUR, 12);

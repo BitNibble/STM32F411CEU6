@@ -177,7 +177,7 @@ int main(void)
 
 	while (1){
 		/*** preamble ***/
-		PA.update(&PA.par, GPIOA->IDR);
+		PA.run->update(&PA.par, GPIOA->IDR);
 		/******/
 
 		lcd0()->gotoxy(0,0);

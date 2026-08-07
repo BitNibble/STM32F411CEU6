@@ -1,21 +1,20 @@
 /************************************************************************
-	74HC595
+	MAIN
 Author:   <sergio.salazar.santos@gmail.com>
 License:  GNU General Public License
-Hardware: 74HC595
-Date:     25/10/2020
-Comment:
-	tested Atemga128 16Mhz and Atmega328 8Mhz and STM32F446RET
 ************************************************************************/
 #ifndef _74HC595_H_
 	#define _74HC595_H_
 
-/*** File Library ***/
+/*** Library ***/
 #include <inttypes.h>
-/*** Global Constant & Macro ***/
-#define STM32F4XXX
 
-#ifdef STM32F4XXX
+#ifndef STM32F4
+	#define STM32F4
+#endif
+
+/*** Global Constant & Macro ***/
+#if defined (STM32F4) || defined (STM32G4)
 	#define IO_var uint32_t
 #else
 	#define IO_var uint8_t
@@ -28,17 +27,19 @@ typedef struct{
 	volatile IO_var *hc595_DDR;
 	volatile IO_var *hc595_PORT;
 }hc595_par;
-/*** 74HC595 TypeDef ***/
-typedef struct
-{
-	hc595_par par;
-	/******/
+typedef const struct{
 	void (*shift_bit)(hc595_par* par, uint8_t state);
 	void (*shift_ibyte)(hc595_par* par, uint8_t byte);
 	void (*shift_byte)(hc595_par* par, uint8_t byte);
 	void (*ibyte)(hc595_par* par, uint8_t byte);
 	void (*byte)(hc595_par* par, uint8_t byte);
 	void (*out)(hc595_par* par);
+}hc595_run;
+/*** 74HC595 TypeDef ***/
+typedef struct
+{
+	hc595_par par;
+	hc595_run* run;
 }HC595_Handler;
 
 HC595_Handler hc595_enable(volatile IO_var *ddr, volatile IO_var *port, uint8_t datapin, uint8_t clkpin, uint8_t outpin);

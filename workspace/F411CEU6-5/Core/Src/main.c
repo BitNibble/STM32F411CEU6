@@ -83,7 +83,7 @@ int main(void) {
     lcd1.stop(&lcd1.par);
 
     while (1) {
-        PA.update(&PA.par, dev()->gpioa->IDR); // Restored IDR casing
+        PA.run->update(&PA.par, dev()->gpioa->IDR); // Restored IDR casing
 
         switch (Menu.var) {
             case 0:
@@ -268,7 +268,7 @@ int main(void) {
         rtc()->dr2vec(vecD);
         rtc()->tr2vec(vecT);
 
-        if (seconds.update(&seconds.par, vecT[5])) {
+        if (seconds.run->update(&seconds.par, vecT[5])) {
             gpio()->toggle_hpin(dev()->gpioc, (1 << 13));
 
             lcd1.start(&lcd1.par);
