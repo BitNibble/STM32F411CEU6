@@ -110,49 +110,49 @@ static const uint8_t mco_table[8] = {1,1,1,1,2,3,4,5};
 /*************************** CLOCK Query ***************************/
 /*******************************************************************/
 uint16_t get_hpre(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_HPRE, RCC_CFGR_HPRE_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_HPRE, RCC_CFGR_HPRE_Pos);
     return hpre_table[value];
 }
 
 uint8_t get_hppre1(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_PPRE1, RCC_CFGR_PPRE1_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_PPRE1, RCC_CFGR_PPRE1_Pos);
     return ppre_table[value];
 }
 
 uint8_t get_hppre2(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_Pos);
     return ppre_table[value];
 }
 
 uint8_t get_systickpre(void) {
-    uint32_t value = exe()->get_field_value(dev()->core->systick->CTRL, SysTick_CTRL_CLKSOURCE_Msk, SysTick_CTRL_CLKSOURCE_Pos);
+    uint32_t value = exe()->get_field(dev()->core->systick->CTRL, SysTick_CTRL_CLKSOURCE_Msk, SysTick_CTRL_CLKSOURCE_Pos);
     return value ? 8 : 1;
 }
 
 uint8_t get_hmco1pre(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_MCO1PRE, RCC_CFGR_MCO1PRE_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_MCO1PRE, RCC_CFGR_MCO1PRE_Pos);
     return mco_table[value];
 }
 
 uint8_t get_hmco2pre(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_MCO2PRE, RCC_CFGR_MCO2PRE_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_MCO2PRE, RCC_CFGR_MCO2PRE_Pos);
     return mco_table[value];
 }
 
 uint8_t get_rtcpre(void) {
-    return exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_RTCPRE, RCC_CFGR_RTCPRE_Pos);
+    return exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_RTCPRE, RCC_CFGR_RTCPRE_Pos);
 }
 
 uint8_t get_pllm(void) {
-    return exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLM, RCC_PLLCFGR_PLLM_Pos);
+    return exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLM, RCC_PLLCFGR_PLLM_Pos);
 }
 
 uint16_t get_plln(void) {
-    return exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLN, RCC_PLLCFGR_PLLN_Pos);
+    return exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLN, RCC_PLLCFGR_PLLN_Pos);
 }
 
 uint8_t get_pllp(void) {
-    uint32_t value = exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLP, RCC_PLLCFGR_PLLP_Pos);
+    uint32_t value = exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLP, RCC_PLLCFGR_PLLP_Pos);
     switch(value){
         case 0b00: return 2;
         case 0b01: return 4;
@@ -163,17 +163,17 @@ uint8_t get_pllp(void) {
 }
 
 uint8_t get_pllq(void) {
-    return exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLQ, RCC_PLLCFGR_PLLQ_Pos);
+    return exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLQ, RCC_PLLCFGR_PLLQ_Pos);
 }
 
 #ifdef STM32F446xx
 uint8_t get_pllr(void) {
-    return exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLR);
+    return exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLR);
 }
 #endif
 
 uint32_t get_pllsclk(void) {
-    return exe()->get_field_value(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC, RCC_PLLCFGR_PLLSRC_Pos) ? HSE_VALUE : HSI_VALUE;
+    return exe()->get_field(dev()->rcc->PLLCFGR, RCC_PLLCFGR_PLLSRC, RCC_PLLCFGR_PLLSRC_Pos) ? HSE_VALUE : HSI_VALUE;
 }
 uint32_t get_pll_vco_in(void) {
     return (get_pllsclk() / get_pllm());
@@ -197,7 +197,7 @@ uint32_t get_pllsai_vco_in(void) {
 }
 
 uint32_t get_sysclk(void) {
-    uint32_t sws = exe()->get_field_value(dev()->rcc->CFGR, RCC_CFGR_SWS,RCC_CFGR_SWS_Pos);
+    uint32_t sws = exe()->get_field(dev()->rcc->CFGR, RCC_CFGR_SWS,RCC_CFGR_SWS_Pos);
     switch(sws) {
         case 0: return HSI_VALUE;
         case 1: return HSE_VALUE;
@@ -247,15 +247,15 @@ U_word writeHLbyte(uint16_t v)
 void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 {
 	// --- Software reset ---
-	exe()->write_field_value(&i2c->CR1, I2C_CR1_SWRST, I2C_CR1_SWRST_Pos,1);
-	exe()->write_field_value(&i2c->CR1, I2C_CR1_SWRST, I2C_CR1_SWRST_Pos,0);
+	exe()->write_field(&i2c->CR1, I2C_CR1_SWRST, I2C_CR1_SWRST_Pos,1);
+	exe()->write_field(&i2c->CR1, I2C_CR1_SWRST, I2C_CR1_SWRST_Pos,0);
 
 	// --- Get peripheral clock ---
 	uint32_t pclk1     = get_pclk1();        // Hz
 	uint32_t freq_mhz  = pclk1 / 1000000;    // MHz
 
 	// --- CR2.FREQ (must be MHz) ---
-	exe()->write_block_value(&i2c->CR2, 6, 0, (freq_mhz & 0x3F));
+	exe()->write_block(&i2c->CR2, 6, 0, (freq_mhz & 0x3F));
 
 	// --- Standard or Fast mode ---
 	uint32_t ccr = 0;
@@ -267,28 +267,28 @@ void I2C_SclClock(I2C_TypeDef *i2c, uint32_t scl_hz)
 		ccr = pclk1 / (2 * scl_hz);
 		if (ccr < 4) ccr = 4;
 
-		exe()->write_block_value(&i2c->CCR, 12, 0, ccr);
+		exe()->write_block(&i2c->CCR, 12, 0, ccr);
 
 		// TRISE = freq_mhz + 1
-		exe()->write_block_value(&i2c->TRISE, 6, 0, freq_mhz + 1);
+		exe()->write_block(&i2c->TRISE, 6, 0, freq_mhz + 1);
 
 	} else {
 		// ---------- FAST MODE ----------
-		exe()->write_field_value(&i2c->CCR, I2C_CCR_FS, I2C_CCR_FS_Pos,1); // FS = 1 → fast mode
+		exe()->write_field(&i2c->CCR, I2C_CCR_FS, I2C_CCR_FS_Pos,1); // FS = 1 → fast mode
 
 		// Duty = 0 → Tlow/Thigh = 2
 		ccr = pclk1 / (3 * scl_hz);
 		if (ccr < 1) ccr = 1;
 
-		exe()->write_block_value(&i2c->CCR, 12, 0, ccr);
+		exe()->write_block(&i2c->CCR, 12, 0, ccr);
 
 		// TRISE = freq_mhz * 300ns + 1
 		uint32_t trise = ((freq_mhz * 300) / 1000) + 1;
-		exe()->write_block_value(&i2c->TRISE, 6, 0, trise);
+		exe()->write_block(&i2c->TRISE, 6, 0, trise);
 	}
 
 	// --- Enable peripheral ---
-	exe()->write_field_value(&i2c->CR1, I2C_CR1_PE, I2C_CR1_PE_Pos,1);
+	exe()->write_field(&i2c->CR1, I2C_CR1_PE, I2C_CR1_PE_Pos,1);
 }
 
 /**************************** ADC UTILS ****************************/
@@ -311,7 +311,7 @@ void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t
     adc->SQR3 = 0;
 
     /* set length L = count - 1 */
-    exe()->write_field_value(&adc->SQR1, ADC_SQR1_L, ADC_SQR1_L_Pos,(uint32_t)((count - 1) & 0x0F));
+    exe()->write_field(&adc->SQR1, ADC_SQR1_L, ADC_SQR1_L_Pos,(uint32_t)((count - 1) & 0x0F));
 
     for (uint8_t i = 0; i < count; ++i) {
         uint8_t ch = (uint8_t)va_arg(args, int);
@@ -319,9 +319,9 @@ void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t
 
         /* internal channels handling */
         if (ch == 16 || ch == 17) {
-            exe()->write_field_value(&ADC->CCR, ADC_CCR_TSVREFE, ADC_CCR_TSVREFE_Pos,1);     /* enable temp + vref */
+            exe()->write_field(&ADC->CCR, ADC_CCR_TSVREFE, ADC_CCR_TSVREFE_Pos,1);     /* enable temp + vref */
         } else if (ch == 18) {
-            exe()->write_field_value(&ADC->CCR, ADC_CCR_VBATE, ADC_CCR_VBATE_Pos,1);       /* enable VBAT */
+            exe()->write_field(&ADC->CCR, ADC_CCR_VBATE, ADC_CCR_VBATE_Pos,1);       /* enable VBAT */
         }
 
         /* sampling time: 3 bits per channel.
@@ -329,23 +329,23 @@ void adc_set_regular_auto(ADC_TypeDef *adc, ADC_RegularTracker *tracker, uint8_t
         uint32_t smp = (ch >= 16) ? 7U : 3U;
         if (ch <= 9) {
             /* SMPR2: SMP0..SMP9, pos = 3 * ch */
-            exe()->write_block_value(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
+            exe()->write_block(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
         } else {
             /* SMPR1: SMP10..SMP17, pos = 3 * (ch - 10) */
-            exe()->write_block_value(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
+            exe()->write_block(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
         }
 
         /* write channel into SQRx: 5 bits per slot */
         uint8_t pos_bit;
         if (i < 6) {
             pos_bit = 5 * i;                 /* SQR3, SQ1..SQ6 */
-            exe()->write_block_value(&adc->SQR3, 5, pos_bit, ch);
+            exe()->write_block(&adc->SQR3, 5, pos_bit, ch);
         } else if (i < 12) {
             pos_bit = 5 * (i - 6);           /* SQR2, SQ7..SQ12 */
-            exe()->write_block_value(&adc->SQR2, 5, pos_bit, ch);
+            exe()->write_block(&adc->SQR2, 5, pos_bit, ch);
         } else {
             pos_bit = 5 * (i - 12);          /* SQR1, SQ13..SQ16 */
-            exe()->write_block_value(&adc->SQR1, 5, pos_bit, ch);
+            exe()->write_block(&adc->SQR1, 5, pos_bit, ch);
         }
     }
 
@@ -367,7 +367,7 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
     adc->JSQR = 0;
 
     /* set JL = count - 1 in JSQR */
-    exe()->write_block_value(&adc->JSQR, 2, 20, (uint32_t)((count - 1) & 0x3)); /* JL is 2 bits at pos 20 */
+    exe()->write_block(&adc->JSQR, 2, 20, (uint32_t)((count - 1) & 0x3)); /* JL is 2 bits at pos 20 */
 
     for (uint8_t i = 0; i < count; ++i) {
         uint8_t ch = (uint8_t)va_arg(args, int);
@@ -375,25 +375,25 @@ void adc_set_injected_auto(ADC_TypeDef *adc, ADC_InjectTracker *tracker, uint8_t
 
         /* internal channels handling */
         if (ch == 16 || ch == 17) {
-            //exe()->write_field_value(&ADC->CCR, ADC_CCR_TSVREFE, 1);
-            exe()->write_field_value(&dev()->adc1_common->CCR, ADC_CCR_TSVREFE, ADC_CCR_TSVREFE_Pos,1);
+            //exe()->write_field(&ADC->CCR, ADC_CCR_TSVREFE, 1);
+            exe()->write_field(&dev()->adc1_common->CCR, ADC_CCR_TSVREFE, ADC_CCR_TSVREFE_Pos,1);
         } else if (ch == 18) {
-            //exe()->write_field_value(&ADC->CCR, ADC_CCR_VBATE, 1);
-            exe()->write_field_value(&dev()->adc1_common->CCR, ADC_CCR_VBATE, ADC_CCR_VBATE_Pos,1);
+            //exe()->write_field(&ADC->CCR, ADC_CCR_VBATE, 1);
+            exe()->write_field(&dev()->adc1_common->CCR, ADC_CCR_VBATE, ADC_CCR_VBATE_Pos,1);
         }
 
         /* sampling time */
         uint32_t smp = (ch >= 16) ? 7U : 3U;
         if (ch <= 9) {
-            exe()->write_block_value(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
+            exe()->write_block(&adc->SMPR2, 3, (uint8_t)(3 * ch), smp);
         } else {
-            exe()->write_block_value(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
+            exe()->write_block(&adc->SMPR1, 3, (uint8_t)(3 * (ch - 10)), smp);
         }
 
         /* JSQR: JSQ4..JSQ1 fields are 5 bits each; hardware expects reversed order:
            position: JSQ1 is highest of those bits; easiest is to place at bit pos = 5*(3 - i) */
         uint8_t pos_bit = 5 * (3 - i);
-        exe()->write_block_value(&adc->JSQR, 5, pos_bit, ch);
+        exe()->write_block(&adc->JSQR, 5, pos_bit, ch);
     }
 
     va_end(args);

@@ -14,124 +14,124 @@ Comment:
 // CR
 void PWR_cr_fissr(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 21, state);
+	exe()->write_block(&PWR->CR, 1, 21, state);
 }
 void PWR_cr_fmssr(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 20, state);
+	exe()->write_block(&PWR->CR, 1, 20, state);
 }
 void PWR_cr_uden(uint8_t value)
 {
-	exe()->write_block_value(&PWR->CR, 2, 18, value);
+	exe()->write_block(&PWR->CR, 2, 18, value);
 }
 void PWR_cr_odswen(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 17, state);
+	exe()->write_block(&PWR->CR, 1, 17, state);
 }
 void PWR_cr_oden(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 16, state);
+	exe()->write_block(&PWR->CR, 1, 16, state);
 }
 void PWR_cr_vos(uint8_t value)
 {
-	exe()->write_block_value(&PWR->CR, 2, 14, value);
+	exe()->write_block(&PWR->CR, 2, 14, value);
 }
 void PWR_cr_adcdc1(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 13, state);
+	exe()->write_block(&PWR->CR, 1, 13, state);
 }
 void PWR_cr_mruds(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 11, state);
+	exe()->write_block(&PWR->CR, 1, 11, state);
 }
 void PWR_cr_lpuds(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 10, state);
+	exe()->write_block(&PWR->CR, 1, 10, state);
 }
 void PWR_cr_fpds(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 9, state);
+	exe()->write_block(&PWR->CR, 1, 9, state);
 }
 void PWR_cr_dbp(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 8, state);
+	exe()->write_block(&PWR->CR, 1, 8, state);
 }
 void PWR_cr_pls(uint8_t value)
 {
-	exe()->write_block_value(&PWR->CR, 3, 5, value);
+	exe()->write_block(&PWR->CR, 3, 5, value);
 }
 uint8_t PWR_cr_get_pls(void)
 {
-	return exe()->get_block_value(PWR->CR, 3, 5);
+	return exe()->get_block(PWR->CR, 3, 5);
 }
 void PWR_cr_pvde(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 4, state);
+	exe()->write_block(&PWR->CR, 1, 4, state);
 }
 void PWR_cr_clear_csbf(void)
 {
-	exe()->write_block_value(&PWR->CR, 1, 3, 1);
+	exe()->write_block(&PWR->CR, 1, 3, 1);
 }
 void PWR_cr_clear_cwuf(void)
 {
-	exe()->write_block_value(&PWR->CR, 1, 2, 1);
+	exe()->write_block(&PWR->CR, 1, 2, 1);
 }
 void PWR_cr_pdds(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 1, state);
+	exe()->write_block(&PWR->CR, 1, 1, state);
 }
 void PWR_cr_lpds(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CR, 1, 0, state);
+	exe()->write_block(&PWR->CR, 1, 0, state);
 }
 // CSR
 uint8_t PWR_udrdy(void)
 {
-	return exe()->get_block_value(PWR->CSR, 2, 18);
+	return exe()->get_block(PWR->CSR, 2, 18);
 }
 void PWR_csr_clear_udrdy(void)
 {
-	exe()->write_block_value(&PWR->CSR, 2, 18, 3);
+	exe()->write_block(&PWR->CSR, 2, 18, 3);
 }
 uint8_t PWR_csr_odswrdy(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 17);
+	return exe()->get_block(PWR->CSR, 1, 17);
 }
 uint8_t PWR_csr_odrdy(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 16);
+	return exe()->get_block(PWR->CSR, 1, 16);
 }
 uint8_t PWR_csr_vosrdy(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 14);
+	return exe()->get_block(PWR->CSR, 1, 14);
 }
 void PWR_csr_bre(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CSR, 1, 9, state);
+	exe()->write_block(&PWR->CSR, 1, 9, state);
 }
 void PWR_csr_ewup1(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CSR, 1, 8, state);
+	exe()->write_block(&PWR->CSR, 1, 8, state);
 }
 void PWR_csr_ewup2(uint8_t state)
 {
-	exe()->write_block_value(&PWR->CSR, 1, 7, state);
+	exe()->write_block(&PWR->CSR, 1, 7, state);
 }
 uint8_t PWR_csr_brr(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 3);
+	return exe()->get_block(PWR->CSR, 1, 3);
 }
 uint8_t PWR_csr_pvdo(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 2);
+	return exe()->get_block(PWR->CSR, 1, 2);
 }
 uint8_t PWR_csr_sbf(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 1);
+	return exe()->get_block(PWR->CSR, 1, 1);
 }
 uint8_t PWR_csr_wuf(void)
 {
-	return exe()->get_block_value(PWR->CSR, 1, 0);
+	return exe()->get_block(PWR->CSR, 1, 0);
 }
 /*** Other ***/
 void PWR_clock(uint8_t state)

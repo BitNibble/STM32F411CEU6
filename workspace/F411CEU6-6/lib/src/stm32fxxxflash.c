@@ -14,27 +14,27 @@ Comment:
 // ACR
 void FLASH_acr_dcrst(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->ACR, 1, 12, state);
+	exe()->write_block(&FLASH->ACR, 1, 12, state);
 }
 void FLASH_acr_icrst(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->ACR, 1, 11, state);
+	exe()->write_block(&FLASH->ACR, 1, 11, state);
 }
 void FLASH_acr_dcen(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->ACR, 1, 10, state);
+	exe()->write_block(&FLASH->ACR, 1, 10, state);
 }
 void FLASH_acr_icen(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->ACR, 1, 9, state);
+	exe()->write_block(&FLASH->ACR, 1, 9, state);
 }
 void FLASH_acr_prften(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->ACR, 1, 8, state);
+	exe()->write_block(&FLASH->ACR, 1, 8, state);
 }
 void FLASH_acr_latency(uint8_t value)
 {
-	exe()->write_block_value(&FLASH->ACR, 4, 0, value);
+	exe()->write_block(&FLASH->ACR, 4, 0, value);
 }
 // KEYR
 void FLASH_keyr_key(uint32_t value)
@@ -49,150 +49,150 @@ void FLASH_optkeyr_optkey(uint32_t value)
 // SR
 uint8_t FLASH_sr_bsy(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 16);
+	return exe()->get_block(FLASH->SR, 1, 16);
 }
 uint8_t FLASH_sr_rderr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 8);
+	return exe()->get_block(FLASH->SR, 1, 8);
 }
 void FLASH_sr_clear_rderr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 8, 1);
+	exe()->write_block(&FLASH->SR, 1, 8, 1);
 }
 uint8_t FLASH_sr_pgserr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 7);
+	return exe()->get_block(FLASH->SR, 1, 7);
 }
 void FLASH_sr_clear_pgserr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 7, 1);
+	exe()->write_block(&FLASH->SR, 1, 7, 1);
 }
 uint8_t FLASH_sr_pgperr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 6);
+	return exe()->get_block(FLASH->SR, 1, 6);
 }
 void FLASH_sr_clear_pgperr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 6, 1);
+	exe()->write_block(&FLASH->SR, 1, 6, 1);
 }
 uint8_t FLASH_sr_pgaerr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 5);
+	return exe()->get_block(FLASH->SR, 1, 5);
 }
 void FLASH_sr_clear_pgaerr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 5, 1);
+	exe()->write_block(&FLASH->SR, 1, 5, 1);
 }
 uint8_t FLASH_sr_wrperr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 4);
+	return exe()->get_block(FLASH->SR, 1, 4);
 }
 void FLASH_sr_clear_wrperr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 4, 1);
+	exe()->write_block(&FLASH->SR, 1, 4, 1);
 }
 uint8_t FLASH_sr_operr(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 1);
+	return exe()->get_block(FLASH->SR, 1, 1);
 }
 void FLASH_sr_clear_operr(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 1, 1);
+	exe()->write_block(&FLASH->SR, 1, 1, 1);
 }
 uint8_t FLASH_sr_eop(void)
 {
-	return exe()->get_block_value(FLASH->SR, 1, 0);
+	return exe()->get_block(FLASH->SR, 1, 0);
 }
 void FLASH_sr_clear_eop(void)
 {
-	exe()->write_block_value(&FLASH->SR, 1, 0, 1);
+	exe()->write_block(&FLASH->SR, 1, 0, 1);
 }
 // CR
 void FLASH_cr_lock(void)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 31, 1);
+	exe()->write_block(&FLASH->CR, 1, 31, 1);
 }
 void FLASH_cr_errie(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 25, state);
+	exe()->write_block(&FLASH->CR, 1, 25, state);
 }
 void FLASH_cr_eopie(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 24, state);
+	exe()->write_block(&FLASH->CR, 1, 24, state);
 }
 void FLASH_cr_strt(void)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 16, 1);
+	exe()->write_block(&FLASH->CR, 1, 16, 1);
 }
 void FLASH_cr_psize(uint8_t value)
 {
-	exe()->write_block_value(&FLASH->CR, 2, 8, value);
+	exe()->write_block(&FLASH->CR, 2, 8, value);
 }
 void FLASH_cr_snb(uint8_t value)
 {
-	exe()->write_block_value(&FLASH->CR, 4, 3, value);
+	exe()->write_block(&FLASH->CR, 4, 3, value);
 }
 void FLASH_cr_mer(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 2, state);
+	exe()->write_block(&FLASH->CR, 1, 2, state);
 }
 void FLASH_cr_ser(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 1, state);
+	exe()->write_block(&FLASH->CR, 1, 1, state);
 }
 void FLASH_cr_pg(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->CR, 1, 0, state);
+	exe()->write_block(&FLASH->CR, 1, 0, state);
 }
 // OPTCR
 void FLASH_optcr_sprmod(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 31, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 31, state);
 }
 void FLASH_optcr_n_wrp(uint8_t value)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 8, 16, value);
+	exe()->write_block(&FLASH->OPTCR, 8, 16, value);
 }
 uint8_t FLASH_optcr_get_n_wrp(void)
 {
-	return exe()->get_block_value(FLASH->OPTCR, 8, 16);
+	return exe()->get_block(FLASH->OPTCR, 8, 16);
 }
 void FLASH_optcr_rdp(uint8_t value)
 { // Do not permit Blocking Chip !!
-	if(value != 0xCC){ exe()->write_block_value(&FLASH->OPTCR, 8, 8, value);}
+	if(value != 0xCC){ exe()->write_block(&FLASH->OPTCR, 8, 8, value);}
 }
 uint8_t FLASH_optcr_get_rdp(void)
 {
-	return exe()->get_block_value(FLASH->OPTCR, 8, 8);
+	return exe()->get_block(FLASH->OPTCR, 8, 8);
 }
 void FLASH_optcr_nrst_stdby(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 7, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 7, state);
 }
 void FLASH_optcr_nrst_stop(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 6, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 6, state);
 }
 void FLASH_optcr_wdg_sw(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 5, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 5, state);
 }
 void FLASH_optcr_bor_lev(uint8_t value)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 2, 2, value);
+	exe()->write_block(&FLASH->OPTCR, 2, 2, value);
 }
 void FLASH_optcr_optstrt(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 1, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 1, state);
 }
 void FLASH_optcr_optlock(uint8_t state)
 {
-	exe()->write_block_value(&FLASH->OPTCR, 1, 0, state);
+	exe()->write_block(&FLASH->OPTCR, 1, 0, state);
 }
 /*** Other ***/
 void FLASH_nvic(uint8_t state)
 {
-	if(state){ exe()->write_bit_block_value(NVIC->ISER, 1, FLASH_IRQn, 1); } else{ exe()->write_bit_block_value(NVIC->ICER, 1, FLASH_IRQn, 1); }
+	if(state){ exe()->write_bit_block(NVIC->ISER, 1, FLASH_IRQn, 1); } else{ exe()->write_bit_block(NVIC->ICER, 1, FLASH_IRQn, 1); }
 }
 /*** FLASH Auxiliar ***/
 static STM32FXXX_FLASH_acr stm32fxxx_flash_acr_setup = {

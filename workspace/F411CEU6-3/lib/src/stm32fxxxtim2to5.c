@@ -20,10 +20,10 @@ void TIM2_Clock(uint8_t state)
 }
 void TIM2_Nvic(uint8_t state)
 { // 28
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM2_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM2_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM2_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM2_IRQn, 1);}
 }
-void TIM2_start(void){ exe()->write_field_value(&TIM2->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM2_stop(void){ exe()->write_field_value(&TIM2->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM2_start(void){ exe()->write_field(&TIM2->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM2_stop(void){ exe()->write_field(&TIM2->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM2 INIC Procedure & Function Definition ***/
 static tim2to5_callback tim2_callback_setup = {0};
@@ -48,10 +48,10 @@ void TIM3_Clock(uint8_t state)
 }
 void TIM3_Nvic(uint8_t state)
 { // 29
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM3_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM3_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM3_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM3_IRQn, 1);}
 }
-void TIM3_start(void){ exe()->write_field_value(&TIM3->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM3_stop(void){ exe()->write_field_value(&TIM3->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM3_start(void){ exe()->write_field(&TIM3->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM3_stop(void){ exe()->write_field(&TIM3->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM3 INIC Procedure & Function Definition ***/
 static tim2to5_callback tim3_callback_setup = {0};
@@ -76,10 +76,10 @@ void TIM4_Clock(uint8_t state)
 }
 void TIM4_Nvic(uint8_t state)
 { // 30
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM4_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM4_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM4_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM4_IRQn, 1);}
 }
-void TIM4_start(void){ exe()->write_field_value(&TIM4->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM4_stop(void){ exe()->write_field_value(&TIM4->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM4_start(void){ exe()->write_field(&TIM4->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM4_stop(void){ exe()->write_field(&TIM4->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM4 INIC Procedure & Function Definition ***/
 static tim2to5_callback tim4_callback_setup = {0};
@@ -104,10 +104,10 @@ void TIM5_Clock(uint8_t state)
 }
 void TIM5_Nvic(uint8_t state)
 { // 50
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM5_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM5_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM5_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM5_IRQn, 1);}
 }
-void TIM5_start(void){ exe()->write_field_value(&TIM5->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM5_stop(void){ exe()->write_field_value(&TIM5->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM5_start(void){ exe()->write_field(&TIM5->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM5_stop(void){ exe()->write_field(&TIM5->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM5 INIC Procedure & Function Definition ***/
 static tim2to5_callback tim5_callback_setup = {0};

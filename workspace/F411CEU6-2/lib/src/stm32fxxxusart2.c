@@ -27,7 +27,7 @@ void USART2_Clock( uint8_t state )
 }
 void USART2_Nvic( uint8_t state )
 {
-	if(state){ exe()->write_bit_block_value(NVIC->ISER, 1, USART2_IRQn, 1); }else{ exe()->write_bit_block_value(NVIC->ICER, 1, USART2_IRQn, 1); }
+	if(state){ exe()->write_bit_block(NVIC->ISER, 1, USART2_IRQn, 1); }else{ exe()->write_bit_block(NVIC->ICER, 1, USART2_IRQn, 1); }
 }
 void USART2_WordLength(uint8_t wordlength) {
     // Clear the M bit to reset word length

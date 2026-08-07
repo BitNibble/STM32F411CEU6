@@ -18,10 +18,10 @@ void TIM9_Clock(uint8_t state)
 }
 void TIM9_Nvic(uint8_t state)
 { // 24
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);}else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_BRK_TIM9_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM1_BRK_TIM9_IRQn, 1);}else{exe()->write_bit_block(NVIC->ICER, 1, TIM1_BRK_TIM9_IRQn, 1);}
 }
-void TIM9_start(void){ exe()->write_field_value(&TIM9->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM9_stop(void){ exe()->write_field_value(&TIM9->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM9_start(void){ exe()->write_field(&TIM9->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM9_stop(void){ exe()->write_field(&TIM9->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM9 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim9_callback_setup = {0};
@@ -46,10 +46,10 @@ void TIM10_Clock(uint8_t state)
 }
 void TIM10_Nvic(uint8_t state)
 { // 25
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_UP_TIM10_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_UP_TIM10_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM1_UP_TIM10_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM1_UP_TIM10_IRQn, 1);}
 }
-void TIM10_start(void){ exe()->write_field_value(&TIM10->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM10_stop(void){ exe()->write_field_value(&TIM10->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM10_start(void){ exe()->write_field(&TIM10->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM10_stop(void){ exe()->write_field(&TIM10->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM10 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim10_callback_setup = {0};
@@ -74,10 +74,10 @@ void TIM11_Clock(uint8_t state)
 }
 void TIM11_Nvic(uint8_t state)
 { // 26
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);} else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);} else{exe()->write_bit_block(NVIC->ICER, 1, TIM1_TRG_COM_TIM11_IRQn, 1);}
 }
-void TIM11_start(void){ exe()->write_field_value(&TIM11->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
-void TIM11_stop(void){ exe()->write_field_value(&TIM11->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
+void TIM11_start(void){ exe()->write_field(&TIM11->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,1); }
+void TIM11_stop(void){ exe()->write_field(&TIM11->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM11 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim11_callback_setup = {0};
@@ -103,10 +103,10 @@ void TIM12_Clock(uint8_t state)
 }
 void TIM12_Nvic(uint8_t state)
 { // 43
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);}else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM8_BRK_TIM12_IRQn, 1);}else{exe()->write_bit_block(NVIC->ICER, 1, TIM8_BRK_TIM12_IRQn, 1);}
 }
-void TIM12_start(void){ exe()->write_field_value_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
-void TIM12_stop(void){ exe()->write_field_value_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
+void TIM12_start(void){ exe()->write_field_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
+void TIM12_stop(void){ exe()->write_field_Pos(&TIM12->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM12 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim12_callback_setup = {0};
@@ -135,10 +135,10 @@ void TIM13_Clock(uint8_t state)
 }
 void TIM13_Nvic(uint8_t state)
 { // 44
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);}else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM8_UP_TIM13_IRQn, 1);}else{exe()->write_bit_block(NVIC->ICER, 1, TIM8_UP_TIM13_IRQn, 1);}
 }
-void TIM13_start(void){ exe()->write_field_value_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
-void TIM13_stop(void){ exe()->write_field_value_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
+void TIM13_start(void){ exe()->write_field_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
+void TIM13_stop(void){ exe()->write_field_Pos(&TIM13->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM13 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim13_callback_setup = {0};
@@ -163,10 +163,10 @@ void TIM14_Clock(uint8_t state)
 }
 void TIM14_Nvic(uint8_t state)
 { // 45
-	if(state){exe()->write_bit_block_value(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}else{exe()->write_bit_block_value(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}
+	if(state){exe()->write_bit_block(NVIC->ISER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}else{exe()->write_bit_block(NVIC->ICER, 1, TIM8_TRG_COM_TIM14_IRQn, 1);}
 }
-void TIM14_start(void){ exe()->write_field_value_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
-void TIM14_stop(void){ exe()->write_field_value_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
+void TIM14_start(void){ exe()->write_field_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,1); }
+void TIM14_stop(void){ exe()->write_field_Pos(&TIM14->CR1, TIM_CR1_CEN_Msk, TIM_CR1_CEN_Pos, TIM_CR1_CEN_Pos,0); }
 
 /*** TIM14 INIC Procedure & Function Definition ***/
 static tim9to14_callback tim14_callback_setup = {0};

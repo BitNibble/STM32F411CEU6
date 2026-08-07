@@ -409,7 +409,7 @@ while (1) {
 	rtc()->dr2vec(vecD);
 	rtc()->tr2vec(vecT);
 
-	if(seconds.update(&seconds.par,vecT[5])){
+	if(seconds.update(&seconds.par,vecT[5])) {
 
 	lcd1.start(&lcd1.par);
 	lcd1.drawstring16x24_size(&lcd1.par,state,10,10,ST77XX_BLUE,BG_COLOUR, 12);
