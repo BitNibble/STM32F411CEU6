@@ -235,9 +235,9 @@ uint32_t get_timclk2(void)
 }
 
 /************************* Generic UTILS ***************************/
-U_word writeHLbyte(uint16_t v)
+U_hword writeHLbyte(uint16_t v)
 {
-    U_word w;
+    U_hword w;
     w.par.h = v >> 8;
     w.par.l = v & 0xFF;
     return w;

@@ -30,7 +30,7 @@ typedef union{
 		uint8_t h;
 	}par;
 	uint16_t var;
-}U_word;
+}U_hword;
 
 typedef union{
 	struct UN32word{
@@ -38,7 +38,7 @@ typedef union{
 		uint16_t h;
 	}par;
 	uint32_t var;
-}U_dword;
+}U_word;
 
 typedef union{
 	struct UN64dword{
@@ -46,7 +46,7 @@ typedef union{
 		uint32_t h;
 	}par;
 	uint64_t var;
-}U_qword;
+}U_dword;
 
 typedef enum {
     USART_STOP_1   = 0,
@@ -178,7 +178,7 @@ uint32_t get_timclk1(void);
 uint32_t get_timclk2(void);
 
 /************************* Generic UTILS ***************************/
-U_word writeHLbyte(uint16_t v);
+U_hword writeHLbyte(uint16_t v);
 
 /************************** TIMER UTILS ******************************/
 void TIM_Int(TIM_TypeDef* tim, uint32_t Int_Msk, uint8_t enable);

@@ -203,7 +203,7 @@ static inline void st7789_data(ST7789_par* par, uint8_t d) {
 
 void st7789_set_caset(ST7789_par* par, uint16_t x0, uint16_t x1)
 {
-	U_word w;
+	U_hword w;
 	
 	st7789_cmd(par, ST77XX_CASET);
 	w = writeHLbyte(x0 + ST7789_X_OFFSET); st7789_data(par, w.par.h); st7789_data(par, w.par.l);
@@ -213,7 +213,7 @@ void st7789_set_caset(ST7789_par* par, uint16_t x0, uint16_t x1)
 
 void st7789_set_raset(ST7789_par* par, uint16_t y0, uint16_t y1)
 {
-	U_word w;
+	U_hword w;
 
 	st7789_cmd(par, ST77XX_RASET);
 	w = writeHLbyte(y0 + ST7789_Y_OFFSET); st7789_data(par, w.par.h); st7789_data(par, w.par.l);
@@ -299,7 +299,7 @@ void st7789_set_window(ST7789_par* par, uint16_t x0, uint16_t y0, uint16_t x1, u
 }
 
 void st7789_shift_pixel(ST7789_par* par, uint16_t color) {
-	U_word data = { .var = color };
+	U_hword data = { .var = color };
 	st7789_data(par, data.par.h);
 	st7789_data(par, data.par.l);
 }
@@ -323,8 +323,8 @@ void st7789_fill_screen(ST7789_par* par, uint16_t color) {
 }
 
 static inline void st7789_draw_bits_fast(ST7789_par* par, uint8_t byte, uint8_t n_bits, uint16_t fg, uint16_t bg) {
-    U_word FG = { .var = fg };
-    U_word BG = { .var = bg };
+    U_hword FG = { .var = fg };
+    U_hword BG = { .var = bg };
 
     for(int i = 0; i < n_bits; i++) {
         uint8_t bit = 7 - i;
@@ -1143,9 +1143,9 @@ void st7789_setup_spi(ST7789_par* par)
 
 /*** Initial Screen ***/
 void boot_screen(ST7789_par* par, uint16_t colour){
-	//U_word color = { .var = 0x0340 };
-	U_word color = { .var = colour };
-	//U_word color = { .var = ST77XX_WHITE };
+	//U_hword color = { .var = 0x0340 };
+	U_hword color = { .var = colour };
+	//U_hword color = { .var = ST77XX_WHITE };
 	//st7789_cs_low(par);
 	st7789_set_window(par, 0, 0, 239, 239);
 	for (uint32_t i = 0; i < 240UL * 240; i++) {
