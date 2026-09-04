@@ -10,44 +10,6 @@ Hardware: STM32F4 Family
 #include <stm32f4xx.h>
 #include "custom_hal_def.h"
 
-typedef union{
-	struct UN8bit{
-		uint8_t bit0:1;
-		uint8_t bit1:1;
-		uint8_t bit2:1;
-		uint8_t bit3:1;
-		uint8_t bit4:1;
-		uint8_t bit5:1;
-		uint8_t bit6:1;
-		uint8_t bit7:1;
-	}par;
-	uint8_t var;
-}U_byte;
-
-typedef union{
-	struct UN16byte{
-		uint8_t l;
-		uint8_t h;
-	}par;
-	uint16_t var;
-}U_hword;
-
-typedef union{
-	struct UN32word{
-		uint16_t l;
-		uint16_t h;
-	}par;
-	uint32_t var;
-}U_word;
-
-typedef union{
-	struct UN64dword{
-		uint32_t l;
-		uint32_t h;
-	}par;
-	uint64_t var;
-}U_dword;
-
 typedef enum {
     USART_STOP_1   = 0,
     USART_STOP_0_5,
