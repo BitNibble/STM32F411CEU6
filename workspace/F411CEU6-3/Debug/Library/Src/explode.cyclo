@@ -1,0 +1,7 @@
+../Library/Src/explode.c:24:19:explode_par_inic	1
+../Library/Src/explode.c:34:9:EXPLODE_enable	1
+../Library/Src/explode.c:47:6:EXPLODEupdate	1
+../Library/Src/explode.c:57:8:EXPLODEhh	1
+../Library/Src/explode.c:62:8:EXPLODEll	1
+../Library/Src/explode.c:67:8:EXPLODElh	1
+../Library/Src/explode.c:75:8:EXPLODEhl	1

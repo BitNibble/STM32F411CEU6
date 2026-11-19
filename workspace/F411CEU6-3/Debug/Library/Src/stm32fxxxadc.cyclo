@@ -1,0 +1,2 @@
+../Library/Src/stm32fxxxadc.c:19:10:STM32FXXXADC_cdr	1
+../Library/Src/stm32fxxxadc.c:24:24:stm32fxxx_adc_common_inic	1

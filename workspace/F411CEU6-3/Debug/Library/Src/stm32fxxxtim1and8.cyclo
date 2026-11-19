@@ -1,0 +1,4 @@
+../Library/Src/stm32fxxxtim1and8.c:22:6:STM32FXXXTim1Clock	2
+../Library/Src/stm32fxxxtim1and8.c:26:6:STM32FXXXTim1Nvic	9
+../Library/Src/stm32fxxxtim1and8.c:100:18:tim1_enable	1
+../Library/Src/stm32fxxxtim1and8.c:130:19:tim1	1

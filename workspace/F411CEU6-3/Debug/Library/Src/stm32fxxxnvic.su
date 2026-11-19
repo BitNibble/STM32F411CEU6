@@ -1,0 +1,9 @@
+../Library/Src/stm32fxxxnvic.c:18:6:STM32FXXXNVIC_set_enable	16	static
+../Library/Src/stm32fxxxnvic.c:22:6:STM32FXXXNVIC_clear_enable	16	static
+../Library/Src/stm32fxxxnvic.c:26:6:STM32FXXXNVIC_set_pending	16	static
+../Library/Src/stm32fxxxnvic.c:30:6:STM32FXXXNVIC_clear_pending	16	static
+../Library/Src/stm32fxxxnvic.c:34:9:STM32FXXXNVIC_active	32	static
+../Library/Src/stm32fxxxnvic.c:43:6:STM32FXXXNVIC_priority	24	static
+../Library/Src/stm32fxxxnvic.c:48:6:STM32FXXXNVIC_trigger	16	static
+../Library/Src/stm32fxxxnvic.c:53:18:nvic_enable	24	static
+../Library/Src/stm32fxxxnvic.c:67:19:nvic	4	static

@@ -1,0 +1,5 @@
+../Library/Src/buffer.c:23:17:buff_par_inic	1
+../Library/Src/buffer.c:33:6:BUFF_enable	1
+../Library/Src/buffer.c:46:6:BUFF_push	3
+../Library/Src/buffer.c:62:10:BUFF_raw	1
+../Library/Src/buffer.c:66:6:BUFF_flush	1

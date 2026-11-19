@@ -1,0 +1,6 @@
+../Library/Src/circbuffer.c:24:16:circ_par_inic	1
+../Library/Src/circbuffer.c:35:10:CIRCBUFF_enable	1
+../Library/Src/circbuffer.c:49:9:CIRC_get	3
+../Library/Src/circbuffer.c:67:6:CIRC_put	3
+../Library/Src/circbuffer.c:84:6:CIRC_putstr	2
+../Library/Src/circbuffer.c:90:6:CIRC_getstr	2

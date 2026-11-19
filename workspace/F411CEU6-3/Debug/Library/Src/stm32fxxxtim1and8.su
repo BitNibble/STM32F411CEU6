@@ -1,0 +1,4 @@
+../Library/Src/stm32fxxxtim1and8.c:22:6:STM32FXXXTim1Clock	16	static
+../Library/Src/stm32fxxxtim1and8.c:26:6:STM32FXXXTim1Nvic	16	static
+../Library/Src/stm32fxxxtim1and8.c:100:18:tim1_enable	16	static
+../Library/Src/stm32fxxxtim1and8.c:130:19:tim1	4	static

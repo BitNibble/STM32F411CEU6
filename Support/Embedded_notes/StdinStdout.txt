@@ -1,0 +1,602 @@
+#include "stm32f4xx.h"  // Adjust for your MCU
+
+void USART1_Init(void) {
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;  // USART1 clock enable
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;   // GPIOA clock enable
+
+    // Set PA9 (TX) and PA10 (RX) to alternate function mode (AF7 for USART1)
+    GPIOA->MODER &= ~(GPIO_MODER_MODER9 | GPIO_MODER_MODER10); // Clear mode
+    GPIOA->MODER |= (GPIO_MODER_MODER9_1 | GPIO_MODER_MODER10_1); // Set to AF mode
+
+    // Set AF7 (USART1) for PA9 and PA10
+    GPIOA->AFR[1] &= ~(GPIO_AFRH_AFRH1 | GPIO_AFRH_AFRH2); 
+    GPIOA->AFR[1] |= (0x7 << 4*(9 - 8)) | (0x7 << 4*(10 - 8)); 
+
+    // Configure USART1
+    USART1->BRR = 0x0683; // Baud rate 9600 @ 16 MHz clock
+    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE; // Enable transmitter and receiver
+    USART1->CR1 |= USART_CR1_UE; // Enable USART
+}
+
+void USART1_Write(uint8_t data) {
+    while (!(USART1->SR & USART_SR_TXE)); // Wait until TX buffer is empty
+    USART1->DR = data; // Write data to DR register
+}
+
+uint8_t USART1_Read(void) {
+    while (!(USART1->SR & USART_SR_RXNE)); // Wait until RX buffer is not empty
+    return (uint8_t)(USART1->DR & 0xFF); // Read received data
+}
+
+// Redirecting `printf` output to USART1
+int _write(int file, char *ptr, int len) {
+    for (int i = 0; i < len; i++) {
+        USART1_Write(ptr[i]);
+    }
+    return len;
+}
+
+// Redirecting `scanf` input from USART1
+int _read(int file, char *ptr, int len) {
+    for (int i = 0; i < len; i++) {
+        ptr[i] = USART1_Read();
+        // Echo back the character to USART1
+        USART1_Write(ptr[i]);
+        if (ptr[i] == '\r') { // If the Enter key (carriage return) is pressed
+            ptr[i] = '\n';    // Return newline for compatibility
+            break;
+        }
+    }
+    return len;
+}
+
+int main(void) {
+    USART1_Init(); // Initialize USART1
+
+    // Example: Redirected `printf` and `scanf`
+    printf("Enter a character: ");
+    char c;
+    scanf("%c", &c);
+    printf("\nYou entered: %c\n", c);
+
+    while (1) {
+        // Main loop
+    }
+}
+/**************************************************************************/
+#include "stm32f4xx.h"  // Adjust based on your MCU
+
+void I2C1_Init(void) {
+    // Enable clock for I2C1 and GPIOB
+    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+
+    // Set PB6 (SCL) and PB7 (SDA) to alternate function mode (AF4 for I2C1)
+    GPIOB->MODER &= ~(GPIO_MODER_MODER6 | GPIO_MODER_MODER7);  // Clear mode
+    GPIOB->MODER |= (GPIO_MODER_MODER6_1 | GPIO_MODER_MODER7_1);  // Set to AF mode
+
+    // Set AF4 (I2C1) for PB6 and PB7
+    GPIOB->AFR[0] &= ~(GPIO_AFRL_AFRL6 | GPIO_AFRL_AFRL7);
+    GPIOB->AFR[0] |= (0x4 << (6 * 4)) | (0x4 << (7 * 4));  // AF4 for I2C1
+
+    // Configure I2C1
+    I2C1->CR2 = 16;  // Set peripheral clock frequency (16 MHz in this case)
+    I2C1->CCR = 80;  // Standard mode, 100 kHz clock (adjust based on timing)
+    I2C1->TRISE = 17;  // Max rise time for 100 kHz (adjust for your speed)
+    I2C1->CR1 |= I2C_CR1_PE;  // Enable I2C1
+}
+
+void I2C1_Write(uint8_t address, uint8_t data) {
+    // Send START condition
+    I2C1->CR1 |= I2C_CR1_START;
+    while (!(I2C1->SR1 & I2C_SR1_SB));  // Wait for START condition to be generated
+
+    // Send slave address with write bit (0)
+    I2C1->DR = address << 1;
+    while (!(I2C1->SR1 & I2C_SR1_ADDR));  // Wait for address transmission
+    (void)I2C1->SR2;  // Clear address flag
+
+    // Send data
+    I2C1->DR = data;
+    while (!(I2C1->SR1 & I2C_SR1_TXE));  // Wait for data transmission
+
+    // Send STOP condition
+    I2C1->CR1 |= I2C_CR1_STOP;
+}
+
+uint8_t I2C1_Read(uint8_t address) {
+    uint8_t data;
+
+    // Send START condition
+    I2C1->CR1 |= I2C_CR1_START;
+    while (!(I2C1->SR1 & I2C_SR1_SB));  // Wait for START condition
+
+    // Send slave address with read bit (1)
+    I2C1->DR = (address << 1) | 1;
+    while (!(I2C1->SR1 & I2C_SR1_ADDR));  // Wait for address transmission
+    (void)I2C1->SR2;  // Clear address flag
+
+    // Wait until data is received
+    while (!(I2C1->SR1 & I2C_SR1_RXNE));
+    data = I2C1->DR;  // Read received data
+
+    // Send STOP condition
+    I2C1->CR1 |= I2C_CR1_STOP;
+
+    return data;
+}
+
+// Redirecting `printf` output to I2C1
+int _write(int file, char *ptr, int len) {
+    uint8_t i2c_slave_address = 0x50;  // Adjust to your I2C slave address
+    for (int i = 0; i < len; i++) {
+        I2C1_Write(i2c_slave_address, ptr[i]);
+    }
+    return len;
+}
+
+// Redirecting `scanf` input from I2C1
+int _read(int file, char *ptr, int len) {
+    uint8_t i2c_slave_address = 0x50;  // Adjust to your I2C slave address
+    for (int i = 0; i < len; i++) {
+        ptr[i] = I2C1_Read(i2c_slave_address);
+        if (ptr[i] == '\r') {  // Handle carriage return
+            ptr[i] = '\n';
+            break;
+        }
+    }
+    return len;
+}
+
+int main(void) {
+    I2C1_Init();  // Initialize I2C1
+
+    // Example: Redirected `printf` and `scanf` using I2C1
+    printf("Send data over I2C:\n");
+    char c;
+    scanf("%c", &c);
+    printf("\nData received: %c\n", c);
+
+    while (1) {
+        // Main loop
+    }
+}
+/**************************************************************************/
+#include "stm32f4xx.h"
+#include <stdio.h>
+#include <string.h>
+
+#define USART1_FILE 1  // Define custom file descriptor for USART1
+
+void USART1_Init(void) {
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+
+    GPIOA->MODER &= ~(GPIO_MODER_MODER9 | GPIO_MODER_MODER10);
+    GPIOA->MODER |= (GPIO_MODER_MODER9_1 | GPIO_MODER_MODER10_1);
+
+    GPIOA->AFR[1] &= ~(GPIO_AFRH_AFRH1 | GPIO_AFRH_AFRH2);
+    GPIOA->AFR[1] |= (0x7 << 4 * (9 - 8)) | (0x7 << 4 * (10 - 8));
+
+    USART1->BRR = 0x0683;
+    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;
+    USART1->CR1 |= USART_CR1_UE;
+}
+
+void USART1_Write(uint8_t data) {
+    while (!(USART1->SR & USART_SR_TXE));
+    USART1->DR = data;
+}
+
+uint8_t USART1_Read(void) {
+    while (!(USART1->SR & USART_SR_RXNE));
+    return (uint8_t)(USART1->DR & 0xFF);
+}
+
+// Custom fopen for USART1
+FILE *fopen_usart1(const char *mode) {
+    if (strcmp(mode, "r") == 0 || strcmp(mode, "w") == 0 || strcmp(mode, "rw") == 0) {
+        return (FILE *)USART1_FILE;  // Return a custom file descriptor
+    }
+    return NULL;  // Invalid mode
+}
+
+// Custom fread for USART1
+size_t fread_usart1(void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    uint8_t *buffer = (uint8_t *)ptr;
+    for (size_t i = 0; i < totalBytes; i++) {
+        buffer[i] = USART1_Read();
+    }
+
+    return count;
+}
+
+// Custom fwrite for USART1
+size_t fwrite_usart1(const void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    const uint8_t *buffer = (const uint8_t *)ptr;
+    for (size_t i = 0; i < totalBytes; i++) {
+        USART1_Write(buffer[i]);
+    }
+
+    return count;
+}
+
+// Custom fclose for USART1
+int fclose_usart1(FILE *stream) {
+    if ((int)stream == USART1_FILE) {
+        // Optionally disable USART1 here if needed.
+        return 0;
+    }
+    return EOF;
+}
+
+int main(void) {
+    USART1_Init();
+
+    // Open USART1 as a file
+    FILE *usartFile = fopen_usart1("rw");
+
+    if (usartFile != NULL) {
+        // Write a message to USART1
+        char message[] = "Hello, USART1!\n";
+        fwrite_usart1(message, sizeof(char), strlen(message), usartFile);
+
+        // Read a character from USART1 and print it
+        char c;
+        fread_usart1(&c, sizeof(char), 1, usartFile);
+        fwrite_usart1(&c, sizeof(char), 1, usartFile);  // Echo it back
+
+        // Close the USART1 "file"
+        fclose_usart1(usartFile);
+    }
+
+    while (1) {
+        // Main loop
+    }
+}
+/**************************************************************************/
+#include "stm32f4xx.h"
+#include <stdio.h>
+#include <string.h>
+
+#define USART1_FILE 1  // Custom file descriptor for USART1
+#define BUFFER_SIZE 128
+
+uint8_t usart1_tx_buffer[BUFFER_SIZE];
+uint8_t usart1_rx_buffer[BUFFER_SIZE];
+
+// Function to initialize USART1 with DMA
+void USART1_DMA_Init(void) {
+    // Enable clocks for GPIOA, USART1, and DMA2
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_DMA2EN;
+
+    // Configure PA9 (TX) and PA10 (RX) for USART1
+    GPIOA->MODER &= ~(GPIO_MODER_MODER9 | GPIO_MODER_MODER10);
+    GPIOA->MODER |= (GPIO_MODER_MODER9_1 | GPIO_MODER_MODER10_1);  // Alternate function
+
+    // Set AF7 (USART1) for PA9 and PA10
+    GPIOA->AFR[1] &= ~(GPIO_AFRH_AFRH1 | GPIO_AFRH_AFRH2);
+    GPIOA->AFR[1] |= (0x7 << 4 * (9 - 8)) | (0x7 << 4 * (10 - 8));
+
+    // USART1 configuration: 115200 baud, 8N1
+    USART1->BRR = 0x0683;  // Baud rate
+    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;  // Enable TX and RX
+    USART1->CR1 |= USART_CR1_UE;  // Enable USART
+
+    // DMA2 Stream7 (TX) configuration for USART1
+    DMA2_Stream7->CR &= ~DMA_SxCR_EN;  // Disable stream before configuration
+    DMA2_Stream7->CR = (4 << DMA_SxCR_CHSEL_Pos) |  // Channel 4 for USART1_TX
+                       DMA_SxCR_MINC |              // Memory increment mode
+                       DMA_SxCR_DIR_0 |             // Memory-to-peripheral
+                       DMA_SxCR_TCIE;               // Enable transfer complete interrupt
+    DMA2_Stream7->PAR = (uint32_t)&USART1->DR;  // Peripheral address (USART1 data register)
+    
+    // DMA2 Stream2 (RX) configuration for USART1
+    DMA2_Stream2->CR &= ~DMA_SxCR_EN;  // Disable stream before configuration
+    DMA2_Stream2->CR = (4 << DMA_SxCR_CHSEL_Pos) |  // Channel 4 for USART1_RX
+                       DMA_SxCR_MINC |              // Memory increment mode
+                       DMA_SxCR_TCIE;               // Enable transfer complete interrupt
+    DMA2_Stream2->PAR = (uint32_t)&USART1->DR;  // Peripheral address (USART1 data register)
+
+    // Enable DMA request for USART1 TX and RX
+    USART1->CR3 |= USART_CR3_DMAT | USART_CR3_DMAR;
+}
+
+// DMA2 Stream7 (TX) start transfer
+void USART1_DMA_Transmit(uint8_t *data, uint16_t len) {
+    DMA2_Stream7->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream7->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream7->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// DMA2 Stream2 (RX) start transfer
+void USART1_DMA_Receive(uint8_t *data, uint16_t len) {
+    DMA2_Stream2->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream2->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream2->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// Custom fopen for USART1 (with DMA)
+FILE *fopen_usart1(const char *mode) {
+    if (strcmp(mode, "r") == 0 || strcmp(mode, "w") == 0 || strcmp(mode, "rw") == 0) {
+        return (FILE *)USART1_FILE;  // Return a custom file descriptor
+    }
+    return NULL;  // Invalid mode
+}
+
+// Custom fread for USART1 using DMA
+size_t fread_usart1(void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    USART1_DMA_Receive(ptr, totalBytes);
+    
+    // Wait for the DMA transfer to complete
+    while (DMA2_Stream2->NDTR > 0);
+
+    return count;
+}
+
+// Custom fwrite for USART1 using DMA
+size_t fwrite_usart1(const void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    USART1_DMA_Transmit((uint8_t *)ptr, totalBytes);
+    
+    // Wait for the DMA transfer to complete
+    while (DMA2_Stream7->NDTR > 0);
+
+    return count;
+}
+
+// Custom fclose for USART1
+int fclose_usart1(FILE *stream) {
+    if ((int)stream == USART1_FILE) {
+        // Optionally disable USART1 here if needed
+        return 0;
+    }
+    return EOF;
+}
+
+int main(void) {
+    USART1_DMA_Init();  // Initialize USART1 with DMA
+
+    // Open USART1 as a file
+    FILE *usartFile = fopen_usart1("rw");
+
+    if (usartFile != NULL) {
+        // Write a message to USART1 using DMA
+        char message[] = "Hello, USART1 with DMA!\n";
+        fwrite_usart1(message, sizeof(char), strlen(message), usartFile);
+
+        // Read a character from USART1 using DMA and echo it back
+        char c;
+        fread_usart1(&c, sizeof(char), 1, usartFile);
+        fwrite_usart1(&c, sizeof(char), 1, usartFile);  // Echo it back
+
+        // Close the USART1 "file"
+        fclose_usart1(usartFile);
+    }
+
+    while (1) {
+        // Main loop
+    }
+}
+/**************************************************************************/
+// DMA2 Stream2 (RX) complete callback
+void DMA2_Stream2_IRQHandler(void) {
+    if (DMA2->HIFCR & DMA_HIFCR_CTCIF2) { // Check if transfer complete
+        // Handle completed transfer (e.g., process received data)
+        // Optionally clear the interrupt flag
+        DMA2->HIFCR |= DMA_HIFCR_CTCIF2;
+    }
+}
+
+// Start DMA receive without blocking
+void USART1_DMA_Receive(uint8_t *data, uint16_t len) {
+    DMA2_Stream2->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream2->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream2->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// In main loop, continue executing while waiting for data
+while (1) {
+    // Main loop can perform other tasks here
+}
+/**************************************************************************/
+// DMA2 Stream2 (RX) complete callback
+void DMA2_Stream2_IRQHandler(void) {
+    if (DMA2->HIFCR & DMA_HIFCR_CTCIF2) { // Check if transfer complete
+        // Handle completed transfer (e.g., process received data)
+        // Optionally clear the interrupt flag
+        DMA2->HIFCR |= DMA_HIFCR_CTCIF2;
+    }
+}
+
+// Start DMA receive without blocking
+void USART1_DMA_Receive(uint8_t *data, uint16_t len) {
+    DMA2_Stream2->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream2->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream2->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// In main loop, continue executing while waiting for data
+while (1) {
+    // Main loop can perform other tasks here
+}
+/**************************************************************************/
+#include "stm32f4xx.h"
+#include <stdio.h>
+#include <string.h>
+
+#define USART1_FILE 1  // Custom file descriptor for USART1
+#define BUFFER_SIZE 128
+
+uint8_t usart1_tx_buffer[BUFFER_SIZE];
+uint8_t usart1_rx_buffer[BUFFER_SIZE];
+volatile uint8_t data_received = 0; // Flag to indicate data received
+
+// Function to initialize USART1 with DMA
+void USART1_DMA_Init(void) {
+    // Enable clocks for GPIOA, USART1, and DMA2
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_DMA2EN;
+
+    // Configure PA9 (TX) and PA10 (RX) for USART1
+    GPIOA->MODER &= ~(GPIO_MODER_MODER9 | GPIO_MODER_MODER10);
+    GPIOA->MODER |= (GPIO_MODER_MODER9_1 | GPIO_MODER_MODER10_1);  // Alternate function
+
+    // Set AF7 (USART1) for PA9 and PA10
+    GPIOA->AFR[1] &= ~(GPIO_AFRH_AFRH1 | GPIO_AFRH_AFRH2);
+    GPIOA->AFR[1] |= (0x7 << 4 * (9 - 8)) | (0x7 << 4 * (10 - 8));
+
+    // USART1 configuration: 115200 baud, 8N1
+    USART1->BRR = 0x0683;  // Baud rate
+    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;  // Enable TX and RX
+    USART1->CR1 |= USART_CR1_UE;  // Enable USART
+
+    // DMA2 Stream7 (TX) configuration for USART1
+    DMA2_Stream7->CR &= ~DMA_SxCR_EN;  // Disable stream before configuration
+    DMA2_Stream7->CR = (4 << DMA_SxCR_CHSEL_Pos) |  // Channel 4 for USART1_TX
+                       DMA_SxCR_MINC |              // Memory increment mode
+                       DMA_SxCR_DIR_0 |             // Memory-to-peripheral
+                       DMA_SxCR_TCIE;               // Enable transfer complete interrupt
+    DMA2_Stream7->PAR = (uint32_t)&USART1->DR;  // Peripheral address (USART1 data register)
+    
+    // DMA2 Stream2 (RX) configuration for USART1
+    DMA2_Stream2->CR &= ~DMA_SxCR_EN;  // Disable stream before configuration
+    DMA2_Stream2->CR = (4 << DMA_SxCR_CHSEL_Pos) |  // Channel 4 for USART1_RX
+                       DMA_SxCR_MINC |              // Memory increment mode
+                       DMA_SxCR_TCIE;               // Enable transfer complete interrupt
+    DMA2_Stream2->PAR = (uint32_t)&USART1->DR;  // Peripheral address (USART1 data register)
+
+    // Enable DMA request for USART1 TX and RX
+    USART1->CR3 |= USART_CR3_DMAT | USART_CR3_DMAR;
+}
+
+// DMA2 Stream7 (TX) complete callback
+void DMA2_Stream7_IRQHandler(void) {
+    if (DMA2->HIFCR & DMA_HIFCR_CTCIF7) { // Check if transfer complete
+        // Handle completed transfer for TX if needed
+        DMA2->HIFCR |= DMA_HIFCR_CTCIF7; // Clear interrupt flag
+    }
+}
+
+// DMA2 Stream2 (RX) complete callback
+void DMA2_Stream2_IRQHandler(void) {
+    if (DMA2->HIFCR & DMA_HIFCR_CTCIF2) { // Check if transfer complete
+        data_received = 1;  // Set flag indicating data received
+        DMA2->HIFCR |= DMA_HIFCR_CTCIF2; // Clear interrupt flag
+    }
+}
+
+// Start DMA transmit operation
+void USART1_DMA_Transmit(uint8_t *data, uint16_t len) {
+    DMA2_Stream7->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream7->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream7->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// Start DMA receive operation
+void USART1_DMA_Receive(uint8_t *data, uint16_t len) {
+    DMA2_Stream2->M0AR = (uint32_t)data;  // Set memory address
+    DMA2_Stream2->NDTR = len;  // Set number of data to transfer
+    DMA2_Stream2->CR |= DMA_SxCR_EN;  // Enable DMA stream
+}
+
+// Custom fopen for USART1 (with DMA)
+FILE *fopen_usart1(const char *mode) {
+    if (strcmp(mode, "r") == 0 || strcmp(mode, "w") == 0 || strcmp(mode, "rw") == 0) {
+        return (FILE *)USART1_FILE;  // Return a custom file descriptor
+    }
+    return NULL;  // Invalid mode
+}
+
+// Custom fread for USART1 using DMA
+size_t fread_usart1(void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    USART1_DMA_Receive(ptr, totalBytes);
+
+    return count; // Return number of items requested
+}
+
+// Custom fwrite for USART1 using DMA
+size_t fwrite_usart1(const void *ptr, size_t size, size_t count, FILE *stream) {
+    if ((int)stream != USART1_FILE) {
+        return 0;
+    }
+
+    size_t totalBytes = size * count;
+    USART1_DMA_Transmit((uint8_t *)ptr, totalBytes);
+
+    return count; // Return number of items requested
+}
+
+// Custom fclose for USART1
+int fclose_usart1(FILE *stream) {
+    if ((int)stream == USART1_FILE) {
+        // Optionally disable USART1 here if needed
+        return 0;
+    }
+    return EOF;
+}
+
+int main(void) {
+    USART1_DMA_Init();  // Initialize USART1 with DMA
+
+    // Open USART1 as a file
+    FILE *usartFile = fopen_usart1("rw");
+
+    if (usartFile != NULL) {
+        // Write a message to USART1 using DMA
+        char message[] = "Hello, USART1 with DMA!\n";
+        fwrite_usart1(message, sizeof(char), strlen(message), usartFile);
+
+        // Start receiving data via USART1
+        USART1_DMA_Receive(usart1_rx_buffer, BUFFER_SIZE);
+
+        // Main loop
+        while (1) {
+            if (data_received) {
+                // Data has been received, process it
+                data_received = 0;  // Reset the flag
+                // Echo received data back
+                fwrite_usart1(usart1_rx_buffer, sizeof(char), 1, usartFile);  // Echo back the first byte
+                USART1_DMA_Receive(usart1_rx_buffer, BUFFER_SIZE); // Prepare for the next reception
+            }
+        }
+
+        // Close the USART1 "file"
+        fclose_usart1(usartFile);
+    }
+
+    while (1) {
+        // Main loop
+    }
+}
+
+// Interrupt handlers for DMA2 Stream2 and Stream7
+void DMA2_Stream2_IRQHandler(void);
+void DMA2_Stream7_IRQHandler(void);
+/**************************************************************************/
+

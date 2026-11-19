@@ -1,0 +1,8 @@
+../Library/Src/stm32fxxxcrc.c:19:6:STM32FXXXCRC_dr	1
+../Library/Src/stm32fxxxcrc.c:23:10:STM32FXXXCRC_get_dr	1
+../Library/Src/stm32fxxxcrc.c:27:6:STM32FXXXCRC_idr	1
+../Library/Src/stm32fxxxcrc.c:31:9:STM32FXXXCRC_get_idr	1
+../Library/Src/stm32fxxxcrc.c:35:6:STM32FXXXCRC_reset	1
+../Library/Src/stm32fxxxcrc.c:39:6:STM32FXXXCRC_clock	2
+../Library/Src/stm32fxxxcrc.c:44:17:crc_enable	1
+../Library/Src/stm32fxxxcrc.c:57:18:crc	1
